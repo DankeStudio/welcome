@@ -4,6 +4,18 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
+
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost:27017/welcome');
+mongoose.connection.on('open',function(){
+  console.log('数据库同学上线啦！');
+});
+/*mongoose.connection.on('error',function(){
+  console.log(error);
+});*/
+
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -21,6 +33,18 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+//建立session，并将session存入mongodb
+app.use(session({
+  secret: 'SECRET_KEY',
+  cookie:{maxAge: 60 * 1000 * 60 * 24 * 14},//过期时间
+  key: 'SessionID',
+  resave: true,
+  saveUninitialized: true,
+  store : new MongoStore({
+    //mongooseConnection: mongoose.connection //使用已有数据库连接
+    db : mongoose.connection.db
+})
+}));
 
 app.use('/', routes);
 app.use('/users', users);

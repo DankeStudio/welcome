@@ -1,21 +1,47 @@
-var express = require('express');
-var router = express.Router();
+var User = require('../model/user');
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: '待建设' });
-});
+module.exports = require('express').Router()
+    .post('/login', function(req,res,next){
+        var username = req.body.username;
+        var password = req.body.password;
 
-router.get('/login',function(req,res,next){
-  res.render('login',{title:'Welcome'});
-  //console.log("1");
-});
-router.post('/login',function(req,res,next){
-  console.log(req.body.UserName);
-  console.log("log");
-  res.json({
-    msg:'ok'
-  });
-});
-module.exports = router;
+        User.findOne({
+            username : username
+        },function(err,user){
+            if(err) {
+                res.json({
+                    code: -1,
+                    msg:'登录中数据库错误,错误信息:'+err,
+                    body:{}
+                });
+            }
+            else{
+                if(!user){
+                    res.json({
+                        code: -2,
+                        msg:'用户名不存在',
+                        body:{}
+                    });
+                }
+                else{
+                    if(password != user.password){
+                        res.json({
+                            code: -3,
+                            msg:'用户名或密码错误',
+                            body:{}
+                        });
+                    }
+                    else{
+                        user.password = null;//hide the password
+                        req.session.user = user;//存入会话
+                        res.json({
+                            code: 0,
+                            msg:'登陆成功',
+                            body:{}
+                        });
+                    }
+                }
+            }
+        })
+    });
 

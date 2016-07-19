@@ -19,7 +19,19 @@ module.exports = mongoose.model('user', new Schema({
         sparse : true//稀疏索引，允许该字段虽然唯一但允许为空
     },
     baseinfo: {
-        //2.0版本再补充
+        name : String,
+        sex : {type:String,enum:['男','女']},
+        origin : String,
+        nation : String,
+        schoolID : String,
+        politicalStatus : {type:String,enum:['群众','团员','预备党员','党员']},
+        telnumber : String,
+        telshort : String,
+        email : String,
+        qq : String,
+        majior : String,
+        birth : Date,
+        address : String
     },
     tableID: [String]
 }));

@@ -9,12 +9,9 @@ var MongoStore = require('connect-mongo')(session);
 
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/welcome');
-mongoose.connection.on('open',function(){
-  console.log('数据库同学上线啦！');
-});
-/*mongoose.connection.on('error',function(){
+mongoose.connection.on('error',function(){
   console.log(error);
-});*/
+});
 
 
 var routes = require('./routes/index');
@@ -41,9 +38,9 @@ app.use(session({
   resave: true,
   saveUninitialized: true,
   store : new MongoStore({
-    //mongooseConnection: mongoose.connection //使用已有数据库连接
-    db : mongoose.connection.db
-})
+    mongooseConnection: mongoose.connection //使用已有数据库连接
+    //db : mongoose.connection.db
+  })
 }));
 
 app.use('/', routes);

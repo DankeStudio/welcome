@@ -15,10 +15,10 @@ var LoginRegister = React.createClass({
            type: 'POST',
            data:user,
            success: function(data) {
-               console.log("浏览器接收到登陆成功的信息啦！");
+               console.log(data);
            }.bind(this),
            error: function(xhr, status, err) {
-               console.error("浏览器发现登录失败！");
+               console.error("ajax请求发起失败");
            }.bind(this)
        });
    },
@@ -28,7 +28,6 @@ var LoginRegister = React.createClass({
             <div>
                 <h1>Welcome</h1>
                 <Login onSubmit={this.onLogin}></Login>
-
             </div>
        );
    }

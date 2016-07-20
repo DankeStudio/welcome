@@ -1,17 +1,7 @@
 var User = require('../model/user');
+var supports = require('./supports');
 
-var grantUser = function(req,res,next){
-    if(req.session.user){
-        next();
-    }
-    else{
-        res.json({
-           code: 403,
-            msg: '未登录！',
-            body:{}
-        });
-    }
-};
+var grantUser = supports.grantUser;
 
 module.exports = require('express').Router()
     .post('/login', function(req,res,next){

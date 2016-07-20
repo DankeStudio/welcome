@@ -33,7 +33,7 @@ module.exports = mongoose.model('user', new Schema({
         birth : Date,
         address : String
     },
-    tableID: [String]
+    formID: [Schema.Types.ObjectId]
 }));
 
 

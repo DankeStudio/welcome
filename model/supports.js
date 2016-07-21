@@ -37,24 +37,39 @@ module.exports = {
 };
 
 var baseinfoFilter = function(baseinfo){
+    if(!baseinfo){
+        var baseinfo = {
+            name: null,
+            sex: null,
+            origin: null,
+            nation: null,
+            schoolID: null,
+            politicalStatus: null,
+            telnumber: null,
+            telshort: null,
+            email: null,
+            qq: null,
+            majior: null,
+            birth: null,
+            address: null
+        };
+    }
 
-    var result = {
-        name : baseinfo.name,
-        sex : baseinfo.sex,
-        origin :baseinfo.origin,
-        nation : baseinfo.nation,
-        schoolID : baseinfo.schoolID,
-        politicalStatus :baseinfo.politicalStatus,
-        telnumber :baseinfo.telnumber,
-        telshort : baseinfo.telshort,
-        email : baseinfo.email,
-        qq : baseinfo.qq,
-        majior : baseinfo.majior,
-        birth : baseinfo.birth,
-        address : baseinfo.address
+    return {
+        name: baseinfo.name,
+        sex: baseinfo.sex,
+        origin: baseinfo.origin,
+        nation: baseinfo.nation,
+        schoolID: baseinfo.schoolID,
+        politicalStatus: baseinfo.politicalStatus,
+        telnumber: baseinfo.telnumber,
+        telshort: baseinfo.telshort,
+        email: baseinfo.email,
+        qq: baseinfo.qq,
+        majior: baseinfo.majior,
+        birth: baseinfo.birth,
+        address: baseinfo.address
     };
-
-    return result;
 };
 
 var otherFilter = function(other){

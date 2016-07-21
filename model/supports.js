@@ -38,7 +38,7 @@ module.exports = {
 
 var baseinfoFilter = function(baseinfo){
     if(!baseinfo){
-        var baseinfo = {
+       return {
             name: null,
             sex: null,
             origin: null,
@@ -53,23 +53,23 @@ var baseinfoFilter = function(baseinfo){
             birth: null,
             address: null
         };
+    }else{
+        return {
+            name: baseinfo.name,
+            sex: baseinfo.sex,
+            origin: baseinfo.origin,
+            nation: baseinfo.nation,
+            schoolID: baseinfo.schoolID,
+            politicalStatus: baseinfo.politicalStatus,
+            telnumber: baseinfo.telnumber,
+            telshort: baseinfo.telshort,
+            email: baseinfo.email,
+            qq: baseinfo.qq,
+            majior: baseinfo.majior,
+            birth: baseinfo.birth,
+            address: baseinfo.address
+        };
     }
-
-    return {
-        name: baseinfo.name,
-        sex: baseinfo.sex,
-        origin: baseinfo.origin,
-        nation: baseinfo.nation,
-        schoolID: baseinfo.schoolID,
-        politicalStatus: baseinfo.politicalStatus,
-        telnumber: baseinfo.telnumber,
-        telshort: baseinfo.telshort,
-        email: baseinfo.email,
-        qq: baseinfo.qq,
-        majior: baseinfo.majior,
-        birth: baseinfo.birth,
-        address: baseinfo.address
-    };
 };
 
 var otherFilter = function(other){

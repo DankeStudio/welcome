@@ -1,7 +1,7 @@
 /**
  * Created by admin on 2016/7/20.
  */
-var modelIDs = require('../model/bd/modelIDs');
+var modelIDs = require('./bd/modelids');
 
 module.exports = {
     grantUser: function(req,res,next){

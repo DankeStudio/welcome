@@ -2,6 +2,7 @@
  * Created by admin on 2016/7/20.
  */
 var Forms = require('../model/bd/form');
+var Events = require('../model/bd/events');
 var User = require('../model/bd/user');
 var Organizations = require('../model/bd/organizations');
 var supports = require('./../model/supports');
@@ -82,8 +83,60 @@ module.exports = require('express').Router()
             });
         }
         else{
-            //将event存入报名表中
-            Organizations.findOne({
+            //将event存入数据库中
+            Events.create(event,function(err, event){
+                if(err){
+                    res.json({
+                        code: -1,
+                        msg: '存储事项时数据库错误 ' + err,
+                        body: {}
+                    });
+                }
+                else{
+                    //添加EventID至组织账号
+                    Organizations.findOne({
+                        _id:req.session.organization._id
+                    }, function(err, organization){
+                        if(err){
+                            res.json({
+                                code:-1,
+                                msg:'将事项ID关联至社团时查找社团数据库错误' + err,
+                                body:{}
+                            });
+                        }
+                        else{
+                            if(!organization){
+                                res.json({
+                                    code:-2,
+                                    msg:'将事项关联账号时用户查无此人！',
+                                    body:{}
+                                });
+                            }
+                            else{
+                                organization.eventID.push(event._id);
+                                organization.save(function(err){
+                                    if(err){
+                                        res.json({
+                                            code: -1,
+                                            msg: '将EventID存入账号时数据库出错' + err,
+                                            body: {}
+                                        });
+                                    }
+                                    else{
+                                        res.json({
+                                            code: 0,
+                                            msg: '提交报名事项成功!',
+                                            body: {}
+                                        });
+                                    }
+                                })
+                            }
+                        }
+                    });
+                }
+            });
+
+            /*Organizations.findOne({
                 _id:req.session.organization._id
             }, function(err, organization){
                 if(err){
@@ -121,6 +174,6 @@ module.exports = require('express').Router()
                         });
                     }
                 }
-            });
+            });*/
         }
     })

@@ -1,9 +1,9 @@
 /**
  * Created by admin on 2016/7/20.
  */
-var Forms = require('../model/form');
-var User = require('../model/user');
-var supports = require('./supports');
+var Forms = require('../model/bd/form');
+var User = require('../model/bd/user');
+var supports = require('./../model/supports');
 
 var grantUser = supports.grantUser;
 var formFilter = supports.formFilter;

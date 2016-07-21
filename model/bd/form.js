@@ -7,6 +7,7 @@ module.exports = mongoose.model('form', new Schema({
     eventID : {type:String,require:'miss EventID'},
     writetime: Number,
     browserinfo: String,
+    date:{type:Date, default:Date.now},
     like: {type:Number, default: 0},
     delete: {type:Boolean, default: false},
     baseinfo: {

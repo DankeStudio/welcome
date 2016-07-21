@@ -54,7 +54,7 @@ module.exports = {
         else{
             //生成modelIDs
             modelIDs.findOneAndUpdate({ name: 'forms' }, { $inc: { ids: 1 } }, {new: true, upsert: true}, function(err,doc){
-                eventID = doc.ids;
+                var eventID = doc.ids;
                 var formschema = formSchemaFilter(req.body.formschema);
                 req.body.event = {
                     eventID: eventID,

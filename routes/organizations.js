@@ -5,7 +5,6 @@ var Organizations = require('../model/bd/organizations');
 var supports = require('./../model/supports');
 
 module.exports = require('express').Router()
-module.exports = require('express').Router()
     .post('/login', function(req,res,next){
         var username = req.body.username;
         var password = req.body.password;

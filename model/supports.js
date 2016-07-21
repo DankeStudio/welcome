@@ -80,7 +80,7 @@ var baseinfoFilter = function(baseinfo){
             telshort: null,
             email: null,
             qq: null,
-            majior: null,
+            major: null,
             birth: null,
             address: null
         };
@@ -96,7 +96,7 @@ var baseinfoFilter = function(baseinfo){
             telshort: baseinfo.telshort,
             email: baseinfo.email,
             qq: baseinfo.qq,
-            majior: baseinfo.majior,
+            major: baseinfo.major,
             birth: baseinfo.birth,
             address: baseinfo.address
         };

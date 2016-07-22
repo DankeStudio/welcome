@@ -1,7 +1,7 @@
 /**
  * Created by admin on 2016/7/21.
  */
-var Organizations = require('../models/bd/organizations');
+var Organizations = require('../models/db/organizations');
 var supports = require('./../models/supports');
 
 module.exports = require('express').Router()

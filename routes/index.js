@@ -1,4 +1,4 @@
-var User = require('../models/bd/user');
+var User = require('../models/db/user');
 var supports = require('./../models/supports');
 
 var grantUser = supports.grantUser;
@@ -165,7 +165,7 @@ module.exports = require('express').Router()
             telshort : req.body.telshort,
             email : req.body.email,
             qq : req.body.qq,
-            majior : req.body.majior,
+            major : req.body.majior,
             birth : req.body.birth,
             address : req.body.address
         };

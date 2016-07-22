@@ -1,8 +1,8 @@
 /**
  * Created by admin on 2016/7/21.
  */
-var Organizations = require('../model/bd/organizations');
-var supports = require('./../model/supports');
+var Organizations = require('../models/bd/organizations');
+var supports = require('./../models/supports');
 
 module.exports = require('express').Router()
     .post('/login', function(req,res,next){

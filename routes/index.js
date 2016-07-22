@@ -1,5 +1,5 @@
-var User = require('../model/bd/user');
-var supports = require('./../model/supports');
+var User = require('../models/bd/user');
+var supports = require('./../models/supports');
 
 var grantUser = supports.grantUser;
 

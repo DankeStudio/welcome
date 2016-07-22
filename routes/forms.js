@@ -1,11 +1,11 @@
 /**
  * Created by admin on 2016/7/20.
  */
-var Forms = require('../model/bd/form');
-var Events = require('../model/bd/events');
-var User = require('../model/bd/user');
-var Organizations = require('../model/bd/organizations');
-var supports = require('./../model/supports');
+var Forms = require('../models/bd/form');
+var Events = require('../models/bd/events');
+var User = require('../models/bd/user');
+var Organizations = require('../models/bd/organizations');
+var supports = require('./../models/supports');
 
 var grantUser = supports.grantUser;
 var grantOrganization = supports.grantOrganization;

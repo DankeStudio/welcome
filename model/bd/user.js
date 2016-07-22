@@ -29,7 +29,7 @@ module.exports = mongoose.model('user', new Schema({
         telshort : String,
         email : String,
         qq : String,
-        majior : String,
+        major : String,
         birth : Date,
         address : String
     },

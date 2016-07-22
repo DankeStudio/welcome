@@ -25,9 +25,18 @@ module.exports = mongoose.model('form', new Schema({
         birth : Date,
         address : String
     },
-    skills: [String],
-    introduction: String,
-    wish: [String],
+    skills: {
+        title:String,
+        chosen:[String]
+    },
+    introduction: {
+        title: String,
+        content: String
+    },
+    wish: {
+        title:String,
+        chosen:[String]
+    },
     reason: [String],
     remark:{type:String, default:'无'},
     others: [{}],

@@ -1,15 +1,26 @@
+var path = require('path');
 module.exports = {
-    entry: [
-        './views/index.jsx'
-    ],
+    entry: './view',
     output: {
-        path: __dirname + '/public/',
-        publicPath: "/public/",
-        filename: 'app.js'
+        path: path.join(__dirname, 'public'),
+        filename: 'app.js',
+        // If you want to output a library, config
+        libraryTarget: "var",
+        library: "App"
+    },
+    resolve: {
+        extensions: ['', '.js', '.jsx']
     },
     module: {
-        loaders: [
-            { test: /\.jsx$/, loaders: ['jsx-loader?harmony'] }
-        ]
+        loaders: [{
+            test: /\.jsx?$/,
+            loaders: ['babel']
+        }]
+    },
+    externals: {
+        "react": 'React',
+        "react-dom": 'ReactDOM',
+        "redux": 'Redux',
+        "react-redux": 'ReactRedux',
     }
 };

@@ -55,15 +55,24 @@ var App =
 
 	var Router = __webpack_require__(3).Router;
 	var Route = __webpack_require__(3).Route;
+	var IndexRoute = __webpack_require__(3).IndexRoute;
 	var Link = __webpack_require__(3).Link;
 	var browserHistory = __webpack_require__(3).browserHistory;
 
-	var login = __webpack_require__(67);
+	var sign = __webpack_require__(67);
+	var signinBox = __webpack_require__(68);
+	var signupBox = __webpack_require__(69);
 
 	render(React.createElement(
 	    Router,
 	    { history: browserHistory },
-	    React.createElement(Route, { path: '/login', component: login })
+	    React.createElement(
+	        Route,
+	        { path: '/sign', component: sign },
+	        React.createElement(IndexRoute, { component: signupBox }),
+	        React.createElement(Route, { path: 'in', component: signinBox }),
+	        React.createElement(Route, { path: 'up', component: signupBox })
+	    )
 	), document.getElementById('content'));
 
 /***/ },
@@ -6150,7 +6159,7 @@ var App =
 	                            React.createElement(
 	                                "div",
 	                                { className: "col-xs-5 col-md-5" },
-	                                React.createElement(Box, null)
+	                                React.createElement(Box, { children: this.props.children })
 	                            )
 	                        )
 	                    )
@@ -6164,7 +6173,60 @@ var App =
 	    displayName: "Header",
 
 	    render: function render() {
-	        return React.createElement("div", { className: "my-header" });
+
+	        var leftPosition = {
+	            float: "left"
+	        };
+
+	        var leftItemPosition = {
+	            marginLeft: "40px",
+	            marginRight: "40px",
+	            verticalAlign: "middle"
+	        };
+
+	        var rightPosition = {
+	            float: "right",
+	            lineHeight: "60px"
+	        };
+
+	        var rightItemPosition = {
+	            marginLeft: "40px",
+	            marginRight: "40px"
+	        };
+
+	        return React.createElement(
+	            "div",
+	            { className: "dank-header" },
+	            React.createElement(
+	                "div",
+	                { style: leftPosition },
+	                React.createElement("img", { src: "./img/logo.png", style: leftItemPosition, alt: "logo", className: "logo" }),
+	                React.createElement(
+	                    "a",
+	                    { className: "dank-button-header", style: leftItemPosition, href: "#" },
+	                    "首页"
+	                ),
+	                React.createElement(
+	                    "a",
+	                    { className: "dank-button-header", style: leftItemPosition, href: "#" },
+	                    "社团目录"
+	                )
+	            ),
+	            React.createElement(
+	                "div",
+	                { style: rightPosition },
+	                React.createElement(
+	                    "a",
+	                    { href: "#", className: "dank-a", style: rightItemPosition },
+	                    "登陆"
+	                ),
+	                React.createElement(
+	                    "a",
+	                    { href: "#", className: "dank-a", style: rightItemPosition },
+	                    "注册"
+	                )
+	            )
+	        );
 	    }
 	});
 
@@ -6172,15 +6234,19 @@ var App =
 	    displayName: "News",
 
 	    render: function render() {
+	        var objectStyle = {
+	            width: "734px",
+	            height: "618px"
+	        };
 	        return React.createElement(
 	            "div",
 	            null,
 	            React.createElement(
 	                "div",
-	                { className: "my-h1" },
+	                { className: "dank-h1" },
 	                "news"
 	            ),
-	            React.createElement("div", { className: "my-box-1 center-block" })
+	            React.createElement("div", { className: "dank-box-1 center-block", style: objectStyle })
 	        );
 	    }
 	});
@@ -6189,15 +6255,292 @@ var App =
 	    displayName: "Box",
 
 	    render: function render() {
+	        var objectStyle = {
+	            width: "508px",
+	            height: "618px"
+	        };
 	        return React.createElement(
 	            "div",
 	            null,
 	            React.createElement(
 	                "div",
-	                { className: "my-h1" },
-	                "news"
+	                { className: "dank-h1" },
+	                "Welcome"
 	            ),
-	            React.createElement("div", { className: "my-box-2 center-block" })
+	            React.createElement(
+	                "div",
+	                { className: "dank-box-1 center-block", style: objectStyle },
+	                this.props.children
+	            )
+	        );
+	    }
+	});
+
+/***/ },
+/* 68 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+	/**
+	 * Created by admin on 2016/7/24.
+	 */
+	var React = __webpack_require__(1);
+	var Component = React.Component;
+
+	module.exports = React.createClass({
+	    displayName: "exports",
+
+	    render: function render() {
+	        var topStyle = {
+	            paddingTop: "50px"
+	        };
+	        var headStyle = {
+	            margin: "0px auto 34px auto",
+	            width: "414px",
+	            height: "60px",
+	            textAlign: "center"
+	        };
+	        var aStyle1 = {
+	            display: "inline-block",
+	            margin: "0px 55px 0px 44px",
+	            background: "#345062",
+	            borderRadius: "8px",
+	            width: "108px",
+	            height: "60px",
+	            lineHeight: "60px",
+	            fontSize: "30px",
+	            color: "#ffffff"
+	        };
+	        var aStyle2 = {
+	            display: "inline-block",
+	            margin: "0px 44px 0px 55px",
+	            borderRadius: "8px",
+	            width: "108px",
+	            height: "60px",
+	            lineHeight: "60px",
+	            fontSize: "30px",
+	            color: "#555a63"
+	        };
+	        return React.createElement(
+	            "div",
+	            { style: topStyle },
+	            React.createElement(
+	                "div",
+	                { style: headStyle, className: "center-block" },
+	                React.createElement(
+	                    "a",
+	                    { href: "#", style: aStyle1 },
+	                    "登陆"
+	                ),
+	                React.createElement(
+	                    "a",
+	                    { href: "#", style: aStyle2 },
+	                    "注册"
+	                )
+	            ),
+	            React.createElement(FormBox, null)
+	        );
+	    }
+	});
+
+	var FormBox = React.createClass({
+	    displayName: "FormBox",
+
+	    render: function render() {
+	        var formStyle = {
+	            width: "414px",
+	            height: "420px",
+	            padding: "40px"
+	        };
+	        var buttonStyle = {
+	            marginTop: "60px"
+	        };
+
+	        return React.createElement(
+	            "form",
+	            { className: "dank-box-2 center-block", style: formStyle },
+	            React.createElement(
+	                "div",
+	                { className: "dank-form-group" },
+	                React.createElement(
+	                    "label",
+	                    { htmlFor: "username" },
+	                    "账号"
+	                ),
+	                React.createElement("input", { type: "text", placeholder: "用户名 - 手机号" })
+	            ),
+	            React.createElement(
+	                "div",
+	                { className: "dank-form-group" },
+	                React.createElement(
+	                    "label",
+	                    { htmlFor: "password" },
+	                    "密码"
+	                ),
+	                React.createElement("input", { type: "password", placeholder: "密码 - 默认出生日期 如20160901" })
+	            ),
+	            React.createElement(
+	                "div",
+	                { className: "dank-form-group" },
+	                React.createElement(
+	                    "label",
+	                    _defineProperty({ className: "checkbox-inline" }, "className", "remember-me"),
+	                    React.createElement("input", { type: "checkbox", id: "inlineCheckbox1", value: "option1", className: "checkbox" }),
+	                    " 记住我"
+	                ),
+	                React.createElement(
+	                    "a",
+	                    { href: "#", className: "forget-password" },
+	                    "忘记密码"
+	                )
+	            ),
+	            React.createElement(
+	                "button",
+	                { type: "submit", className: "dank-button btn-block", style: buttonStyle },
+	                "登陆"
+	            )
+	        );
+	    }
+	});
+
+/***/ },
+/* 69 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	/**
+	 * Created by admin on 2016/7/24.
+	 */
+	var React = __webpack_require__(1);
+	var Component = React.Component;
+
+	module.exports = React.createClass({
+	    displayName: "exports",
+
+	    render: function render() {
+	        var topStyle = {
+	            paddingTop: "50px"
+	        };
+	        var headStyle = {
+	            margin: "0px auto 34px auto",
+	            width: "414px",
+	            height: "60px",
+	            textAlign: "center"
+	        };
+	        var aStyle1 = {
+	            display: "inline-block",
+	            margin: "0px 55px 0px 44px",
+	            background: "#345062",
+	            borderRadius: "8px",
+	            width: "108px",
+	            height: "60px",
+	            lineHeight: "60px",
+	            fontSize: "30px",
+	            color: "#ffffff"
+	        };
+	        var aStyle2 = {
+	            display: "inline-block",
+	            margin: "0px 44px 0px 55px",
+	            borderRadius: "8px",
+	            width: "108px",
+	            height: "60px",
+	            lineHeight: "60px",
+	            fontSize: "30px",
+	            color: "#555a63"
+	        };
+	        return React.createElement(
+	            "div",
+	            { style: topStyle },
+	            React.createElement(
+	                "div",
+	                { style: headStyle, className: "center-block" },
+	                React.createElement(
+	                    "a",
+	                    { href: "#", style: aStyle2 },
+	                    "登陆"
+	                ),
+	                React.createElement(
+	                    "a",
+	                    { href: "#", style: aStyle1 },
+	                    "注册"
+	                )
+	            ),
+	            React.createElement(FormBox, null)
+	        );
+	    }
+	});
+
+	var FormBox = React.createClass({
+	    displayName: "FormBox",
+
+	    handleSubmit: function handleSubmit() {
+	        $.ajax({
+	            url: "/signup",
+	            dataType: 'json',
+	            type: 'POST',
+	            data: $("#signup").serialize(),
+	            success: function (data) {
+	                console.log(data);
+	            }.bind(this),
+	            error: function (xhr, status, err) {
+	                console.error("ajax请求发起失败");
+	            }.bind(this)
+	        });
+	    },
+
+	    render: function render() {
+	        var formStyle = {
+	            width: "414px",
+	            height: "420px",
+	            padding: "40px",
+	            paddingTop: "20px"
+	        };
+	        var buttonStyle = {
+	            marginTop: "0px"
+	        };
+
+	        return React.createElement(
+	            "form",
+	            { id: "signup", onSubmit: this.handleSubmit, className: "dank-box-2 center-block", style: formStyle },
+	            React.createElement(
+	                "div",
+	                { className: "dank-form-group" },
+	                React.createElement(
+	                    "label",
+	                    { htmlFor: "username" },
+	                    "账号"
+	                ),
+	                React.createElement("input", { type: "text", name: "username", placeholder: "请输入手机号" })
+	            ),
+	            React.createElement(
+	                "div",
+	                { className: "dank-form-group" },
+	                React.createElement(
+	                    "label",
+	                    { htmlFor: "password" },
+	                    "密码"
+	                ),
+	                React.createElement("input", { type: "password", name: "password", placeholder: "请输入密码" })
+	            ),
+	            React.createElement(
+	                "div",
+	                { className: "dank-form-group" },
+	                React.createElement(
+	                    "label",
+	                    { htmlFor: "password" },
+	                    "重复密码"
+	                ),
+	                React.createElement("input", { type: "password", placeholder: "请再次输入密码" })
+	            ),
+	            React.createElement(
+	                "button",
+	                { type: "submit", className: "dank-button btn-block", style: buttonStyle },
+	                "注册"
+	            )
 	        );
 	    }
 	});

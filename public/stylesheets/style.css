@@ -5,7 +5,7 @@ html {
 body {
   height: 100%;
   padding:0px;
-  font-family: FZLTZHK--GBK1-0, "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: SimHei, STXihei, "Microsoft YaHei", "Hiragino Sans GB", "STHeiti Light";
   font-size:20px;
   background-color: #f57a6c;
 }
@@ -14,7 +14,7 @@ body {
   height: 100%;
 }
 
-.my-header{
+.dank-header{
   background:#345062;
   box-shadow:0px 2px 4px 0px rgba(29,29,29,0.50);
   height:60px;
@@ -31,23 +31,144 @@ body {
   vertical-align: middle;
 }
 
-.my-h1{
-  font-family: BenderSolid;
+.dank-h1{
+  font-family: "BenderSolid";
   font-size:48px;
   color:#ffffff;
   text-align: center;
 }
 
-.my-box-1{
+.dank-box-1{
   background:#ffffff;
   border-radius:8px;
-  width:734px;
-  height:618px;
 }
 
-.my-box-2{
-  background:#ffffff;
+.dank-box-2{
+  background:#345062;
   border-radius:8px;
-  width:508px;
-  height:618px;
 }
+
+.log{
+  background:#ffffff;
+  width:120px;
+  height:54px;
+}
+
+.dank-button-header{
+  text-align: center;
+  display: inline-block;
+  border:1px solid #ffffff;
+  border-radius:5px;
+  width:134px;
+  font-family: SimHei, STXihei, "Microsoft YaHei", "Hiragino Sans GB", "STHeiti Light";
+  font-size:24px;
+  color:#ffffff;
+}
+
+.dank-a {
+  font-family:SimHei, STXihei, "Microsoft YaHei", "Hiragino Sans GB", "STHeiti Light";
+  font-size:20px;
+  color:#ffffff;
+}
+
+a {
+  font-family: SimHei, STXihei, "Microsoft YaHei", "Hiragino Sans GB", "STHeiti Light";
+}
+
+.dank-form-group{
+  margin:15px 10px;
+}
+
+.dank-form-group>label {
+  font-size:20px;
+  color:#ffffff;
+  font-weight:normal;
+  font-family: SimHei, STXihei, "Microsoft YaHei", "Hiragino Sans GB", "STHeiti Light";
+}
+
+.dank-form-group>input {
+  background:#ffffff;
+  border:1px solid #979797;
+  box-shadow:inset 0px 1px 3px 0px rgba(0,0,0,0.50);
+  border-radius:3px;
+  margin-top:5px;
+  margin-bottom:5px;
+  width:100%;
+  height:44px;
+  padding:5px;
+}
+
+::-webkit-input-placeholder { /* WebKit browsers */
+  font-size:16px;
+  color: #b1b1b1;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  font-size:16px;
+  color: #b1b1b1;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+  font-size:16px;
+  color: #b1b1b1;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+  font-size:16px;
+  color: #b1b1b1;
+}
+
+.remember-me{
+  float: left;
+}
+
+.checkbox{
+  background:#ffffff;
+  border:1px solid #979797;
+  box-shadow:inset 0px 1px 3px 0px rgba(0,0,0,0.50);
+  border-radius:2px;
+  width:14px;
+  height:14px;
+  display: inline;
+}
+
+.forget-password{
+  float: right;
+  color: #ffffff;
+}
+
+.dank-button {
+  background: #f57b6d;
+  border:1px solid #979797;
+  border-radius:8px;
+  width:154px;
+  height:53px;
+  font-size:30px;
+  color:#555a63;
+  margin:40px auto;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

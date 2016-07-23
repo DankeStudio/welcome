@@ -9,13 +9,11 @@ var Route = require('react-router').Route;
 var Link = require('react-router').Link;
 var browserHistory = require('react-router').browserHistory;
 
-var hello = require('./containers/Root.jsx');
-var he = require('./containers/he.jsx');
+var login = require('./containers/login.jsx');
 
 
 render((
     <Router history={browserHistory}>
-        <Route path="/" component={hello}/>
-        <Route path="/he" component={he}/>
+        <Route path="/login" component={login}/>
     </Router>
 ), document.getElementById('content'));

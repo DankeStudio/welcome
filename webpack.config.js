@@ -1,6 +1,6 @@
 var path = require('path');
 module.exports = {
-    entry: './view',
+    entry: './views',
     output: {
         path: path.join(__dirname, 'public'),
         filename: 'app.js',
@@ -21,6 +21,6 @@ module.exports = {
         "react": 'React',
         "react-dom": 'ReactDOM',
         "redux": 'Redux',
-        "react-redux": 'ReactRedux',
+        "react-redux": 'ReactRedux'
     }
 };

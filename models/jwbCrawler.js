@@ -30,7 +30,7 @@ module.exports = (username, password) => {
 				'Host': 'jwbinfosys.zju.edu.cn',
 				'Upgrade-Insecure-Requests': '1',
 				'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-				'Referer': 'http://jwbinfosys.zju.edu.cn/xsmain_pyjh.htm?xh=3150103856&dqszj=2015',
+				'Referer': `http://jwbinfosys.zju.edu.cn/xsmain_pyjh.htm?xh=${username}&dqszj=2015`,
 				'Accept-Encoding': 'gzip, deflate, sdch',
 				'Accept-Language': 'zh-CN,zh;q=0.8'
 			},
@@ -74,19 +74,19 @@ module.exports = (username, password) => {
 					'Accept-Language': 'zh-CN,zh;q=0.8',
 
 				},
-				body: `__EVENTTARGET=Button1&__EVENTARGUMENT=&__VIEWSTATE=${vs}&TextBox1=3150103856&TextBox2=zszx1500070271&TextBox3=&RadioButtonList1=%D1%A7%C9%FA&Text1=`,
+				body: `__EVENTTARGET=Button1&__EVENTARGUMENT=&__VIEWSTATE=${vs}&TextBox1=${username}&TextBox2=${password}&TextBox3=&RadioButtonList1=%D1%A7%C9%FA&Text1=`,
 				jar: j,
 				encoding: null
 			})
 		})
 		.then((body) => {
 			return request.get({
-				url: 'http://jwbinfosys.zju.edu.cn/xsgrxx.aspx?xh=3150103856',
+				url: `http://jwbinfosys.zju.edu.cn/xsgrxx.aspx?xh=${username}`,
 				headers: {
 					'Host': 'jwbinfosys.zju.edu.cn',
 					'Upgrade-Insecure-Requests': '1',
 					'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-					'Referer': 'http://jwbinfosys.zju.edu.cn/xsmain_pyjh.htm?xh=3150103856&dqszj=2015',
+					'Referer': `http://jwbinfosys.zju.edu.cn/xsmain_pyjh.htm?xh=${username}&dqszj=2015`,
 					'Accept-Encoding': 'gzip, deflate, sdch',
 					'Accept-Language': 'zh-CN,zh;q=0.8'
 				},
@@ -113,7 +113,8 @@ module.exports = (username, password) => {
 				department: $('#xi').text(),
 				highSchool: $('#byzx').text(),
 				dorm: $('#ssh').text(),
-				origin: $('#Lab_lydq').text(),
+				origin: $('#Span_jg').text(),
+				region: $('#Lab_lydq').text(),
 				email: $('#dzyxdz').text(),
 				telnumber: $('#lxdh').text(),
 				idcard: $('#Lab_sfzh').text(),

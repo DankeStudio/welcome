@@ -14,7 +14,6 @@ mongoose.connection.on('error',function(err){
 });
 
 
-var index = require('./routes/index');
 var api = require('./routes/api');
 var app = express();
 
@@ -40,7 +39,6 @@ app.use(session({
     })
 }));
 
-app.use('/', index);
-app.use('/api', api);
+app.use('/', api);
 
 module.exports = app;

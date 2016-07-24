@@ -16,6 +16,7 @@ var signupBox = require('./containers/component/signupBox.jsx');
 
 render((
     <Router history={browserHistory}>
+        <Route path="/" component={sign}/>
         <Route path="/sign" component={sign}>
             <IndexRoute component={signupBox} />
             <Route path="in" component={signinBox} />

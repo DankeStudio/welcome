@@ -4,7 +4,7 @@
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 var Schema = mongoose.Schema;
-module.exports = mongoose.model('organization', new Schema({
+module.exports = mongoose.model('org', new Schema({
     username: {type:String, require:'miss username'},
     password: {type:String, require:'miss password'},
     name: {type:String, require:'miss name'},

@@ -1,33 +1,9 @@
 /**
  * Created by admin on 2016/7/20.
  */
-var modelIDs = require('./db/modelids');
+var modelIDs = require('../db/modelid');
 
 module.exports = {
-    grantUser: function(req,res,next){
-        if(req.session.user){
-            next();
-        }
-        else{
-            res.json({
-                code: 403,
-                msg: '未登录！',
-                body:{}
-            });
-        }
-    },
-    grantOrganization: function(req,res,next){
-        if(req.session.organization){
-            next();
-        }
-        else{
-            res.json({
-                code: 403,
-                msg: '未登录！',
-                body:{}
-            });
-        }
-    },
     formFilter: function(req){
 
         var baseinfo = baseinfoFilter(req.body.baseinfo);

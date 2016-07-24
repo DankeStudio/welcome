@@ -14,11 +14,8 @@ mongoose.connection.on('error',function(err){
 });
 
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
-var forms = require('./routes/forms');
-var organizations = require('./routes/org');
-var jwb = require('./routes/jwb');
+var index = require('./routes/index');
+var api = require('./routes/api');
 var app = express();
 
 
@@ -43,10 +40,7 @@ app.use(session({
     })
 }));
 
-app.use('/', routes);
-app.use('/users', users);
-app.use('/forms', forms);
-app.use('/org', organizations);
-app.use('/jwb', jwb);
+app.use('/', index);
+app.use('/api', api);
 
 module.exports = app;

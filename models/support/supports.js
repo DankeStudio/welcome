@@ -16,7 +16,7 @@ module.exports = {
             });
         }
     },
-    grantOrganization: function(req,res,next){
+    grantOrg: function(req,res,next){
         if(req.session.organization){
             next();
         }

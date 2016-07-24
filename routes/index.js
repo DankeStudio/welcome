@@ -4,6 +4,10 @@ var supports = require('./../models/supports');
 var grantUser = supports.grantUser;
 
 module.exports = require('express').Router()
+    .get('/', (req, res, next) => {
+        res.send('Welcome');
+    })
+    /*
     .post('/login', function(req,res,next){
         var username = req.body.username;
         var password = req.body.password;
@@ -190,5 +194,4 @@ module.exports = require('express').Router()
             }
         })
     })
-
-
+*/

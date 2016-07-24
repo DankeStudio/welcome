@@ -39,7 +39,7 @@ module.exports = require('express').Router()
                         req.session.user = user;//存入会话
                         res.json({
                             code: 0,
-                            msg:'登陆成功',
+                            msg:'登录成功',
                             body:{}
                         });
                     }

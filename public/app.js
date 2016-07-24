@@ -57,7 +57,7 @@ var App =
 	var Route = __webpack_require__(3).Route;
 	var IndexRoute = __webpack_require__(3).IndexRoute;
 	var Link = __webpack_require__(3).Link;
-	var browserHistory = __webpack_require__(3).browserHistory;
+	var hashHistory = __webpack_require__(3).hashHistory;
 
 	var sign = __webpack_require__(67);
 	var signinBox = __webpack_require__(68);
@@ -65,7 +65,8 @@ var App =
 
 	render(React.createElement(
 	    Router,
-	    { history: browserHistory },
+	    { history: hashHistory },
+	    React.createElement(Route, { path: '/', component: sign }),
 	    React.createElement(
 	        Route,
 	        { path: '/sign', component: sign },
@@ -6477,6 +6478,24 @@ var App =
 	var FormBox = React.createClass({
 	    displayName: "FormBox",
 
+	    usernameCheck: function usernameCheck() {
+	        var element = this.refs.username;
+	        var test = /^\d{11,}$/;
+	        if (!element.value) {
+	            element.parentNode.className = "dank-form-group-err";
+	            this.refs.usernameErr1.className = "err-display";
+	            this.refs.usernameErr2.className = "err-hidden";
+	        } else if (!test.test(element.value)) {
+	            element.parentNode.className = "dank-form-group-err";
+	            this.refs.usernameErr1.className = "err-hidden";
+	            this.refs.usernameErr2.className = "err-display";
+	        } else {
+	            element.parentNode.className = "dank-form-group";
+	            this.refs.usernameErr1.className = "err-hidden";
+	            this.refs.usernameErr2.className = "err-hidden";
+	        }
+	    },
+
 	    handleSubmit: function handleSubmit() {
 	        $.ajax({
 	            url: "/signup",
@@ -6514,7 +6533,17 @@ var App =
 	                    { htmlFor: "username" },
 	                    "账号"
 	                ),
-	                React.createElement("input", { type: "text", name: "username", placeholder: "请输入手机号" })
+	                React.createElement(
+	                    "small",
+	                    { className: "err-hidden", ref: "usernameErr1" },
+	                    "用户名不能为空"
+	                ),
+	                React.createElement(
+	                    "small",
+	                    { className: "err-hidden", ref: "usernameErr2" },
+	                    "请输入正确的手机号"
+	                ),
+	                React.createElement("input", { type: "text", name: "username", placeholder: "请输入手机号", ref: "username", onBlur: this.usernameCheck })
 	            ),
 	            React.createElement(
 	                "div",
@@ -6524,7 +6553,12 @@ var App =
 	                    { htmlFor: "password" },
 	                    "密码"
 	                ),
-	                React.createElement("input", { type: "password", name: "password", placeholder: "请输入密码" })
+	                React.createElement(
+	                    "small",
+	                    { className: "err-hidden", id: "passwordErr1" },
+	                    "密码不能为空"
+	                ),
+	                React.createElement("input", { type: "password", name: "password", placeholder: "请输入密码", ref: "password", onBlur: this.passwordCheck })
 	            ),
 	            React.createElement(
 	                "div",
@@ -6534,7 +6568,12 @@ var App =
 	                    { htmlFor: "password" },
 	                    "重复密码"
 	                ),
-	                React.createElement("input", { type: "password", placeholder: "请再次输入密码" })
+	                React.createElement(
+	                    "small",
+	                    { className: "err-hidden", id: "passwordConfirmErr1" },
+	                    "两次密码不同"
+	                ),
+	                React.createElement("input", { type: "password", placeholder: "请再次输入密码", ref: "passwordConfirm", onBlur: this.passwordConfirmCheck })
 	            ),
 	            React.createElement(
 	                "button",

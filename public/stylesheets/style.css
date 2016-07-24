@@ -80,10 +80,10 @@ a {
 }
 
 .dank-form-group>label {
-  font-size:20px;
-  color:#ffffff;
-  font-weight:normal;
-  font-family: SimHei, STXihei, "Microsoft YaHei", "Hiragino Sans GB", "STHeiti Light";
+    font-size:20px;
+    color:#ffffff;
+    font-weight:normal;
+    font-family: SimHei, STXihei, "Microsoft YaHei", "Hiragino Sans GB", "STHeiti Light";
 }
 
 .dank-form-group>input {
@@ -96,6 +96,43 @@ a {
   width:100%;
   height:44px;
   padding:5px;
+}
+
+.dank-form-group-err{
+  margin:15px 10px;
+}
+
+.dank-form-group-err>label {
+  font-size:20px;
+  color:#ffffff;
+  font-weight:normal;
+  font-family: SimHei, STXihei, "Microsoft YaHei", "Hiragino Sans GB", "STHeiti Light";
+}
+
+.dank-form-group-err>input {
+  background:#ffffff;
+  border:3px solid #f57b6d;
+  box-shadow:inset 0px 3px 6px 0px rgba(245, 126, 126, 0.47);
+  border-radius:3px;
+  margin-top:5px;
+  margin-bottom:5px;
+  width:100%;
+  height:44px;
+  padding:5px;
+}
+
+.err-hidden {
+  display: none;
+}
+
+.err-display {
+  display: inline;
+  float: right;
+  margin-top: 6px;
+  font-size:15px;
+  color:#f57a6c;
+  font-weight:normal;
+  font-family: SimHei, STXihei, "Microsoft YaHei", "Hiragino Sans GB", "STHeiti Light";
 }
 
 ::-webkit-input-placeholder { /* WebKit browsers */

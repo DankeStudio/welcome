@@ -106,7 +106,7 @@ var FormBox = React.createClass({
         if(check1 && check2 && check3)
         {
             $.ajax({
-                url: "/signup",
+                url: "user/signup",
                 contentType: 'application/json',
                 type: 'POST',
                 data: JSON.stringify({

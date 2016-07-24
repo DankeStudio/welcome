@@ -88,7 +88,7 @@ var FormBox = React.createClass({
         if(check1 && check2)
         {
             $.ajax({
-            url: "/login",
+            url: "user/login",
             contentType: 'application/json',
             type: 'POST',
             data: JSON.stringify({

@@ -2,6 +2,7 @@
  * Created by admin on 2016/7/22.
  */
 var mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
 var Schema = mongoose.Schema;
 module.exports = mongoose.model('event', new Schema({
     eventID:{type:Number, require:'miss eventID'},

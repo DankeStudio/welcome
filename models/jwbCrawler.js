@@ -30,7 +30,7 @@ module.exports = (username, password) => {
 				'Host': 'jwbinfosys.zju.edu.cn',
 				'Upgrade-Insecure-Requests': '1',
 				'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-				'Referer': `http://jwbinfosys.zju.edu.cn/xsmain_pyjh.htm?xh=${username}&dqszj=2015`,
+				'Referer': 'http://jwbinfosys.zju.edu.cn/default2.aspx',
 				'Accept-Encoding': 'gzip, deflate, sdch',
 				'Accept-Language': 'zh-CN,zh;q=0.8'
 			},
@@ -86,7 +86,7 @@ module.exports = (username, password) => {
 					'Host': 'jwbinfosys.zju.edu.cn',
 					'Upgrade-Insecure-Requests': '1',
 					'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-					'Referer': `http://jwbinfosys.zju.edu.cn/xsmain_pyjh.htm?xh=${username}&dqszj=2015`,
+					'Referer': 'http://jwbinfosys.zju.edu.cn/default2.aspx',
 					'Accept-Encoding': 'gzip, deflate, sdch',
 					'Accept-Language': 'zh-CN,zh;q=0.8'
 				},

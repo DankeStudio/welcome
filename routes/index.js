@@ -7,7 +7,7 @@ module.exports = require('express').Router()
     .post('/login', function(req,res,next){
         var username = req.body.username;
         var password = req.body.password;
-
+        console.log(req.body);
         User.findOne({
             username : username
         },function(err,user){

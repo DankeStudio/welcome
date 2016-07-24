@@ -34,8 +34,8 @@ module.exports = React.createClass({
         return (
             <div style={topStyle}>
                 <div style={headStyle} className="center-block">
-                    <a href="#/sign/in" style={aStyle1} className="dank-tag-free">登陆</a>
-                    <a href="#/sign/up" style={aStyle2} className="dank-tag-chosen">注册</a>
+                    <a href="#/orgsign/in" style={aStyle1} className="dank-tag-chosen">登陆</a>
+                    <a href="#/orgsign/up" style={aStyle2} className="dank-tag-free">注册</a>
                 </div>
                 <FormBox/>
             </div>
@@ -46,7 +46,7 @@ module.exports = React.createClass({
 var FormBox = React.createClass({
     usernameCheck: function(){
         var element = this.refs.username;
-        var test = /^\d{11,}$/;
+        var test = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
         if(!element.value){
             element.parentNode.className="dank-form-group-err";
             this.refs.usernameErr1.className="err-display";
@@ -72,41 +72,23 @@ var FormBox = React.createClass({
         if(!element.value){
             element.parentNode.className="dank-form-group-err";
             this.refs.passwordErr1.className="err-display";
+            this.refs.passwordErr2.className="err-hidden";
             return false;
         }else{
             element.parentNode.className="dank-form-group";
             this.refs.passwordErr1.className="err-hidden";
-            return true;
-        }
-    },
-    passwordConfirmCheck: function(){
-        var element = this.refs.passwordConfirm;
-        if(!element.value){
-            element.parentNode.className="dank-form-group-err";
-            this.refs.passwordConfirmErr1.className="err-display";
-            this.refs.passwordConfirmErr2.className="err-hidden";
-            return false;
-        }else if(element.value!=this.refs.password.value){
-            element.parentNode.className="dank-form-group-err";
-            this.refs.passwordConfirmErr1.className="err-hidden";
-            this.refs.passwordConfirmErr2.className="err-display";
-            return false;
-        }else{
-            element.parentNode.className="dank-form-group";
-            this.refs.passwordConfirmErr1.className="err-hidden";
-            this.refspasswordConfirmErr2.className="err-hidden";
+            this.refs.passwordErr2.className="err-hidden";
             return true;
         }
     },
     handleSubmit: function(){
         var check1 = this.usernameCheck;
         var check2 = this.passwordCheck;
-        var check3 = this.passwordConfirmCheck;
 
-        if(check1 && check2 && check3)
+        if(check1 && check2)
         {
             $.ajax({
-                url: "/signup",
+                url: "/org/login",
                 contentType: 'application/json',
                 type: 'POST',
                 data: JSON.stringify({
@@ -116,18 +98,24 @@ var FormBox = React.createClass({
                 success: function(data) {
                     console.log(data);
                     switch(data.code){
-                        case -4:
+                        case -2:
                             var element = this.refs.username;
                             element.parentNode.className="dank-form-group";
                             this.refs.usernameErr1.className="err-hidden";
                             this.refs.usernameErr2.className="err-hidden";
                             this.refs.usernameErr3.className="err-display";
                             break;
+                        case -3:
+                            var element = this.refs.password;
+                            element.parentNode.className="dank-form-group";
+                            this.refs.passwordErr1.className="err-hidden";
+                            this.refs.passwordErr2.className="err-display";
+                            break;
                         case 0:
                             alert("登陆成功");
                             break;
                         default:
-                            alert(data.msg);
+                            alert(msg);
                             break;
                     }
                 }.bind(this),
@@ -137,39 +125,38 @@ var FormBox = React.createClass({
             });
         }
     },
-
     render: function(){
         var formStyle = {
             width: "414px",
             height: "420px",
-            padding: "40px",
-            paddingTop: "20px"
+            padding: "40px"
         };
         var buttonStyle = {
-            marginTop:"0px"
+            marginTop:"60px"
         };
 
         return (
-            <form id="signup" className="dank-box-2 center-block" style={formStyle}>
-                <div className="dank-form-group" >
+            <form id="orgSignin" className="dank-box-2 center-block" style={formStyle}>
+                <div className="dank-form-group">
                     <label htmlFor="username">账号</label>
-                    <small className="err-hidden" ref="usernameErr1">用户名不能为空</small>
-                    <small className="err-hidden" ref="usernameErr2">请输入正确的手机号</small>
-                    <small className="err-hidden" ref="usernameErr3">用户名已存在</small>
-                    <input type="text" name="username" placeholder="请输入手机号" ref="username" onBlur={this.usernameCheck}/>
+                    <small className="err-hidden" ref="usernameErr1">请输入用户名</small>
+                    <small className="err-hidden" ref="usernameErr2">请输入正确的邮箱</small>
+                    <small className="err-hidden" ref="usernameErr3">用户名不存在</small>
+                    <input type="text" placeholder="请输入邮箱地址" ref="username" onBlur={this.usernameCheck}/>
                 </div>
                 <div className="dank-form-group">
                     <label htmlFor="password">密码</label>
-                    <small className="err-hidden" ref="passwordErr1">密码不能为空</small>
-                    <input type="password" name="password" placeholder="请输入密码"  ref="password" onBlur={this.passwordCheck}/>
+                    <small className="err-hidden" ref="passwordErr1">请输入密码</small>
+                    <small className="err-hidden" ref="passwordErr2">用户名或密码有误</small>
+                    <input type="password" placeholder="请输入密码"  ref="password" onBlur={this.passwordCheck}/>
                 </div>
                 <div className="dank-form-group">
-                    <label htmlFor="password">重复密码</label>
-                    <small className="err-hidden" ref="passwordConfirmErr1">请再次输入密码</small>
-                    <small className="err-hidden" ref="passwordConfirmErr2">密码不一致</small>
-                    <input type="password" placeholder="请再次输入密码"  ref="passwordConfirm" onBlur={this.passwordConfirmCheck}/>
+                    <label className="checkbox-inline" className="remember-me" >
+                        <input type="checkbox" id="inlineCheckbox1" value="option1" className="checkbox"/> 记住我
+                    </label>
+                    <a href="#" className="forget-password">忘记密码</a>
                 </div>
-                <button onClick={this.handleSubmit} className="dank-button btn-block" style={buttonStyle}>注册</button>
+                <button onClick={this.handleSubmit} className="dank-button btn-block" style={buttonStyle}>登陆</button>
             </form>
         )
     }

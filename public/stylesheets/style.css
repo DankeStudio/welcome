@@ -65,9 +65,62 @@ body {
   color:#ffffff;
 }
 
+.dank-button-header:focus{
+  color: #ffffff ;
+  text-decoration: none;
+}
+
+.dank-button-header:hover{
+  background: #ffffff;
+  color: #203140;
+  border: #203140;
+  text-decoration: none;
+}
+
+.dank-tag-chosen{
+  display: inline-block;
+  background: #345062;
+  color: #ffffff;
+}
+.dank-tag-chosen:hover{
+  background: #7396ae;
+  color: #ffffff;
+  text-decoration: none;
+}
+.dank-tag-chosen:active{
+  background: #203140;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.dank-tag-free{
+  display: inline-block;
+  background: #ffffff;
+  color: #555a63;
+}
+.dank-tag-free:hover{
+  background: #7396ae;
+  color: #ffffff;
+  text-decoration: none;
+}
+.dank-tag-free:active{
+  background: #203140;
+  color: #ffffff;
+  text-decoration: none;
+}
+
 .dank-a {
   font-family:SimHei, STXihei, "Microsoft YaHei", "Hiragino Sans GB", "STHeiti Light";
   font-size:20px;
+  color:#ffffff;
+}
+.dank-a:focus {
+  text-decoration: none;
+  color:#ffffff;
+}
+
+.dank-a:hover {
+  text-decoration: underline;
   color:#ffffff;
 }
 

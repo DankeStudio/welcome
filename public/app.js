@@ -58,21 +58,41 @@ var App =
 	var IndexRoute = __webpack_require__(3).IndexRoute;
 	var Link = __webpack_require__(3).Link;
 	var hashHistory = __webpack_require__(3).hashHistory;
+	var IndexRedirect = __webpack_require__(3).IndexRedirect;
 
 	var sign = __webpack_require__(67);
-	var signinBox = __webpack_require__(68);
-	var signupBox = __webpack_require__(69);
+	var signinBox = __webpack_require__(69);
+	var signupBox = __webpack_require__(70);
+
+	var orgSign = __webpack_require__(71);
+	var orgSigninBox = __webpack_require__(72);
+	var orgSignupBox = __webpack_require__(73);
+
+	var Root = React.createClass({
+	    displayName: 'Root',
+
+	    render: function render() {
+	        return React.createElement('div', null);
+	    }
+	});
 
 	render(React.createElement(
 	    Router,
 	    { history: hashHistory },
-	    React.createElement(Route, { path: '/', component: sign }),
+	    React.createElement(Route, { path: '/', component: Root }),
 	    React.createElement(
 	        Route,
 	        { path: '/sign', component: sign },
-	        React.createElement(IndexRoute, { component: signupBox }),
+	        React.createElement(IndexRedirect, { to: '#/sign/in' }),
 	        React.createElement(Route, { path: 'in', component: signinBox }),
 	        React.createElement(Route, { path: 'up', component: signupBox })
+	    ),
+	    React.createElement(
+	        Route,
+	        { path: '/orgsign', component: orgSign },
+	        React.createElement(IndexRedirect, { to: '#/orgsign/in' }),
+	        React.createElement(Route, { path: 'in', component: orgSigninBox }),
+	        React.createElement(Route, { path: 'up', component: orgSignupBox })
 	    )
 	), document.getElementById('content'));
 
@@ -6109,13 +6129,15 @@ var App =
 /* 67 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	var React = __webpack_require__(1);
 	var Component = React.Component;
 
+	var Header = __webpack_require__(68);
+
 	module.exports = React.createClass({
-	    displayName: "exports",
+	    displayName: 'exports',
 
 	    render: function render() {
 	        var containerStyle = {
@@ -6129,37 +6151,37 @@ var App =
 	            width: "100%"
 	        };
 	        return React.createElement(
-	            "div",
-	            { className: "container-fluid", style: containerStyle },
+	            'div',
+	            { className: 'container-fluid', style: containerStyle },
 	            React.createElement(
-	                "div",
-	                { className: "row" },
+	                'div',
+	                { className: 'row' },
 	                React.createElement(
-	                    "div",
-	                    { className: "col-xs-12 col-md-12" },
+	                    'div',
+	                    { className: 'col-xs-12 col-md-12' },
 	                    React.createElement(Header, null)
 	                )
 	            ),
 	            React.createElement(
-	                "div",
-	                { className: "row", style: objectStyle },
+	                'div',
+	                { className: 'row', style: objectStyle },
 	                React.createElement(
-	                    "tabel",
-	                    { className: "vertical-middle-parent" },
+	                    'tabel',
+	                    { className: 'vertical-middle-parent' },
 	                    React.createElement(
-	                        "tr",
+	                        'tr',
 	                        null,
 	                        React.createElement(
-	                            "td",
-	                            { className: "vertical-middle-child" },
+	                            'td',
+	                            { className: 'vertical-middle-child' },
 	                            React.createElement(
-	                                "div",
-	                                { className: "col-xs-7 col-md-7" },
+	                                'div',
+	                                { className: 'col-xs-7 col-md-7' },
 	                                React.createElement(News, null)
 	                            ),
 	                            React.createElement(
-	                                "div",
-	                                { className: "col-xs-5 col-md-5" },
+	                                'div',
+	                                { className: 'col-xs-5 col-md-5' },
 	                                React.createElement(Box, { children: this.props.children })
 	                            )
 	                        )
@@ -6170,8 +6192,63 @@ var App =
 	    }
 	});
 
-	var Header = React.createClass({
-	    displayName: "Header",
+	var News = React.createClass({
+	    displayName: 'News',
+
+	    render: function render() {
+	        var objectStyle = {
+	            width: "734px",
+	            height: "618px"
+	        };
+	        return React.createElement(
+	            'div',
+	            null,
+	            React.createElement(
+	                'div',
+	                { className: 'dank-h1' },
+	                'news'
+	            ),
+	            React.createElement('div', { className: 'dank-box-1 center-block', style: objectStyle })
+	        );
+	    }
+	});
+
+	var Box = React.createClass({
+	    displayName: 'Box',
+
+	    render: function render() {
+	        var objectStyle = {
+	            width: "508px",
+	            height: "618px"
+	        };
+	        return React.createElement(
+	            'div',
+	            null,
+	            React.createElement(
+	                'div',
+	                { className: 'dank-h1' },
+	                'Welcome'
+	            ),
+	            React.createElement(
+	                'div',
+	                { className: 'dank-box-1 center-block', style: objectStyle },
+	                this.props.children
+	            )
+	        );
+	    }
+	});
+
+/***/ },
+/* 68 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var React = __webpack_require__(1);
+	var Component = React.Component;
+
+	module.exports = React.createClass({
+	    displayName: "exports",
 
 	    render: function render() {
 
@@ -6218,67 +6295,21 @@ var App =
 	                { style: rightPosition },
 	                React.createElement(
 	                    "a",
-	                    { href: "#", className: "dank-a", style: rightItemPosition },
-	                    "登陆"
+	                    { href: "#/orgsign/in", className: "dank-a", style: rightItemPosition },
+	                    "社团入口"
 	                ),
 	                React.createElement(
 	                    "a",
-	                    { href: "#", className: "dank-a", style: rightItemPosition },
-	                    "注册"
+	                    { href: "#/sign/in", className: "dank-a", style: rightItemPosition },
+	                    "个人入口"
 	                )
 	            )
 	        );
 	    }
 	});
 
-	var News = React.createClass({
-	    displayName: "News",
-
-	    render: function render() {
-	        var objectStyle = {
-	            width: "734px",
-	            height: "618px"
-	        };
-	        return React.createElement(
-	            "div",
-	            null,
-	            React.createElement(
-	                "div",
-	                { className: "dank-h1" },
-	                "news"
-	            ),
-	            React.createElement("div", { className: "dank-box-1 center-block", style: objectStyle })
-	        );
-	    }
-	});
-
-	var Box = React.createClass({
-	    displayName: "Box",
-
-	    render: function render() {
-	        var objectStyle = {
-	            width: "508px",
-	            height: "618px"
-	        };
-	        return React.createElement(
-	            "div",
-	            null,
-	            React.createElement(
-	                "div",
-	                { className: "dank-h1" },
-	                "Welcome"
-	            ),
-	            React.createElement(
-	                "div",
-	                { className: "dank-box-1 center-block", style: objectStyle },
-	                this.props.children
-	            )
-	        );
-	    }
-	});
-
 /***/ },
-/* 68 */
+/* 69 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -6305,25 +6336,20 @@ var App =
 	            textAlign: "center"
 	        };
 	        var aStyle1 = {
-	            display: "inline-block",
 	            margin: "0px 55px 0px 44px",
-	            background: "#345062",
 	            borderRadius: "8px",
 	            width: "108px",
 	            height: "60px",
 	            lineHeight: "60px",
-	            fontSize: "30px",
-	            color: "#ffffff"
+	            fontSize: "30px"
 	        };
 	        var aStyle2 = {
-	            display: "inline-block",
 	            margin: "0px 44px 0px 55px",
 	            borderRadius: "8px",
 	            width: "108px",
 	            height: "60px",
 	            lineHeight: "60px",
-	            fontSize: "30px",
-	            color: "#555a63"
+	            fontSize: "30px"
 	        };
 	        return React.createElement(
 	            "div",
@@ -6333,12 +6359,12 @@ var App =
 	                { style: headStyle, className: "center-block" },
 	                React.createElement(
 	                    "a",
-	                    { href: "#", style: aStyle1 },
+	                    { href: "#/sign/in", style: aStyle1, className: "dank-tag-chosen" },
 	                    "登陆"
 	                ),
 	                React.createElement(
 	                    "a",
-	                    { href: "#", style: aStyle2 },
+	                    { href: "#/sign/up", style: aStyle2, className: "dank-tag-free" },
 	                    "注册"
 	                )
 	            ),
@@ -6350,6 +6376,89 @@ var App =
 	var FormBox = React.createClass({
 	    displayName: "FormBox",
 
+	    usernameCheck: function usernameCheck() {
+	        var element = this.refs.username;
+	        var test = /^\d{11,}$/;
+	        if (!element.value) {
+	            element.parentNode.className = "dank-form-group-err";
+	            this.refs.usernameErr1.className = "err-display";
+	            this.refs.usernameErr2.className = "err-hidden";
+	            this.refs.usernameErr3.className = "err-hidden";
+	            return false;
+	        } else if (!test.test(element.value)) {
+	            element.parentNode.className = "dank-form-group-err";
+	            this.refs.usernameErr1.className = "err-hidden";
+	            this.refs.usernameErr2.className = "err-display";
+	            this.refs.usernameErr3.className = "err-hidden";
+	            return false;
+	        } else {
+	            element.parentNode.className = "dank-form-group";
+	            this.refs.usernameErr1.className = "err-hidden";
+	            this.refs.usernameErr2.className = "err-hidden";
+	            this.refs.usernameErr3.className = "err-hidden";
+	            return true;
+	        }
+	    },
+	    passwordCheck: function passwordCheck() {
+	        var element = this.refs.password;
+	        if (!element.value) {
+	            element.parentNode.className = "dank-form-group-err";
+	            this.refs.passwordErr1.className = "err-display";
+	            this.refs.passwordErr2.className = "err-hidden";
+	            return false;
+	        } else {
+	            element.parentNode.className = "dank-form-group";
+	            this.refs.passwordErr1.className = "err-hidden";
+	            this.refs.passwordErr2.className = "err-hidden";
+	            return true;
+	        }
+	    },
+	    handleSubmit: function handleSubmit() {
+	        var check1 = this.usernameCheck;
+	        var check2 = this.passwordCheck;
+
+	        if (check1 && check2) {
+	            $.ajax({
+	                url: "/login",
+	                contentType: 'application/json',
+	                type: 'POST',
+	                data: JSON.stringify({
+	                    username: this.refs.username.value,
+	                    password: this.refs.password.value
+	                }),
+	                success: function (data) {
+	                    console.log(data);
+	                    switch (data.code) {
+	                        case -1:
+	                            alert("数据库错误");
+	                            break;
+	                        case -2:
+	                            var element = this.refs.username;
+	                            element.parentNode.className = "dank-form-group";
+	                            this.refs.usernameErr1.className = "err-hidden";
+	                            this.refs.usernameErr2.className = "err-hidden";
+	                            this.refs.usernameErr3.className = "err-display";
+	                            break;
+	                        case -3:
+	                            var element = this.refs.password;
+	                            element.parentNode.className = "dank-form-group";
+	                            this.refs.passwordErr1.className = "err-hidden";
+	                            this.refs.passwordErr2.className = "err-display";
+	                            break;
+	                        case 0:
+	                            alert("登陆成功");
+	                            break;
+	                        default:
+	                            alert("未知错误");
+	                            break;
+	                    }
+	                }.bind(this),
+	                error: function (xhr, status, err) {
+	                    console.error("ajax请求发起失败");
+	                }.bind(this)
+	            });
+	        }
+	    },
 	    render: function render() {
 	        var formStyle = {
 	            width: "414px",
@@ -6362,7 +6471,7 @@ var App =
 
 	        return React.createElement(
 	            "form",
-	            { className: "dank-box-2 center-block", style: formStyle },
+	            { id: "signin", className: "dank-box-2 center-block", style: formStyle },
 	            React.createElement(
 	                "div",
 	                { className: "dank-form-group" },
@@ -6371,7 +6480,22 @@ var App =
 	                    { htmlFor: "username" },
 	                    "账号"
 	                ),
-	                React.createElement("input", { type: "text", placeholder: "用户名 - 手机号" })
+	                React.createElement(
+	                    "small",
+	                    { className: "err-hidden", ref: "usernameErr1" },
+	                    "请输入用户名"
+	                ),
+	                React.createElement(
+	                    "small",
+	                    { className: "err-hidden", ref: "usernameErr2" },
+	                    "请输入正确的手机号"
+	                ),
+	                React.createElement(
+	                    "small",
+	                    { className: "err-hidden", ref: "usernameErr3" },
+	                    "用户名不存在"
+	                ),
+	                React.createElement("input", { type: "text", placeholder: "用户名 - 手机号", ref: "username", onBlur: this.usernameCheck })
 	            ),
 	            React.createElement(
 	                "div",
@@ -6381,7 +6505,17 @@ var App =
 	                    { htmlFor: "password" },
 	                    "密码"
 	                ),
-	                React.createElement("input", { type: "password", placeholder: "密码 - 默认出生日期 如20160901" })
+	                React.createElement(
+	                    "small",
+	                    { className: "err-hidden", ref: "passwordErr1" },
+	                    "请输入密码"
+	                ),
+	                React.createElement(
+	                    "small",
+	                    { className: "err-hidden", ref: "passwordErr2" },
+	                    "密码错误"
+	                ),
+	                React.createElement("input", { type: "password", placeholder: "密码 - 默认出生日期 如20160901", ref: "password", onBlur: this.passwordCheck })
 	            ),
 	            React.createElement(
 	                "div",
@@ -6400,7 +6534,7 @@ var App =
 	            ),
 	            React.createElement(
 	                "button",
-	                { type: "submit", className: "dank-button btn-block", style: buttonStyle },
+	                { onClick: this.handleSubmit, className: "dank-button btn-block", style: buttonStyle },
 	                "登陆"
 	            )
 	        );
@@ -6408,7 +6542,7 @@ var App =
 	});
 
 /***/ },
-/* 69 */
+/* 70 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -6433,25 +6567,20 @@ var App =
 	            textAlign: "center"
 	        };
 	        var aStyle1 = {
-	            display: "inline-block",
 	            margin: "0px 55px 0px 44px",
-	            background: "#345062",
 	            borderRadius: "8px",
 	            width: "108px",
 	            height: "60px",
 	            lineHeight: "60px",
-	            fontSize: "30px",
-	            color: "#ffffff"
+	            fontSize: "30px"
 	        };
 	        var aStyle2 = {
-	            display: "inline-block",
 	            margin: "0px 44px 0px 55px",
 	            borderRadius: "8px",
 	            width: "108px",
 	            height: "60px",
 	            lineHeight: "60px",
-	            fontSize: "30px",
-	            color: "#555a63"
+	            fontSize: "30px"
 	        };
 	        return React.createElement(
 	            "div",
@@ -6461,12 +6590,12 @@ var App =
 	                { style: headStyle, className: "center-block" },
 	                React.createElement(
 	                    "a",
-	                    { href: "#", style: aStyle2 },
+	                    { href: "#/sign/in", style: aStyle1, className: "dank-tag-free" },
 	                    "登陆"
 	                ),
 	                React.createElement(
 	                    "a",
-	                    { href: "#", style: aStyle1 },
+	                    { href: "#/sign/up", style: aStyle2, className: "dank-tag-chosen" },
 	                    "注册"
 	                )
 	            ),
@@ -6485,30 +6614,628 @@ var App =
 	            element.parentNode.className = "dank-form-group-err";
 	            this.refs.usernameErr1.className = "err-display";
 	            this.refs.usernameErr2.className = "err-hidden";
+	            this.refs.usernameErr3.className = "err-hidden";
+	            return false;
 	        } else if (!test.test(element.value)) {
 	            element.parentNode.className = "dank-form-group-err";
 	            this.refs.usernameErr1.className = "err-hidden";
 	            this.refs.usernameErr2.className = "err-display";
+	            this.refs.usernameErr3.className = "err-hidden";
+	            return false;
 	        } else {
 	            element.parentNode.className = "dank-form-group";
 	            this.refs.usernameErr1.className = "err-hidden";
 	            this.refs.usernameErr2.className = "err-hidden";
+	            this.refs.usernameErr3.className = "err-hidden";
+	            return true;
+	        }
+	    },
+	    passwordCheck: function passwordCheck() {
+	        var element = this.refs.password;
+	        if (!element.value) {
+	            element.parentNode.className = "dank-form-group-err";
+	            this.refs.passwordErr1.className = "err-display";
+	            return false;
+	        } else {
+	            element.parentNode.className = "dank-form-group";
+	            this.refs.passwordErr1.className = "err-hidden";
+	            return true;
+	        }
+	    },
+	    passwordConfirmCheck: function passwordConfirmCheck() {
+	        var element = this.refs.passwordConfirm;
+	        if (!element.value) {
+	            element.parentNode.className = "dank-form-group-err";
+	            this.refs.passwordConfirmErr1.className = "err-display";
+	            this.refs.passwordConfirmErr2.className = "err-hidden";
+	            return false;
+	        } else if (element.value != this.refs.password.value) {
+	            element.parentNode.className = "dank-form-group-err";
+	            this.refs.passwordConfirmErr1.className = "err-hidden";
+	            this.refs.passwordConfirmErr2.className = "err-display";
+	            return false;
+	        } else {
+	            element.parentNode.className = "dank-form-group";
+	            this.refs.passwordConfirmErr1.className = "err-hidden";
+	            this.refspasswordConfirmErr2.className = "err-hidden";
+	            return true;
+	        }
+	    },
+	    handleSubmit: function handleSubmit() {
+	        var check1 = this.usernameCheck;
+	        var check2 = this.passwordCheck;
+	        var check3 = this.passwordConfirmCheck;
+
+	        if (check1 && check2 && check3) {
+	            $.ajax({
+	                url: "/signup",
+	                contentType: 'application/json',
+	                type: 'POST',
+	                data: JSON.stringify({
+	                    username: this.refs.username.value,
+	                    password: this.refs.password.value
+	                }),
+	                success: function (data) {
+	                    console.log(data);
+	                    switch (data.code) {
+	                        case -4:
+	                            var element = this.refs.username;
+	                            element.parentNode.className = "dank-form-group";
+	                            this.refs.usernameErr1.className = "err-hidden";
+	                            this.refs.usernameErr2.className = "err-hidden";
+	                            this.refs.usernameErr3.className = "err-display";
+	                            break;
+	                        case 0:
+	                            alert("登陆成功");
+	                            break;
+	                        default:
+	                            alert(data.msg);
+	                            break;
+	                    }
+	                }.bind(this),
+	                error: function (xhr, status, err) {
+	                    console.error("ajax请求发起失败");
+	                }.bind(this)
+	            });
 	        }
 	    },
 
+	    render: function render() {
+	        var formStyle = {
+	            width: "414px",
+	            height: "420px",
+	            padding: "40px",
+	            paddingTop: "20px"
+	        };
+	        var buttonStyle = {
+	            marginTop: "0px"
+	        };
+
+	        return React.createElement(
+	            "form",
+	            { id: "signup", className: "dank-box-2 center-block", style: formStyle },
+	            React.createElement(
+	                "div",
+	                { className: "dank-form-group" },
+	                React.createElement(
+	                    "label",
+	                    { htmlFor: "username" },
+	                    "账号"
+	                ),
+	                React.createElement(
+	                    "small",
+	                    { className: "err-hidden", ref: "usernameErr1" },
+	                    "用户名不能为空"
+	                ),
+	                React.createElement(
+	                    "small",
+	                    { className: "err-hidden", ref: "usernameErr2" },
+	                    "请输入正确的手机号"
+	                ),
+	                React.createElement(
+	                    "small",
+	                    { className: "err-hidden", ref: "usernameErr3" },
+	                    "用户名已存在"
+	                ),
+	                React.createElement("input", { type: "text", name: "username", placeholder: "请输入手机号", ref: "username", onBlur: this.usernameCheck })
+	            ),
+	            React.createElement(
+	                "div",
+	                { className: "dank-form-group" },
+	                React.createElement(
+	                    "label",
+	                    { htmlFor: "password" },
+	                    "密码"
+	                ),
+	                React.createElement(
+	                    "small",
+	                    { className: "err-hidden", ref: "passwordErr1" },
+	                    "密码不能为空"
+	                ),
+	                React.createElement("input", { type: "password", name: "password", placeholder: "请输入密码", ref: "password", onBlur: this.passwordCheck })
+	            ),
+	            React.createElement(
+	                "div",
+	                { className: "dank-form-group" },
+	                React.createElement(
+	                    "label",
+	                    { htmlFor: "password" },
+	                    "重复密码"
+	                ),
+	                React.createElement(
+	                    "small",
+	                    { className: "err-hidden", ref: "passwordConfirmErr1" },
+	                    "请再次输入密码"
+	                ),
+	                React.createElement(
+	                    "small",
+	                    { className: "err-hidden", ref: "passwordConfirmErr2" },
+	                    "密码不一致"
+	                ),
+	                React.createElement("input", { type: "password", placeholder: "请再次输入密码", ref: "passwordConfirm", onBlur: this.passwordConfirmCheck })
+	            ),
+	            React.createElement(
+	                "button",
+	                { onClick: this.handleSubmit, className: "dank-button btn-block", style: buttonStyle },
+	                "注册"
+	            )
+	        );
+	    }
+	});
+
+/***/ },
+/* 71 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+	var Component = React.Component;
+
+	var Header = __webpack_require__(68);
+
+	module.exports = React.createClass({
+	    displayName: 'exports',
+
+	    render: function render() {
+	        var containerStyle = {
+	            height: "100%",
+	            padding: 0
+	        };
+	        var objectStyle = {
+	            top: "60px",
+	            bottom: "0px",
+	            position: "absolute",
+	            width: "100%"
+	        };
+	        return React.createElement(
+	            'div',
+	            { className: 'container-fluid', style: containerStyle },
+	            React.createElement(
+	                'div',
+	                { className: 'row' },
+	                React.createElement(
+	                    'div',
+	                    { className: 'col-xs-12 col-md-12' },
+	                    React.createElement(Header, null)
+	                )
+	            ),
+	            React.createElement(
+	                'div',
+	                { className: 'row', style: objectStyle },
+	                React.createElement(
+	                    'tabel',
+	                    { className: 'vertical-middle-parent' },
+	                    React.createElement(
+	                        'tr',
+	                        null,
+	                        React.createElement(
+	                            'td',
+	                            { className: 'vertical-middle-child' },
+	                            React.createElement(
+	                                'div',
+	                                { className: 'col-xs-12 col-md-12' },
+	                                React.createElement(Box, { children: this.props.children })
+	                            )
+	                        )
+	                    )
+	                )
+	            )
+	        );
+	    }
+	});
+
+	var Box = React.createClass({
+	    displayName: 'Box',
+
+	    render: function render() {
+	        var objectStyle = {
+	            width: "508px",
+	            height: "618px"
+	        };
+	        return React.createElement(
+	            'div',
+	            null,
+	            React.createElement(
+	                'div',
+	                { className: 'dank-h1' },
+	                'Welcome'
+	            ),
+	            React.createElement(
+	                'div',
+	                { className: 'dank-box-1 center-block', style: objectStyle },
+	                this.props.children
+	            )
+	        );
+	    }
+	});
+
+/***/ },
+/* 72 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+	/**
+	 * Created by admin on 2016/7/24.
+	 */
+	var React = __webpack_require__(1);
+	var Component = React.Component;
+
+	module.exports = React.createClass({
+	    displayName: "exports",
+
+	    render: function render() {
+	        var topStyle = {
+	            paddingTop: "50px"
+	        };
+	        var headStyle = {
+	            margin: "0px auto 34px auto",
+	            width: "414px",
+	            height: "60px",
+	            textAlign: "center"
+	        };
+	        var aStyle1 = {
+	            margin: "0px 55px 0px 44px",
+	            borderRadius: "8px",
+	            width: "108px",
+	            height: "60px",
+	            lineHeight: "60px",
+	            fontSize: "30px"
+	        };
+	        var aStyle2 = {
+	            margin: "0px 44px 0px 55px",
+	            borderRadius: "8px",
+	            width: "108px",
+	            height: "60px",
+	            lineHeight: "60px",
+	            fontSize: "30px"
+	        };
+	        return React.createElement(
+	            "div",
+	            { style: topStyle },
+	            React.createElement(
+	                "div",
+	                { style: headStyle, className: "center-block" },
+	                React.createElement(
+	                    "a",
+	                    { href: "#/orgsign/in", style: aStyle1, className: "dank-tag-chosen" },
+	                    "登陆"
+	                ),
+	                React.createElement(
+	                    "a",
+	                    { href: "#/orgsign/up", style: aStyle2, className: "dank-tag-free" },
+	                    "注册"
+	                )
+	            ),
+	            React.createElement(FormBox, null)
+	        );
+	    }
+	});
+
+	var FormBox = React.createClass({
+	    displayName: "FormBox",
+
+	    usernameCheck: function usernameCheck() {
+	        var element = this.refs.username;
+	        var test = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+	        if (!element.value) {
+	            element.parentNode.className = "dank-form-group-err";
+	            this.refs.usernameErr1.className = "err-display";
+	            this.refs.usernameErr2.className = "err-hidden";
+	            this.refs.usernameErr3.className = "err-hidden";
+	            return false;
+	        } else if (!test.test(element.value)) {
+	            element.parentNode.className = "dank-form-group-err";
+	            this.refs.usernameErr1.className = "err-hidden";
+	            this.refs.usernameErr2.className = "err-display";
+	            this.refs.usernameErr3.className = "err-hidden";
+	            return false;
+	        } else {
+	            element.parentNode.className = "dank-form-group";
+	            this.refs.usernameErr1.className = "err-hidden";
+	            this.refs.usernameErr2.className = "err-hidden";
+	            this.refs.usernameErr3.className = "err-hidden";
+	            return true;
+	        }
+	    },
+	    passwordCheck: function passwordCheck() {
+	        var element = this.refs.password;
+	        if (!element.value) {
+	            element.parentNode.className = "dank-form-group-err";
+	            this.refs.passwordErr1.className = "err-display";
+	            this.refs.passwordErr2.className = "err-hidden";
+	            return false;
+	        } else {
+	            element.parentNode.className = "dank-form-group";
+	            this.refs.passwordErr1.className = "err-hidden";
+	            this.refs.passwordErr2.className = "err-hidden";
+	            return true;
+	        }
+	    },
 	    handleSubmit: function handleSubmit() {
-	        $.ajax({
-	            url: "/signup",
-	            dataType: 'json',
-	            type: 'POST',
-	            data: $("#signup").serialize(),
-	            success: function (data) {
-	                console.log(data);
-	            }.bind(this),
-	            error: function (xhr, status, err) {
-	                console.error("ajax请求发起失败");
-	            }.bind(this)
-	        });
+	        var check1 = this.usernameCheck;
+	        var check2 = this.passwordCheck;
+
+	        if (check1 && check2) {
+	            $.ajax({
+	                url: "/org/login",
+	                contentType: 'application/json',
+	                type: 'POST',
+	                data: JSON.stringify({
+	                    username: this.refs.username.value,
+	                    password: this.refs.password.value
+	                }),
+	                success: function (data) {
+	                    console.log(data);
+	                    switch (data.code) {
+	                        case -2:
+	                            var element = this.refs.username;
+	                            element.parentNode.className = "dank-form-group";
+	                            this.refs.usernameErr1.className = "err-hidden";
+	                            this.refs.usernameErr2.className = "err-hidden";
+	                            this.refs.usernameErr3.className = "err-display";
+	                            break;
+	                        case -3:
+	                            var element = this.refs.password;
+	                            element.parentNode.className = "dank-form-group";
+	                            this.refs.passwordErr1.className = "err-hidden";
+	                            this.refs.passwordErr2.className = "err-display";
+	                            break;
+	                        case 0:
+	                            alert("登陆成功");
+	                            break;
+	                        default:
+	                            alert(msg);
+	                            break;
+	                    }
+	                }.bind(this),
+	                error: function (xhr, status, err) {
+	                    console.error("ajax请求发起失败");
+	                }.bind(this)
+	            });
+	        }
+	    },
+	    render: function render() {
+	        var formStyle = {
+	            width: "414px",
+	            height: "420px",
+	            padding: "40px"
+	        };
+	        var buttonStyle = {
+	            marginTop: "60px"
+	        };
+
+	        return React.createElement(
+	            "form",
+	            { id: "orgSignin", className: "dank-box-2 center-block", style: formStyle },
+	            React.createElement(
+	                "div",
+	                { className: "dank-form-group" },
+	                React.createElement(
+	                    "label",
+	                    { htmlFor: "username" },
+	                    "账号"
+	                ),
+	                React.createElement(
+	                    "small",
+	                    { className: "err-hidden", ref: "usernameErr1" },
+	                    "请输入用户名"
+	                ),
+	                React.createElement(
+	                    "small",
+	                    { className: "err-hidden", ref: "usernameErr2" },
+	                    "请输入正确的邮箱"
+	                ),
+	                React.createElement(
+	                    "small",
+	                    { className: "err-hidden", ref: "usernameErr3" },
+	                    "用户名不存在"
+	                ),
+	                React.createElement("input", { type: "text", placeholder: "请输入邮箱地址", ref: "username", onBlur: this.usernameCheck })
+	            ),
+	            React.createElement(
+	                "div",
+	                { className: "dank-form-group" },
+	                React.createElement(
+	                    "label",
+	                    { htmlFor: "password" },
+	                    "密码"
+	                ),
+	                React.createElement(
+	                    "small",
+	                    { className: "err-hidden", ref: "passwordErr1" },
+	                    "请输入密码"
+	                ),
+	                React.createElement(
+	                    "small",
+	                    { className: "err-hidden", ref: "passwordErr2" },
+	                    "用户名或密码有误"
+	                ),
+	                React.createElement("input", { type: "password", placeholder: "请输入密码", ref: "password", onBlur: this.passwordCheck })
+	            ),
+	            React.createElement(
+	                "div",
+	                { className: "dank-form-group" },
+	                React.createElement(
+	                    "label",
+	                    _defineProperty({ className: "checkbox-inline" }, "className", "remember-me"),
+	                    React.createElement("input", { type: "checkbox", id: "inlineCheckbox1", value: "option1", className: "checkbox" }),
+	                    " 记住我"
+	                ),
+	                React.createElement(
+	                    "a",
+	                    { href: "#", className: "forget-password" },
+	                    "忘记密码"
+	                )
+	            ),
+	            React.createElement(
+	                "button",
+	                { onClick: this.handleSubmit, className: "dank-button btn-block", style: buttonStyle },
+	                "登陆"
+	            )
+	        );
+	    }
+	});
+
+/***/ },
+/* 73 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	/**
+	 * Created by admin on 2016/7/24.
+	 */
+	var React = __webpack_require__(1);
+	var Component = React.Component;
+
+	module.exports = React.createClass({
+	    displayName: "exports",
+
+	    render: function render() {
+	        var topStyle = {
+	            paddingTop: "50px"
+	        };
+	        var headStyle = {
+	            margin: "0px auto 34px auto",
+	            width: "414px",
+	            height: "60px",
+	            textAlign: "center"
+	        };
+	        var aStyle1 = {
+	            margin: "0px 55px 0px 44px",
+	            borderRadius: "8px",
+	            width: "108px",
+	            height: "60px",
+	            lineHeight: "60px",
+	            fontSize: "30px"
+	        };
+	        var aStyle2 = {
+	            margin: "0px 44px 0px 55px",
+	            borderRadius: "8px",
+	            width: "108px",
+	            height: "60px",
+	            lineHeight: "60px",
+	            fontSize: "30px"
+	        };
+	        return React.createElement(
+	            "div",
+	            { style: topStyle },
+	            React.createElement(
+	                "div",
+	                { style: headStyle, className: "center-block" },
+	                React.createElement(
+	                    "a",
+	                    { href: "#/orgsign/in", style: aStyle1, className: "dank-tag-free" },
+	                    "登陆"
+	                ),
+	                React.createElement(
+	                    "a",
+	                    { href: "#/orgsign/up", style: aStyle2, className: "dank-tag-chosen" },
+	                    "注册"
+	                )
+	            ),
+	            React.createElement(FormBox, null)
+	        );
+	    }
+	});
+
+	var FormBox = React.createClass({
+	    displayName: "FormBox",
+
+	    usernameCheck: function usernameCheck() {
+	        var element = this.refs.username;
+	        var test = /^\d{11,}$/;
+	        if (!element.value) {
+	            element.parentNode.className = "dank-form-group-err";
+	            this.refs.usernameErr1.className = "err-display";
+	            this.refs.usernameErr2.className = "err-hidden";
+	            return false;
+	        } else if (!test.test(element.value)) {
+	            element.parentNode.className = "dank-form-group-err";
+	            this.refs.usernameErr1.className = "err-hidden";
+	            this.refs.usernameErr2.className = "err-display";
+	            return false;
+	        } else {
+	            element.parentNode.className = "dank-form-group";
+	            this.refs.usernameErr1.className = "err-hidden";
+	            this.refs.usernameErr2.className = "err-hidden";
+	            return true;
+	        }
+	    },
+	    passwordCheck: function passwordCheck() {
+	        var element = this.refs.password;
+	        if (!element.value) {
+	            element.parentNode.className = "dank-form-group-err";
+	            this.refs.passwordErr1.className = "err-display";
+	            return false;
+	        } else {
+	            element.parentNode.className = "dank-form-group";
+	            this.refs.passwordErr1.className = "err-hidden";
+	            return true;
+	        }
+	    },
+	    passwordConfirmCheck: function passwordConfirmCheck() {
+	        var element = this.refs.passwordConfirm;
+	        if (!element.value) {
+	            element.parentNode.className = "dank-form-group-err";
+	            this.refs.passwordConfirmErr1.className = "err-display";
+	            this.refs.passwordConfirmErr2.className = "err-hidden";
+	            return false;
+	        } else if (element.value != this.refs.password.value) {
+	            element.parentNode.className = "dank-form-group-err";
+	            this.refs.passwordConfirmErr1.className = "err-hidden";
+	            this.refs.passwordConfirmErr2.className = "err-display";
+	            return false;
+	        } else {
+	            element.parentNode.className = "dank-form-group";
+	            this.refs.passwordConfirmErr1.className = "err-hidden";
+	            this.refspasswordConfirmErr2.className = "err-hidden";
+	            return true;
+	        }
+	    },
+	    handleSubmit: function handleSubmit() {
+	        var check1 = this.usernameCheck;
+	        var check2 = this.passwordCheck;
+	        var check3 = this.passwordConfirmCheck;
+
+	        if (check1 && check2 && check3) {
+	            $.ajax({
+	                url: "/signup",
+	                dataType: 'json',
+	                type: 'POST',
+	                data: $("#signup").serialize(),
+	                success: function (data) {
+	                    console.log(data);
+	                }.bind(this),
+	                error: function (xhr, status, err) {
+	                    console.error("ajax请求发起失败");
+	                }.bind(this)
+	            });
+	        }
 	    },
 
 	    render: function render() {
@@ -6555,7 +7282,7 @@ var App =
 	                ),
 	                React.createElement(
 	                    "small",
-	                    { className: "err-hidden", id: "passwordErr1" },
+	                    { className: "err-hidden", ref: "passwordErr1" },
 	                    "密码不能为空"
 	                ),
 	                React.createElement("input", { type: "password", name: "password", placeholder: "请输入密码", ref: "password", onBlur: this.passwordCheck })
@@ -6570,8 +7297,13 @@ var App =
 	                ),
 	                React.createElement(
 	                    "small",
-	                    { className: "err-hidden", id: "passwordConfirmErr1" },
-	                    "两次密码不同"
+	                    { className: "err-hidden", ref: "passwordConfirmErr1" },
+	                    "请再次输入密码"
+	                ),
+	                React.createElement(
+	                    "small",
+	                    { className: "err-hidden", ref: "passwordConfirmErr2" },
+	                    "密码不一致"
 	                ),
 	                React.createElement("input", { type: "password", placeholder: "请再次输入密码", ref: "passwordConfirm", onBlur: this.passwordConfirmCheck })
 	            ),

@@ -26,31 +26,13 @@ module.exports = React.createClass({
                     <tabel className="vertical-middle-parent">
                         <tr>
                             <td className="vertical-middle-child">
-                                <div className="col-xs-7 col-md-7">
-                                    <News/>
-                                </div>
-                                <div className="col-xs-5 col-md-5">
+                                <div className="col-xs-12 col-md-12">
                                     <Box children={this.props.children}/>
                                 </div>
                             </td>
                         </tr>
                     </tabel>
                 </div>
-            </div>
-        )
-    }
-});
-
-var News = React.createClass({
-    render: function(){
-        var objectStyle = {
-            width: "734px",
-            height: "618px"
-        };
-        return (
-            <div>
-                <div className="dank-h1">news</div>
-                <div className="dank-box-1 center-block" style={objectStyle}></div>
             </div>
         )
     }

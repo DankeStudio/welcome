@@ -11,6 +11,5 @@ module.exports = mongoose.model('org', new Schema({
     bossname: {type:String, require:'miss boss name'},
     tel: {type:String, require:'miss telephone'},
     email: {type:String, require:'miss email'},
-    displayinfo:{},
-    eventID:[Schema.Types.ObjectId]
+    displayinfo:{}
 }));

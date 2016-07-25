@@ -9,7 +9,7 @@ exports.login = (req, res, next) => {
 
     Org.findOne({
         username: username
-    }, function(err, organization) {
+    }, function(err, org) {
         if (err) {
             res.json({
                 code: -1,
@@ -17,22 +17,22 @@ exports.login = (req, res, next) => {
                 body: {}
             });
         } else {
-            if (!organization) {
+            if (!org) {
                 res.json({
                     code: -2,
                     msg: '用户名不存在',
                     body: {}
                 });
             } else {
-                if (password != organization.password) {
+                if (password != org.password) {
                     res.json({
                         code: -3,
                         msg: '用户名或密码错误',
                         body: {}
                     });
                 } else {
-                    organization.password = null; //hide the password
-                    req.session.organization = organization; //存入会话
+                    org.password = null; //hide the password
+                    req.session.org = org; //存入会话
                     res.json({
                         code: 0,
                         msg: '登陆成功',
@@ -91,7 +91,7 @@ exports.signup = (req, res, next) => {
                             name: name,
                             bossname: bossname,
                             email: username
-                        }).save(function(err, organization) {
+                        }).save(function(err, org) {
                             if (err) {
                                 console.log(err);
                                 res.json({
@@ -100,8 +100,8 @@ exports.signup = (req, res, next) => {
                                     body: {}
                                 });
                             } else {
-                                organization.password = null; //hide the password
-                                req.session.organization = organization; //存入会话
+                                org.password = null; //hide the password
+                                req.session.org = org; //存入会话
                                 res.json({
                                     code: 0,
                                     msg: '注册成功',
@@ -114,4 +114,13 @@ exports.signup = (req, res, next) => {
             })
         }
     }
+}
+
+//从会话中获取组织信息
+exports.getOrgInSession = (req, res, next) => {
+    res.json({
+        code: 0,
+        msg: 'ok',
+        body: req.session.org
+    });
 }

@@ -17,7 +17,7 @@ module.exports = {
         }
     },
     grantOrg: function(req,res,next){
-        if(req.session.organization){
+        if(req.session.org){
             next();
         }
         else{

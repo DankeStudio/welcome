@@ -175,17 +175,17 @@ exports.updateProfile = (req, res, next) => {
 
 //同步教网信息
 exports.syncProfile = (req, res, next) => {
-    var username = req.session.user.username;
+    var username = req.body.username;
     var jwbpwd = req.body.jwbpwd;
     jwbCrawler(username, jwbpwd)
         .then((info) => {
             //console.log(info);
             if (info.schoolID === '') {
-                throw ({
+                throw {
                     code: -1,
                     msg: '学号或密码错误',
                     body: {}
-                })
+                }
             } else {
                 var user = {
                     baseinfo: {
@@ -214,11 +214,11 @@ exports.syncProfile = (req, res, next) => {
             //console.log(result);
             // throw error if user is not found in the database
             if (!result.n) {
-                throw ({
+                throw {
                     code: -2,
                     msg: '本地不存在该用户',
                     body: {}
-                });
+                };
             } else {
                 res.json({
                     code: 0,
@@ -238,4 +238,13 @@ exports.syncProfile = (req, res, next) => {
                 });
             }
         })
+}
+
+//从会话中获取用户信息
+exports.getUserInSession = (req, res, next) => {
+    res.json({
+        code: 0,
+        msg: 'ok',
+        body: req.session.user
+    });
 }

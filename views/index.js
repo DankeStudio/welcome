@@ -23,6 +23,9 @@ var person = require('./containers/person.jsx');
 var info = require('./containers/component/info.jsx');
 var infoChange = require('./containers/component/infoChange.jsx');
 
+var back = require('./containers/back.jsx');
+var formManager = require('./containers/component/formManage.jsx');
+
 var Root = React.createClass({
    render: function(){
        return(
@@ -49,6 +52,9 @@ render((
         <Route path="/person" component={person}>
             <Route path="info" component={info} />
             <Route path="info/change" component={infoChange} />
+        </Route>
+        <Route path="/back" component={back}>
+            <Route path="formmanage" component={formManager}/>
         </Route>
     </Router>
 ), document.getElementById('content'));

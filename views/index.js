@@ -19,6 +19,10 @@ var orgSign = require('./containers/orgSign.jsx');
 var orgSigninBox = require('./containers/component/orgsigninBox.jsx');
 var orgSignupBox = require('./containers/component/orgsignupBox1.jsx');
 
+var person = require('./containers/person.jsx');
+var info = require('./containers/component/info.jsx');
+var infoChange = require('./containers/component/infoChange.jsx');
+
 var Root = React.createClass({
    render: function(){
        return(
@@ -33,17 +37,18 @@ render((
     <Router history={hashHistory}>
         <Route path="/" component={Root}/>
         <Route path="/sign" component={sign}>
-            <IndexRedirect to="#/sign/in" />
+            <IndexRedirect to="/sign/in" />
             <Route path="in" component={signinBox} />
             <Route path="up" component={signupBox} />
         </Route>
         <Route path="/orgsign" component={orgSign}>
-            <IndexRedirect to="#/orgsign/in" />
+            <IndexRedirect to="/orgsign/in" />
             <Route path="in" component={orgSigninBox} />
             <Route path="up" component={orgSignupBox} />
         </Route>
         <Route path="/person" component={person}>
             <Route path="info" component={info} />
+            <Route path="info/change" component={infoChange} />
         </Route>
     </Router>
 ), document.getElementById('content'));

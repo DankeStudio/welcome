@@ -146,6 +146,8 @@ exports.updateProfile = (req, res, next) => {
     for (prop of props) {
         if (req.body[prop] != undefined) {
             baseinfo[prop] = req.body[prop];
+        }else{
+            baseinfo[prop] = null;
         }
     }
     User.update({

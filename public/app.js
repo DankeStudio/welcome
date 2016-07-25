@@ -68,6 +68,10 @@ var App =
 	var orgSigninBox = __webpack_require__(72);
 	var orgSignupBox = __webpack_require__(73);
 
+	var person = __webpack_require__(74);
+	var info = __webpack_require__(76);
+	var infoChange = __webpack_require__(77);
+
 	var Root = React.createClass({
 	    displayName: 'Root',
 
@@ -83,16 +87,22 @@ var App =
 	    React.createElement(
 	        Route,
 	        { path: '/sign', component: sign },
-	        React.createElement(IndexRedirect, { to: '#/sign/in' }),
+	        React.createElement(IndexRedirect, { to: '/sign/in' }),
 	        React.createElement(Route, { path: 'in', component: signinBox }),
 	        React.createElement(Route, { path: 'up', component: signupBox })
 	    ),
 	    React.createElement(
 	        Route,
 	        { path: '/orgsign', component: orgSign },
-	        React.createElement(IndexRedirect, { to: '#/orgsign/in' }),
+	        React.createElement(IndexRedirect, { to: '/orgsign/in' }),
 	        React.createElement(Route, { path: 'in', component: orgSigninBox }),
 	        React.createElement(Route, { path: 'up', component: orgSignupBox })
+	    ),
+	    React.createElement(
+	        Route,
+	        { path: '/person', component: person },
+	        React.createElement(Route, { path: 'info', component: info }),
+	        React.createElement(Route, { path: 'info/change', component: infoChange })
 	    )
 	), document.getElementById('content'));
 
@@ -6142,7 +6152,8 @@ var App =
 	    render: function render() {
 	        var containerStyle = {
 	            height: "100%",
-	            padding: 0
+	            padding: 0,
+	            backgroundColor: "#f57a6c"
 	        };
 	        var objectStyle = {
 	            top: "60px",
@@ -6152,37 +6163,33 @@ var App =
 	        };
 	        return React.createElement(
 	            'div',
-	            { className: 'container-fluid', style: containerStyle },
+	            { style: containerStyle },
+	            React.createElement(Header, null),
 	            React.createElement(
 	                'div',
-	                { className: 'row' },
+	                { className: 'container-fluid' },
 	                React.createElement(
 	                    'div',
-	                    { className: 'col-xs-12 col-md-12' },
-	                    React.createElement(Header, null)
-	                )
-	            ),
-	            React.createElement(
-	                'div',
-	                { className: 'row', style: objectStyle },
-	                React.createElement(
-	                    'tabel',
-	                    { className: 'vertical-middle-parent' },
+	                    { className: 'row', style: objectStyle },
 	                    React.createElement(
-	                        'tr',
-	                        null,
+	                        'tabel',
+	                        { className: 'vertical-middle-parent' },
 	                        React.createElement(
-	                            'td',
-	                            { className: 'vertical-middle-child' },
+	                            'tr',
+	                            null,
 	                            React.createElement(
-	                                'div',
-	                                { className: 'col-xs-7 col-md-7' },
-	                                React.createElement(News, null)
-	                            ),
-	                            React.createElement(
-	                                'div',
-	                                { className: 'col-xs-5 col-md-5' },
-	                                React.createElement(Box, { children: this.props.children })
+	                                'td',
+	                                { className: 'vertical-middle-child' },
+	                                React.createElement(
+	                                    'div',
+	                                    { className: 'col-xs-7 col-md-7' },
+	                                    React.createElement(News, null)
+	                                ),
+	                                React.createElement(
+	                                    'div',
+	                                    { className: 'col-xs-5 col-md-5' },
+	                                    React.createElement(Box, { children: this.props.children })
+	                                )
 	                            )
 	                        )
 	                    )
@@ -6414,12 +6421,12 @@ var App =
 	        }
 	    },
 	    handleSubmit: function handleSubmit() {
-	        var check1 = this.usernameCheck;
-	        var check2 = this.passwordCheck;
+	        var check1 = this.usernameCheck();
+	        var check2 = this.passwordCheck();
 
 	        if (check1 && check2) {
 	            $.ajax({
-	                url: "/login",
+	                url: "user/login",
 	                contentType: 'application/json',
 	                type: 'POST',
 	                data: JSON.stringify({
@@ -6446,7 +6453,7 @@ var App =
 	                            this.refs.passwordErr2.className = "err-display";
 	                            break;
 	                        case 0:
-	                            alert("登陆成功");
+	                            window.location.href = '/#/person/info';
 	                            break;
 	                        default:
 	                            alert("未知错误");
@@ -6470,7 +6477,7 @@ var App =
 	        };
 
 	        return React.createElement(
-	            "form",
+	            "div",
 	            { id: "signin", className: "dank-box-2 center-block", style: formStyle },
 	            React.createElement(
 	                "div",
@@ -6662,13 +6669,13 @@ var App =
 	        }
 	    },
 	    handleSubmit: function handleSubmit() {
-	        var check1 = this.usernameCheck;
-	        var check2 = this.passwordCheck;
-	        var check3 = this.passwordConfirmCheck;
+	        var check1 = this.usernameCheck();
+	        var check2 = this.passwordCheck();
+	        var check3 = this.passwordConfirmCheck();
 
 	        if (check1 && check2 && check3) {
 	            $.ajax({
-	                url: "/signup",
+	                url: "user/signup",
 	                contentType: 'application/json',
 	                type: 'POST',
 	                data: JSON.stringify({
@@ -6686,7 +6693,7 @@ var App =
 	                            this.refs.usernameErr3.className = "err-display";
 	                            break;
 	                        case 0:
-	                            alert("登陆成功");
+	                            window.location.href = '/#/person/info';
 	                            break;
 	                        default:
 	                            alert(data.msg);
@@ -6712,7 +6719,7 @@ var App =
 	        };
 
 	        return React.createElement(
-	            "form",
+	            "div",
 	            { id: "signup", className: "dank-box-2 center-block", style: formStyle },
 	            React.createElement(
 	                "div",
@@ -6800,7 +6807,8 @@ var App =
 	    render: function render() {
 	        var containerStyle = {
 	            height: "100%",
-	            padding: 0
+	            padding: 0,
+	            backgroundColor: "#f57a6c"
 	        };
 	        var objectStyle = {
 	            top: "60px",
@@ -6810,32 +6818,28 @@ var App =
 	        };
 	        return React.createElement(
 	            'div',
-	            { className: 'container-fluid', style: containerStyle },
+	            { style: containerStyle },
+	            React.createElement(Header, null),
 	            React.createElement(
 	                'div',
-	                { className: 'row' },
+	                { className: 'container-fluid' },
 	                React.createElement(
 	                    'div',
-	                    { className: 'col-xs-12 col-md-12' },
-	                    React.createElement(Header, null)
-	                )
-	            ),
-	            React.createElement(
-	                'div',
-	                { className: 'row', style: objectStyle },
-	                React.createElement(
-	                    'tabel',
-	                    { className: 'vertical-middle-parent' },
+	                    { className: 'row', style: objectStyle },
 	                    React.createElement(
-	                        'tr',
-	                        null,
+	                        'tabel',
+	                        { className: 'vertical-middle-parent' },
 	                        React.createElement(
-	                            'td',
-	                            { className: 'vertical-middle-child' },
+	                            'tr',
+	                            null,
 	                            React.createElement(
-	                                'div',
-	                                { className: 'col-xs-12 col-md-12' },
-	                                React.createElement(Box, { children: this.props.children })
+	                                'td',
+	                                { className: 'vertical-middle-child' },
+	                                React.createElement(
+	                                    'div',
+	                                    { className: 'col-xs-12 col-md-12' },
+	                                    React.createElement(Box, { children: this.props.children })
+	                                )
 	                            )
 	                        )
 	                    )
@@ -7311,6 +7315,1115 @@ var App =
 	                "button",
 	                { type: "submit", className: "dank-button btn-block", style: buttonStyle },
 	                "注册"
+	            )
+	        );
+	    }
+	});
+
+/***/ },
+/* 74 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+	var Component = React.Component;
+
+	var Header = __webpack_require__(75);
+
+	module.exports = React.createClass({
+	    displayName: 'exports',
+
+	    render: function render() {
+	        var globalStyle = {
+	            background: "#EFEFEF",
+	            height: "100%",
+	            padding: 0
+	        };
+	        return React.createElement(
+	            'div',
+	            { style: globalStyle },
+	            React.createElement(Header, null),
+	            this.props.children
+	        );
+	    }
+	});
+
+/***/ },
+/* 75 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var React = __webpack_require__(1);
+	var Component = React.Component;
+
+	module.exports = React.createClass({
+	    displayName: "exports",
+
+	    render: function render() {
+	        var leftPosition = {
+	            float: "left"
+	        };
+	        var leftPosition2 = {
+	            float: "left",
+	            marginTop: "11px"
+	        };
+	        var leftItemPosition = {
+	            marginLeft: "40px",
+	            marginRight: "40px",
+	            verticalAlign: "middle"
+	        };
+
+	        var titleStyle = {
+	            fontFamily: "BenderSolid",
+	            fontSize: "36px",
+	            color: "#ffffff",
+	            background: "#f57a6c",
+	            width: "215px",
+	            height: "60px",
+	            lineHeight: "60px",
+	            display: "inline-block",
+	            textAlign: "center"
+	        };
+
+	        var rightPosition = {
+	            float: "right",
+	            lineHeight: "60px"
+	        };
+
+	        var rightItemPosition = {
+	            marginLeft: "40px",
+	            marginRight: "40px"
+	        };
+	        return React.createElement(
+	            "div",
+	            { className: "dank-header" },
+	            React.createElement(
+	                "div",
+	                { style: leftPosition },
+	                React.createElement(
+	                    "big",
+	                    { style: titleStyle },
+	                    "WELCOME"
+	                )
+	            ),
+	            React.createElement(
+	                "div",
+	                { style: leftPosition2 },
+	                React.createElement(
+	                    "a",
+	                    { className: "dank-button-header", style: leftItemPosition, href: "#" },
+	                    "首页"
+	                ),
+	                React.createElement(
+	                    "a",
+	                    { className: "dank-button-header", style: leftItemPosition, href: "#" },
+	                    "社团目录"
+	                )
+	            ),
+	            React.createElement(
+	                "div",
+	                { style: rightPosition },
+	                React.createElement(
+	                    "a",
+	                    { className: "dank-a", href: "#", style: rightItemPosition },
+	                    "Hi,XXX"
+	                ),
+	                React.createElement(
+	                    "a",
+	                    { className: "dank-a", href: "#", style: rightItemPosition },
+	                    "我的报名"
+	                ),
+	                "|",
+	                React.createElement(
+	                    "a",
+	                    { className: "dank-a", href: "/#/person/info", style: rightItemPosition },
+	                    "个人资料"
+	                ),
+	                "|",
+	                React.createElement(
+	                    "a",
+	                    { className: "dank-a", href: "#", style: rightItemPosition },
+	                    "注销"
+	                )
+	            )
+	        );
+	    }
+	});
+
+/***/ },
+/* 76 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+	var React = __webpack_require__(1);
+	var Component = React.Component;
+
+	module.exports = React.createClass({
+	    displayName: "exports",
+
+
+	    render: function render() {
+	        return React.createElement(
+	            "div",
+	            null,
+	            React.createElement(
+	                "div",
+	                { className: "dank-slider" },
+	                React.createElement(
+	                    "div",
+	                    null,
+	                    React.createElement(
+	                        "big",
+	                        { className: "dank-slider-active" },
+	                        React.createElement("i", { className: "fa fa-user", "aria-hidden": "true" }),
+	                        React.createElement(
+	                            "b",
+	                            null,
+	                            " 个人信息"
+	                        )
+	                    )
+	                ),
+	                React.createElement(
+	                    "div",
+	                    null,
+	                    React.createElement(
+	                        "a",
+	                        { href: "#" },
+	                        React.createElement("i", { className: "fa fa-file-text", "aria-hidden": "true" }),
+	                        React.createElement(
+	                            "b",
+	                            null,
+	                            " 我的报名"
+	                        )
+	                    )
+	                )
+	            ),
+	            React.createElement(
+	                "div",
+	                { className: "dank-slider-right" },
+	                React.createElement(InfoBox, null)
+	            )
+	        );
+	    }
+	});
+
+	var InfoBox = React.createClass({
+	    displayName: "InfoBox",
+
+	    getInitialState: function getInitialState() {
+	        //console.log("ok");
+	        return {
+	            data: {
+	                _id: "",
+	                username: "",
+	                baseinfo: {
+	                    address: "",
+	                    birth: "",
+	                    email: "",
+	                    name: "",
+	                    nation: "",
+	                    origin: "",
+	                    politicalStatus: "",
+	                    qq: "",
+	                    schoolID: "",
+	                    sex: "",
+	                    telnumber: "",
+	                    telshort: "",
+	                    major: ""
+	                }
+	            }
+	        };
+	    },
+	    componentDidMount: function componentDidMount() {
+	        console.log('abc');
+	        $.ajax({
+	            url: "/user/profile",
+	            contentType: 'application/json',
+	            type: 'GET',
+	            success: function (data) {
+	                console.log(data.code);
+	                switch (data.code) {
+	                    case 0:
+	                        if (this.isMounted()) {
+	                            console.log(data.body.user);
+	                            this.setState({ data: data.body.user });
+	                            console.log(this.state.data);
+	                        }
+	                        break;
+	                    default:
+	                        alert(msg);
+	                        //this.setState({data:empty});
+	                        break;
+	                }
+	            }.bind(this),
+	            error: function (xhr, status, err) {
+	                console.error("ajax请求发起失败");
+	            }.bind(this)
+	        });
+	    },
+	    render: function render() {
+	        /*console.log(this.state.data);
+	        var data = this.state.data;
+	        var baseinfo = data.baseinfo;*/
+
+	        return React.createElement(
+	            "div",
+	            { className: "container-fluid" },
+	            React.createElement(
+	                "div",
+	                { className: "row" },
+	                React.createElement(
+	                    "div",
+	                    { className: "col-md-12 c4" },
+	                    React.createElement(
+	                        "div",
+	                        { className: "container-fluid" },
+	                        React.createElement(
+	                            "div",
+	                            { className: "d2" },
+	                            React.createElement(
+	                                "div",
+	                                { className: "row" },
+	                                React.createElement(
+	                                    "div",
+	                                    { className: "col-md-8 col-md-offset-1 text-left" },
+	                                    React.createElement(
+	                                        "div",
+	                                        { className: "btn-group btn-group-lg d3" },
+	                                        React.createElement(
+	                                            "a",
+	                                            { className: "btn a5", href: "/#/person/info/change" },
+	                                            React.createElement(
+	                                                "b",
+	                                                { className: "b1" },
+	                                                "修改"
+	                                            )
+	                                        ),
+	                                        React.createElement(
+	                                            "a",
+	                                            _defineProperty({ className: "btn a6", href: "#" }, "href", "#"),
+	                                            React.createElement(
+	                                                "b",
+	                                                { className: "b1" },
+	                                                "从教务网导入"
+	                                            )
+	                                        )
+	                                    )
+	                                ),
+	                                React.createElement(
+	                                    "div",
+	                                    { className: "col-md-1 col-md-offset-1 text-right" },
+	                                    React.createElement("img", { src: "img/label.png", className: "i1" })
+	                                )
+	                            ),
+	                            React.createElement(
+	                                "div",
+	                                { className: "row" },
+	                                React.createElement(
+	                                    "div",
+	                                    { className: "col-md-9 c4" },
+	                                    React.createElement(
+	                                        "div",
+	                                        { className: "container-fluid" },
+	                                        React.createElement(
+	                                            "div",
+	                                            { className: "row" },
+	                                            React.createElement(
+	                                                "div",
+	                                                { className: "col-md-12" },
+	                                                React.createElement(
+	                                                    "table",
+	                                                    { className: "t1" },
+	                                                    React.createElement(
+	                                                        "tbody",
+	                                                        null,
+	                                                        React.createElement(
+	                                                            "tr",
+	                                                            null,
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-title" },
+	                                                                "用户名"
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-content" },
+	                                                                this.state.data.username
+	                                                            ),
+	                                                            React.createElement("td", { className: "td-title" }),
+	                                                            React.createElement("td", { className: "td-content" })
+	                                                        ),
+	                                                        React.createElement(
+	                                                            "tr",
+	                                                            null,
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-title" },
+	                                                                "微信号"
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-content" },
+	                                                                React.createElement(
+	                                                                    "a",
+	                                                                    { href: "#" },
+	                                                                    "未绑定"
+	                                                                )
+	                                                            ),
+	                                                            React.createElement("td", { className: "td-title" }),
+	                                                            React.createElement("td", { className: "td-content" })
+	                                                        ),
+	                                                        React.createElement(
+	                                                            "tr",
+	                                                            null,
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-title" },
+	                                                                "密码"
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-content" },
+	                                                                React.createElement(
+	                                                                    "a",
+	                                                                    { href: "#" },
+	                                                                    "修改"
+	                                                                )
+	                                                            ),
+	                                                            React.createElement("td", { className: "td-title" }),
+	                                                            React.createElement("td", { className: "td-content" })
+	                                                        )
+	                                                    )
+	                                                )
+	                                            )
+	                                        ),
+	                                        React.createElement(
+	                                            "div",
+	                                            { className: "row" },
+	                                            React.createElement(
+	                                                "div",
+	                                                { className: "col-md-12" },
+	                                                React.createElement(
+	                                                    "table",
+	                                                    { className: "t1" },
+	                                                    React.createElement(
+	                                                        "tbody",
+	                                                        null,
+	                                                        React.createElement(
+	                                                            "tr",
+	                                                            null,
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-title" },
+	                                                                "姓名"
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-content" },
+	                                                                this.state.data.baseinfo.name
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-title" },
+	                                                                "性别"
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-content" },
+	                                                                this.state.data.baseinfo.sex
+	                                                            )
+	                                                        ),
+	                                                        React.createElement(
+	                                                            "tr",
+	                                                            null,
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-title" },
+	                                                                "籍贯"
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-content" },
+	                                                                this.state.data.baseinfo.origin
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-title" },
+	                                                                "民族"
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-content" },
+	                                                                this.state.data.baseinfo.nation
+	                                                            )
+	                                                        ),
+	                                                        React.createElement(
+	                                                            "tr",
+	                                                            null,
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-title" },
+	                                                                "学号"
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-content" },
+	                                                                this.state.data.baseinfo.schoolID
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-title" },
+	                                                                "政治面貌"
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-content" },
+	                                                                this.state.data.baseinfo.politicalStatus
+	                                                            )
+	                                                        ),
+	                                                        React.createElement(
+	                                                            "tr",
+	                                                            null,
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-title" },
+	                                                                "手机长号"
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-content" },
+	                                                                this.state.data.baseinfo.telnumber
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-title" },
+	                                                                "手机短号"
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-content" },
+	                                                                this.state.data.baseinfo.telshort
+	                                                            )
+	                                                        ),
+	                                                        React.createElement(
+	                                                            "tr",
+	                                                            null,
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-title" },
+	                                                                "邮箱"
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-content" },
+	                                                                this.state.data.baseinfo.email
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-title" },
+	                                                                "QQ"
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-content" },
+	                                                                this.state.data.baseinfo.qq
+	                                                            )
+	                                                        ),
+	                                                        React.createElement(
+	                                                            "tr",
+	                                                            null,
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-title" },
+	                                                                "专业"
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-content" },
+	                                                                this.state.data.baseinfo.major
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-title" },
+	                                                                "寝室地址"
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-content" },
+	                                                                this.state.data.baseinfo.address
+	                                                            )
+	                                                        ),
+	                                                        React.createElement(
+	                                                            "tr",
+	                                                            null,
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-title" },
+	                                                                "生日"
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-content" },
+	                                                                this.state.data.baseinfo.birth
+	                                                            ),
+	                                                            React.createElement("td", { className: "td-title" }),
+	                                                            React.createElement("td", { className: "td-content" })
+	                                                        )
+	                                                    )
+	                                                )
+	                                            )
+	                                        )
+	                                    )
+	                                ),
+	                                React.createElement(
+	                                    "div",
+	                                    { className: "col-md-3 text-center c4" },
+	                                    React.createElement(
+	                                        "div",
+	                                        { className: "container-fluid" },
+	                                        React.createElement(
+	                                            "div",
+	                                            { className: "row" },
+	                                            React.createElement("img", { src: "img/male.png", className: "i2" })
+	                                        ),
+	                                        React.createElement(
+	                                            "div",
+	                                            { className: "row" },
+	                                            React.createElement(
+	                                                "a",
+	                                                { className: "a7", href: "#" },
+	                                                React.createElement(
+	                                                    "b",
+	                                                    null,
+	                                                    "修改头像"
+	                                                )
+	                                            )
+	                                        )
+	                                    )
+	                                )
+	                            )
+	                        )
+	                    )
+	                )
+	            )
+	        );
+	    }
+	});
+
+/***/ },
+/* 77 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+	var React = __webpack_require__(1);
+	var Component = React.Component;
+
+	module.exports = React.createClass({
+	    displayName: "exports",
+
+
+	    render: function render() {
+	        return React.createElement(
+	            "div",
+	            null,
+	            React.createElement(
+	                "div",
+	                { className: "dank-slider" },
+	                React.createElement(
+	                    "div",
+	                    null,
+	                    React.createElement(
+	                        "big",
+	                        { className: "dank-slider-active" },
+	                        React.createElement("i", { className: "fa fa-user", "aria-hidden": "true" }),
+	                        React.createElement(
+	                            "b",
+	                            null,
+	                            " 个人信息"
+	                        )
+	                    )
+	                ),
+	                React.createElement(
+	                    "div",
+	                    null,
+	                    React.createElement(
+	                        "a",
+	                        { href: "#" },
+	                        React.createElement("i", { className: "fa fa-file-text", "aria-hidden": "true" }),
+	                        React.createElement(
+	                            "b",
+	                            null,
+	                            " 我的报名"
+	                        )
+	                    )
+	                )
+	            ),
+	            React.createElement(
+	                "div",
+	                { className: "dank-slider-right" },
+	                React.createElement(InfoBox, null)
+	            )
+	        );
+	    }
+	});
+
+	var InfoBox = React.createClass({
+	    displayName: "InfoBox",
+
+	    getInitialState: function getInitialState() {
+	        //console.log("ok");
+	        return {
+	            _id: "",
+	            username: "",
+	            address: "",
+	            birth: "",
+	            email: "",
+	            name: "",
+	            nation: "",
+	            origin: "",
+	            politicalStatus: "",
+	            qq: "",
+	            schoolID: "",
+	            sex: "",
+	            telnumber: "",
+	            telshort: "",
+	            major: ""
+	        };
+	    },
+	    componentDidMount: function componentDidMount() {
+	        console.log('abc');
+	        $.ajax({
+	            url: "/user/profile",
+	            contentType: 'application/json',
+	            type: 'GET',
+	            success: function (data) {
+	                console.log(data.code);
+	                switch (data.code) {
+	                    case 0:
+	                        if (this.isMounted()) {
+	                            console.log(data.body.user);
+	                            this.setState({
+	                                _id: data.body.user._id,
+	                                username: data.body.user.username,
+	                                address: data.body.user.baseinfo.address,
+	                                birth: data.body.user.baseinfo.birth,
+	                                email: data.body.user.baseinfo.email,
+	                                name: data.body.user.baseinfo.name,
+	                                nation: data.body.user.baseinfo.nation,
+	                                origin: data.body.user.baseinfo.origin,
+	                                politicalStatus: data.body.user.baseinfo.politicalStatus,
+	                                qq: data.body.user.baseinfo.qq,
+	                                schoolID: data.body.user.baseinfo.schoolID,
+	                                sex: data.body.user.baseinfo.sex,
+	                                telnumber: data.body.user.baseinfo.telnumber,
+	                                telshort: data.body.user.baseinfo.telshort,
+	                                major: data.body.user.baseinfo.major
+	                            });
+	                            console.log(this.state.data);
+	                        }
+	                        break;
+	                    default:
+	                        alert(msg);
+	                        //this.setState({data:empty});
+	                        break;
+	                }
+	            }.bind(this),
+	            error: function (xhr, status, err) {
+	                console.error("ajax请求发起失败");
+	            }.bind(this)
+	        });
+	    },
+	    submitHandler: function submitHandler() {
+	        $.ajax({
+	            url: "user/profile",
+	            contentType: 'application/json',
+	            type: 'POST',
+	            data: JSON.stringify({
+	                address: this.refs.address.value,
+	                birth: this.refs.birth.value,
+	                email: this.refs.email.value,
+	                name: this.refs.name.value,
+	                nation: this.refs.nation.value,
+	                origin: this.refs.origin.value,
+	                politicalStatus: this.refs.politicalStatus.value,
+	                qq: this.refs.qq.value,
+	                schoolID: this.refs.schoolID.value,
+	                sex: this.refs.sex.value,
+	                telnumber: this.refs.telnumber.value,
+	                telshort: this.refs.telshort.value
+	            }),
+	            success: function (data) {
+	                console.log(data);
+	                switch (data.code) {
+	                    case 0:
+	                        window.location.href = '/#/person/info';
+	                        break;
+	                    default:
+	                        alert(data.msg);
+	                        break;
+	                }
+	            }.bind(this),
+	            error: function (xhr, status, err) {
+	                console.error("ajax请求发起失败");
+	            }.bind(this)
+	        });
+	    },
+	    handleChange: function handleChange(event) {
+	        console.log(event.target);
+	        this.setState(_defineProperty({}, event.target.getAttribute('name'), event.target.value));
+	    },
+	    render: function render() {
+	        /*console.log(this.state.data);
+	        var data = this.state.data;
+	        var baseinfo = data.baseinfo;*/
+
+	        return React.createElement(
+	            "div",
+	            { className: "container-fluid" },
+	            React.createElement(
+	                "div",
+	                { className: "row" },
+	                React.createElement(
+	                    "div",
+	                    { className: "col-md-12 c4" },
+	                    React.createElement(
+	                        "div",
+	                        { className: "container-fluid" },
+	                        React.createElement(
+	                            "div",
+	                            { className: "d2" },
+	                            React.createElement(
+	                                "div",
+	                                { className: "row" },
+	                                React.createElement(
+	                                    "div",
+	                                    { className: "col-md-8 col-md-offset-1 text-left" },
+	                                    React.createElement(
+	                                        "div",
+	                                        { className: "btn-group btn-group-lg d3" },
+	                                        React.createElement(
+	                                            "a",
+	                                            { className: "btn a5", onClick: this.submitHandler },
+	                                            React.createElement(
+	                                                "b",
+	                                                { className: "b1" },
+	                                                "保存"
+	                                            )
+	                                        ),
+	                                        React.createElement(
+	                                            "a",
+	                                            _defineProperty({ className: "btn a6", href: "#" }, "href", "#"),
+	                                            React.createElement(
+	                                                "b",
+	                                                { className: "b1" },
+	                                                "从教务网导入"
+	                                            )
+	                                        )
+	                                    )
+	                                ),
+	                                React.createElement(
+	                                    "div",
+	                                    { className: "col-md-1 col-md-offset-1 text-right" },
+	                                    React.createElement("img", { src: "img/label.png", className: "i1" })
+	                                )
+	                            ),
+	                            React.createElement(
+	                                "div",
+	                                { className: "row" },
+	                                React.createElement(
+	                                    "div",
+	                                    { className: "col-md-9 c4" },
+	                                    React.createElement(
+	                                        "div",
+	                                        { className: "container-fluid" },
+	                                        React.createElement(
+	                                            "div",
+	                                            { className: "row" },
+	                                            React.createElement(
+	                                                "div",
+	                                                { className: "col-md-12" },
+	                                                React.createElement(
+	                                                    "table",
+	                                                    { className: "t1" },
+	                                                    React.createElement(
+	                                                        "tbody",
+	                                                        null,
+	                                                        React.createElement(
+	                                                            "tr",
+	                                                            null,
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-title" },
+	                                                                "用户名"
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-content" },
+	                                                                this.state.username
+	                                                            ),
+	                                                            React.createElement("td", { className: "td-title" }),
+	                                                            React.createElement("td", { className: "td-content" })
+	                                                        ),
+	                                                        React.createElement(
+	                                                            "tr",
+	                                                            null,
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-title" },
+	                                                                "微信号"
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-content" },
+	                                                                React.createElement(
+	                                                                    "a",
+	                                                                    { href: "#" },
+	                                                                    "未绑定"
+	                                                                )
+	                                                            ),
+	                                                            React.createElement("td", { className: "td-title" }),
+	                                                            React.createElement("td", { className: "td-content" })
+	                                                        ),
+	                                                        React.createElement(
+	                                                            "tr",
+	                                                            null,
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-title" },
+	                                                                "密码"
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-content" },
+	                                                                React.createElement(
+	                                                                    "a",
+	                                                                    { href: "#" },
+	                                                                    "修改"
+	                                                                )
+	                                                            ),
+	                                                            React.createElement("td", { className: "td-title" }),
+	                                                            React.createElement("td", { className: "td-content" })
+	                                                        )
+	                                                    )
+	                                                )
+	                                            )
+	                                        ),
+	                                        React.createElement(
+	                                            "div",
+	                                            { className: "row" },
+	                                            React.createElement(
+	                                                "div",
+	                                                { className: "col-md-12" },
+	                                                React.createElement(
+	                                                    "table",
+	                                                    { className: "t1" },
+	                                                    React.createElement(
+	                                                        "tbody",
+	                                                        null,
+	                                                        React.createElement(
+	                                                            "tr",
+	                                                            null,
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-title" },
+	                                                                "姓名"
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-content" },
+	                                                                React.createElement("input", { type: "text", ref: "name", name: "name", className: "dank-input", value: this.state.name ? this.state.name : '', onChange: this.handleChange })
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-title" },
+	                                                                "性别"
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-content" },
+	                                                                React.createElement("input", { type: "text", ref: "sex", name: "sex", className: "dank-input", value: this.state.sex ? this.state.sex : '', onChange: this.handleChange })
+	                                                            )
+	                                                        ),
+	                                                        React.createElement(
+	                                                            "tr",
+	                                                            null,
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-title" },
+	                                                                "籍贯"
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-content" },
+	                                                                React.createElement("input", { type: "text", ref: "origin", name: "origin", className: "dank-input", value: this.state.origin ? this.state.origin : '', onChange: this.handleChange })
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-title" },
+	                                                                "民族"
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-content" },
+	                                                                React.createElement("input", { type: "text", ref: "nation", name: "nation", className: "dank-input", value: this.state.nation ? this.state.nation : '', onChange: this.handleChange })
+	                                                            )
+	                                                        ),
+	                                                        React.createElement(
+	                                                            "tr",
+	                                                            null,
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-title" },
+	                                                                "学号"
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-content" },
+	                                                                React.createElement("input", { type: "text", ref: "schoolID", name: "schoolID", className: "dank-input", value: this.state.schoolID ? this.state.schoolID : '', onChange: this.handleChange })
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-title" },
+	                                                                "政治面貌"
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-content" },
+	                                                                React.createElement("input", { type: "text", ref: "politicalStatus", name: "politicalStatus", className: "dank-input", value: this.state.politicalStatus ? this.state.politicalStatus : '', onChange: this.handleChange })
+	                                                            )
+	                                                        ),
+	                                                        React.createElement(
+	                                                            "tr",
+	                                                            null,
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-title" },
+	                                                                "手机长号"
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-content" },
+	                                                                React.createElement("input", { type: "text", ref: "telnumber", name: "telnumber", className: "dank-input", value: this.state.telnumber ? this.state.telnumber : '', onChange: this.handleChange })
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-title" },
+	                                                                "手机短号"
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-content" },
+	                                                                React.createElement("input", { type: "text", ref: "telshort", name: "telshort", className: "dank-input", value: this.state.telshort ? this.state.telshort : '', onChange: this.handleChange })
+	                                                            )
+	                                                        ),
+	                                                        React.createElement(
+	                                                            "tr",
+	                                                            null,
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-title" },
+	                                                                "邮箱"
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-content" },
+	                                                                React.createElement("input", { type: "text", ref: "email", name: "email", className: "dank-input", value: this.state.email ? this.state.email : '', onChange: this.handleChange })
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-title" },
+	                                                                "QQ"
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-content" },
+	                                                                React.createElement("input", { type: "text", ref: "qq", name: "qq", className: "dank-input", value: this.state.qq ? this.state.qq : '', onChange: this.handleChange })
+	                                                            )
+	                                                        ),
+	                                                        React.createElement(
+	                                                            "tr",
+	                                                            null,
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-title" },
+	                                                                "专业"
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-content" },
+	                                                                React.createElement("input", { type: "text", ref: "major", name: "major", className: "dank-input", value: this.state.major ? this.state.major : '', onChange: this.handleChange })
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-title" },
+	                                                                "寝室地址"
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-content" },
+	                                                                React.createElement("input", { type: "text", ref: "address", name: "address", className: "dank-input", value: this.state.address ? this.state.address : '', onChange: this.handleChange })
+	                                                            )
+	                                                        ),
+	                                                        React.createElement(
+	                                                            "tr",
+	                                                            null,
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-title" },
+	                                                                "生日"
+	                                                            ),
+	                                                            React.createElement(
+	                                                                "td",
+	                                                                { className: "td-content" },
+	                                                                React.createElement("input", { type: "text", ref: "birth", name: "birth", className: "dank-input", value: this.state.birth ? this.state.birth : '', onChange: this.handleChange })
+	                                                            ),
+	                                                            React.createElement("td", { className: "td-title" }),
+	                                                            React.createElement("td", { className: "td-content" })
+	                                                        )
+	                                                    )
+	                                                )
+	                                            )
+	                                        )
+	                                    )
+	                                ),
+	                                React.createElement(
+	                                    "div",
+	                                    { className: "col-md-3 text-center c4" },
+	                                    React.createElement(
+	                                        "div",
+	                                        { className: "container-fluid" },
+	                                        React.createElement(
+	                                            "div",
+	                                            { className: "row" },
+	                                            React.createElement("img", { src: "img/male.png", className: "i2" })
+	                                        ),
+	                                        React.createElement(
+	                                            "div",
+	                                            { className: "row" },
+	                                            React.createElement(
+	                                                "a",
+	                                                { className: "a7", href: "#" },
+	                                                React.createElement(
+	                                                    "b",
+	                                                    null,
+	                                                    "修改头像"
+	                                                )
+	                                            )
+	                                        )
+	                                    )
+	                                )
+	                            )
+	                        )
+	                    )
+	                )
 	            )
 	        );
 	    }

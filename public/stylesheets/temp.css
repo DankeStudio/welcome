@@ -1,0 +1,251 @@
+.Header{
+	background-color: #434751;
+    color: #FFFFFF;
+	height: 60px;
+	line-height: 60px;
+	overflow: hidden;
+	-webkit-box-shadow: 0 5px 10px #434751;
+	-moz-box-shadow: 0 5px 10px #434751;
+	box-shadow:0 5px 10px #434751;
+	font-family: 微软雅黑;
+}
+.Header1{
+	background-color: #FFFFFF;
+    color: #434751;
+	height: 60px;
+	line-height: 60px;
+	overflow: hidden;
+	-webkit-box-shadow: 0 5px 10px #434751;
+	-moz-box-shadow: 0 5px 10px #434751;
+	box-shadow:0 5px 10px #434751;
+	font-family: 微软雅黑;
+}
+.Header-Title{
+	background-color: #F36256;
+	padding: 0;
+}
+a.a1{
+	color: #FFFFFF;
+	font-size: 30px;
+	text-decoration: none;
+}
+a.a2{
+	color: #FFFFFF;
+	font-size: 20px;
+	text-decoration: none;
+	margin: auto 20px;
+}
+a.a3{
+	color: #FFFFFF;
+	font-size: 14px;
+	text-decoration: none;
+	margin: auto 20px;
+}
+a.a4{
+	color: #FFFFFF;
+	font-size: 20px;
+	text-decoration:none;
+	display: block;
+	height: 60px;
+	line-height: 60px;
+}
+a.a4:hover{
+	background-color: #F36256;
+	-webkit-box-shadow:0 0 10px #93949B;
+	-moz-box-shadow:0 0 10px #93949B;
+	box-shadow:0 0 10px #93949B;
+	color: #434751;
+	font-size: 20px;
+	text-decoration:none;
+	display: block;
+	height: 60px;
+	line-height: 60px;
+}
+a.a5{
+	color: #FFFFFF;
+	background-color: #74BDBF;
+	font-size: 28px;
+	width: 194px;
+	-webkit-box-shadow:0 0 10px #434751;
+	-moz-box-shadow:0 0 10px #434751;
+	box-shadow:0 0 10px #434751;
+	border-radius: 5px;
+}
+a.a6{
+	color: #FFFFFF;
+	background-color: #DF9082;
+	width: 218px;
+	-webkit-box-shadow:0 0 10px #434751;
+	-moz-box-shadow:0 0 10px #434751;
+	box-shadow:0 0 10px #434751;
+	border-radius: 5px;
+}
+a.a7{
+	 color: #F36256;
+	 font-size: 18px;
+	 text-decoration:none;
+}
+a.a8{
+	color: #434751;
+	font-size: 20px;
+	text-decoration: none;
+	margin: auto 20px;
+}
+a.a9{
+	color: #434751;
+	font-size: 14px;
+	text-decoration: none;
+	margin: auto 30px;
+}
+a.a10{
+	color: #FFFFFF;
+	font-size: 20px;
+	text-decoration:none;
+	display: block;
+	height: 60px;
+	line-height: 60px;
+	margin: auto 20px;
+}
+a.a10:hover{
+	background-color: #F36256;
+	-webkit-box-shadow:0 0 10px #93949B;
+	-moz-box-shadow:0 0 10px #93949B;
+	box-shadow:0 0 10px #93949B;
+	color: #434751;
+	font-size: 20px;
+	text-decoration:none;
+	display: block;
+	height: 60px;
+	line-height: 60px;
+	margin: auto 20px;
+}
+a.a11{
+	color: #F36256;
+	font-size: 20px;
+	text-decoration:none;
+	display: block;
+	margin: auto;
+	height: 60px;
+	line-height: 60px;
+}
+a.a12{
+	color: #FFFFFF;
+	background-color: #F36256;
+	font-size: 16px;
+	text-decoration:none;
+	margin: auto;
+	width: 90px;
+}
+
+.b1{
+	font-size: 30px;
+}
+
+.c1{
+	background-color: #434751;
+	height: 980px;
+	margin: 3px auto;
+	padding: 0;
+	font-family: 微软雅黑;
+}
+.c2{
+	margin: 40px auto 0 auto;
+}
+.c3{
+	background-color: #EFEFEF;
+	height: 980px;
+	margin: 3px auto;
+	padding: 0;
+	font-family: 微软雅黑;
+}
+.c4{
+	margin: 0; 
+	padding: 0;
+}
+.c5{
+	background-color: #FFFFFF;
+	width: 90%;
+	height: 816px;
+	margin: 50px auto; 
+	padding: 0;
+	border-radius: 5px;
+}
+.c6{
+	background-color: #FFFFFF;
+	width: 90%;
+	height: 278px;
+	margin: 50px auto 20px auto; 
+	padding: 0;
+	border-radius: 5px;
+}
+.c7{
+	background-color: #FFFFFF;
+	width: 95%;
+	height: 508px;
+	margin: 10px auto 50px auto; 
+	padding: 0;
+	border-radius: 5px;
+}
+div.d1{
+	margin: 40px auto;
+}
+div.d2{
+	 margin: 70px 50px;
+	padding-bottom: 40px;
+	 background-color: #FFFFFF;
+	 -webkit-box-shadow:0 0 10px #434751;
+	 -moz-box-shadow:0 0 10px #434751;
+	 box-shadow:0 0 10px #434751;
+	 border-radius: 5px;"
+}
+div.d3{
+	margin: -25px auto 25px auto;
+}
+div.d4{
+	color: #FFFFFF;
+	background-color: #434751;
+	font-size: 14px;
+	margin: 15px auto;
+	width: 90px;
+	height: 35px;
+	line-height: 35px;
+}
+img.i1{
+	margin: -57px auto auto 90px;
+	height: 77px;
+	width: 45px;
+}
+img.i2{
+	margin: 20px auto;
+	height: 85%;
+	width: 85%;
+}
+table.t1{
+	font-size: 24px;
+	color: #434751;
+	margin: 15px 40px;
+	text-align: left;
+	width: 100%;
+}
+
+.t1>tbody>tr{
+	height: 44px;
+}
+
+tr{
+	height: 40px;
+}
+h1{
+	font-size: 14px;
+	margin: auto -5px auto 5px;
+}
+
+.td-title{
+	font-weight: bold;
+	width: 16%;
+}
+
+.td-content{
+	width: 34%;
+	padding-right:8%;
+}

@@ -121,6 +121,60 @@ exports.getOrgInSession = (req, res, next) => {
     res.json({
         code: 0,
         msg: 'ok',
-        body: req.session.org
+        body: {
+            org: req.session.org
+        }
     });
+}
+
+//获取报名表
+exports.getForm = (req, res, next) => {
+    var max = 10;
+    var order = req.body.order;
+    var eventID = req.body.eventID;
+    var page = req.body.page;
+    var wish = req.body.wish;
+    var query;
+    //按时间升序
+    if (order > 0) {
+        order = 1
+    }
+    //按时间降序
+    else {
+        order = -1
+    }
+
+    if (wish === 'all') {
+        query = find({
+            eventID: eventID
+        })
+    } else {
+        wish = [wish];
+        query = find({
+            eventID: eventID,
+            wish: {
+                $in: wish
+            }
+        })
+    }
+    query = query.sort({
+        date: order
+    }).skip(page * max - 1).limit(max);
+    query.exec()
+        .then((forms) => {
+            res.json({
+                code: 0,
+                msg: 'ok',
+                body: {
+                    forms: forms
+                }
+            })
+        })
+        .catch((err) => {
+            res.json({
+                code: -1,
+                msg: '数据库错误',
+                body: {}
+            })
+        })
 }

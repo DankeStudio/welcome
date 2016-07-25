@@ -23,29 +23,31 @@ exports.getEvent = (req, res, next) => {
 			}
 		})
 		.then((events) => {
-			var result = [];
+			var results = [];
 			for (event of events) {
-				result.push({
+				results.push({
 					eventID: event.eventID,
 					name: event.name,
-					date: event.date
+					ym: `$(event.date.getFullYear()).$(event.date.getMonth())`
 				})
 			};
 			res.json({
 				code: 0,
 				msg: 'ok',
-				body: result
+				body: {
+					events: results
+				}
 			})
 		})
-		.catch((err)=>{
+		.catch((err) => {
 			if (err.code < 0) {
-                res.json(err);
-            } else {
-                res.json({
-                    code: -2,
-                    msg: '数据库错误',
-                    body: {}
-                });
-            }
+				res.json(err);
+			} else {
+				res.json({
+					code: -2,
+					msg: '数据库错误',
+					body: {}
+				});
+			}
 		})
 }

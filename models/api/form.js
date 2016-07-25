@@ -82,8 +82,8 @@ exports.design = (req, res, next) => {
 			} else {
 				//添加EventID至组织账号
 				Org.findOne({
-					_id: req.session.organization._id
-				}, function(err, organization) {
+					_id: req.session.org._id
+				}, function(err, org) {
 					if (err) {
 						res.json({
 							code: -1,
@@ -91,15 +91,15 @@ exports.design = (req, res, next) => {
 							body: {}
 						});
 					} else {
-						if (!organization) {
+						if (!org) {
 							res.json({
 								code: -2,
 								msg: '将事项关联账号时用户查无此人！',
 								body: {}
 							});
 						} else {
-							organization.eventID.push(event._id);
-							organization.save(function(err) {
+							org.eventID.push(event._id);
+							org.save(function(err) {
 								if (err) {
 									res.json({
 										code: -1,

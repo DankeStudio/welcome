@@ -146,7 +146,7 @@ exports.updateProfile = (req, res, next) => {
     for (prop of props) {
         if (req.body[prop] != undefined) {
             baseinfo[prop] = req.body[prop];
-        }else{
+        } else {
             baseinfo[prop] = null;
         }
     }
@@ -245,6 +245,8 @@ exports.getUserInSession = (req, res, next) => {
     res.json({
         code: 0,
         msg: 'ok',
-        body: req.session.user
+        body: {
+            user: req.session.user
+        }
     });
 }

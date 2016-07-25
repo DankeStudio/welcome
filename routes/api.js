@@ -40,6 +40,10 @@ module.exports = require('express').Router()
     //get org info in session
     .get('/org/session',org.getOrgInSession)
 
+    //get form by org
+    .get('/event',grantOrg)
+    .get('/org/form',org.getForm)
+
     //form submit
     //若未登录，由前端先发起注册请求，然后再发起提交请求
     .post('/form/submit', grantUser)

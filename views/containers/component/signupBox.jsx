@@ -94,7 +94,7 @@ var FormBox = React.createClass({
         }else{
             element.parentNode.className="dank-form-group";
             this.refs.passwordConfirmErr1.className="err-hidden";
-            this.refspasswordConfirmErr2.className="err-hidden";
+            this.refs.passwordConfirmErr2.className="err-hidden";
             return true;
         }
     },

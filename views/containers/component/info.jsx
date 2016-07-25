@@ -24,48 +24,38 @@ module.exports = React.createClass({
 
 var InfoBox = React.createClass({
     getInitialState: function(){
-        //console.log("ok");
         return {
-            data:{
-                _id :"",
-                username:"",
-                baseinfo: {
-                    address: "",
-                    birth: "",
-                    email: "",
-                    name: "",
-                    nation: "",
-                    origin: "",
-                    politicalStatus: "",
-                    qq: "",
-                    schoolID: "",
-                    sex: "",
-                    telnumber: "",
-                    telshort: "",
-                    major:""
-                }
-            }
+            _id :"",
+            username:"",
+            address: "",
+            birth: "",
+            email: "",
+            name: "",
+            nation: "",
+            origin: "",
+            politicalStatus: "",
+            qq: "",
+            schoolID: "",
+            sex: "",
+            telnumber: "",
+            telshort: "",
+            major:""
         }
     },
     componentDidMount: function(){
-        console.log('abc');
         $.ajax({
             url: "/user/profile",
             contentType: 'application/json',
             type: 'GET',
             success: function(data) {
-                console.log(data.code);
                 switch(data.code){
                     case 0:
                         if(this.isMounted()){
-                            console.log(data.body.user);
                             this.setState({data:data.body.user});
-                            console.log(this.state.data);
                         }
                         break;
                     default:
                         alert(msg);
-                        //this.setState({data:empty});
                         break;
                 }
             }.bind(this),
@@ -75,10 +65,6 @@ var InfoBox = React.createClass({
         });
     },
     render : function(){
-        /*console.log(this.state.data);
-        var data = this.state.data;
-        var baseinfo = data.baseinfo;*/
-
         return(
             <div className="container-fluid">
                 <div className="row">
@@ -105,7 +91,7 @@ var InfoBox = React.createClass({
                                                         <tbody>
                                                         <tr>
                                                             <td className="td-title">用户名</td>
-                                                            <td className="td-content">{this.state.data.username}</td>
+                                                            <td className="td-content">{this.state.username}</td>
                                                             <td className="td-title"></td>
                                                             <td className="td-content"></td>
                                                         </tr>
@@ -131,43 +117,43 @@ var InfoBox = React.createClass({
                                                         <tbody>
                                                         <tr>
                                                             <td className="td-title">姓名</td>
-                                                            <td className="td-content">{this.state.data.baseinfo.name}</td>
+                                                            <td className="td-content">{this.state.name}</td>
                                                             <td className="td-title">性别</td>
-                                                            <td className="td-content">{this.state.data.baseinfo.sex}</td>
+                                                            <td className="td-content">{this.state.sex}</td>
                                                         </tr>
                                                         <tr>
                                                             <td className="td-title">籍贯</td>
-                                                            <td className="td-content">{this.state.data.baseinfo.origin}</td>
+                                                            <td className="td-content">{this.state.origin}</td>
                                                             <td className="td-title">民族</td>
-                                                            <td className="td-content">{this.state.data.baseinfo.nation}</td>
+                                                            <td className="td-content">{this.state.nation}</td>
                                                         </tr>
                                                         <tr>
                                                             <td className="td-title">学号</td>
-                                                            <td className="td-content">{this.state.data.baseinfo.schoolID}</td>
+                                                            <td className="td-content">{this.state.schoolID}</td>
                                                             <td className="td-title">政治面貌</td>
-                                                            <td className="td-content">{this.state.data.baseinfo.politicalStatus}</td>
+                                                            <td className="td-content">{this.state.politicalStatus}</td>
                                                         </tr>
                                                         <tr>
                                                             <td className="td-title">手机长号</td>
-                                                            <td className="td-content">{this.state.data.baseinfo.telnumber}</td>
+                                                            <td className="td-content">{this.state.telnumber}</td>
                                                             <td className="td-title">手机短号</td>
-                                                            <td className="td-content">{this.state.data.baseinfo.telshort}</td>
+                                                            <td className="td-content">{this.state.telshort}</td>
                                                         </tr>
                                                         <tr>
                                                             <td className="td-title">邮箱</td>
-                                                            <td className="td-content">{this.state.data.baseinfo.email}</td>
+                                                            <td className="td-content">{this.state.email}</td>
                                                             <td className="td-title">QQ</td>
-                                                            <td className="td-content">{this.state.data.baseinfo.qq}</td>
+                                                            <td className="td-content">{this.state.qq}</td>
                                                         </tr>
                                                         <tr>
                                                             <td className="td-title">专业</td>
-                                                            <td className="td-content">{this.state.data.baseinfo.major}</td>
+                                                            <td className="td-content">{this.state.major}</td>
                                                             <td className="td-title">寝室地址</td>
-                                                            <td className="td-content">{this.state.data.baseinfo.address}</td>
+                                                            <td className="td-content">{this.state.address}</td>
                                                         </tr>
                                                         <tr>
                                                             <td className="td-title">生日</td>
-                                                            <td className="td-content">{this.state.data.baseinfo.birth}</td>
+                                                            <td className="td-content">{this.state.birth}</td>
                                                             <td className="td-title"></td>
                                                             <td className="td-content"></td>
                                                         </tr>

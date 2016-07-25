@@ -7,7 +7,8 @@ module.exports = React.createClass({
     render: function(){
         var containerStyle = {
             height: "100%",
-            padding: 0
+            padding: 0,
+            backgroundColor: "#f57a6c"
         };
         var objectStyle = {
             top: "60px",
@@ -16,25 +17,23 @@ module.exports = React.createClass({
             width: "100%"
         };
         return(
-            <div className="container-fluid" style={containerStyle}>
-                <div className="row">
-                    <div className="col-xs-12 col-md-12">
-                        <Header/>
+            <div style={containerStyle}>
+                <Header/>
+                <div className="container-fluid">
+                    <div className="row" style={objectStyle}>
+                        <tabel className="vertical-middle-parent">
+                            <tr>
+                                <td className="vertical-middle-child">
+                                    <div className="col-xs-7 col-md-7">
+                                        <News/>
+                                    </div>
+                                    <div className="col-xs-5 col-md-5">
+                                        <Box children={this.props.children}/>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tabel>
                     </div>
-                </div>
-                <div className="row" style={objectStyle}>
-                    <tabel className="vertical-middle-parent">
-                        <tr>
-                            <td className="vertical-middle-child">
-                                <div className="col-xs-7 col-md-7">
-                                    <News/>
-                                </div>
-                                <div className="col-xs-5 col-md-5">
-                                    <Box children={this.props.children}/>
-                                </div>
-                            </td>
-                        </tr>
-                    </tabel>
                 </div>
             </div>
         )

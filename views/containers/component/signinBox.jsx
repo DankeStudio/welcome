@@ -82,8 +82,8 @@ var FormBox = React.createClass({
         }
     },
     handleSubmit: function(){
-        var check1 = this.usernameCheck;
-        var check2 = this.passwordCheck;
+        var check1 = this.usernameCheck();
+        var check2 = this.passwordCheck();
 
         if(check1 && check2)
         {
@@ -115,7 +115,7 @@ var FormBox = React.createClass({
                         this.refs.passwordErr2.className="err-display";
                         break;
                     case 0:
-                        alert("登陆成功");
+                        window.location.href = '/#/person/info';
                         break;
                     default:
                         alert("未知错误");
@@ -139,7 +139,7 @@ var FormBox = React.createClass({
         };
 
         return (
-            <form id="signin" className="dank-box-2 center-block" style={formStyle}>
+            <div id="signin" className="dank-box-2 center-block" style={formStyle}>
                 <div className="dank-form-group">
                     <label htmlFor="username">账号</label>
                     <small className="err-hidden" ref="usernameErr1">请输入用户名</small>
@@ -160,7 +160,7 @@ var FormBox = React.createClass({
                     <a href="#" className="forget-password">忘记密码</a>
                 </div>
                 <button onClick={this.handleSubmit} className="dank-button btn-block" style={buttonStyle}>登陆</button>
-            </form>
+            </div>
         )
     }
 });

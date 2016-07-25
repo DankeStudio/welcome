@@ -99,9 +99,9 @@ var FormBox = React.createClass({
         }
     },
     handleSubmit: function(){
-        var check1 = this.usernameCheck;
-        var check2 = this.passwordCheck;
-        var check3 = this.passwordConfirmCheck;
+        var check1 = this.usernameCheck();
+        var check2 = this.passwordCheck();
+        var check3 = this.passwordConfirmCheck();
 
         if(check1 && check2 && check3)
         {
@@ -124,7 +124,7 @@ var FormBox = React.createClass({
                             this.refs.usernameErr3.className="err-display";
                             break;
                         case 0:
-                            alert("登陆成功");
+                            window.location.href = '/#/person/info';
                             break;
                         default:
                             alert(data.msg);
@@ -150,7 +150,7 @@ var FormBox = React.createClass({
         };
 
         return (
-            <form id="signup" className="dank-box-2 center-block" style={formStyle}>
+            <div id="signup" className="dank-box-2 center-block" style={formStyle}>
                 <div className="dank-form-group" >
                     <label htmlFor="username">账号</label>
                     <small className="err-hidden" ref="usernameErr1">用户名不能为空</small>
@@ -170,7 +170,7 @@ var FormBox = React.createClass({
                     <input type="password" placeholder="请再次输入密码"  ref="passwordConfirm" onBlur={this.passwordConfirmCheck}/>
                 </div>
                 <button onClick={this.handleSubmit} className="dank-button btn-block" style={buttonStyle}>注册</button>
-            </form>
+            </div>
         )
     }
 });

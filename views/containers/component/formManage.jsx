@@ -66,7 +66,7 @@ var Event = React.createClass({
                         }
                         break;
                     default:
-                        alert(msg);
+                        alert(data.msg);
                         break;
                 }
             }.bind(this),
@@ -131,12 +131,12 @@ var Form = React.createClass({
                         <Graph1/>
                     </div>
                     <div className="col-md-6">
-
+                        <Graph2/>
                     </div>
                 </div>
                 <div className="row">
                     <div className="col-md-12">
-
+                        <List/>
                     </div>
                 </div>
             </div>
@@ -156,7 +156,7 @@ var Graph1 = React.createClass({
        var myChart3 = new Chart(ctx, {
            type: 'line',
            data: {
-               labels: ["9.1", "9.2", "9.3", "9.4", "9.5", "9.6", "9.7"],
+               labels: data.labels,
                datasets: [
                    {
                        label: "My First dataset",
@@ -177,7 +177,7 @@ var Graph1 = React.createClass({
                        pointHoverBorderWidth: 2,
                        pointRadius: 5,
                        pointHitRadius: 10,
-                       data: data,
+                       data: data.data,
                        spanGaps: false
                    }
                ]
@@ -201,10 +201,12 @@ var Graph1 = React.createClass({
 
     componentDidMount: function(){
         $.ajax({
-            url: "/user/profile",
+            url: "/event/count/add",
             contentType: 'application/json',
             type: 'GET',
             success: function(data) {
+                console.log('1');
+                console.log(data);
                 switch(data.code){
                     case 0:
                         if(this.isMounted()){
@@ -212,7 +214,7 @@ var Graph1 = React.createClass({
                         }
                         break;
                     default:
-                        alert(msg);
+                        alert(data.msg);
                         break;
                 }
             }.bind(this),
@@ -225,7 +227,7 @@ var Graph1 = React.createClass({
 
     render: function(){
         return(
-           <div className="c6">
+           <div className="c6 text-center">
                <table className="t2">
                    <tbody>
                    <tr><td>
@@ -239,100 +241,122 @@ var Graph1 = React.createClass({
 });
 
 var Graph2 = React.createClass({
+    print1 : function(data){
+        var value1 = data.number;
+        var ctx = document.getElementById("myChart1");
+        var myChart1 = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ["男", "女"],
+                datasets: [
+                    {
+                        data: [data.male, data.female],
+                        backgroundColor: [
+                            "#79dae7",
+                            "#ff8d94"
+                        ],
+                        hoverBackgroundColor: [
+                            "#79dae7",
+                            "#ff8d94"
+                        ]
+                    }]
+            },
+            options: {
+                responsive: false,
+                rotation: -0.5*Math.PI,
+                title: {
+                    display: true,
+                    text: '总人数:'+value1,
+                    position: 'bottom',
+                    fontStyle: 'normal',
+                    fontFamily: "'SimHei', 'STXihei', 'Microsoft YaHei', 'Hiragino Sans GB', 'STHeiti Light'",
+                    fontSize: 20
+                },
+                legend: {
+                    display: false,
+                    position: 'top',
+                    fontFamily: "'SimHei', 'STXihei', 'Microsoft YaHei', 'Hiragino Sans GB', 'STHeiti Light'"
+                }
+            }
+        });
+    },
+
+    print2 : function(data){
+        var ctx = document.getElementById("myChart2");
+        var myChart2 = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: data.labels,
+                datasets: [
+                    {
+                        data: data.data,
+                        backgroundColor: [
+                            "#3D5B6F",
+                            "#9887C2",
+                            "#2FC5A1",
+                            "#2DD7E2",
+                            "#A0F5FF",
+                            "#FFD666",
+                            "#EF7056",
+                            "#A95A4C"
+                        ]
+                    }]
+            },
+            options: {
+                responsive: false,
+                rotation: -0.5*Math.PI,
+                title: {
+                    display: true,
+                    text: '各部门报名人数',
+                    position: 'bottom',
+                    fontStyle: 'normal',
+                    fontFamily: "'SimHei', 'STXihei', 'Microsoft YaHei', 'Hiragino Sans GB', 'STHeiti Light'",
+                    fontSize: 20
+                },
+                legend: {
+                    display: false,
+                    position: 'bottom'
+                }
+            }
+        });
+    },
+
     componentDidMount: function(){
-        var print1 = function(){
-            var value1 = 400;
-            var ctx = document.getElementById("myChart1");
-            var myChart1 = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: ["男", "女"],
-                    datasets: [
-                        {
-                            data: [300, 100],
-                            backgroundColor: [
-                                "#79dae7",
-                                "#ff8d94"
-                            ],
-                            hoverBackgroundColor: [
-                                "#79dae7",
-                                "#ff8d94"
-                            ]
-                        }]
-                },
-                options: {
-                    responsive: false,
-                    rotation: -0.5*Math.PI,
-                    title: {
-                        display: true,
-                        text: '总人数:'+value1,
-                        position: 'bottom',
-                        fontStyle: 'normal',
-                        fontFamily: "'SimHei', 'STXihei', 'Microsoft YaHei', 'Hiragino Sans GB', 'STHeiti Light'",
-                        fontSize: 22
-                    },
-                    legend: {
-                        display: true,
-                        position: 'top',
-                        fontFamily: "'SimHei', 'STXihei', 'Microsoft YaHei', 'Hiragino Sans GB', 'STHeiti Light'"
-                    }
+        $.ajax({
+            url: "/event/count/all",
+            contentType: 'application/json',
+            type: 'GET',
+            success: function(data) {
+                //console.log(data);
+                switch(data.code){
+                    case 0:
+                        if(this.isMounted()){
+                            this.print1(data.body.data1);
+                            this.print2(data.body.data2);
+                        }
+                        break;
+                    default:
+                        alert(data.msg);
+                        break;
                 }
-            });
-        };
-        var print2 = function(){
-            var ctx = document.getElementById("myChart2");
-            var myChart2 = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: ["产品","设计","推广","前端","后端","运营","测试"],
-                    datasets: [
-                        {
-                            data: [25,19,15,15,13,8,5],
-                            backgroundColor: [
-                                "#FF6384",
-                                "#36A2EB",
-                                "#FFCE56",
-                                "#FF6384",
-                                "#36A2EB",
-                                "#FFCE56"
-                            ],
-                        }]
-                },
-                options: {
-                    responsive: false,
-                    rotation: -0.5*Math.PI,
-                    title: {
-                        display: true,
-                        text: '各部门报名人数',
-                        position: 'bottom',
-                        fontStyle: 'normal',
-                        fontFamily: "'SimHei', 'STXihei', 'Microsoft YaHei', 'Hiragino Sans GB', 'STHeiti Light'",
-                        fontSize: 20
-                    },
-                    legend: {
-                        display: false,
-                        position: 'bottom'
-                    }
-                }
-            });
-        };
-        print1();
-        print2();
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error("ajax请求发起失败");
+            }.bind(this)
+        });
     },
     render: function(){
 
         return(
-            <div className="c6">
-                <table className="t3">
+            <div className="dank-c6 text-center">
+                <table className="dank-t3">
                     <tbody>
                     <tr>
                         <td>
-                            <canvas id="myChart1" width="150px" height= "200px" className="can2"/>
-                            {print1()}
+                            <canvas id="myChart1" width="150px" height= "200px" className="dank-can2"/>
                     </td>
                         <td>
-                            <canvas id="myChart2"  width="150px" height= "200px" className="can2"/>
-                            {print1()}
+                            <canvas id="myChart2"  width="150px" height= "200px" className="dank-can2"/>
                         </td>
                     </tr>
                     </tbody>
@@ -345,7 +369,7 @@ var Graph2 = React.createClass({
 var List = React.createClass({
     render: function(){
         return(
-            <div className="c7">
+            <div className="c7 text-center">
                 <table className="table">
                     <tbody>
                     <tr>
@@ -355,9 +379,9 @@ var List = React.createClass({
                         <td><a className="btn a15" href="#"><b>全部</b>
                             <table className="center-block t4">
                                 <tbody>
-                                <tr className="tr1"><td><a href="?"><i className="fa fa-sort-up i3" aria-hidden="true"></i></a></td>
+                                <tr className="tr1"><td><a href="?"><i className="fa fa-sort-up i3" aria-hidden="true"/></a></td>
                                 </tr>
-                                <tr className="tr1"><td><a href="?"><i className="fa fa-sort-down i3" aria-hidden="true"></i></a></td>
+                                <tr className="tr1"><td><a href="?"><i className="fa fa-sort-down i3" aria-hidden="true"/></a></td>
                                 </tr>
                                 </tbody>
                             </table></a></td>
@@ -365,34 +389,34 @@ var List = React.createClass({
                         <td><a className="btn a17" href="#"><b>时间</b>
                             <table className="center-block t4">
                                 <tbody>
-                                <tr className="tr1"><td><a href="?"><i className="fa fa-sort-up i3" aria-hidden="true"></i></a></td>
+                                <tr className="tr1"><td><a href="?"><i className="fa fa-sort-up i3" aria-hidden="true"/></a></td>
                                 </tr>
-                                <tr className="tr1"><td><a href="?"><i className="fa fa-sort-down i3" aria-hidden="true"></i></a></td>
+                                <tr className="tr1"><td><a href="?"><i className="fa fa-sort-down i3" aria-hidden="true"/></a></td>
                                 </tr>
                                 </tbody>
                             </table></a></td>
                         <td><a className="btn a18" href="#"><b>赞数</b>
                             <table className="center-block t4">
                                 <tbody>
-                                <tr className="tr1"><td><a href="?"><i className="fa fa-sort-up i3" aria-hidden="true"></i></a></td>
+                                <tr className="tr1"><td><a href="?"><i className="fa fa-sort-up i3" aria-hidden="true"/></a></td>
                                 </tr>
-                                <tr className="tr1"><td><a href="?"><i className="fa fa-sort-down i3" aria-hidden="true"></i></a></td>
+                                <tr className="tr1"><td><a href="?"><i className="fa fa-sort-down i3" aria-hidden="true"/></a></td>
                                 </tr>
                                 </tbody>
                             </table></a></td>
                     </tr>
                     </tbody>
                 </table>
-                <hr className="hr1">
+
                     <b><table className="table t5">
-                        <tbody align="center">
+                        <tbody>
                         <tr>
                             <td>吴昊潜</td>
                             <td>男</td>
                             <td>计算机科学与技术</td>
                             <td>产品</td>
                             <td>2016/7/15</td>
-                            <td><i className="fa fa-heart i4" aria-hidden="true"></i> 10</td>
+                            <td><i className="fa fa-heart i4" aria-hidden="true"/> 10</td>
                             <td><a className="a19" href="#">删除</a></td>
                         </tr>
                         <tr>
@@ -401,7 +425,7 @@ var List = React.createClass({
                             <td>计算机科学与技术</td>
                             <td>产品</td>
                             <td>2016/7/15</td>
-                            <td><i className="fa fa-heart i4" aria-hidden="true"></i> 10</td>
+                            <td><i className="fa fa-heart i4" aria-hidden="true"/> 10</td>
                             <td><a className="a19" href="#">删除</a></td>
                         </tr>
                         <tr>
@@ -410,7 +434,7 @@ var List = React.createClass({
                             <td>计算机科学与技术</td>
                             <td>产品</td>
                             <td>2016/7/15</td>
-                            <td><i className="fa fa-heart i4" aria-hidden="true"></i> 10</td>
+                            <td><i className="fa fa-heart i4" aria-hidden="true"/> 10</td>
                             <td><a className="a19" href="#">删除</a></td>
                         </tr>
                         <tr>
@@ -419,7 +443,7 @@ var List = React.createClass({
                             <td>计算机科学与技术</td>
                             <td>产品</td>
                             <td>2016/7/15</td>
-                            <td><i className="fa fa-heart i4" aria-hidden="true"></i> 10</td>
+                            <td><i className="fa fa-heart i4" aria-hidden="true"/> 10</td>
                             <td><a className="a19" href="#">删除</a></td>
                         </tr>
                         <tr>
@@ -428,7 +452,7 @@ var List = React.createClass({
                             <td>计算机科学与技术</td>
                             <td>产品</td>
                             <td>2016/7/15</td>
-                            <td><i className="fa fa-heart i4" aria-hidden="true"></i> 10</td>
+                            <td><i className="fa fa-heart i4" aria-hidden="true"/> 10</td>
                             <td><a className="a19" href="#">删除</a></td>
                         </tr>
                         <tr>
@@ -437,7 +461,7 @@ var List = React.createClass({
                             <td>计算机科学与技术</td>
                             <td>产品</td>
                             <td>2016/7/15</td>
-                            <td><i className="fa fa-heart i4" aria-hidden="true"></i> 10</td>
+                            <td><i className="fa fa-heart i4" aria-hidden="true"/> 10</td>
                             <td><a className="a19" href="#">删除</a></td>
                         </tr>
                         <tr>
@@ -446,7 +470,7 @@ var List = React.createClass({
                             <td>计算机科学与技术</td>
                             <td>产品</td>
                             <td>2016/7/15</td>
-                            <td><i className="fa fa-heart i4" aria-hidden="true"></i> 10</td>
+                            <td><i className="fa fa-heart i4" aria-hidden="true"/> 10</td>
                             <td><a className="a19" href="#">删除</a></td>
                         </tr>
                         <tr>
@@ -455,7 +479,7 @@ var List = React.createClass({
                             <td>计算机科学与技术</td>
                             <td>产品</td>
                             <td>2016/7/15</td>
-                            <td><i className="fa fa-heart i4" aria-hidden="true"></i> 10</td>
+                            <td><i className="fa fa-heart i4" aria-hidden="true"/> 10</td>
                             <td><a className="a19" href="#">删除</a></td>
                         </tr>
                         <tr>
@@ -464,7 +488,7 @@ var List = React.createClass({
                             <td>计算机科学与技术</td>
                             <td>产品</td>
                             <td>2016/7/15</td>
-                            <td><i className="fa fa-heart i4" aria-hidden="true"></i> 10</td>
+                            <td><i className="fa fa-heart i4" aria-hidden="true"/> 10</td>
                             <td><a className="a19" href="#">删除</a></td>
                         </tr>
                         <tr>
@@ -473,7 +497,7 @@ var List = React.createClass({
                             <td>计算机科学与技术</td>
                             <td>产品</td>
                             <td>2016/7/15</td>
-                            <td><i className="fa fa-heart i4" aria-hidden="true"></i> 10</td>
+                            <td><i className="fa fa-heart-empty i4" aria-hidden="true"/> 10</td>
                             <td><a className="a19" href="#">删除</a></td>
                         </tr>
                         </tbody>
@@ -484,7 +508,7 @@ var List = React.createClass({
                         <a className="a20" href="#">下一页</a>
                         <a className="a20" href="#">尾页</a>
                     </b></div>
-                </hr>
+
             </div>
         )
     }

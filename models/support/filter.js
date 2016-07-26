@@ -11,14 +11,14 @@ module.exports = {
         var others = otherFilter(req.body.others);
 
         return {
-            eventID: req.eventID,
-            writetime: req.writetime,
-            browserinfo: req.browserinfo,
+            eventID: req.body.eventID,
+            writetime: req.body.writetime,
+            browserinfo: req.body.browserinfo,
             baseinfo: baseinfo,
-            skills: req.skills,
-            introduction: req.introduction,
-            wish: req.wish,
-            reason: req.reason,
+            skills: req.body.skills,
+            introduction: req.body.introduction,
+            wish: req.body.wish,
+            reason: req.body.reason,
             others: others,
             remark: req.body.remark
         };

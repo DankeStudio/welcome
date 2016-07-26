@@ -4,7 +4,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 module.exports = mongoose.model('form', new Schema({
-    eventID : {type:String,require:'miss EventID'},
+    eventID : {type:Number,require:'miss EventID'},
     writetime: Number,
     browserinfo: String,
     date:{type:Date, default:Date.now},
@@ -21,7 +21,7 @@ module.exports = mongoose.model('form', new Schema({
         telshort : String,
         email : String,
         qq : String,
-        majior : String,
+        major : String,
         birth : Date,
         address : String
     },

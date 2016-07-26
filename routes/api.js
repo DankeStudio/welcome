@@ -41,7 +41,7 @@ module.exports = require('express').Router()
     .get('/org/session',org.getOrgInSession)
 
     //get form by org
-    .get('/event',grantOrg)
+    .get('/org/form',grantOrg)
     .get('/org/form',org.getForm)
 
     //form submit

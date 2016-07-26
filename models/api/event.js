@@ -18,7 +18,7 @@ exports.getEvent = (req, res, next) => {
 				}
 			} else {
 				return Event.find({
-					_id: org._id
+					orgID: org._id
 				});
 			}
 		})
@@ -28,7 +28,7 @@ exports.getEvent = (req, res, next) => {
 				results.push({
 					eventID: event.eventID,
 					name: event.name,
-					ym: `$(event.date.getFullYear()).$(event.date.getMonth())`
+					ym: `${event.date.getFullYear()}.${event.date.getMonth()}`
 				})
 			};
 			res.json({

@@ -62,7 +62,7 @@ exports.submit = (req, res, next) => {
 }
 exports.design = (req, res, next) => {
 	var event = req.body.event;
-
+	event.orgID = req.session.org._id;
 	//console.log(event);
 	if (!event) {
 		res.json({
@@ -79,44 +79,13 @@ exports.design = (req, res, next) => {
 					msg: '存储事项时数据库错误 ' + err,
 					body: {}
 				});
-			} else {
-				//添加EventID至组织账号
-				Org.findOne({
-					_id: req.session.org._id
-				}, function(err, org) {
-					if (err) {
-						res.json({
-							code: -1,
-							msg: '将事项ID关联至社团时查找社团数据库错误' + err,
-							body: {}
-						});
-					} else {
-						if (!org) {
-							res.json({
-								code: -2,
-								msg: '将事项关联账号时用户查无此人！',
-								body: {}
-							});
-						} else {
-							org.eventID.push(event._id);
-							org.save(function(err) {
-								if (err) {
-									res.json({
-										code: -1,
-										msg: '将EventID存入账号时数据库出错' + err,
-										body: {}
-									});
-								} else {
-									res.json({
-										code: 0,
-										msg: '提交报名事项成功!',
-										body: {}
-									});
-								}
-							})
-						}
-					}
-				});
+			} else
+			{
+				res.json({
+					code: 0,
+					msg: '提交成功',
+					body: {}
+				})
 			}
 		});
 

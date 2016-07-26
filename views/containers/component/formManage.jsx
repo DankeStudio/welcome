@@ -21,14 +21,14 @@ module.exports = React.createClass({
                     </div>
                 </div>
                 <div className="dank-slider-right">
-                    <content/>
+                    <Content/>
                 </div>
             </div>
         )
     }
 });
 
-var content = React.createClass({
+var Content = React.createClass({
     render : function(){
         return(
             <div className="container-fluid">
@@ -39,7 +39,7 @@ var content = React.createClass({
                         </div>
                     </div>
                     <div className="col-md-9 c4">
-                       <Form/>
+                        <Form/>
                     </div>
                 </div>
             </div>
@@ -79,12 +79,12 @@ var Event = React.createClass({
         var overflow = {
             overflow : "hidden"
         };
-
-        var eventNodes = this.props.event.map(function (eventItem) {
+        var eventNodes = this.state.event.map(function (eventItem) {
             return (
-                <div className="row">
+                <div className="row" key={eventItem.eventID}>
                     <div className="col-md-12">
                         <table className="center-block">
+                            <tbody>
                             <tr>
                                 <td><div className="text-center">
                                     <div className="d4">
@@ -97,6 +97,7 @@ var Event = React.createClass({
                                     </div>
                                 </div></td>
                             </tr>
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -130,12 +131,12 @@ var Form = React.createClass({
                         <Graph1/>
                     </div>
                     <div className="col-md-6">
-                        <Graph2/>
+
                     </div>
                 </div>
                 <div className="row">
                     <div className="col-md-12">
-                        <List/>
+
                     </div>
                 </div>
             </div>
@@ -144,71 +145,101 @@ var Form = React.createClass({
 });
 
 var Graph1 = React.createClass({
-   render: function(){
-       var print = function(){
-           var ctx = document.getElementById("myChart3");
-           var myChart3 = new Chart(ctx, {
-               type: 'line',
-               data: {
-                   labels: ["9.1", "9.2", "9.3", "9.4", "9.5", "9.6", "9.7"],
-                   datasets: [
-                       {
-                           label: "My First dataset",
-                           fill: false,
-                           lineTension: 0.1,
-                           backgroundColor: "rgba(75,192,192,0.4)",
-                           borderColor: "rgba(75,192,192,1)",
-                           borderCapStyle: 'butt',
-                           borderDash: [],
-                           borderDashOffset: 0.0,
-                           borderJoinStyle: 'miter',
-                           pointBorderColor: "rgba(75,192,192,1)",
-                           pointBackgroundColor: "#fff",
-                           pointBorderWidth: 2,
-                           pointHoverRadius: 5,
-                           pointHoverBackgroundColor: "rgba(75,192,192,1)",
-                           pointHoverBorderColor: "rgba(220,220,220,1)",
-                           pointHoverBorderWidth: 2,
-                           pointRadius: 5,
-                           pointHitRadius: 10,
-                           data: [10, 8, 5, 17, 20, 3, 25],
-                           spanGaps: false,
-                       }
-                   ]
-               },
-               options: {
-                   title: {
-                       display: true,
-                       text: '报名人数',
-                       position: 'top',
-                       fontStyle: 'normal',
-                       fontFamily: "'SimHei', 'STXihei', 'Microsoft YaHei', 'Hiragino Sans GB', 'STHeiti Light'",
-                       fontSize: 24,
-                       padding: 20
-                   },
-                   legend: {
-                       display: false
+   getInitialState: function() {
+     return{
+         data:[]
+     }
+   },
+
+    print: function(data){
+       var ctx = document.getElementById("myChart3");
+       var myChart3 = new Chart(ctx, {
+           type: 'line',
+           data: {
+               labels: ["9.1", "9.2", "9.3", "9.4", "9.5", "9.6", "9.7"],
+               datasets: [
+                   {
+                       label: "My First dataset",
+                       fill: false,
+                       lineTension: 0.1,
+                       backgroundColor: "rgba(75,192,192,0.4)",
+                       borderColor: "rgba(75,192,192,1)",
+                       borderCapStyle: 'butt',
+                       borderDash: [],
+                       borderDashOffset: 0.0,
+                       borderJoinStyle: 'miter',
+                       pointBorderColor: "rgba(75,192,192,1)",
+                       pointBackgroundColor: "#fff",
+                       pointBorderWidth: 2,
+                       pointHoverRadius: 5,
+                       pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                       pointHoverBorderColor: "rgba(220,220,220,1)",
+                       pointHoverBorderWidth: 2,
+                       pointRadius: 5,
+                       pointHitRadius: 10,
+                       data: data,
+                       spanGaps: false
                    }
+               ]
+           },
+           options: {
+               title: {
+                   display: true,
+                   text: '报名人数',
+                   position: 'top',
+                   fontStyle: 'normal',
+                   fontFamily: "'SimHei', 'STXihei', 'Microsoft YaHei', 'Hiragino Sans GB', 'STHeiti Light'",
+                   fontSize: 24,
+                   padding: 20
+               },
+               legend: {
+                   display: false
                }
-           });
-       };
-       return(
+           }
+       });
+   },
+
+    componentDidMount: function(){
+        $.ajax({
+            url: "/user/profile",
+            contentType: 'application/json',
+            type: 'GET',
+            success: function(data) {
+                switch(data.code){
+                    case 0:
+                        if(this.isMounted()){
+                            this.print(data.body.data);
+                        }
+                        break;
+                    default:
+                        alert(msg);
+                        break;
+                }
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error("ajax请求发起失败");
+            }.bind(this)
+        });
+
+   },
+
+    render: function(){
+        return(
            <div className="c6">
                <table className="t2">
                    <tbody>
                    <tr><td>
                        <canvas id="myChart3" width="300px" height="220px" className="can1"/>
-                       {print()}
                    </td></tr>
                    </tbody>
                </table>
            </div>
-       )
+        )
    }
 });
 
 var Graph2 = React.createClass({
-    render: function(){
+    componentDidMount: function(){
         var print1 = function(){
             var value1 = 400;
             var ctx = document.getElementById("myChart1");
@@ -285,6 +316,11 @@ var Graph2 = React.createClass({
                 }
             });
         };
+        print1();
+        print2();
+    },
+    render: function(){
+
         return(
             <div className="c6">
                 <table className="t3">

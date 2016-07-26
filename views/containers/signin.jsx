@@ -22,6 +22,7 @@ module.exports = React.createClass({
                 <div className="container-fluid">
                     <div className="row" style={objectStyle}>
                         <tabel className="vertical-middle-parent">
+                            <tbody>
                             <tr>
                                 <td className="vertical-middle-child">
                                     <div className="col-xs-7 col-md-7">
@@ -32,6 +33,7 @@ module.exports = React.createClass({
                                     </div>
                                 </td>
                             </tr>
+                            </tbody>
                         </tabel>
                     </div>
                 </div>

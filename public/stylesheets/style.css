@@ -133,6 +133,12 @@ a {
   font-family: SimHei, STXihei, "Microsoft YaHei", "Hiragino Sans GB", "STHeiti Light";
 }
 
+.dank-small {
+  font-family:SimHei, STXihei, "Microsoft YaHei", "Hiragino Sans GB", "STHeiti Light";
+  font-size:20px;
+  color:#ffffff;
+}
+
 .dank-form-group{
   margin:15px 10px;
 }

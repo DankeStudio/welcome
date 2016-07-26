@@ -6183,20 +6183,24 @@ var App =
 	                        'tabel',
 	                        { className: 'vertical-middle-parent' },
 	                        React.createElement(
-	                            'tr',
+	                            'tbody',
 	                            null,
 	                            React.createElement(
-	                                'td',
-	                                { className: 'vertical-middle-child' },
+	                                'tr',
+	                                null,
 	                                React.createElement(
-	                                    'div',
-	                                    { className: 'col-xs-7 col-md-7' },
-	                                    React.createElement(News, null)
-	                                ),
-	                                React.createElement(
-	                                    'div',
-	                                    { className: 'col-xs-5 col-md-5' },
-	                                    React.createElement(Box, { children: this.props.children })
+	                                    'td',
+	                                    { className: 'vertical-middle-child' },
+	                                    React.createElement(
+	                                        'div',
+	                                        { className: 'col-xs-7 col-md-7' },
+	                                        React.createElement(News, null)
+	                                    ),
+	                                    React.createElement(
+	                                        'div',
+	                                        { className: 'col-xs-5 col-md-5' },
+	                                        React.createElement(Box, { children: this.props.children })
+	                                    )
 	                                )
 	                            )
 	                        )
@@ -6838,15 +6842,19 @@ var App =
 	                        'tabel',
 	                        { className: 'vertical-middle-parent' },
 	                        React.createElement(
-	                            'tr',
+	                            'tbody',
 	                            null,
 	                            React.createElement(
-	                                'td',
-	                                { className: 'vertical-middle-child' },
+	                                'tr',
+	                                null,
 	                                React.createElement(
-	                                    'div',
-	                                    { className: 'col-xs-12 col-md-12' },
-	                                    React.createElement(Box, { children: this.props.children })
+	                                    'td',
+	                                    { className: 'vertical-middle-child' },
+	                                    React.createElement(
+	                                        'div',
+	                                        { className: 'col-xs-12 col-md-12' },
+	                                        React.createElement(Box, { children: this.props.children })
+	                                    )
 	                                )
 	                            )
 	                        )
@@ -8551,7 +8559,7 @@ var App =
 	                { style: rightPosition },
 	                React.createElement(
 	                    'small',
-	                    { className: 'dank-a', href: '#', style: rightItemPosition },
+	                    { className: 'dank-small', href: '#', style: rightItemPosition },
 	                    '辛苦了，',
 	                    this.state.name
 	                ),
@@ -8634,14 +8642,14 @@ var App =
 	            React.createElement(
 	                "div",
 	                { className: "dank-slider-right" },
-	                React.createElement("content", null)
+	                React.createElement(Content, null)
 	            )
 	        );
 	    }
 	});
 
-	var content = React.createClass({
-	    displayName: "content",
+	var Content = React.createClass({
+	    displayName: "Content",
 
 	    render: function render() {
 	        return React.createElement(
@@ -8703,11 +8711,10 @@ var App =
 	        var overflow = {
 	            overflow: "hidden"
 	        };
-
-	        var eventNodes = this.props.event.map(function (eventItem) {
+	        var eventNodes = this.state.event.map(function (eventItem) {
 	            return React.createElement(
 	                "div",
-	                { className: "row" },
+	                { className: "row", key: eventItem.eventID },
 	                React.createElement(
 	                    "div",
 	                    { className: "col-md-12" },
@@ -8715,38 +8722,42 @@ var App =
 	                        "table",
 	                        { className: "center-block" },
 	                        React.createElement(
-	                            "tr",
+	                            "tbody",
 	                            null,
 	                            React.createElement(
-	                                "td",
+	                                "tr",
 	                                null,
 	                                React.createElement(
-	                                    "div",
-	                                    { className: "text-center" },
+	                                    "td",
+	                                    null,
 	                                    React.createElement(
 	                                        "div",
-	                                        { className: "d4" },
+	                                        { className: "text-center" },
 	                                        React.createElement(
-	                                            "b",
-	                                            null,
-	                                            eventItem.ym
+	                                            "div",
+	                                            { className: "d4" },
+	                                            React.createElement(
+	                                                "b",
+	                                                null,
+	                                                eventItem.ym
+	                                            )
 	                                        )
 	                                    )
-	                                )
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
+	                                ),
 	                                React.createElement(
-	                                    "div",
-	                                    { className: "text-left" },
+	                                    "td",
+	                                    null,
 	                                    React.createElement(
 	                                        "div",
-	                                        { style: overflow },
+	                                        { className: "text-left" },
 	                                        React.createElement(
-	                                            "h1",
-	                                            null,
-	                                            eventItem.name
+	                                            "div",
+	                                            { style: overflow },
+	                                            React.createElement(
+	                                                "h1",
+	                                                null,
+	                                                eventItem.name
+	                                            )
 	                                        )
 	                                    )
 	                                )
@@ -8814,20 +8825,12 @@ var App =
 	                    { className: "col-md-6" },
 	                    React.createElement(Graph1, null)
 	                ),
-	                React.createElement(
-	                    "div",
-	                    { className: "col-md-6" },
-	                    React.createElement(Graph2, null)
-	                )
+	                React.createElement("div", { className: "col-md-6" })
 	            ),
 	            React.createElement(
 	                "div",
 	                { className: "row" },
-	                React.createElement(
-	                    "div",
-	                    { className: "col-md-12" },
-	                    React.createElement(List, null)
-	                )
+	                React.createElement("div", { className: "col-md-12" })
 	            )
 	        );
 	    }
@@ -8836,52 +8839,57 @@ var App =
 	var Graph1 = React.createClass({
 	    displayName: "Graph1",
 
-	    render: function render() {
-	        var print = function print() {
-	            var ctx = document.getElementById("myChart3");
-	            var myChart3 = new Chart(ctx, {
-	                type: 'line',
-	                data: {
-	                    labels: ["9.1", "9.2", "9.3", "9.4", "9.5", "9.6", "9.7"],
-	                    datasets: [{
-	                        label: "My First dataset",
-	                        fill: false,
-	                        lineTension: 0.1,
-	                        backgroundColor: "rgba(75,192,192,0.4)",
-	                        borderColor: "rgba(75,192,192,1)",
-	                        borderCapStyle: 'butt',
-	                        borderDash: [],
-	                        borderDashOffset: 0.0,
-	                        borderJoinStyle: 'miter',
-	                        pointBorderColor: "rgba(75,192,192,1)",
-	                        pointBackgroundColor: "#fff",
-	                        pointBorderWidth: 2,
-	                        pointHoverRadius: 5,
-	                        pointHoverBackgroundColor: "rgba(75,192,192,1)",
-	                        pointHoverBorderColor: "rgba(220,220,220,1)",
-	                        pointHoverBorderWidth: 2,
-	                        pointRadius: 5,
-	                        pointHitRadius: 10,
-	                        data: [10, 8, 5, 17, 20, 3, 25],
-	                        spanGaps: false
-	                    }]
+	    print: function print() {
+	        var ctx = document.getElementById("myChart3");
+	        var myChart3 = new Chart(ctx, {
+	            type: 'line',
+	            data: {
+	                labels: ["9.1", "9.2", "9.3", "9.4", "9.5", "9.6", "9.7"],
+	                datasets: [{
+	                    label: "My First dataset",
+	                    fill: false,
+	                    lineTension: 0.1,
+	                    backgroundColor: "rgba(75,192,192,0.4)",
+	                    borderColor: "rgba(75,192,192,1)",
+	                    borderCapStyle: 'butt',
+	                    borderDash: [],
+	                    borderDashOffset: 0.0,
+	                    borderJoinStyle: 'miter',
+	                    pointBorderColor: "rgba(75,192,192,1)",
+	                    pointBackgroundColor: "#fff",
+	                    pointBorderWidth: 2,
+	                    pointHoverRadius: 5,
+	                    pointHoverBackgroundColor: "rgba(75,192,192,1)",
+	                    pointHoverBorderColor: "rgba(220,220,220,1)",
+	                    pointHoverBorderWidth: 2,
+	                    pointRadius: 5,
+	                    pointHitRadius: 10,
+	                    data: [10, 8, 5, 17, 20, 3, 25],
+	                    spanGaps: false
+	                }]
+	            },
+	            options: {
+	                title: {
+	                    display: true,
+	                    text: '报名人数',
+	                    position: 'top',
+	                    fontStyle: 'normal',
+	                    fontFamily: "'SimHei', 'STXihei', 'Microsoft YaHei', 'Hiragino Sans GB', 'STHeiti Light'",
+	                    fontSize: 24,
+	                    padding: 20
 	                },
-	                options: {
-	                    title: {
-	                        display: true,
-	                        text: '报名人数',
-	                        position: 'top',
-	                        fontStyle: 'normal',
-	                        fontFamily: "'SimHei', 'STXihei', 'Microsoft YaHei', 'Hiragino Sans GB', 'STHeiti Light'",
-	                        fontSize: 24,
-	                        padding: 20
-	                    },
-	                    legend: {
-	                        display: false
-	                    }
+	                legend: {
+	                    display: false
 	                }
-	            });
-	        };
+	            }
+	        });
+	    },
+
+	    componentDidMount: function componentDidMount() {
+	        this.print();
+	    },
+
+	    render: function render() {
 	        return React.createElement(
 	            "div",
 	            { className: "c6" },
@@ -8897,8 +8905,7 @@ var App =
 	                        React.createElement(
 	                            "td",
 	                            null,
-	                            React.createElement("canvas", { id: "myChart3", width: "300px", height: "220px", className: "can1" }),
-	                            print()
+	                            React.createElement("canvas", { id: "myChart3", width: "300px", height: "220px", className: "can1" })
 	                        )
 	                    )
 	                )
@@ -8910,7 +8917,7 @@ var App =
 	var Graph2 = React.createClass({
 	    displayName: "Graph2",
 
-	    render: function render() {
+	    componentDidMount: function componentDidMount() {
 	        var print1 = function print1() {
 	            var value1 = 400;
 	            var ctx = document.getElementById("myChart1");
@@ -8972,6 +8979,11 @@ var App =
 	                }
 	            });
 	        };
+	        print1();
+	        print2();
+	    },
+	    render: function render() {
+
 	        return React.createElement(
 	            "div",
 	            { className: "c6" },

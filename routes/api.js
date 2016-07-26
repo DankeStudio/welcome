@@ -57,3 +57,11 @@ module.exports = require('express').Router()
     //get org events
     .get('/event',grantOrg)
     .get('/event',event.getEvent)
+
+    //get event count data
+    .get('/event/count/add',grantOrg)
+    .get('/event/count/add',event.addCounter)
+
+    //get event count data
+    .get('/event/count/all',grantOrg)
+    .get('/event/count/all',event.allCounter)

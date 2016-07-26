@@ -51,3 +51,36 @@ exports.getEvent = (req, res, next) => {
 			}
 		})
 }
+
+exports.addCounter = (req, res, next) => {
+	res.json({
+		code: 0,
+		msg: 'ok',
+		body:{
+			data:{
+				labels:["9.1", "9.2", "9.3", "9.4", "9.5", "9.6", "9.7"],
+				data: [10, 8, 5, 17, 20, 3, 25]
+			}
+		}
+	});
+}
+
+exports.allCounter = (req, res, next) => {
+	res.json({
+		code: 0,
+		msg: 'ok',
+		body:{
+			data1:{
+				number: 400,
+				male: 300,
+				female:100
+			},
+			data2:{
+				labels:["产品","设计","推广","前端","后端","运营","测试"],
+				data:[25,19,15,15,13,8,5],
+
+			}
+		}
+	});
+}
+

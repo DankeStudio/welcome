@@ -384,6 +384,76 @@ a {
 
 
 
+/*补充temp.css的内容*/
+
+.b1{
+  font-size: 30px;
+}
+
+.dank-d2{
+  margin: 70px 50px;
+  padding-bottom: 40px;
+  background-color: #FFFFFF;
+  -webkit-box-shadow:0 0 10px #434751;
+  -moz-box-shadow:0 0 10px #434751;
+  box-shadow:0 0 10px #434751;
+  border-radius: 5px;
+}
+
+.dank-i1{
+  margin: -57px auto auto 90px;
+  height: 77px;
+  width: 45px;
+}
+
+.dank-t1{
+  font-size: 24px;
+  color: #434751;
+  margin: 15px 40px;
+  text-align: left;
+  width: 100%;
+}
+
+.dank-t1>tr{
+  height: 44px;
+}
+
+.td-title {
+  font-weight: bold;
+  width: 16%;
+}
+
+.td-content{
+  width: 34%;
+  padding-right:8%;
+}
+
+.dank-can2{
+  width: 150px;
+  height: 150px;
+  display: block;
+  margin: 0 auto;
+}
+
+.dank-t3{
+  margin: auto;
+  width:100%;
+}
+
+.dank-c6{
+  background-color: #FFFFFF;
+  width: 90%;
+  height: 278px;
+  margin: 50px auto 20px auto;
+  padding: 0;
+  border-radius: 5px;
+  padding-top: 50px;
+}
+
+
+
+
+
 
 
 

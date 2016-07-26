@@ -572,4 +572,26 @@ color: #FFFFFF;
 } 
 :-ms-input-placeholder { /* Internet Explorer 10+ */ 
 color: #FFFFFF; 
-} 
+}
+
+.dank-a5{
+	color: #FFFFFF;
+	background-color: #74BDBF;
+	font-size: 28px;
+	width: 194px;
+	-webkit-box-shadow:0 0 10px #434751;
+	-moz-box-shadow:0 0 10px #434751;
+	box-shadow:0 0 10px #434751;
+	border-radius: 5px;
+}
+
+.dank-a6{
+	color: #FFFFFF;
+	background-color: #DF9082;
+	width: 218px;
+	-webkit-box-shadow:0 0 10px #434751;
+	-moz-box-shadow:0 0 10px #434751;
+	box-shadow:0 0 10px #434751;
+	border-radius: 5px;
+}
+

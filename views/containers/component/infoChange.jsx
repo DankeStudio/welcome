@@ -76,7 +76,7 @@ var InfoBox = React.createClass({
                         }
                         break;
                     default:
-                        alert(msg);
+                        alert(data.msg);
                         //this.setState({data:empty});
                         break;
                 }
@@ -135,16 +135,16 @@ var InfoBox = React.createClass({
                 <div className="row">
                     <div className="col-md-12 c4">
                         <div className="container-fluid">
-                            <div className="d2">
+                            <div className="dank-d2">
                                 <div className="row">
                                     <div className="col-md-8 col-md-offset-1 text-left">
                                         <div className="btn-group btn-group-lg d3">
-                                            <a className="btn a5" onClick={this.submitHandler}><b className="b1">保存</b></a>
-                                            <a className="btn a6" href="#"href="#"><b className="b1">从教务网导入</b></a>
+                                            <a className="btn dank-a5" onClick={this.submitHandler}><b className="b1">保存</b></a>
+                                            <a className="btn dank-a6" href="#"href="#"><b className="b1">从教务网导入</b></a>
                                         </div>
                                     </div>
                                     <div className="col-md-1 col-md-offset-1 text-right">
-                                        <img src="img/label.png" className="i1"/>
+                                        <img src="img/label.png" className="dank-i1"/>
                                     </div>
                                 </div>
                                 <div className="row">
@@ -152,7 +152,7 @@ var InfoBox = React.createClass({
                                         <div className="container-fluid">
                                             <div className="row">
                                                 <div className="col-md-12">
-                                                    <table className="t1">
+                                                    <table className="dank-t1">
                                                         <tbody>
                                                         <tr>
                                                             <td className="td-title">用户名</td>
@@ -178,7 +178,7 @@ var InfoBox = React.createClass({
                                             </div>
                                             <div className="row">
                                                 <div className="col-md-12">
-                                                    <table className="t1">
+                                                    <table className="dank-t1">
                                                         <tbody>
                                                         <tr>
                                                             <td className="td-title">姓名</td>

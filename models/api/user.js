@@ -233,7 +233,7 @@ exports.syncProfile = (req, res, next) => {
             } else {
                 res.json({
                     code: -3,
-                    msg: '数据库错误',
+                    msg: '数据库未知错误',
                     body: {}
                 });
             }

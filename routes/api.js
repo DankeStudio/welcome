@@ -59,9 +59,9 @@ module.exports = require('express').Router()
     .get('/event',event.getEvent)
 
     //get event count data
-    .get('/event/count/add',grantOrg)
-    .get('/event/count/add',event.addCounter)
+    .get('/event/count/recent',grantOrg)
+    .get('/event/count/recent',event.getRecentCount)
 
     //get event count data
     .get('/event/count/all',grantOrg)
-    .get('/event/count/all',event.allCounter)
+    .get('/event/count/all',event.getAllCount)

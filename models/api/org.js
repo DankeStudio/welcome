@@ -145,7 +145,7 @@ exports.getForm = (req, res, next) => {
         order = -1
     }
 
-    if (wish === 'all') {
+    if (!wish) {
         query = Form.find({
             eventID: eventID
         })
@@ -177,7 +177,7 @@ exports.getForm = (req, res, next) => {
             console.log(err);
             res.json({
                 code: -1,
-                msg: '数据库错误',
+                msg: '数据库未知错误',
                 body: {}
             })
         })

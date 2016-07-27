@@ -73,7 +73,7 @@ var Content = React.createClass({
                         </div>
                     </div>
                     <div className="col-md-9 c4">
-                        <Form eventID={this.state.nowEventID}/>
+                        {(this.state.nowEventID!='')?<Form eventID={this.state.nowEventID}/>:null}
                     </div>
                 </div>
             </div>
@@ -92,7 +92,7 @@ var Event = React.createClass({
                 (eventItem.eventID==this.props.eventID)?
                     "row dank-temp-table-active":"row dank-temp-table";
             var clickEvent = (eventItem.eventID==this.props.eventID)?
-                function(){this.props.eventChange(eventItem.eventID)}.bind(this):null;
+                null:function(){this.props.eventChange(eventItem.eventID)}.bind(this);
 
             return (
                 <div className={className} onClick={clickEvent} key={eventItem.eventID}>
@@ -143,10 +143,10 @@ var Form = React.createClass({
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-md-6">
-                        <Graph1 eventID={this.props.eventID}/>
+                        <Graph1 eventID={this.props.eventID} />
                     </div>
                     <div className="col-md-6">
-                        <Graph2 eventID={this.props.eventID}/>
+                        <Graph2 eventID={this.props.eventID} />
                     </div>
                 </div>
                 <div className="row">
@@ -167,6 +167,7 @@ var Graph1 = React.createClass({
    },
 
     print: function(data){
+        //console.log(data);
        var ctx = document.getElementById("myChart3");
        var myChart3 = new Chart(ctx, {
            type: 'line',
@@ -192,7 +193,7 @@ var Graph1 = React.createClass({
                        pointHoverBorderWidth: 2,
                        pointRadius: 5,
                        pointHitRadius: 10,
-                       data: data.data,
+                       data: data.counts,
                        spanGaps: false
                    }
                ]
@@ -215,16 +216,19 @@ var Graph1 = React.createClass({
    },
 
     componentDidMount: function(){
-
+        //console.log(this.props.eventID);
+        var a=2;
         $.ajax({
             url: "/event/count/recent",
             contentType: 'application/json',
             type: 'GET',
-            data: JSON.stringify({
+            data: {
+                test:a,
                 eventID: this.props.eventID,
                 num: 7
-            }),
+            },
             success: function(data) {
+                //console.log(data);
                 switch(data.code){
                     case 0:
                         if(this.isMounted()){
@@ -233,7 +237,7 @@ var Graph1 = React.createClass({
                         break;
                     default:
                         //alert(this.props.eventID);
-                        alert(data.msg);
+                        console.log(data.msg);
                         break;
                 }
             }.bind(this),
@@ -261,7 +265,7 @@ var Graph1 = React.createClass({
 
 var Graph2 = React.createClass({
     print1 : function(data){
-        var value1 = data.number;
+        var value1 = data.counts[2];
         var ctx = document.getElementById("myChart1");
         var myChart1 = new Chart(ctx, {
             type: 'doughnut',
@@ -341,16 +345,16 @@ var Graph2 = React.createClass({
     },
 
     componentDidMount: function(){
-        alert(this.props.eventID);
+        //alert(this.props.eventID);
         $.ajax({
             url: "/event/count/all",
             contentType: 'application/json',
             type: 'GET',
-            data: JSON.stringify({
+            data: {
                eventID: this.props.eventID
-            }),
+            },
             success: function(data) {
-                //console.log(data);
+                console.log(data);
                 switch(data.code){
                     case 0:
                         if(this.isMounted()){
@@ -360,7 +364,7 @@ var Graph2 = React.createClass({
                         break;
                     default:
                         //alert(this.props.eventID);
-                        alert(data.msg);
+                        console.log(data.msg);
                         break;
                 }
             }.bind(this),

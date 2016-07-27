@@ -8704,7 +8704,7 @@ var App =
 	                React.createElement(
 	                    "div",
 	                    { className: "col-md-9 c4" },
-	                    React.createElement(Form, { eventID: this.state.nowEventID })
+	                    this.state.nowEventID != '' ? React.createElement(Form, { eventID: this.state.nowEventID }) : null
 	                )
 	            )
 	        );
@@ -8714,18 +8714,16 @@ var App =
 	var Event = React.createClass({
 	    displayName: "Event",
 
-	    componentDidMount: function componentDidMount() {
-	        alert(this.props.eventID);
-	    },
+
 	    render: function render() {
 	        var overflow = {
 	            overflow: "hidden"
 	        };
 	        var eventNodes = this.props.events.map(function (eventItem) {
 	            var className = eventItem.eventID == this.props.eventID ? "row dank-temp-table-active" : "row dank-temp-table";
-	            var clickEvent = eventItem.eventID == this.props.eventID ? function () {
+	            var clickEvent = eventItem.eventID == this.props.eventID ? null : function () {
 	                this.props.eventChange(eventItem.eventID);
-	            }.bind(this) : null;
+	            }.bind(this);
 
 	            return React.createElement(
 	                "div",
@@ -8870,6 +8868,7 @@ var App =
 	    },
 
 	    print: function print(data) {
+	        //console.log(data);
 	        var ctx = document.getElementById("myChart3");
 	        var myChart3 = new Chart(ctx, {
 	            type: 'line',
@@ -8894,7 +8893,7 @@ var App =
 	                    pointHoverBorderWidth: 2,
 	                    pointRadius: 5,
 	                    pointHitRadius: 10,
-	                    data: data.data,
+	                    data: data.counts,
 	                    spanGaps: false
 	                }]
 	            },
@@ -8916,16 +8915,19 @@ var App =
 	    },
 
 	    componentDidMount: function componentDidMount() {
-
+	        //console.log(this.props.eventID);
+	        var a = 2;
 	        $.ajax({
 	            url: "/event/count/recent",
 	            contentType: 'application/json',
 	            type: 'GET',
-	            data: JSON.stringify({
+	            data: {
+	                test: a,
 	                eventID: this.props.eventID,
 	                num: 7
-	            }),
+	            },
 	            success: function (data) {
+	                //console.log(data);
 	                switch (data.code) {
 	                    case 0:
 	                        if (this.isMounted()) {
@@ -8933,8 +8935,8 @@ var App =
 	                        }
 	                        break;
 	                    default:
-	                        alert(this.props.eventID);
-	                        //alert(data.msg);
+	                        //alert(this.props.eventID);
+	                        console.log(data.msg);
 	                        break;
 	                }
 	            }.bind(this),
@@ -8973,7 +8975,7 @@ var App =
 	    displayName: "Graph2",
 
 	    print1: function print1(data) {
-	        var value1 = data.number;
+	        var value1 = data.counts[2];
 	        var ctx = document.getElementById("myChart1");
 	        var myChart1 = new Chart(ctx, {
 	            type: 'doughnut',
@@ -9036,16 +9038,16 @@ var App =
 	    },
 
 	    componentDidMount: function componentDidMount() {
-	        alert(this.props.eventID);
+	        //alert(this.props.eventID);
 	        $.ajax({
 	            url: "/event/count/all",
 	            contentType: 'application/json',
 	            type: 'GET',
-	            data: JSON.stringify({
+	            data: {
 	                eventID: this.props.eventID
-	            }),
+	            },
 	            success: function (data) {
-	                //console.log(data);
+	                console.log(data);
 	                switch (data.code) {
 	                    case 0:
 	                        if (this.isMounted()) {
@@ -9054,8 +9056,8 @@ var App =
 	                        }
 	                        break;
 	                    default:
-	                        alert(this.props.eventID);
-	                        //alert(data.msg);
+	                        //alert(this.props.eventID);
+	                        console.log(data.msg);
 	                        break;
 	                }
 	            }.bind(this),

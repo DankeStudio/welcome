@@ -8588,7 +8588,6 @@ var App =
 	module.exports = React.createClass({
 	    displayName: "exports",
 
-
 	    render: function render() {
 	        return React.createElement(
 	            "div",
@@ -8651,6 +8650,41 @@ var App =
 	var Content = React.createClass({
 	    displayName: "Content",
 
+	    getInitialState: function getInitialState() {
+	        return {
+	            initial: 1,
+	            nowEventID: '',
+	            events: [{ eventID: '', name: '', ym: '' }]
+	        };
+	    },
+	    componentDidMount: function componentDidMount() {
+	        $.ajax({
+	            url: "/event",
+	            contentType: 'application/json',
+	            type: 'GET',
+	            success: function (data) {
+	                switch (data.code) {
+	                    case 0:
+	                        if (this.isMounted()) {
+	                            this.setState({ events: data.body.events });
+	                            if (this.state.initial) {
+	                                this.setState({ nowEventID: data.body.events[0].eventID, initial: 0 });
+	                            }
+	                        }
+	                        break;
+	                    default:
+	                        alert(data.msg);
+	                        break;
+	                }
+	            }.bind(this),
+	            error: function (xhr, status, err) {
+	                console.error("ajax请求发起失败");
+	            }.bind(this)
+	        });
+	    },
+	    eventChange: function eventChange(eventID) {
+	        this.setState({ nowEventID: eventID });
+	    },
 	    render: function render() {
 	        return React.createElement(
 	            "div",
@@ -8664,13 +8698,13 @@ var App =
 	                    React.createElement(
 	                        "div",
 	                        { className: "c5" },
-	                        React.createElement(Event, null)
+	                        React.createElement(Event, { eventID: this.state.nowEventID, events: this.state.events, eventChange: this.eventChange })
 	                    )
 	                ),
 	                React.createElement(
 	                    "div",
 	                    { className: "col-md-9 c4" },
-	                    React.createElement(Form, null)
+	                    React.createElement(Form, { eventID: this.state.nowEventID })
 	                )
 	            )
 	        );
@@ -8680,41 +8714,22 @@ var App =
 	var Event = React.createClass({
 	    displayName: "Event",
 
-	    getInitialState: function getInitialState() {
-	        return {
-	            event: [{ eventID: '', name: '', ym: '' }]
-	        };
-	    },
 	    componentDidMount: function componentDidMount() {
-	        $.ajax({
-	            url: "/event",
-	            contentType: 'application/json',
-	            type: 'GET',
-	            success: function (data) {
-	                switch (data.code) {
-	                    case 0:
-	                        if (this.isMounted()) {
-	                            this.setState({ event: data.body.events });
-	                        }
-	                        break;
-	                    default:
-	                        alert(data.msg);
-	                        break;
-	                }
-	            }.bind(this),
-	            error: function (xhr, status, err) {
-	                console.error("ajax请求发起失败");
-	            }.bind(this)
-	        });
+	        alert(this.props.eventID);
 	    },
 	    render: function render() {
 	        var overflow = {
 	            overflow: "hidden"
 	        };
-	        var eventNodes = this.state.event.map(function (eventItem) {
+	        var eventNodes = this.props.events.map(function (eventItem) {
+	            var className = eventItem.eventID == this.props.eventID ? "row dank-temp-table-active" : "row dank-temp-table";
+	            var clickEvent = eventItem.eventID == this.props.eventID ? function () {
+	                this.props.eventChange(eventItem.eventID);
+	            }.bind(this) : null;
+
 	            return React.createElement(
 	                "div",
-	                { className: "row", key: eventItem.eventID },
+	                { className: className, onClick: clickEvent, key: eventItem.eventID },
 	                React.createElement(
 	                    "div",
 	                    { className: "col-md-12" },
@@ -8735,7 +8750,7 @@ var App =
 	                                        { className: "text-center" },
 	                                        React.createElement(
 	                                            "div",
-	                                            { className: "d4" },
+	                                            { className: "dank-d4" },
 	                                            React.createElement(
 	                                                "b",
 	                                                null,
@@ -8752,10 +8767,10 @@ var App =
 	                                        { className: "text-left" },
 	                                        React.createElement(
 	                                            "div",
-	                                            { style: overflow },
+	                                            null,
 	                                            React.createElement(
 	                                                "h1",
-	                                                null,
+	                                                { className: "dank-temp-h1" },
 	                                                eventItem.name
 	                                            )
 	                                        )
@@ -8766,7 +8781,7 @@ var App =
 	                    )
 	                )
 	            );
-	        });
+	        }.bind(this));
 
 	        return React.createElement(
 	            "div",
@@ -8778,8 +8793,8 @@ var App =
 	                    "div",
 	                    { className: "col-md-12 text-left" },
 	                    React.createElement(
-	                        "a",
-	                        { className: "a11", href: "#" },
+	                        "big",
+	                        { className: "big11", href: "#" },
 	                        React.createElement(
 	                            "b",
 	                            null,
@@ -8796,7 +8811,7 @@ var App =
 	                    { className: "col-md-12 text-left" },
 	                    React.createElement(
 	                        "a",
-	                        { className: "btn a12", href: "#" },
+	                        { className: "btn dank-temp-a12", href: "#" },
 	                        React.createElement(
 	                            "b",
 	                            null,
@@ -8813,6 +8828,7 @@ var App =
 	var Form = React.createClass({
 	    displayName: "Form",
 
+
 	    render: function render() {
 	        return React.createElement(
 	            "div",
@@ -8823,12 +8839,12 @@ var App =
 	                React.createElement(
 	                    "div",
 	                    { className: "col-md-6" },
-	                    React.createElement(Graph1, null)
+	                    React.createElement(Graph1, { eventID: this.props.eventID })
 	                ),
 	                React.createElement(
 	                    "div",
 	                    { className: "col-md-6" },
-	                    React.createElement(Graph2, null)
+	                    React.createElement(Graph2, { eventID: this.props.eventID })
 	                )
 	            ),
 	            React.createElement(
@@ -8837,7 +8853,7 @@ var App =
 	                React.createElement(
 	                    "div",
 	                    { className: "col-md-12" },
-	                    React.createElement(List, null)
+	                    React.createElement(List, { eventID: this.props.eventID })
 	                )
 	            )
 	        );
@@ -8900,13 +8916,16 @@ var App =
 	    },
 
 	    componentDidMount: function componentDidMount() {
+
 	        $.ajax({
-	            url: "/event/count/add",
+	            url: "/event/count/recent",
 	            contentType: 'application/json',
 	            type: 'GET',
+	            data: JSON.stringify({
+	                eventID: this.props.eventID,
+	                num: 7
+	            }),
 	            success: function (data) {
-	                console.log('1');
-	                console.log(data);
 	                switch (data.code) {
 	                    case 0:
 	                        if (this.isMounted()) {
@@ -8914,7 +8933,8 @@ var App =
 	                        }
 	                        break;
 	                    default:
-	                        alert(data.msg);
+	                        alert(this.props.eventID);
+	                        //alert(data.msg);
 	                        break;
 	                }
 	            }.bind(this),
@@ -8960,7 +8980,7 @@ var App =
 	            data: {
 	                labels: ["男", "女"],
 	                datasets: [{
-	                    data: [data.male, data.female],
+	                    data: [data.counts[0], data.counts[1]],
 	                    backgroundColor: ["#79dae7", "#ff8d94"],
 	                    hoverBackgroundColor: ["#79dae7", "#ff8d94"]
 	                }]
@@ -8992,7 +9012,7 @@ var App =
 	            data: {
 	                labels: data.labels,
 	                datasets: [{
-	                    data: data.data,
+	                    data: data.counts,
 	                    backgroundColor: ["#3D5B6F", "#9887C2", "#2FC5A1", "#2DD7E2", "#A0F5FF", "#FFD666", "#EF7056", "#A95A4C"]
 	                }]
 	            },
@@ -9016,21 +9036,26 @@ var App =
 	    },
 
 	    componentDidMount: function componentDidMount() {
+	        alert(this.props.eventID);
 	        $.ajax({
 	            url: "/event/count/all",
 	            contentType: 'application/json',
 	            type: 'GET',
+	            data: JSON.stringify({
+	                eventID: this.props.eventID
+	            }),
 	            success: function (data) {
 	                //console.log(data);
 	                switch (data.code) {
 	                    case 0:
 	                        if (this.isMounted()) {
-	                            this.print1(data.body.data1);
-	                            this.print2(data.body.data2);
+	                            this.print1(data.body.gender);
+	                            this.print2(data.body.department);
 	                        }
 	                        break;
 	                    default:
-	                        alert(data.msg);
+	                        alert(this.props.eventID);
+	                        //alert(data.msg);
 	                        break;
 	                }
 	            }.bind(this),
@@ -9323,402 +9348,6 @@ var App =
 	                                "td",
 	                                null,
 	                                React.createElement("i", { className: "fa fa-heart i4", "aria-hidden": "true" }),
-	                                " 10"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                React.createElement(
-	                                    "a",
-	                                    { className: "a19", href: "#" },
-	                                    "删除"
-	                                )
-	                            )
-	                        ),
-	                        React.createElement(
-	                            "tr",
-	                            null,
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "吴昊潜"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "男"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "计算机科学与技术"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "产品"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "2016/7/15"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                React.createElement("i", { className: "fa fa-heart i4", "aria-hidden": "true" }),
-	                                " 10"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                React.createElement(
-	                                    "a",
-	                                    { className: "a19", href: "#" },
-	                                    "删除"
-	                                )
-	                            )
-	                        ),
-	                        React.createElement(
-	                            "tr",
-	                            null,
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "吴昊潜"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "男"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "计算机科学与技术"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "产品"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "2016/7/15"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                React.createElement("i", { className: "fa fa-heart i4", "aria-hidden": "true" }),
-	                                " 10"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                React.createElement(
-	                                    "a",
-	                                    { className: "a19", href: "#" },
-	                                    "删除"
-	                                )
-	                            )
-	                        ),
-	                        React.createElement(
-	                            "tr",
-	                            null,
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "吴昊潜"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "男"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "计算机科学与技术"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "产品"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "2016/7/15"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                React.createElement("i", { className: "fa fa-heart i4", "aria-hidden": "true" }),
-	                                " 10"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                React.createElement(
-	                                    "a",
-	                                    { className: "a19", href: "#" },
-	                                    "删除"
-	                                )
-	                            )
-	                        ),
-	                        React.createElement(
-	                            "tr",
-	                            null,
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "吴昊潜"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "男"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "计算机科学与技术"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "产品"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "2016/7/15"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                React.createElement("i", { className: "fa fa-heart i4", "aria-hidden": "true" }),
-	                                " 10"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                React.createElement(
-	                                    "a",
-	                                    { className: "a19", href: "#" },
-	                                    "删除"
-	                                )
-	                            )
-	                        ),
-	                        React.createElement(
-	                            "tr",
-	                            null,
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "吴昊潜"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "男"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "计算机科学与技术"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "产品"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "2016/7/15"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                React.createElement("i", { className: "fa fa-heart i4", "aria-hidden": "true" }),
-	                                " 10"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                React.createElement(
-	                                    "a",
-	                                    { className: "a19", href: "#" },
-	                                    "删除"
-	                                )
-	                            )
-	                        ),
-	                        React.createElement(
-	                            "tr",
-	                            null,
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "吴昊潜"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "男"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "计算机科学与技术"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "产品"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "2016/7/15"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                React.createElement("i", { className: "fa fa-heart i4", "aria-hidden": "true" }),
-	                                " 10"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                React.createElement(
-	                                    "a",
-	                                    { className: "a19", href: "#" },
-	                                    "删除"
-	                                )
-	                            )
-	                        ),
-	                        React.createElement(
-	                            "tr",
-	                            null,
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "吴昊潜"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "男"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "计算机科学与技术"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "产品"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "2016/7/15"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                React.createElement("i", { className: "fa fa-heart i4", "aria-hidden": "true" }),
-	                                " 10"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                React.createElement(
-	                                    "a",
-	                                    { className: "a19", href: "#" },
-	                                    "删除"
-	                                )
-	                            )
-	                        ),
-	                        React.createElement(
-	                            "tr",
-	                            null,
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "吴昊潜"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "男"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "计算机科学与技术"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "产品"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "2016/7/15"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                React.createElement("i", { className: "fa fa-heart i4", "aria-hidden": "true" }),
-	                                " 10"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                React.createElement(
-	                                    "a",
-	                                    { className: "a19", href: "#" },
-	                                    "删除"
-	                                )
-	                            )
-	                        ),
-	                        React.createElement(
-	                            "tr",
-	                            null,
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "吴昊潜"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "男"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "计算机科学与技术"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "产品"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "2016/7/15"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                React.createElement("i", { className: "fa fa-heart-empty i4", "aria-hidden": "true" }),
 	                                " 10"
 	                            ),
 	                            React.createElement(

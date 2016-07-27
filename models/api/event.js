@@ -56,7 +56,8 @@ exports.getRecentCount = (req, res, next) => {
 	var eventID = req.query.eventID;
 	var dateNum = req.query.num;
 	var dates = date.getDates(dateNum);
-	console.log(dates);
+	console.log(eventID);
+	//console.log(dates);
 	Form.find({
 			eventID: eventID,
 		})

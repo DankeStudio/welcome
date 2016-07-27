@@ -5,19 +5,18 @@ var React = require('react');
 var Component = React.Component;
 
 module.exports = React.createClass({
-
     render: function(){
         return(
             <div>
                 <div className="dank-slider-org">
                     <div>
-                        <big className="dank-slider-active"><i className="fa fa-file-text" aria-hidden="true"></i><b>报名表管理</b></big>
+                        <big className="dank-slider-active"><i className="fa fa-file-text" aria-hidden="true"/><b>报名表管理</b></big>
                     </div>
                     <div>
-                        <a href="#"><i className="fa fa-commenting" aria-hidden="true"></i><b> 消息通知</b></a>
+                        <a href="#"><i className="fa fa-commenting" aria-hidden="true"/><b> 消息通知</b></a>
                     </div>
                     <div>
-                        <a href="#"><i className="fa fa-trash" aria-hidden="true"></i><b> 回收站</b></a>
+                        <a href="#"><i className="fa fa-trash" aria-hidden="true"/><b> 回收站</b></a>
                     </div>
                 </div>
                 <div className="dank-slider-right">
@@ -29,28 +28,11 @@ module.exports = React.createClass({
 });
 
 var Content = React.createClass({
-    render : function(){
-        return(
-            <div className="container-fluid">
-                <div className="row">
-                    <div className="col-md-3 c4">
-                        <div className="c5">
-                            <Event/>
-                        </div>
-                    </div>
-                    <div className="col-md-9 c4">
-                        <Form/>
-                    </div>
-                </div>
-            </div>
-        )
-    }
-});
-
-var Event = React.createClass({
     getInitialState: function(){
         return {
-            event:[{eventID : '', name : '', ym:''}]
+            initial: 1,
+            nowEventID:'',
+            events:[{eventID : '', name : '', ym:''}]
         }
     },
     componentDidMount: function(){
@@ -62,7 +44,10 @@ var Event = React.createClass({
                 switch(data.code){
                     case 0:
                         if(this.isMounted()){
-                            this.setState({event:data.body.events});
+                            this.setState({events:data.body.events});
+                            if(this.state.initial){
+                                this.setState({nowEventID:data.body.events[0].eventID, initial:0});
+                            }
                         }
                         break;
                     default:
@@ -75,25 +60,54 @@ var Event = React.createClass({
             }.bind(this)
         });
     },
+    eventChange: function(eventID){
+        this.setState({nowEventID: eventID});
+    },
+    render : function(){
+        return(
+            <div className="container-fluid">
+                <div className="row">
+                    <div className="col-md-3 c4">
+                        <div className="c5">
+                            <Event eventID={this.state.nowEventID} events={this.state.events} eventChange={this.eventChange}/>
+                        </div>
+                    </div>
+                    <div className="col-md-9 c4">
+                        <Form eventID={this.state.nowEventID}/>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+});
+
+var Event = React.createClass({
+
     render: function(){
         var overflow = {
             overflow : "hidden"
         };
-        var eventNodes = this.state.event.map(function (eventItem) {
+        var eventNodes = this.props.events.map(function (eventItem) {
+            var className =
+                (eventItem.eventID==this.props.eventID)?
+                    "row dank-temp-table-active":"row dank-temp-table";
+            var clickEvent = (eventItem.eventID==this.props.eventID)?
+                function(){this.props.eventChange(eventItem.eventID)}.bind(this):null;
+
             return (
-                <div className="row" key={eventItem.eventID}>
+                <div className={className} onClick={clickEvent} key={eventItem.eventID}>
                     <div className="col-md-12">
                         <table className="center-block">
                             <tbody>
                             <tr>
                                 <td><div className="text-center">
-                                    <div className="d4">
+                                    <div className="dank-d4">
                                         <b>{eventItem.ym}</b>
                                     </div>
                                 </div></td>
                                 <td><div className="text-left">
-                                    <div style={overflow}>
-                                        <h1>{eventItem.name}</h1>
+                                    <div>
+                                        <h1 className="dank-temp-h1">{eventItem.name}</h1>
                                     </div>
                                 </div></td>
                             </tr>
@@ -101,19 +115,19 @@ var Event = React.createClass({
                         </table>
                     </div>
                 </div>
-            );
-        });
+            )
+        }.bind(this));
 
         return(
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-md-12 text-left">
-                        <a className="a11" href="#"><b>纳新事项</b></a>
+                        <big className="big11" href="#"><b>纳新事项</b></big>
                     </div>
                 </div>
                 <div className="row">
                     <div className="col-md-12 text-left">
-                        <a className="btn a12" href="#"><b>新增事项</b></a>
+                        <a className="btn dank-temp-a12" href="#"><b>新增事项</b></a>
                     </div>
                 </div>
                 {eventNodes}
@@ -123,20 +137,21 @@ var Event = React.createClass({
 });
 
 var Form = React.createClass({
-   render:function(){
+
+    render:function(){
         return(
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-md-6">
-                        <Graph1/>
+                        <Graph1 eventID={this.props.eventID}/>
                     </div>
                     <div className="col-md-6">
-                        <Graph2/>
+                        <Graph2 eventID={this.props.eventID}/>
                     </div>
                 </div>
                 <div className="row">
                     <div className="col-md-12">
-                        <List/>
+                        <List eventID={this.props.eventID}/>
                     </div>
                 </div>
             </div>
@@ -200,13 +215,16 @@ var Graph1 = React.createClass({
    },
 
     componentDidMount: function(){
+
         $.ajax({
-            url: "/event/count/add",
+            url: "/event/count/recent",
             contentType: 'application/json',
             type: 'GET',
+            data: JSON.stringify({
+                eventID: this.props.eventID,
+                num: 7
+            }),
             success: function(data) {
-                console.log('1');
-                console.log(data);
                 switch(data.code){
                     case 0:
                         if(this.isMounted()){
@@ -214,6 +232,7 @@ var Graph1 = React.createClass({
                         }
                         break;
                     default:
+                        //alert(this.props.eventID);
                         alert(data.msg);
                         break;
                 }
@@ -250,7 +269,7 @@ var Graph2 = React.createClass({
                 labels: ["男", "女"],
                 datasets: [
                     {
-                        data: [data.male, data.female],
+                        data: [data.counts[0], data.counts[1]],
                         backgroundColor: [
                             "#79dae7",
                             "#ff8d94"
@@ -289,7 +308,7 @@ var Graph2 = React.createClass({
                 labels: data.labels,
                 datasets: [
                     {
-                        data: data.data,
+                        data: data.counts,
                         backgroundColor: [
                             "#3D5B6F",
                             "#9887C2",
@@ -322,20 +341,25 @@ var Graph2 = React.createClass({
     },
 
     componentDidMount: function(){
+        alert(this.props.eventID);
         $.ajax({
             url: "/event/count/all",
             contentType: 'application/json',
             type: 'GET',
+            data: JSON.stringify({
+               eventID: this.props.eventID
+            }),
             success: function(data) {
                 //console.log(data);
                 switch(data.code){
                     case 0:
                         if(this.isMounted()){
-                            this.print1(data.body.data1);
-                            this.print2(data.body.data2);
+                            this.print1(data.body.gender);
+                            this.print2(data.body.department);
                         }
                         break;
                     default:
+                        //alert(this.props.eventID);
                         alert(data.msg);
                         break;
                 }
@@ -417,87 +441,6 @@ var List = React.createClass({
                             <td>产品</td>
                             <td>2016/7/15</td>
                             <td><i className="fa fa-heart i4" aria-hidden="true"/> 10</td>
-                            <td><a className="a19" href="#">删除</a></td>
-                        </tr>
-                        <tr>
-                            <td>吴昊潜</td>
-                            <td>男</td>
-                            <td>计算机科学与技术</td>
-                            <td>产品</td>
-                            <td>2016/7/15</td>
-                            <td><i className="fa fa-heart i4" aria-hidden="true"/> 10</td>
-                            <td><a className="a19" href="#">删除</a></td>
-                        </tr>
-                        <tr>
-                            <td>吴昊潜</td>
-                            <td>男</td>
-                            <td>计算机科学与技术</td>
-                            <td>产品</td>
-                            <td>2016/7/15</td>
-                            <td><i className="fa fa-heart i4" aria-hidden="true"/> 10</td>
-                            <td><a className="a19" href="#">删除</a></td>
-                        </tr>
-                        <tr>
-                            <td>吴昊潜</td>
-                            <td>男</td>
-                            <td>计算机科学与技术</td>
-                            <td>产品</td>
-                            <td>2016/7/15</td>
-                            <td><i className="fa fa-heart i4" aria-hidden="true"/> 10</td>
-                            <td><a className="a19" href="#">删除</a></td>
-                        </tr>
-                        <tr>
-                            <td>吴昊潜</td>
-                            <td>男</td>
-                            <td>计算机科学与技术</td>
-                            <td>产品</td>
-                            <td>2016/7/15</td>
-                            <td><i className="fa fa-heart i4" aria-hidden="true"/> 10</td>
-                            <td><a className="a19" href="#">删除</a></td>
-                        </tr>
-                        <tr>
-                            <td>吴昊潜</td>
-                            <td>男</td>
-                            <td>计算机科学与技术</td>
-                            <td>产品</td>
-                            <td>2016/7/15</td>
-                            <td><i className="fa fa-heart i4" aria-hidden="true"/> 10</td>
-                            <td><a className="a19" href="#">删除</a></td>
-                        </tr>
-                        <tr>
-                            <td>吴昊潜</td>
-                            <td>男</td>
-                            <td>计算机科学与技术</td>
-                            <td>产品</td>
-                            <td>2016/7/15</td>
-                            <td><i className="fa fa-heart i4" aria-hidden="true"/> 10</td>
-                            <td><a className="a19" href="#">删除</a></td>
-                        </tr>
-                        <tr>
-                            <td>吴昊潜</td>
-                            <td>男</td>
-                            <td>计算机科学与技术</td>
-                            <td>产品</td>
-                            <td>2016/7/15</td>
-                            <td><i className="fa fa-heart i4" aria-hidden="true"/> 10</td>
-                            <td><a className="a19" href="#">删除</a></td>
-                        </tr>
-                        <tr>
-                            <td>吴昊潜</td>
-                            <td>男</td>
-                            <td>计算机科学与技术</td>
-                            <td>产品</td>
-                            <td>2016/7/15</td>
-                            <td><i className="fa fa-heart i4" aria-hidden="true"/> 10</td>
-                            <td><a className="a19" href="#">删除</a></td>
-                        </tr>
-                        <tr>
-                            <td>吴昊潜</td>
-                            <td>男</td>
-                            <td>计算机科学与技术</td>
-                            <td>产品</td>
-                            <td>2016/7/15</td>
-                            <td><i className="fa fa-heart-empty i4" aria-hidden="true"/> 10</td>
                             <td><a className="a19" href="#">删除</a></td>
                         </tr>
                         </tbody>

@@ -66,7 +66,7 @@ exports.getRecentCount = (req, res, next) => {
 			eventID: eventID,
 		})
 		.then((forms) => {
-			console.log(forms);
+			//console.log(forms);
 			for (var i = 0; i < dates.length; i++) {
 				counts[i] = 0;
 			}

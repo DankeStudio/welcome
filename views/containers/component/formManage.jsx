@@ -217,13 +217,11 @@ var Graph1 = React.createClass({
 
     componentDidMount: function(){
         //console.log(this.props.eventID);
-        var a=2;
         $.ajax({
             url: "/event/count/recent",
             contentType: 'application/json',
             type: 'GET',
             data: {
-                test:a,
                 eventID: this.props.eventID,
                 num: 7
             },
@@ -247,6 +245,36 @@ var Graph1 = React.createClass({
         });
 
    },
+    componentDidUpdate: function(){
+        //console.log(this.props.eventID);
+        $.ajax({
+            url: "/event/count/recent",
+            contentType: 'application/json',
+            type: 'GET',
+            data: {
+                eventID: this.props.eventID,
+                num: 7
+            },
+            success: function(data) {
+                //console.log(data);
+                switch(data.code){
+                    case 0:
+                        if(this.isMounted()){
+                            this.print(data.body.data);
+                        }
+                        break;
+                    default:
+                        //alert(this.props.eventID);
+                        console.log(data.msg);
+                        break;
+                }
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error("ajax请求发起失败");
+            }.bind(this)
+        });
+
+    },
 
     render: function(){
         return(
@@ -354,6 +382,35 @@ var Graph2 = React.createClass({
                eventID: this.props.eventID
             },
             success: function(data) {
+                //console.log(data);
+                switch(data.code){
+                    case 0:
+                        if(this.isMounted()){
+                            this.print1(data.body.gender);
+                            this.print2(data.body.department);
+                        }
+                        break;
+                    default:
+                        //alert(this.props.eventID);
+                        console.log(data.msg);
+                        break;
+                }
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error("ajax请求发起失败");
+            }.bind(this)
+        });
+    },
+    componentDidUpdate: function(){
+        //alert(this.props.eventID);
+        $.ajax({
+            url: "/event/count/all",
+            contentType: 'application/json',
+            type: 'GET',
+            data: {
+                eventID: this.props.eventID
+            },
+            success: function(data) {
                 console.log(data);
                 switch(data.code){
                     case 0:
@@ -395,58 +452,140 @@ var Graph2 = React.createClass({
 });
 
 var List = React.createClass({
-    render: function(){
-        return(
-            <div className="c7 text-center">
-                <table className="table">
-                    <tbody>
-                    <tr>
-                        <td><a className="btn a13" href="#"><b>报名表序号 01</b></a></td>
-                        <td><a className="btn a14" href="#"><b>导入报名表</b></a></td>
-                        <td><a className="btn a14" href="#"><b>导出报名表</b></a></td>
-                        <td><a className="btn a15" href="#"><b>全部</b>
-                            <table className="center-block t4">
-                                <tbody>
-                                <tr className="tr1"><td><a href="?"><i className="fa fa-sort-up i3" aria-hidden="true"/></a></td>
-                                </tr>
-                                <tr className="tr1"><td><a href="?"><i className="fa fa-sort-down i3" aria-hidden="true"/></a></td>
-                                </tr>
-                                </tbody>
-                            </table></a></td>
-                        <td><a className="btn a16" href="#"><b>排序</b></a></td>
-                        <td><a className="btn a17" href="#"><b>时间</b>
-                            <table className="center-block t4">
-                                <tbody>
-                                <tr className="tr1"><td><a href="?"><i className="fa fa-sort-up i3" aria-hidden="true"/></a></td>
-                                </tr>
-                                <tr className="tr1"><td><a href="?"><i className="fa fa-sort-down i3" aria-hidden="true"/></a></td>
-                                </tr>
-                                </tbody>
-                            </table></a></td>
-                        <td><a className="btn a18" href="#"><b>赞数</b>
-                            <table className="center-block t4">
-                                <tbody>
-                                <tr className="tr1"><td><a href="?"><i className="fa fa-sort-up i3" aria-hidden="true"/></a></td>
-                                </tr>
-                                <tr className="tr1"><td><a href="?"><i className="fa fa-sort-down i3" aria-hidden="true"/></a></td>
-                                </tr>
-                                </tbody>
-                            </table></a></td>
-                    </tr>
-                    </tbody>
-                </table>
+    getInitialState : function(){
+        return{
+            wish: '全部部门',
+            departments:[],
+            order: -1,
+            page: 1,
+            forms:[{
+                writetime: '',
+                browserinfo: '',
+                date:'',
+                like: '',
+                baseinfo: {
+                    name : '',
+                    sex : '',
+                    origin : '',
+                    nation : '',
+                    schoolID : '',
+                    politicalStatus : '',
+                    telnumber : '',
+                    telshort : '',
+                    email :'',
+                    qq : '',
+                    major : '',
+                    birth :'',
+                    address :''
+                },
+                skills: {
+                    title:'',
+                    chosen: []
+                },
+                introduction: {
+                    title: '',
+                    content: ''
+                },
+                wish: {
+                    title:'',
+                    chosen:[]
+                },
+                reason: '',
+                remark:'',
+                others:[]
+            }]
+        }
+    },
 
-                    <b><table className="table t5">
+    componentDidMount: function(){
+        $.ajax({
+            url: "/org/form",
+            contentType: 'application/json',
+            type: 'GET',
+            data: {
+                eventID: this.props.eventID,
+                order: this.state.order,
+                page: this.state.page,
+                wish: this.state.wish
+            },
+            success: function(data) {
+                console.log(data);
+                switch(data.code){
+                    case 0:
+                        if(this.isMounted()){
+                            this.setState({forms: data.body.forms});
+                        }
+                        break;
+                    default:
+                        //alert(this.props.eventID);
+                        console.log(data.msg);
+                        break;
+                }
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error("ajax请求发起失败");
+            }.bind(this)
+        });
+    },
+
+    render: function(){
+        var titleStyle1 = {
+            textAlign: 'left'
+        };
+        var titleStyle2 = {
+            textAlign: 'left',
+            float: 'left'
+        };
+        var titleStyle3 = {
+            textAlign: 'left',
+            float:'right'
+        };
+        var eventIDStyle={
+            border:'2px solid #000000',
+            borderRadius:'8px',
+            width:'144px',
+            fontSize:'18px',
+            color: '#444852',
+            height: '40px',
+            lineHeight: '40px',
+            display:'block',
+            textAlign:'center',
+            marginLeft:'10px'
+        };
+        var selectStyle = {
+            marginRight: '50px'
+        };
+        var deleteStyle={
+            textAlign: 'Right'
+        };
+        var formRecords = this.state.forms.map(function (form, i) {
+            return (
+                <tr key={i}>
+                    <td>{form.baseinfo.name}</td>
+                    <td>{form.baseinfo.sex}</td>
+                    <td>{form.baseinfo.major}</td>
+                    <td>{form.wish.chosen}</td>
+                    <td>{form.date}</td>
+                    <td style={deleteStyle}><a className="a19" href="#">删除</a></td>
+                </tr>
+            )
+        }.bind(this));
+        return(
+            <div className="dank-c7 text-center">
+                <div style={titleStyle1}><big style={eventIDStyle}>报名表序号 {this.props.eventID}</big></div>
+                <div style={titleStyle2}>
+                    <a className="btn dank-a14" href="#"><b>导入报名表</b></a>
+                    <a className="btn dank-a14" href="#"><b>导出报名表</b></a>
+                </div>
+                <div style={titleStyle3} className="form-inline">
+                    <select className="form-control" style={selectStyle}>
+                        <option>全部部门</option>
+                    </select>
+                    <a className="btn dank-a14" href="#"><b>时间<i className="fa fa-chevron-up i3" aria-hidden="true"/></b></a>
+                </div>
+                <b><table className="table dank-t5">
                         <tbody>
-                        <tr>
-                            <td>吴昊潜</td>
-                            <td>男</td>
-                            <td>计算机科学与技术</td>
-                            <td>产品</td>
-                            <td>2016/7/15</td>
-                            <td><i className="fa fa-heart i4" aria-hidden="true"/> 10</td>
-                            <td><a className="a19" href="#">删除</a></td>
-                        </tr>
+                        {(this.state.forms)?formRecords:null}
                         </tbody>
                     </table></b>
                     <div><b>
@@ -455,7 +594,6 @@ var List = React.createClass({
                         <a className="a20" href="#">下一页</a>
                         <a className="a20" href="#">尾页</a>
                     </b></div>
-
             </div>
         )
     }

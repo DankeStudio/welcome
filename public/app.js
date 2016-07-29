@@ -8916,13 +8916,40 @@ var App =
 
 	    componentDidMount: function componentDidMount() {
 	        //console.log(this.props.eventID);
-	        var a = 2;
 	        $.ajax({
 	            url: "/event/count/recent",
 	            contentType: 'application/json',
 	            type: 'GET',
 	            data: {
-	                test: a,
+	                eventID: this.props.eventID,
+	                num: 7
+	            },
+	            success: function (data) {
+	                //console.log(data);
+	                switch (data.code) {
+	                    case 0:
+	                        if (this.isMounted()) {
+	                            this.print(data.body.data);
+	                        }
+	                        break;
+	                    default:
+	                        //alert(this.props.eventID);
+	                        console.log(data.msg);
+	                        break;
+	                }
+	            }.bind(this),
+	            error: function (xhr, status, err) {
+	                console.error("ajax请求发起失败");
+	            }.bind(this)
+	        });
+	    },
+	    componentDidUpdate: function componentDidUpdate() {
+	        //console.log(this.props.eventID);
+	        $.ajax({
+	            url: "/event/count/recent",
+	            contentType: 'application/json',
+	            type: 'GET',
+	            data: {
 	                eventID: this.props.eventID,
 	                num: 7
 	            },
@@ -9047,6 +9074,35 @@ var App =
 	                eventID: this.props.eventID
 	            },
 	            success: function (data) {
+	                //console.log(data);
+	                switch (data.code) {
+	                    case 0:
+	                        if (this.isMounted()) {
+	                            this.print1(data.body.gender);
+	                            this.print2(data.body.department);
+	                        }
+	                        break;
+	                    default:
+	                        //alert(this.props.eventID);
+	                        console.log(data.msg);
+	                        break;
+	                }
+	            }.bind(this),
+	            error: function (xhr, status, err) {
+	                console.error("ajax请求发起失败");
+	            }.bind(this)
+	        });
+	    },
+	    componentDidUpdate: function componentDidUpdate() {
+	        //alert(this.props.eventID);
+	        $.ajax({
+	            url: "/event/count/all",
+	            contentType: 'application/json',
+	            type: 'GET',
+	            data: {
+	                eventID: this.props.eventID
+	            },
+	            success: function (data) {
 	                console.log(data);
 	                switch (data.code) {
 	                    case 0:
@@ -9100,212 +9156,207 @@ var App =
 	var List = React.createClass({
 	    displayName: "List",
 
+	    getInitialState: function getInitialState() {
+	        return {
+	            wish: '全部部门',
+	            departments: [],
+	            order: -1,
+	            page: 1,
+	            forms: [{
+	                writetime: '',
+	                browserinfo: '',
+	                date: '',
+	                like: '',
+	                baseinfo: {
+	                    name: '',
+	                    sex: '',
+	                    origin: '',
+	                    nation: '',
+	                    schoolID: '',
+	                    politicalStatus: '',
+	                    telnumber: '',
+	                    telshort: '',
+	                    email: '',
+	                    qq: '',
+	                    major: '',
+	                    birth: '',
+	                    address: ''
+	                },
+	                skills: {
+	                    title: '',
+	                    chosen: []
+	                },
+	                introduction: {
+	                    title: '',
+	                    content: ''
+	                },
+	                wish: {
+	                    title: '',
+	                    chosen: []
+	                },
+	                reason: '',
+	                remark: '',
+	                others: []
+	            }]
+	        };
+	    },
+
+	    componentDidMount: function componentDidMount() {
+	        $.ajax({
+	            url: "/org/form",
+	            contentType: 'application/json',
+	            type: 'GET',
+	            data: {
+	                eventID: this.props.eventID,
+	                order: this.state.order,
+	                page: this.state.page,
+	                wish: this.state.wish
+	            },
+	            success: function (data) {
+	                console.log(data);
+	                switch (data.code) {
+	                    case 0:
+	                        if (this.isMounted()) {
+	                            this.setState({ forms: data.body.forms });
+	                        }
+	                        break;
+	                    default:
+	                        //alert(this.props.eventID);
+	                        console.log(data.msg);
+	                        break;
+	                }
+	            }.bind(this),
+	            error: function (xhr, status, err) {
+	                console.error("ajax请求发起失败");
+	            }.bind(this)
+	        });
+	    },
+
 	    render: function render() {
+	        var titleStyle1 = {
+	            textAlign: 'left'
+	        };
+	        var titleStyle2 = {
+	            textAlign: 'left',
+	            float: 'left'
+	        };
+	        var titleStyle3 = {
+	            textAlign: 'left',
+	            float: 'right'
+	        };
+	        var eventIDStyle = {
+	            border: '2px solid #000000',
+	            borderRadius: '8px',
+	            width: '144px',
+	            fontSize: '18px',
+	            color: '#444852',
+	            height: '40px',
+	            lineHeight: '40px',
+	            display: 'block',
+	            textAlign: 'center',
+	            marginLeft: '10px'
+	        };
+	        var selectStyle = {
+	            marginRight: '50px'
+	        };
+	        var deleteStyle = {
+	            textAlign: 'Right'
+	        };
+	        var formRecords = this.state.forms.map(function (form, i) {
+	            return React.createElement(
+	                "tr",
+	                { key: i },
+	                React.createElement(
+	                    "td",
+	                    null,
+	                    form.baseinfo.name
+	                ),
+	                React.createElement(
+	                    "td",
+	                    null,
+	                    form.baseinfo.sex
+	                ),
+	                React.createElement(
+	                    "td",
+	                    null,
+	                    form.baseinfo.major
+	                ),
+	                React.createElement(
+	                    "td",
+	                    null,
+	                    form.wish.chosen
+	                ),
+	                React.createElement(
+	                    "td",
+	                    null,
+	                    form.date
+	                ),
+	                React.createElement(
+	                    "td",
+	                    { style: deleteStyle },
+	                    React.createElement(
+	                        "a",
+	                        { className: "a19", href: "#" },
+	                        "删除"
+	                    )
+	                )
+	            );
+	        }.bind(this));
 	        return React.createElement(
 	            "div",
-	            { className: "c7 text-center" },
+	            { className: "dank-c7 text-center" },
 	            React.createElement(
-	                "table",
-	                { className: "table" },
+	                "div",
+	                { style: titleStyle1 },
 	                React.createElement(
-	                    "tbody",
-	                    null,
+	                    "big",
+	                    { style: eventIDStyle },
+	                    "报名表序号 ",
+	                    this.props.eventID
+	                )
+	            ),
+	            React.createElement(
+	                "div",
+	                { style: titleStyle2 },
+	                React.createElement(
+	                    "a",
+	                    { className: "btn dank-a14", href: "#" },
 	                    React.createElement(
-	                        "tr",
+	                        "b",
 	                        null,
-	                        React.createElement(
-	                            "td",
-	                            null,
-	                            React.createElement(
-	                                "a",
-	                                { className: "btn a13", href: "#" },
-	                                React.createElement(
-	                                    "b",
-	                                    null,
-	                                    "报名表序号 01"
-	                                )
-	                            )
-	                        ),
-	                        React.createElement(
-	                            "td",
-	                            null,
-	                            React.createElement(
-	                                "a",
-	                                { className: "btn a14", href: "#" },
-	                                React.createElement(
-	                                    "b",
-	                                    null,
-	                                    "导入报名表"
-	                                )
-	                            )
-	                        ),
-	                        React.createElement(
-	                            "td",
-	                            null,
-	                            React.createElement(
-	                                "a",
-	                                { className: "btn a14", href: "#" },
-	                                React.createElement(
-	                                    "b",
-	                                    null,
-	                                    "导出报名表"
-	                                )
-	                            )
-	                        ),
-	                        React.createElement(
-	                            "td",
-	                            null,
-	                            React.createElement(
-	                                "a",
-	                                { className: "btn a15", href: "#" },
-	                                React.createElement(
-	                                    "b",
-	                                    null,
-	                                    "全部"
-	                                ),
-	                                React.createElement(
-	                                    "table",
-	                                    { className: "center-block t4" },
-	                                    React.createElement(
-	                                        "tbody",
-	                                        null,
-	                                        React.createElement(
-	                                            "tr",
-	                                            { className: "tr1" },
-	                                            React.createElement(
-	                                                "td",
-	                                                null,
-	                                                React.createElement(
-	                                                    "a",
-	                                                    { href: "?" },
-	                                                    React.createElement("i", { className: "fa fa-sort-up i3", "aria-hidden": "true" })
-	                                                )
-	                                            )
-	                                        ),
-	                                        React.createElement(
-	                                            "tr",
-	                                            { className: "tr1" },
-	                                            React.createElement(
-	                                                "td",
-	                                                null,
-	                                                React.createElement(
-	                                                    "a",
-	                                                    { href: "?" },
-	                                                    React.createElement("i", { className: "fa fa-sort-down i3", "aria-hidden": "true" })
-	                                                )
-	                                            )
-	                                        )
-	                                    )
-	                                )
-	                            )
-	                        ),
-	                        React.createElement(
-	                            "td",
-	                            null,
-	                            React.createElement(
-	                                "a",
-	                                { className: "btn a16", href: "#" },
-	                                React.createElement(
-	                                    "b",
-	                                    null,
-	                                    "排序"
-	                                )
-	                            )
-	                        ),
-	                        React.createElement(
-	                            "td",
-	                            null,
-	                            React.createElement(
-	                                "a",
-	                                { className: "btn a17", href: "#" },
-	                                React.createElement(
-	                                    "b",
-	                                    null,
-	                                    "时间"
-	                                ),
-	                                React.createElement(
-	                                    "table",
-	                                    { className: "center-block t4" },
-	                                    React.createElement(
-	                                        "tbody",
-	                                        null,
-	                                        React.createElement(
-	                                            "tr",
-	                                            { className: "tr1" },
-	                                            React.createElement(
-	                                                "td",
-	                                                null,
-	                                                React.createElement(
-	                                                    "a",
-	                                                    { href: "?" },
-	                                                    React.createElement("i", { className: "fa fa-sort-up i3", "aria-hidden": "true" })
-	                                                )
-	                                            )
-	                                        ),
-	                                        React.createElement(
-	                                            "tr",
-	                                            { className: "tr1" },
-	                                            React.createElement(
-	                                                "td",
-	                                                null,
-	                                                React.createElement(
-	                                                    "a",
-	                                                    { href: "?" },
-	                                                    React.createElement("i", { className: "fa fa-sort-down i3", "aria-hidden": "true" })
-	                                                )
-	                                            )
-	                                        )
-	                                    )
-	                                )
-	                            )
-	                        ),
-	                        React.createElement(
-	                            "td",
-	                            null,
-	                            React.createElement(
-	                                "a",
-	                                { className: "btn a18", href: "#" },
-	                                React.createElement(
-	                                    "b",
-	                                    null,
-	                                    "赞数"
-	                                ),
-	                                React.createElement(
-	                                    "table",
-	                                    { className: "center-block t4" },
-	                                    React.createElement(
-	                                        "tbody",
-	                                        null,
-	                                        React.createElement(
-	                                            "tr",
-	                                            { className: "tr1" },
-	                                            React.createElement(
-	                                                "td",
-	                                                null,
-	                                                React.createElement(
-	                                                    "a",
-	                                                    { href: "?" },
-	                                                    React.createElement("i", { className: "fa fa-sort-up i3", "aria-hidden": "true" })
-	                                                )
-	                                            )
-	                                        ),
-	                                        React.createElement(
-	                                            "tr",
-	                                            { className: "tr1" },
-	                                            React.createElement(
-	                                                "td",
-	                                                null,
-	                                                React.createElement(
-	                                                    "a",
-	                                                    { href: "?" },
-	                                                    React.createElement("i", { className: "fa fa-sort-down i3", "aria-hidden": "true" })
-	                                                )
-	                                            )
-	                                        )
-	                                    )
-	                                )
-	                            )
-	                        )
+	                        "导入报名表"
+	                    )
+	                ),
+	                React.createElement(
+	                    "a",
+	                    { className: "btn dank-a14", href: "#" },
+	                    React.createElement(
+	                        "b",
+	                        null,
+	                        "导出报名表"
+	                    )
+	                )
+	            ),
+	            React.createElement(
+	                "div",
+	                { style: titleStyle3, className: "form-inline" },
+	                React.createElement(
+	                    "select",
+	                    { className: "form-control", style: selectStyle },
+	                    React.createElement(
+	                        "option",
+	                        null,
+	                        "全部部门"
+	                    )
+	                ),
+	                React.createElement(
+	                    "a",
+	                    { className: "btn dank-a14", href: "#" },
+	                    React.createElement(
+	                        "b",
+	                        null,
+	                        "时间",
+	                        React.createElement("i", { className: "fa fa-chevron-up i3", "aria-hidden": "true" })
 	                    )
 	                )
 	            ),
@@ -9314,54 +9365,11 @@ var App =
 	                null,
 	                React.createElement(
 	                    "table",
-	                    { className: "table t5" },
+	                    { className: "table dank-t5" },
 	                    React.createElement(
 	                        "tbody",
 	                        null,
-	                        React.createElement(
-	                            "tr",
-	                            null,
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "吴昊潜"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "男"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "计算机科学与技术"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "产品"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                "2016/7/15"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                React.createElement("i", { className: "fa fa-heart i4", "aria-hidden": "true" }),
-	                                " 10"
-	                            ),
-	                            React.createElement(
-	                                "td",
-	                                null,
-	                                React.createElement(
-	                                    "a",
-	                                    { className: "a19", href: "#" },
-	                                    "删除"
-	                                )
-	                            )
-	                        )
+	                        this.state.forms ? formRecords : null
 	                    )
 	                )
 	            ),

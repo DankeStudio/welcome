@@ -8,7 +8,7 @@ module.exports = mongoose.model('event', new Schema({
     eventID:{type:Number, require:'miss eventID'},
     name: {type:String, require:'miss eventname'},
     date: {type:Date, default:Date.now},
-    orgID: Schema.Types.ObjectId,
+    orgID: {type:Schema.Types.ObjectId, require:'miss orgID'},
     formschema:{
         skills: {
             delete:Boolean,

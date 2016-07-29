@@ -54,6 +54,10 @@ module.exports = require('express').Router()
     .post('/form/design', eventFilter)
     .post('/form/design', form.design)
 
+    //search a form by name or phone number
+    .get('/form/search', grantOrg)
+    .post('/form/search', form.search)
+
     //get org events
     .get('/event',grantOrg)
     .get('/event',event.getEvent)

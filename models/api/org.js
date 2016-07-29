@@ -2,7 +2,7 @@
  * Created by admin on 2016/7/21.
  */
 var Org = require('../db/org');
-var Form= require('../db/form');
+var Form = require('../db/form');
 
 exports.login = (req, res, next) => {
     var username = req.body.username;
@@ -153,18 +153,15 @@ exports.getForm = (req, res, next) => {
         wish = [wish];
         query = Form.find({
             eventID: eventID,
-            wish: {
-                chosen:{
-                    $in: wish
-                }
+            'wish.chosen': {
+                $in: wish
             }
         })
     }
     query = query.sort({
         date: order
-    }).skip((page-1) * max).limit(max);
-    query.exec()
-        .then((forms) => {
+    }).skip((page - 1) * max).limit(max);
+    query.then((forms) => {
             res.json({
                 code: 0,
                 msg: 'ok',

@@ -79,8 +79,7 @@ exports.design = (req, res, next) => {
 					msg: '存储事项时数据库错误 ' + err,
 					body: {}
 				});
-			} else
-			{
+			} else {
 				res.json({
 					code: 0,
 					msg: '提交成功',
@@ -129,4 +128,43 @@ exports.design = (req, res, next) => {
 		    }
 		});*/
 	}
+}
+
+exports.search = (req, res, next) => {
+	var query;
+	var q = req.query.q;
+	var eventID = req.query.eventID;
+	if (/^[0-9]+$/.test(q)) {
+		// deal with phone numbers
+		query = Form.find({
+			eventID: eventID,
+			baseinfo: {
+				telnumber: q
+			}
+		})
+	} else {
+		// deal with names
+		query = Form.find({
+			eventID: eventID,
+			baseinfo: {
+				name: q
+			}
+		})
+	}
+	query.then((forms) => {
+			res.json({
+				code: 0,
+				msg: 'ok',
+				body: {
+					forms: forms
+				}
+			})
+		})
+		.catch((err) => {
+			res.json({
+				code: -1,
+				msg: '数据库未知错误',
+				body: {}
+			})
+		})
 }

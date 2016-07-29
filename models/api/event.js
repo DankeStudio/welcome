@@ -56,12 +56,12 @@ exports.getRecentCount = (req, res, next) => {
 	var eventID = req.query.eventID;
 	var dateNum = req.query.num;
 	var dates = date.getDates(dateNum);
-	console.log(dates);
+	//console.log(dates);
 	Form.find({
 			eventID: eventID,
 		})
 		.then((forms) => {
-			console.log(forms);
+			//console.log(forms);
 			for (var i = 0; i < dates.length; i++) {
 				counts[i] = 0;
 			}
@@ -150,7 +150,7 @@ exports.getAllCount = (req, res, next) => {
 			}
 		})
 		.catch((err) => {
-			console.log(err);
+			//console.log(err);
 			if (err.code < 0) {
 				res.json(err);
 			} else {

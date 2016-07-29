@@ -312,7 +312,8 @@ a {
 }
 
 .dank-slider-right{
-  position: absolute;
+  position: fixed;
+  overflow: auto;
   top: 60px;
   left: 215px;
   right: 0;
@@ -386,6 +387,13 @@ a {
 
 /*补充temp.css的内容*/
 
+.dank-a14{
+  margin: 10px;
+  color: #FFFFFF;
+  background-color: #F36256;
+  font-size: 18px;
+}
+
 .b1{
   font-size: 30px;
 }
@@ -450,13 +458,64 @@ a {
   padding-top: 50px;
 }
 
+.dank-c7{
+  background-color: #FFFFFF;
+  width: 95%;
+  height: 508px;
+  margin: 10px auto 50px auto;
+  padding: 17px;
+  border-radius: 5px;
+}
 
+.dank-d4{
+  color: #FFFFFF;
+  background-color: #434751;
+  font-size: 16px;
+  margin: 15px auto;
+  width: 107px;
+  height: 43px;
+  line-height: 43px;
+}
 
+.dank-temp-table:hover{
+  background-color: #f57b6d;
+  cursor:pointer;
+}
 
+.dank-temp-table-active{
+  background-color: #f57b6d;
+}
 
+.dank-temp-h1{
+  font-size: 16px;
+}
 
+.dank-temp-a12{
+  color: #FFFFFF;
+  background-color: #F36256;
+  font-size: 16px;
+  margin: auto;
+  width: 107px;
+  line-height: 34px;
+  margin-bottom: 17px;
+}
 
+.big11{
+  color: #F36256;
+  font-size: 28px;
+  text-decoration:none;
+  display: block;
+  margin: auto;
+  height: 60px;
+  line-height: 60px;
+}
 
+.dank-t5{
+  font-size: 14px;
+  width: 95%;
+  margin: 10px 20px;
+  text-align: left;
+}
 
 
 

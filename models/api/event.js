@@ -56,6 +56,11 @@ exports.getRecentCount = (req, res, next) => {
 	var eventID = req.query.eventID;
 	var dateNum = req.query.num;
 	var dates = date.getDates(dateNum);
+	//console.log(req);
+	//console.log(req.body);
+	//console.log(req.query);
+	//console.log(req.query.eventID);
+	//console.log(eventID);
 	//console.log(dates);
 	Form.find({
 			eventID: eventID,
@@ -126,10 +131,12 @@ exports.getAllCount = (req, res, next) => {
 			}
 		})
 		.then((forms) => {
+
 			for (i = 0; i < gender.labels.length; i++) {
 				gender.counts[i] = 0;
 			}
 			for (form of forms) {
+				console.log(form);
 				if (form.baseinfo.sex === '男') {
 					gender.counts[0]++;
 				} else {
@@ -139,15 +146,15 @@ exports.getAllCount = (req, res, next) => {
 					department.counts[department.labels.indexOf(wish)]++;
 				}
 				gender.counts[2]++;
-				res.json({
-					code: 0,
-					msg: 'ok',
-					body: {
-						gender: gender,
-						department: department
-					}
-				})
 			}
+			res.json({
+				code: 0,
+				msg: 'ok',
+				body: {
+					gender: gender,
+					department: department
+				}
+			})
 		})
 		.catch((err) => {
 			//console.log(err);

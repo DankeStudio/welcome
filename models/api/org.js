@@ -145,7 +145,7 @@ exports.getForm = (req, res, next) => {
         order = -1
     }
 
-    if (!wish) {
+    if (wish=='全部部门') {
         query = Form.find({
             eventID: eventID
         })

@@ -40,9 +40,9 @@ module.exports = require('express').Router()
     //get org info in session
     .get('/org/session',org.getOrgInSession)
 
-    //get form by org
-    .get('/org/form',grantOrg)
-    .get('/org/form',org.getForm)
+    //get form
+    .get('/form',grantOrg)
+    .get('/form',form.getForm)
 
     //form submit
     //若未登录，由前端先发起注册请求，然后再发起提交请求
@@ -53,10 +53,6 @@ module.exports = require('express').Router()
     .post('/form/design', grantOrg)
     .post('/form/design', eventFilter)
     .post('/form/design', form.design)
-
-    //search a form by name or phone number
-    .get('/form/search', grantOrg)
-    .post('/form/search', form.search)
 
     //get org events
     .get('/event',grantOrg)

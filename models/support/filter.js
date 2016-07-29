@@ -20,6 +20,7 @@ module.exports = {
             wish: req.body.wish,
             reason: req.body.reason,
             others: others,
+            interview: req.body.interview, 
             remark: req.body.remark
         };
     },

@@ -165,6 +165,13 @@ $.ajax({
             "title": "你好吗",
             "content": "I`m fine, thank you"
         }]
+        ,interview: [{
+            round: 1,
+            title: '一轮面试',
+            department: '技术',
+            time: '2016/9/1 14：00',
+            state: '未面试'
+        }]
     }),
     success: function(data) {
         console.log(data);
@@ -174,6 +181,6 @@ $.ajax({
     }.bind(this)
 });
 
-$.get('/org/form?order=-1&eventID=1&page=1&wish=技术', function(data) {
-    console.log(data);
+$.get('/form?name=吴昊潜&telnumber=17764519167&eventID=1&order=-1&page=1&wish=技术',function(data){
+    console.log(data)
 })

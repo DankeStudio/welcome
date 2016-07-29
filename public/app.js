@@ -9232,6 +9232,39 @@ var App =
 	        });
 	    },
 
+	    componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	        this.setState({ page: 1 });
+
+	        $.ajax({
+	            url: "/org/form",
+	            contentType: 'application/json',
+	            type: 'GET',
+	            data: {
+	                eventID: nextProps.eventID,
+	                order: this.state.order,
+	                page: this.state.page,
+	                wish: this.state.wish
+	            },
+	            success: function (data) {
+	                console.log(data);
+	                switch (data.code) {
+	                    case 0:
+	                        if (this.isMounted()) {
+	                            this.setState({ forms: data.body.forms });
+	                        }
+	                        break;
+	                    default:
+	                        //alert(this.props.eventID);
+	                        console.log(data.msg);
+	                        break;
+	                }
+	            }.bind(this),
+	            error: function (xhr, status, err) {
+	                console.error("ajax请求发起失败");
+	            }.bind(this)
+	        });
+	    },
+
 	    render: function render() {
 	        var titleStyle1 = {
 	            textAlign: 'left'
@@ -9284,12 +9317,40 @@ var App =
 	                React.createElement(
 	                    "td",
 	                    null,
-	                    form.wish.chosen
+	                    new function () {
+	                        var data = [];
+	                        var _iteratorNormalCompletion = true;
+	                        var _didIteratorError = false;
+	                        var _iteratorError = undefined;
+
+	                        try {
+	                            for (var _iterator = form.wish.chosen[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	                                var wish = _step.value;
+
+	                                data.push(wish + ' ');
+	                            }
+	                        } catch (err) {
+	                            _didIteratorError = true;
+	                            _iteratorError = err;
+	                        } finally {
+	                            try {
+	                                if (!_iteratorNormalCompletion && _iterator.return) {
+	                                    _iterator.return();
+	                                }
+	                            } finally {
+	                                if (_didIteratorError) {
+	                                    throw _iteratorError;
+	                                }
+	                            }
+	                        }
+
+	                        return data;
+	                    }()
 	                ),
 	                React.createElement(
 	                    "td",
 	                    null,
-	                    form.date
+	                    form.date.substring(0, 10)
 	                ),
 	                React.createElement(
 	                    "td",

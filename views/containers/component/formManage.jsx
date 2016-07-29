@@ -528,6 +528,39 @@ var List = React.createClass({
         });
     },
 
+    componentWillReceiveProps: function(nextProps){
+        this.setState({page:1});
+
+        $.ajax({
+            url: "/org/form",
+            contentType: 'application/json',
+            type: 'GET',
+            data: {
+                eventID: nextProps.eventID,
+                order: this.state.order,
+                page: this.state.page,
+                wish: this.state.wish
+            },
+            success: function(data) {
+                console.log(data);
+                switch(data.code){
+                    case 0:
+                        if(this.isMounted()){
+                            this.setState({forms: data.body.forms});
+                        }
+                        break;
+                    default:
+                        //alert(this.props.eventID);
+                        console.log(data.msg);
+                        break;
+                }
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error("ajax请求发起失败");
+            }.bind(this)
+        });
+    },
+
     render: function(){
         var titleStyle1 = {
             textAlign: 'left'
@@ -564,8 +597,14 @@ var List = React.createClass({
                     <td>{form.baseinfo.name}</td>
                     <td>{form.baseinfo.sex}</td>
                     <td>{form.baseinfo.major}</td>
-                    <td>{form.wish.chosen}</td>
-                    <td>{form.date}</td>
+                    <td>{new function(){
+                            var data = [];
+                            for(var wish of form.wish.chosen){
+                                data.push(wish+' ');
+                            }
+                            return data
+                        }}</td>
+                    <td>{form.date.substring(0,10)}</td>
                     <td style={deleteStyle}><a className="a19" href="#">删除</a></td>
                 </tr>
             )

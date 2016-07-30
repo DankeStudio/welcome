@@ -51,6 +51,41 @@ exports.getEvent = (req, res, next) => {
 	})
 }
 
+exports.getEventByID = (req, res, next) => {
+	var eventID = req.query.eventID;
+	console.log(eventID);
+	Event.findOne({
+		eventID: eventID
+	}).then((event) => {
+		if(!event){
+			res.json({
+				code: -1,
+				msg: '报名事项不存在',
+				body: {}
+			})
+		}
+		else{
+			res.json({
+				code: 0,
+				msg: 'ok',
+				body: {
+					event: event
+				}
+			})
+		}
+	}).catch((err) => {
+		if (err.code < 0) {
+			res.json(err);
+		} else {
+			res.json({
+				code: -2,
+				msg: '数据库未知错误',
+				body: {}
+			});
+		}
+	})
+}
+
 exports.getRecentCount = (req, res, next) => {
 	var counts = [];
 	var eventID = req.query.eventID;

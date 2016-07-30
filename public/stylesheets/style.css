@@ -376,11 +376,64 @@ a {
   padding-left: 24px;
 }
 
+.dank-time-line{
+  display: inline-block;
+  background-image: url("../img/line.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 6px 100%;
+  float: left;
+  margin-left: 50px;
+  margin-top: 60px;
+}
 
+.dank-time-node-active{
+  width: 44px;
+  height: 44px;
+  display: block;
+  border-radius: 100%;
+  font-weight: bold;
+  line-height: 44px;
+  text-align: center;
+  background-color: #355163;
+  color: #FFFFFF;
+  font-size: 29px;
 
+}
 
+.dank-time-node{
+  width: 44px;
+  height: 44px;
+  display: block;
+  border-radius: 100%;
+  font-weight: bold;
+  line-height: 44px;
+  text-align: center;
+  background-color: #FFFFFF;
+  font-size: 29px;
 
+}
 
+.dank-time-node:hover{
+  background-color: #355163;
+  color: #FFFFFF;
+  cursor: pointer;
+}
+
+.dank-button-2 {
+  background:#345062;
+  border:2px solid #345062;
+  border-radius:8px;
+  width:94px;
+  height:40px;
+  margin:28px 0;
+  display: block;
+  color: #FFFFFF;
+  line-height: 40px;
+  font-size:20px;
+  font-weight: bold;
+  text-align: center;
+}
 
 
 

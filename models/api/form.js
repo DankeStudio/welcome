@@ -140,7 +140,7 @@ exports.getForm = (req, res, next) => {
     var page = Number(req.query.page);
     var wish = req.query.wish;
     var query;
-
+    //check eventID
     if (!eventID){
     	return res.json({
     		code: -1,

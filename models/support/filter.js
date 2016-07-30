@@ -4,7 +4,7 @@
 var modelIDs = require('../db/modelid');
 
 module.exports = {
-    formFilter: function(req){
+    formFilter: (req) => {
 
         var baseinfo = baseinfoFilter(req.body.baseinfo);
 
@@ -24,7 +24,7 @@ module.exports = {
             remark: req.body.remark
         };
     },
-    eventFilter: function(req,res,next){
+    eventFilter: (req,res,next) => {
         if(!req.body.name){
             req.body.event = false;
         }
@@ -41,6 +41,14 @@ module.exports = {
                 next();
             });
         }
+    },
+    interviewFilter:(req,res,next) => {
+        //生成modelIDs
+        modelIDs.findOneAndUpdate({ name: 'arrangements' }, { $inc: { ids: 1 } }, {new: true, upsert: true}, function(err,doc){
+            var arrangementID = doc.ids;
+            req.body.interview.arrangement.arrangementID = arrangementID;
+            next();
+        });
     }
 };
 

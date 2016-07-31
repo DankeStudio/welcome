@@ -2,6 +2,7 @@ var user = require('../models/api/user');
 var form = require('../models/api/form');
 var org = require('../models/api/org');
 var event = require('../models/api/event');
+var interview = require('../models/api/interview');
 var auth = require('../models/support/auth');
 var filter = require('../models/support/filter');
 
@@ -65,3 +66,27 @@ module.exports = require('express').Router()
     //get event count data
     .get('/event/count/all',grantOrg)
     .get('/event/count/all',event.getAllCount)
+
+    //get interview
+    .get('/interview',grantOrg)
+    .get('/interview',interview.get)
+
+    //create a new interview
+    .post('/interview/create',grantOrg)
+    .post('/interview/create',interview.create)
+
+    //delete a interview
+    .post('/interview/delete',grantOrg)
+    .post('/interview/delete',interview.delete)
+
+    //add a new arrangment to the interview
+    .post('/interview/arrangement/create',grantOrg)
+    .post('/interview/arrangement/create',interview.createArrangement)
+
+    //delete an arrangment in the interview
+    .post('/interview/arrangement/delete',grantOrg)
+    .post('/interview/arrangement/delete',interview.deleteArrangement)
+
+    //update interviewer information in the interview schema
+    .post('/interview/interviewer/update',grantOrg)
+    .post('/interview/interviewer/update',interview.interviewerUpdate)

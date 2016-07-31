@@ -41,14 +41,6 @@ module.exports = {
                 next();
             });
         }
-    },
-    interviewFilter:(req,res,next) => {
-        //生成modelIDs
-        modelIDs.findOneAndUpdate({ name: 'arrangements' }, { $inc: { ids: 1 } }, {new: true, upsert: true}, function(err,doc){
-            var arrangementID = doc.ids;
-            req.body.interview.arrangement.arrangementID = arrangementID;
-            next();
-        });
     }
 };
 

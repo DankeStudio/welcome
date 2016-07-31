@@ -197,7 +197,7 @@ exports.getForm = (req, res, next) => {
             })
         })
         .catch((err) => {
-            console.log(err);
+            //console.log(err);
             res.json({
                 code: -2,
                 msg: '数据库未知错误',

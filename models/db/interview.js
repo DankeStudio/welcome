@@ -6,18 +6,18 @@ mongoose.Promise = global.Promise;
 var Schema = mongoose.Schema;
 module.exports = mongoose.model('interview', new Schema({
     eventID:{type:Number, require:'miss eventID'},
-    name: {type:String, require:'miss interview name'},
+    department:String,
+    round: Number,
     interviewer:[{
     	telnumber:String,
-    	state:{type:String,enum:['未面试'，'未审核','未通过','通过']},
-    	arrangementID:Number
-    }]
+    	state:{type:String,enum:['不参加','未面试','未通过','通过'],default:'未面试'},
+    	arrangementID:Schema.Types.ObjectId
+    }],
     arrangement:[{
-    	arrangementID:Number,
     	duration:Number,
     	startTime:Date,
     	place:String,
     	interval:Number,
-    	round:Number
+    	total:Number
     }]
 }));

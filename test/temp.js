@@ -165,13 +165,6 @@ $.ajax({
             "title": "你好吗",
             "content": "I`m fine, thank you"
         }]
-        ,interview: [{
-            round: 1,
-            title: '一轮面试',
-            department: '技术',
-            time: '2016/9/1 14：00',
-            state: '未面试'
-        }]
     }),
     success: function(data) {
         console.log(data);
@@ -181,6 +174,75 @@ $.ajax({
     }.bind(this)
 });
 
-$.get('/form?name=吴昊潜&telnumber=17764519167&eventID=1&order=-1&page=1&wish=技术',function(data){
-    console.log(data)
+$.get('/form?name=吴昊潜&telnumber=17764519167&eventID=1&order=-1&page=1&wish=技术', function(data) {
+    console.log(data);
 })
+
+$.post('/interview/create', {
+    eventID: 1,
+    round: 1,
+    department: '技术'
+}, function(data) {
+    console.log(data);
+})
+
+$.get('/interview?eventID=1&department=技术&round=1', function(data) {
+    console.log(data);
+})
+
+$.post('/interview/delete', {
+    eventID: 1,
+    round: 1,
+    department: '技术'
+}, function(data) {
+    console.log(data);
+})
+
+$.ajax({
+    url: "/interview/arrangement/create",
+    contentType: 'application/json',
+    type: 'POST',
+    data: JSON.stringify({
+        arrangement: {
+            duration: 30 * 60 * 1000,
+            startTime: new Date(),
+            place: '小剧场',
+            interval: 15 * 60 * 1000,
+            total: 50
+        },
+        interviewID:"579e1cdbb115fe4441cb0ed8"
+    }),
+    success: function(data) {
+        console.log(data);
+    }.bind(this),
+    error: function(xhr, status, err) {
+        console.error("ajax请求发起失败");
+    }.bind(this)
+});
+
+$.post('/interview/arrangement/delete', {
+    interviewID:"579e1cdbb115fe4441cb0ed8",
+    arrangementID: "579e1d65b115fe4441cb0eda"
+}, function(data) {
+    console.log(data);
+})
+
+$.ajax({
+    url: "/interview/interviewer/update",
+    contentType: 'application/json',
+    type: 'POST',
+    data: JSON.stringify({
+        interviewers:[{
+            telnumber:'17764519167',
+            state:'通过',
+            arrangementID: "579e1d65b115fe4441cb0eda"
+        }],
+        interviewID:"579e1cdbb115fe4441cb0ed8"
+    }),
+    success: function(data) {
+        console.log(data);
+    }.bind(this),
+    error: function(xhr, status, err) {
+        console.error("ajax请求发起失败");
+    }.bind(this)
+});

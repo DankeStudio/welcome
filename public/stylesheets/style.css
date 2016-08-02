@@ -435,8 +435,104 @@ a {
   text-align: center;
 }
 
+.dank-button-2:hover {
+  color: #FFFFFF;
+  text-decoration: none;
+  cursor: pointer;
+  background-color: #7396ae;
+}
+
+.dank-form-h2{
+  margin-bottom: 20px;
+}
+
+.dank-form-table{
+  font-size: 18px;
+  color: #FFFFFF;
+  display: inline-block;
+  margin: auto;
+}
+
+.dank-form-table>tbody>tr{
+  height:56px;
+}
 
 
+
+.dank-checkbox-inline{
+  color: #FFFFFF;
+  display: inline-block;
+  margin-right: 20px;
+  margin-left: 15px;
+}
+
+.dank-checkbox-inOneLine{
+  color: #FFFFFF;
+  margin-bottom: 20px;
+  display: inline-block;
+  margin-right: 20px;
+}
+
+.dank-radio-inOneLine{
+  color: #FFFFFF;
+  margin-bottom: 20px;
+  display: inline-block;
+  margin-right: 20px;
+}
+
+.dank-form-input{
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-left:10px;
+  margin-right: 10px;
+  background-color: transparent;
+  border-color:#FFFFFF;
+  border-style:solid;
+  border-top-width:0px;
+  border-right-width:0px;
+  border-bottom-width:1px;
+  border-left-width:0px;
+  color:#FFFFFF;
+  outline:medium;
+  width: 150px;
+}
+
+.dank-label{
+  font-size:20px;
+  color:#ffffff;
+  font-weight: normal;
+}
+
+.dank-select-label{
+  font-size:16px;
+  color:#ffffff;
+  font-weight: normal;
+}
+
+.dank-form-group-inline{
+  display: inline-block;
+}
+
+.dank-select-input{
+  width: 130px;
+}
+
+.dank-form-single-text{
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-left:10px;
+  margin-right: 10px;
+  background-color: transparent;
+  border-color:#FFFFFF;
+  border-style:solid;
+  border-top-width:0px;
+  border-right-width:0px;
+  border-bottom-width:1px;
+  border-left-width:0px;
+  color:#FFFFFF;
+  outline:medium;
+  width: 100%;
+}
 
 /*补充temp.css的内容*/
 

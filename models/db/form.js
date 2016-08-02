@@ -26,14 +26,17 @@ module.exports = mongoose.model('form', new Schema({
         address : String
     },
     skills: {
+        delete: Boolean,
         title:String,
         chosen:[String]
     },
     introduction: {
+        delete: Boolean,
         title: String,
         content: String
     },
     wish: {
+        delete: Boolean,
         title:String,
         chosen:[String]
     },

@@ -42,6 +42,5 @@ module.exports = mongoose.model('form', new Schema({
     },
     reason: [String],
     remark:{type:String, default:'无'},
-    others: [{}],
-    interview :[{}]
+    others: [{}]
 }));

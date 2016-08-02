@@ -192,7 +192,7 @@ exports.getAllCount = (req, res, next) => {
 			})
 		})
 		.catch((err) => {
-			console.log(err);
+			//console.log(err);
 			if (err.code < 0) {
 				res.json(err);
 			} else {

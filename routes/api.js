@@ -2,6 +2,8 @@ var user = require('../models/api/user');
 var form = require('../models/api/form');
 var org = require('../models/api/org');
 var event = require('../models/api/event');
+var interview = require('../models/api/interview');
+var message = require('../models/api/message');
 var auth = require('../models/support/auth');
 var filter = require('../models/support/filter');
 
@@ -40,9 +42,9 @@ module.exports = require('express').Router()
     //get org info in session
     .get('/org/session',org.getOrgInSession)
 
-    //get form by org
-    .get('/org/form',grantOrg)
-    .get('/org/form',org.getForm)
+    //get form
+    .get('/form',grantOrg)
+    .get('/form',form.getForm)
 
      //get form to write
     .get('/form', event.getEventByID)
@@ -68,3 +70,43 @@ module.exports = require('express').Router()
     //get event count data
     .get('/event/count/all',grantOrg)
     .get('/event/count/all',event.getAllCount)
+
+    //get interview
+    .get('/interview',grantOrg)
+    .get('/interview',interview.get)
+
+    //create a new interview
+    .post('/interview/create',grantOrg)
+    .post('/interview/create',interview.create)
+
+    //delete a interview
+    .post('/interview/delete',grantOrg)
+    .post('/interview/delete',interview.delete)
+
+    //add a new arrangment to the interview
+    .post('/interview/arrangement/create',grantOrg)
+    .post('/interview/arrangement/create',interview.createArrangement)
+
+    //delete an arrangment in the interview
+    .post('/interview/arrangement/delete',grantOrg)
+    .post('/interview/arrangement/delete',interview.deleteArrangement)
+
+    //update interviewer information in the interview schema
+    .post('/interview/interviewer/update',grantOrg)
+    .post('/interview/interviewer/update',interview.interviewerUpdate)
+
+    //delete interviewer in the interview schema
+    .post('/interview/interviewer/delete',grantOrg)
+    .post('/interview/interviewer/delete',interview.interviewerDelete)
+
+    //get messages using orgID
+    .get('/message',grantOrg)
+    .get('/message',message.get)
+
+    //create a message
+    .post('/message/create',grantOrg)
+    .post('/message/create',message.create)
+
+    //delete a message
+    .post('/message/delete',grantOrg)
+    .post('/message/delete',message.delete)

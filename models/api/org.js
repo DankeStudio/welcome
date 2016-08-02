@@ -2,7 +2,7 @@
  * Created by admin on 2016/7/21.
  */
 var Org = require('../db/org');
-var Form= require('../db/form');
+var Form = require('../db/form');
 
 exports.login = (req, res, next) => {
     var username = req.body.username;
@@ -126,59 +126,4 @@ exports.getOrgInSession = (req, res, next) => {
             org: req.session.org
         }
     });
-}
-
-//获取报名表
-exports.getForm = (req, res, next) => {
-    var max = 10;
-    var order = Number(req.query.order);
-    var eventID = Number(req.query.eventID);
-    var page = Number(req.query.page);
-    var wish = req.query.wish;
-    var query;
-    //按时间升序
-    if (order > 0) {
-        order = 1
-    }
-    //按时间降序
-    else {
-        order = -1
-    }
-
-    if (wish=='全部部门') {
-        query = Form.find({
-            eventID: eventID
-        })
-    } else {
-        wish = [wish];
-        query = Form.find({
-            eventID: eventID,
-            wish: {
-                chosen:{
-                    $in: wish
-                }
-            }
-        })
-    }
-    query = query.sort({
-        date: order
-    }).skip((page-1) * max).limit(max);
-    query.exec()
-        .then((forms) => {
-            res.json({
-                code: 0,
-                msg: 'ok',
-                body: {
-                    forms: forms
-                }
-            })
-        })
-        .catch((err) => {
-            console.log(err);
-            res.json({
-                code: -1,
-                msg: '数据库未知错误',
-                body: {}
-            })
-        })
 }

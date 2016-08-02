@@ -4,7 +4,7 @@
 var modelIDs = require('../db/modelid');
 
 module.exports = {
-    formFilter: function(req){
+    formFilter: (req) => {
 
         var baseinfo = baseinfoFilter(req.body.baseinfo);
 
@@ -20,10 +20,11 @@ module.exports = {
             wish: req.body.wish,
             reason: req.body.reason,
             others: others,
+            interview: req.body.interview, 
             remark: req.body.remark
         };
     },
-    eventFilter: function(req,res,next){
+    eventFilter: (req,res,next) => {
         if(!req.body.name){
             req.body.event = false;
         }

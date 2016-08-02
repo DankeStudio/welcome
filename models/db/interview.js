@@ -9,6 +9,7 @@ module.exports = mongoose.model('interview', new Schema({
     department:String,
     round: Number,
     interviewer:[{
+    	name:String,
     	telnumber:String,
     	state:{type:String,enum:['不参加','未面试','未通过','通过'],default:'未面试'},
     	arrangementID:Schema.Types.ObjectId

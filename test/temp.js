@@ -210,7 +210,7 @@ $.ajax({
             interval: 15 * 60 * 1000,
             total: 50
         },
-        interviewID:"579e1cdbb115fe4441cb0ed8"
+        interviewID: "579e1cdbb115fe4441cb0ed8"
     }),
     success: function(data) {
         console.log(data);
@@ -221,7 +221,7 @@ $.ajax({
 });
 
 $.post('/interview/arrangement/delete', {
-    interviewID:"579e1cdbb115fe4441cb0ed8",
+    interviewID: "579e1cdbb115fe4441cb0ed8",
     arrangementID: "579e1d65b115fe4441cb0eda"
 }, function(data) {
     console.log(data);
@@ -232,12 +232,34 @@ $.ajax({
     contentType: 'application/json',
     type: 'POST',
     data: JSON.stringify({
-        interviewers:[{
-            telnumber:'17764519167',
-            state:'通过',
+        interviewers: [{
+            telnumber: '17764519167',
+            state: '通过',
             arrangementID: "579e1d65b115fe4441cb0eda"
         }],
-        interviewID:"579e1cdbb115fe4441cb0ed8"
+        interviewID: "579e1cdbb115fe4441cb0ed8"
+    }),
+    success: function(data) {
+        console.log(data);
+    }.bind(this),
+    error: function(xhr, status, err) {
+        console.error("ajax请求发起失败");
+    }.bind(this)
+});
+
+$.ajax({
+    url: "/message/create",
+    contentType: 'application/json',
+    type: 'POST',
+    data: JSON.stringify({
+        message: {
+            orgID: '57965122455f5a582ffa823a',
+            department: '技术',
+            date: new Date(),
+            telnumber: ['17764519167'],
+            text: 'This is test message.',
+            cost: 0.5
+        }
     }),
     success: function(data) {
         console.log(data);

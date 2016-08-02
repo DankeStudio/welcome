@@ -29,6 +29,7 @@ exports.create = (req, res, next) => {
 						if (interviewer.state === '通过') {
 							interviewers.push({
 								telnumber: interviewer.telnumber,
+								name: interviewer.name,
 								state: '未面试'
 							})
 						}
@@ -80,6 +81,7 @@ exports.create = (req, res, next) => {
 				for (form of forms) {
 					interviewers.push({
 						telnumber: form.baseinfo.telnumber,
+						name:form.baseinfo.name,
 						state: '未面试'
 					})
 				}
@@ -318,6 +320,12 @@ exports.interviewerUpdate = (req, res, next) => {
 					}
 				}
 				return interview.save();
+			} else {
+				throw {
+					code: -2,
+					msg: '面试不存在',
+					body: {}
+				}
 			}
 		})
 		.then((interview) => {
@@ -328,11 +336,51 @@ exports.interviewerUpdate = (req, res, next) => {
 			})
 		})
 		.catch((err) => {
-			//console.log(err);
+			if (err.code < 0) {
+				res.json(err);
+			} else { 
+				//console.log(err);
+				res.json({
+					code: 1,
+					msg: '数据库未知错误',
+					body: {}
+				})
+			}
+		})
+}
+
+exports.interviewerDelete = (req, res, next) => {
+	var interviewID = req.body.interviewID;
+	var telnumber = req.body.telnumber;
+	if (!interviewID) {
+		return res.json({
+			code: -1,
+			msg: '缺少参数',
+			body: {}
+		})
+	}
+	Interview.findOneAndUpdate({
+			_id: interviewID
+		}, {
+			$pull: {
+				interview: {
+					telnumber: telnumber
+				}
+			}
+		})
+		.then((interview) => {
 			res.json({
-				code: 1,
-				msg: '数据库未知错误',
+				code: 0,
+				msg: 'ok',
 				body: {}
 			})
 		})
+		.catch((err) => {
+			res.json({
+				code:1,
+				msg:'数据库未知错误',
+				body:{}
+			})
+		})
+
 }

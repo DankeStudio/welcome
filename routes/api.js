@@ -3,6 +3,7 @@ var form = require('../models/api/form');
 var org = require('../models/api/org');
 var event = require('../models/api/event');
 var interview = require('../models/api/interview');
+var message = require('../models/api/message');
 var auth = require('../models/support/auth');
 var filter = require('../models/support/filter');
 
@@ -90,3 +91,19 @@ module.exports = require('express').Router()
     //update interviewer information in the interview schema
     .post('/interview/interviewer/update',grantOrg)
     .post('/interview/interviewer/update',interview.interviewerUpdate)
+
+    //delete interviewer in the interview schema
+    .post('/interview/interviewer/delete',grantOrg)
+    .post('/interview/interviewer/delete',interview.interviewerDelete)
+
+    //get messages using orgID
+    .get('/message',grantOrg)
+    .get('/message',message.get)
+
+    //create a message
+    .post('/message/create',grantOrg)
+    .post('/message/create',message.create)
+
+    //delete a message
+    .post('/message/delete',grantOrg)
+    .post('/message/delete',message.delete)

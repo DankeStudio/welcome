@@ -74,8 +74,9 @@ var App =
 
 	var back = __webpack_require__(78);
 	var formManager = __webpack_require__(80);
+	var addEvent = __webpack_require__(81);
 
-	var form = __webpack_require__(81);
+	var form = __webpack_require__(82);
 
 	var Root = React.createClass({
 	    displayName: 'Root',
@@ -112,7 +113,8 @@ var App =
 	    React.createElement(
 	        Route,
 	        { path: '/back', component: back },
-	        React.createElement(Route, { path: 'formmanage', component: formManager })
+	        React.createElement(Route, { path: 'formmanage', component: formManager }),
+	        React.createElement(Route, { path: 'addevent', component: addEvent })
 	    ),
 	    React.createElement(Route, { path: '/form/:id', component: form })
 	), document.getElementById('content'));
@@ -9473,6 +9475,1364 @@ var App =
 /* 81 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+	var React = __webpack_require__(1);
+	var Component = React.Component;
+
+	module.exports = React.createClass({
+	    displayName: "exports",
+
+	    render: function render() {
+	        var globalStyle = {
+	            background: "#EFEFEF",
+	            height: "100%",
+	            padding: 0
+	        };
+	        return React.createElement(
+	            "div",
+	            { style: globalStyle },
+	            React.createElement(
+	                "div",
+	                { className: "dank-slider-org" },
+	                React.createElement(
+	                    "div",
+	                    null,
+	                    React.createElement(
+	                        "big",
+	                        { className: "dank-slider-active" },
+	                        React.createElement("i", { className: "fa fa-file-text", "aria-hidden": "true" }),
+	                        React.createElement(
+	                            "b",
+	                            null,
+	                            "报名表管理"
+	                        )
+	                    )
+	                ),
+	                React.createElement(
+	                    "div",
+	                    null,
+	                    React.createElement(
+	                        "a",
+	                        { href: "#" },
+	                        React.createElement("i", { className: "fa fa-commenting", "aria-hidden": "true" }),
+	                        React.createElement(
+	                            "b",
+	                            null,
+	                            " 消息通知"
+	                        )
+	                    )
+	                ),
+	                React.createElement(
+	                    "div",
+	                    null,
+	                    React.createElement(
+	                        "a",
+	                        { href: "#" },
+	                        React.createElement("i", { className: "fa fa-trash", "aria-hidden": "true" }),
+	                        React.createElement(
+	                            "b",
+	                            null,
+	                            " 回收站"
+	                        )
+	                    )
+	                )
+	            ),
+	            React.createElement(
+	                "div",
+	                { className: "dank-slider-right" },
+	                React.createElement(Content, null)
+	            )
+	        );
+	    }
+	});
+
+	var Content = React.createClass({
+	    displayName: "Content",
+
+	    getInitialState: function getInitialState() {
+	        return {
+	            page: 1,
+	            event: {},
+	            pagesState: [true, false, false, false],
+	            pagesNumber: [1, 2, 3, 4],
+	            totalPage: 4,
+	            eventID: '',
+	            writetime: '',
+	            browserinfo: '',
+	            baseinfo: {
+	                name: '',
+	                sex: '',
+	                origin: '',
+	                nation: '',
+	                schoolID: '',
+	                politicalStatus: '',
+	                telnumber: '',
+	                telshort: '',
+	                email: '',
+	                qq: '',
+	                major: '',
+	                birth: '',
+	                address: ''
+	            },
+	            skills: {
+	                delete: '',
+	                title: '',
+	                chosen: ['']
+	            },
+	            introduction: {
+	                delete: '',
+	                title: '',
+	                content: ''
+	            },
+	            wish: {
+	                delete: '',
+	                title: '',
+	                chosen: ['']
+	            },
+	            reason: [''],
+	            others: [],
+	            remark: ''
+	        };
+	    },
+	    otherComponentInitialize: function otherComponentInitialize(schema) {
+	        var others = this.state.others;
+	        for (var index = 0; index < schema.others.length; index++) {
+	            var otherSchema = schema.others[index];
+	            var element;
+	            switch (otherSchema.type) {
+	                case 'single-text':
+	                    element = {
+	                        type: otherSchema.type,
+	                        title: otherSchema.title,
+	                        content: ''
+	                        //required: tough.required
+	                    };
+	                    break;
+	                case 'multi-text':
+	                    element = {
+	                        type: otherSchema.type,
+	                        title: otherSchema.title,
+	                        content: ''
+	                        //required: tough.required
+	                    };
+	                    break;
+	                case 'multi-choose':
+	                    element = {
+	                        type: otherSchema.type,
+	                        title: otherSchema.title,
+	                        //max: rough.max,
+	                        chosen: ['']
+	                    };
+	                    break;
+	                case 'single-choose':
+	                    //单选暂不实现可自填的功能
+	                    element = {
+	                        type: otherSchema.type,
+	                        title: otherSchema.title,
+	                        //max: rough.max,
+	                        chosen: ''
+	                    };
+	                    break;
+	                case 'file':
+	                    element = {
+	                        type: otherSchema.type,
+	                        title: otherSchema.title,
+	                        url: ''
+	                    };
+	                    break;
+	                case 'image':
+	                    element = {
+	                        type: otherSchema.type,
+	                        title: otherSchema.title,
+	                        url: ''
+	                    };
+	                    break;
+	                default:
+	                    element = {};
+	            }
+	            others.push(element);
+	        }
+	        this.setState({ others: others });
+	    },
+
+	    componentDidMount: function componentDidMount() {
+
+	        $.ajax({
+	            url: "/form",
+	            contentType: 'application/json',
+	            type: 'GET',
+	            data: {
+	                eventID: this.props.eventID
+	            },
+	            success: function (data) {
+	                console.log(data);
+	                switch (data.code) {
+	                    case 0:
+	                        if (this.isMounted()) {
+	                            this.setState({ event: data.body.event });
+	                            var pagesState = [];
+	                            pagesState[0] = true;
+	                            pagesState[1] = !(data.body.event.formschema.skills.delete && data.body.event.formschema.introduction.delete);
+	                            pagesState[2] = !data.body.event.formschema.wish.delete;
+	                            pagesState[3] = data.body.event.formschema.others ? true : false;
+	                            this.setState({ pagesState: pagesState });
+	                            var i = 0;
+	                            var pagesNumber = [];
+	                            var j;
+	                            for (j = 0; j < 4; j++) {
+	                                pagesNumber[j] = pagesState[j] ? ++i : 0;
+	                            }
+	                            this.setState({ totalPage: j });
+	                            this.setState({ pagesNumber: pagesNumber });
+	                            this.setState({ eventID: data.body.event.eventID });
+	                            this.setState({ remark: data.body.event.formschema.remark });
+	                            this.otherComponentInitialize(data.body.event.formschema);
+	                        }
+	                        break;
+	                    default:
+	                        console.log(data.msg);
+	                        break;
+	                }
+	            }.bind(this),
+	            error: function (xhr, status, err) {
+	                console.error("ajax请求发起失败");
+	            }.bind(this)
+	        });
+	    },
+	    dataRecall: function dataRecall(item, data) {
+	        this.setState(_defineProperty({}, item, data));
+	    },
+	    nextPage: function nextPage() {
+	        var nextPage = this.state.page % this.state.totalPage + 1;
+	        this.setState({ page: nextPage });
+	    },
+	    lastPage: function lastPage() {
+	        var lastPage = (this.state.totalPage + this.state.page - 2) % this.state.totalPage + 1;
+	        this.setState({ page: lastPage });
+	    },
+
+	    submit: function submit() {
+	        if (this.refs.baseinfo) {
+	            this.refs.baseinfo.componentWillUnmount();
+	        }
+	        if (this.refs.person) {
+	            this.refs.person.componentWillUnmount();
+	        }
+	        if (this.refs.wish) {
+	            this.refs.wish.componentWillUnmount();
+	        }
+	        if (this.refs.others) {
+	            this.refs.others.componentWillUnmount();
+	        }
+	        $.ajax({
+	            url: "form/submit",
+	            contentType: 'application/json',
+	            type: 'POST',
+	            data: JSON.stringify({
+	                eventID: this.state.eventID,
+	                writetime: this.state.writetime,
+	                browserinfo: this.state.browserinfo,
+	                baseinfo: this.state.baseinfo,
+	                skills: this.state.skills,
+	                introduction: this.state.introduction,
+	                wish: this.state.wish,
+	                reason: this.state.reason,
+	                others: this.state.others,
+	                remark: this.state.remark
+	            }),
+	            success: function (data) {
+	                console.log(data);
+	                switch (data.code) {
+	                    case 0:
+	                        window.location.href = '/#/person/info';
+	                        break;
+	                    default:
+	                        console.log(data.msg);
+	                        break;
+	                }
+	            }.bind(this),
+	            error: function (xhr, status, err) {
+	                console.error("ajax请求发起失败");
+	            }.bind(this)
+	        });
+	    },
+	    render: function render() {
+	        var backgroundStyle = {
+	            top: '60px',
+	            bottom: '0px',
+	            left: '0px',
+	            right: '0px',
+	            position: 'fixed',
+	            overflow: 'auto',
+	            background: '#f77968'
+	        };
+	        var timeLineStyle = {
+	            marginTop: '110px'
+	        };
+	        var bordStyle = {
+	            width: '1000px'
+	        };
+	        var titleStyle = {
+	            textAlign: 'center',
+	            fontSize: '30px',
+	            color: '#ffffff',
+	            marginTop: '28px',
+	            marginBottom: '28px'
+	        };
+	        var buttonGroupStyle = {
+	            float: 'right',
+	            marginTop: '160px'
+	        };
+	        return React.createElement(
+	            "div",
+	            { style: backgroundStyle },
+	            React.createElement(
+	                "div",
+	                { className: "container-fluid" },
+	                React.createElement(
+	                    "div",
+	                    { className: "row" },
+	                    React.createElement(
+	                        "div",
+	                        { className: "col-md-12" },
+	                        this.state.event ? React.createElement(
+	                            "big",
+	                            { style: titleStyle, className: "center-block" },
+	                            this.state.event.name
+	                        ) : null
+	                    )
+	                ),
+	                React.createElement(
+	                    "div",
+	                    { className: "row" },
+	                    React.createElement(
+	                        "div",
+	                        { className: "col-md-12" },
+	                        React.createElement(
+	                            "div",
+	                            { className: "center-block", style: bordStyle },
+	                            React.createElement(
+	                                "div",
+	                                { className: "dank-time-line" },
+	                                React.createElement(
+	                                    "big",
+	                                    { className: this.state.page == 1 ? "dank-time-node-active" : "dank-time-node", onClick: function () {
+	                                            this.setState({ page: this.state.pagesNumber[0] });
+	                                        }.bind(this) },
+	                                    this.state.pagesNumber[0]
+	                                ),
+	                                this.state.pagesState[1] ? React.createElement(
+	                                    "big",
+	                                    { className: this.state.page == this.state.pagesNumber[1] ? "dank-time-node-active" : "dank-time-node", style: timeLineStyle, onClick: function () {
+	                                            this.setState({ page: this.state.pagesNumber[1] });
+	                                        }.bind(this) },
+	                                    this.state.pagesNumber[1]
+	                                ) : null,
+	                                this.state.pagesState[2] ? React.createElement(
+	                                    "big",
+	                                    { className: this.state.page == this.state.pagesNumber[2] ? "dank-time-node-active" : "dank-time-node", style: timeLineStyle, onClick: function () {
+	                                            this.setState({ page: this.state.pagesNumber[2] });
+	                                        }.bind(this) },
+	                                    this.state.pagesNumber[2]
+	                                ) : null,
+	                                this.state.pagesState[3] ? React.createElement(
+	                                    "big",
+	                                    { className: this.state.page == this.state.pagesNumber[3] ? "dank-time-node-active" : "dank-time-node", style: timeLineStyle, onClick: function () {
+	                                            this.setState({ page: this.state.pagesNumber[3] });
+	                                        }.bind(this) },
+	                                    this.state.pagesNumber[3]
+	                                ) : null
+	                            ),
+	                            this.state.page == this.state.pagesNumber[0] ? React.createElement(Baseinfo, { ref: "baseinfo", data: this.state.baseinfo, dataRecall: this.dataRecall }) : null,
+	                            this.state.page == this.state.pagesNumber[1] ? React.createElement(Person, { ref: "person", introduction: this.state.introduction, skills: this.state.skills, schema: this.state.event.formschema, dataRecall: this.dataRecall }) : null,
+	                            this.state.page == this.state.pagesNumber[2] ? React.createElement(Wish, { ref: "wish", wish: this.state.wish, reason: this.state.reason, schema: this.state.event.formschema, dataRecall: this.dataRecall }) : null,
+	                            this.state.page == this.state.pagesNumber[3] ? React.createElement(Others, { ref: "others", others: this.state.others, schema: this.state.event.formschema, dataRecall: this.dataRecall }) : null,
+	                            React.createElement(
+	                                "div",
+	                                { style: buttonGroupStyle },
+	                                React.createElement(
+	                                    "a",
+	                                    { className: "dank-button-2", onClick: this.lastPage },
+	                                    "上一页"
+	                                ),
+	                                React.createElement(
+	                                    "a",
+	                                    { className: "dank-button-2", onClick: this.nextPage },
+	                                    "下一页"
+	                                ),
+	                                React.createElement(
+	                                    "a",
+	                                    { className: "dank-button-2", onClick: this.submit },
+	                                    "提交"
+	                                )
+	                            )
+	                        )
+	                    )
+	                )
+	            )
+	        );
+	    }
+
+	});
+
+	var Baseinfo = React.createClass({
+	    displayName: "Baseinfo",
+
+	    getInitialState: function getInitialState() {
+	        return {
+	            name: this.props.data.name,
+	            sex: this.props.data.sex,
+	            origin: this.props.data.origin,
+	            nation: this.props.data.nation,
+	            schoolID: this.props.data.schoolID,
+	            politicalStatus: this.props.data.politicalStatus,
+	            telnumber: this.props.data.telnumber,
+	            telshort: this.props.data.telshort,
+	            email: this.props.data.email,
+	            qq: this.props.data.qq,
+	            major: this.props.data.major,
+	            birth: this.props.data.birth,
+	            address: this.props.data.address
+	        };
+	    },
+	    componentDidMount: function componentDidMount() {
+	        window.iCheck();
+	    },
+
+	    handleChange: function handleChange(event) {
+	        this.setState(_defineProperty({}, event.target.getAttribute('name'), event.target.value));
+	    },
+
+	    componentWillUnmount: function componentWillUnmount() {
+	        var data = {
+	            name: this.state.name,
+	            sex: this.state.sex,
+	            origin: this.state.origin,
+	            nation: this.state.nation,
+	            schoolID: this.state.schoolID,
+	            politicalStatus: this.state.politicalStatus,
+	            telnumber: this.state.telnumber,
+	            telshort: this.state.telshort,
+	            email: this.state.email,
+	            qq: this.state.qq,
+	            major: this.state.major,
+	            birth: this.state.birth,
+	            address: this.state.address
+	        };
+	        this.props.dataRecall('baseinfo', data);
+	    },
+
+	    render: function render() {
+	        var bordStyle = {
+	            display: 'inline-block',
+	            padding: '20px',
+	            border: '5px solid #ffffff',
+	            borderRadius: '8px',
+	            width: '758px',
+	            height: '618px',
+	            marginLeft: '30px',
+	            marginBottom: '30px'
+	        };
+	        var titleStyle = {
+	            display: 'block',
+	            textAlign: 'center',
+	            fontSize: '30px',
+	            color: '#FFFFFF',
+	            margin: '20px',
+	            fontWeight: 'bold'
+	        };
+	        return React.createElement(
+	            "div",
+	            { style: bordStyle },
+	            React.createElement(
+	                "h1",
+	                { style: titleStyle },
+	                React.createElement(
+	                    "b",
+	                    null,
+	                    "个人信息"
+	                )
+	            ),
+	            React.createElement(
+	                "div",
+	                { className: "d8" },
+	                React.createElement(
+	                    "b",
+	                    null,
+	                    React.createElement(
+	                        "table",
+	                        { className: "center-block dank-form-table" },
+	                        React.createElement(
+	                            "tbody",
+	                            null,
+	                            React.createElement(
+	                                "tr",
+	                                { className: "" },
+	                                React.createElement(
+	                                    "td",
+	                                    { className: "form-group" },
+	                                    "姓　　名"
+	                                ),
+	                                React.createElement(
+	                                    "td",
+	                                    null,
+	                                    React.createElement("input", { value: this.state.name, onChange: this.handleChange, name: "name", className: "dank-form-input", type: "text" })
+	                                ),
+	                                React.createElement(
+	                                    "td",
+	                                    null,
+	                                    "性　　别"
+	                                ),
+	                                React.createElement(
+	                                    "td",
+	                                    null,
+	                                    React.createElement(
+	                                        "label",
+	                                        { className: "dank-checkbox-inline" },
+	                                        React.createElement("input", { type: "radio", name: "sex", value: "男" }),
+	                                        React.createElement(
+	                                            "b",
+	                                            null,
+	                                            " 男"
+	                                        )
+	                                    ),
+	                                    React.createElement(
+	                                        "label",
+	                                        { className: "dank-checkbox-inline" },
+	                                        React.createElement("input", { type: "radio", name: "sex", value: "女" }),
+	                                        React.createElement(
+	                                            "b",
+	                                            null,
+	                                            " 女"
+	                                        )
+	                                    )
+	                                )
+	                            ),
+	                            React.createElement(
+	                                "tr",
+	                                { className: "" },
+	                                React.createElement(
+	                                    "td",
+	                                    null,
+	                                    "籍　　贯"
+	                                ),
+	                                React.createElement(
+	                                    "td",
+	                                    null,
+	                                    React.createElement("input", { value: this.state.origin, onChange: this.handleChange, name: "origin", className: "dank-form-input", type: "text" })
+	                                ),
+	                                React.createElement(
+	                                    "td",
+	                                    null,
+	                                    "民　　族"
+	                                ),
+	                                React.createElement(
+	                                    "td",
+	                                    null,
+	                                    React.createElement("input", { value: this.state.nation, onChange: this.handleChange, name: "nation", className: "dank-form-input", type: "text" })
+	                                )
+	                            ),
+	                            React.createElement(
+	                                "tr",
+	                                { className: "" },
+	                                React.createElement(
+	                                    "td",
+	                                    null,
+	                                    "学　　号"
+	                                ),
+	                                React.createElement(
+	                                    "td",
+	                                    null,
+	                                    React.createElement("input", { value: this.state.schoolID, onChange: this.handleChange, name: "schoolID", className: "dank-form-input", type: "text" })
+	                                ),
+	                                React.createElement(
+	                                    "td",
+	                                    null,
+	                                    "政治面貌"
+	                                ),
+	                                React.createElement(
+	                                    "td",
+	                                    null,
+	                                    React.createElement("input", { value: this.state.politicalStatus, onChange: this.handleChange, name: "politicalStatus", className: "dank-form-input", type: "text" })
+	                                )
+	                            ),
+	                            React.createElement(
+	                                "tr",
+	                                { className: "" },
+	                                React.createElement(
+	                                    "td",
+	                                    null,
+	                                    "手机长号"
+	                                ),
+	                                React.createElement(
+	                                    "td",
+	                                    null,
+	                                    React.createElement("input", { value: this.state.telnumber, onChange: this.handleChange, name: "telnumber", className: "dank-form-input", type: "text" })
+	                                ),
+	                                React.createElement(
+	                                    "td",
+	                                    null,
+	                                    "手机短号"
+	                                ),
+	                                React.createElement(
+	                                    "td",
+	                                    null,
+	                                    React.createElement("input", { value: this.state.telshort, onChange: this.handleChange, name: "telshort", className: "dank-form-input", type: "text" })
+	                                )
+	                            ),
+	                            React.createElement(
+	                                "tr",
+	                                { className: "" },
+	                                React.createElement(
+	                                    "td",
+	                                    null,
+	                                    "邮　　箱"
+	                                ),
+	                                React.createElement(
+	                                    "td",
+	                                    null,
+	                                    React.createElement("input", { value: this.state.email, onChange: this.handleChange, name: "email", className: "dank-form-input", type: "text" })
+	                                ),
+	                                React.createElement(
+	                                    "td",
+	                                    null,
+	                                    "ＱＱ号码"
+	                                ),
+	                                React.createElement(
+	                                    "td",
+	                                    null,
+	                                    React.createElement("input", { value: this.state.qq, onChange: this.handleChange, name: "qq", className: "dank-form-input", type: "text" })
+	                                )
+	                            ),
+	                            React.createElement(
+	                                "tr",
+	                                { className: "" },
+	                                React.createElement(
+	                                    "td",
+	                                    null,
+	                                    "专　　业"
+	                                ),
+	                                React.createElement(
+	                                    "td",
+	                                    null,
+	                                    React.createElement("input", { value: this.state.major, onChange: this.handleChange, name: "major", className: "dank-form-input", type: "text" })
+	                                ),
+	                                React.createElement(
+	                                    "td",
+	                                    null,
+	                                    "出生日期"
+	                                ),
+	                                React.createElement(
+	                                    "td",
+	                                    null,
+	                                    React.createElement("input", { value: this.state.birth, onChange: this.handleChange, name: "birth", className: "dank-form-input", type: "text" })
+	                                )
+	                            ),
+	                            React.createElement(
+	                                "tr",
+	                                { className: "" },
+	                                React.createElement(
+	                                    "td",
+	                                    null,
+	                                    "寝室地址"
+	                                ),
+	                                React.createElement(
+	                                    "td",
+	                                    null,
+	                                    React.createElement("input", { value: this.state.address, onChange: this.handleChange, name: "address", className: "dank-form-input", type: "text" })
+	                                ),
+	                                React.createElement("td", null)
+	                            )
+	                        )
+	                    )
+	                )
+	            ),
+	            React.createElement(
+	                "div",
+	                { className: "d9" },
+	                React.createElement(
+	                    "div",
+	                    { className: "d10" },
+	                    React.createElement("img", { src: "img/photo.png", className: "i6" }),
+	                    React.createElement(
+	                        "a",
+	                        { className: "a21" },
+	                        React.createElement(
+	                            "b",
+	                            null,
+	                            "上传照片"
+	                        )
+	                    )
+	                )
+	            )
+	        );
+	    }
+	});
+
+	var Person = React.createClass({
+	    displayName: "Person",
+
+	    getInitialState: function getInitialState() {
+	        return {
+	            skills: {
+	                delete: this.props.schema.skills.delete,
+	                title: this.props.schema.skills.title,
+	                chosen: this.props.skills.chosen
+	            },
+	            introduction: {
+	                delete: this.props.schema.introduction.delete,
+	                title: this.props.schema.introduction.title,
+	                content: this.props.introduction.content
+	            }
+	        };
+	    },
+
+	    introHandleChange: function introHandleChange(event) {
+	        this.setState({
+	            introduction: {
+	                delete: this.state.introduction.delete,
+	                title: this.state.introduction.title,
+	                content: event.target.value
+	            }
+	        });
+	    },
+
+	    componentDidMount: function componentDidMount() {
+	        window.iCheck();
+	        $("input[type='checkbox']").on('ifChecked', function (event) {
+	            this.checked(event);
+	        }.bind(this));
+	        $("input[type='checkbox']").on('ifUnchecked', function (event) {
+	            this.unchecked(event);
+	        }.bind(this));
+	    },
+
+	    checked: function checked(event) {
+	        var chosen = this.state.skills.chosen;
+	        chosen.push(event.target.value);
+	        this.setState({ skills: {
+	                delete: this.state.skills.delete,
+	                title: this.state.skills.title,
+	                chosen: chosen
+	            } });
+	    },
+
+	    unchecked: function unchecked(event) {
+	        var value = event.target.value;
+	        var chosen = this.state.skills.chosen;
+	        chosen.splice(chosen.indexOf(value), 1);
+	        this.setState({ skills: {
+	                delete: this.state.skills.delete,
+	                title: this.state.skills.title,
+	                chosen: chosen
+	            } });
+	    },
+
+	    otherCheck: function otherCheck(event) {
+	        var chosen = this.state.skills.chosen;
+	        chosen[0] = event.target.value;
+	        this.setState({ skills: {
+	                delete: this.state.skills.delete,
+	                title: this.state.skills.title,
+	                chosen: chosen
+	            } });
+	    },
+
+	    componentWillUnmount: function componentWillUnmount() {
+	        var skills = {
+	            delete: this.state.skills.delete,
+	            title: this.state.skills.title,
+	            chosen: this.state.skills.chosen
+	        };
+	        var introduction = {
+	            delete: this.state.introduction.delete,
+	            title: this.state.introduction.title,
+	            content: this.state.introduction.content
+	        };
+	        this.props.dataRecall('skills', skills);
+	        this.props.dataRecall('introduction', introduction);
+	    },
+
+	    render: function render() {
+	        var bordStyle = {
+	            display: 'inline-block',
+	            padding: '20px',
+	            border: '5px solid #ffffff',
+	            borderRadius: '8px',
+	            width: '758px',
+	            height: 'auto',
+	            minHeight: '618px',
+	            _height: '618px',
+	            marginLeft: '30px',
+	            marginBottom: '30px'
+	        };
+	        var titleStyle = {
+	            display: 'block',
+	            textAlign: 'center',
+	            fontSize: '30px',
+	            color: '#FFFFFF',
+	            margin: '10px',
+	            fontWeight: 'bold'
+	        };
+	        var checkboxStyle = {
+	            color: '#FFFFFF',
+	            marginBottom: '20px'
+
+	        };
+	        var skillNodes = this.props.schema.skills.option.map(function (skill) {
+	            return React.createElement(
+	                "div",
+	                { className: "dank-checkbox-inOneLine", key: skill },
+	                this.props.skills.chosen.indexOf(skill) > 0 ? React.createElement("input", { type: "checkbox", value: skill, defaultChecked: true }) : React.createElement("input", { type: "checkbox", value: skill }),
+	                React.createElement(
+	                    "label",
+	                    null,
+	                    " ",
+	                    skill,
+	                    " "
+	                )
+	            );
+	        }.bind(this));
+	        return React.createElement(
+	            "div",
+	            { style: bordStyle },
+	            React.createElement(
+	                "h1",
+	                { className: "h1a" },
+	                React.createElement(
+	                    "b",
+	                    null,
+	                    "个人介绍"
+	                )
+	            ),
+	            this.props.schema.skills.delete ? null : React.createElement(
+	                "div",
+	                { className: "d24" },
+	                React.createElement(
+	                    "div",
+	                    { className: "text-left d25" },
+	                    React.createElement(
+	                        "h1",
+	                        { className: "h1f dank-form-h2" },
+	                        React.createElement(
+	                            "b",
+	                            null,
+	                            this.props.schema.skills.title
+	                        )
+	                    ),
+	                    skillNodes,
+	                    React.createElement(
+	                        "div",
+	                        { className: "dank-form-group-inline" },
+	                        React.createElement(
+	                            "label",
+	                            { className: "dank-label dank-select-label" },
+	                            "其他"
+	                        ),
+	                        React.createElement("input", { type: "text", defaultValue: this.props.skills.chosen[0], onBlur: this.otherCheck, className: "dank-form-input dank-select-input" })
+	                    )
+	                )
+	            ),
+	            this.props.schema.introduction.delete ? null : React.createElement(
+	                "div",
+	                { className: "d24" },
+	                React.createElement(
+	                    "div",
+	                    { className: "text-left d25" },
+	                    React.createElement(
+	                        "h1",
+	                        { className: "h1f dank-form-h2" },
+	                        React.createElement(
+	                            "b",
+	                            null,
+	                            this.props.schema.introduction.title
+	                        )
+	                    ),
+	                    React.createElement(
+	                        "div",
+	                        null,
+	                        React.createElement(
+	                            "b",
+	                            null,
+	                            React.createElement("textarea", { name: "introduction.content", value: this.state.introduction.content, onChange: this.introHandleChange, className: "text-left tt1" })
+	                        )
+	                    )
+	                )
+	            )
+	        );
+	    }
+	});
+
+	var Wish = React.createClass({
+	    displayName: "Wish",
+
+	    getInitialState: function getInitialState() {
+	        return {
+	            wish: {
+	                delete: this.props.schema.wish.delete,
+	                title: this.props.schema.wish.title,
+	                chosen: this.props.wish.chosen
+	            },
+	            reason: this.props.reason
+	        };
+	    },
+
+	    reasonChange: function reasonChange(event) {
+	        var reason = this.state.reason;
+	        var index = event.target.getAttribute('title');
+	        reason[index] = event.target.value;
+	        this.setState({
+	            reason: reason
+	        });
+	    },
+
+	    componentDidMount: function componentDidMount() {
+	        window.iCheck();
+	        $("input[type='checkbox']").on('ifChecked', function (event) {
+	            this.checked(event);
+	        }.bind(this));
+	        $("input[type='checkbox']").on('ifUnchecked', function (event) {
+	            this.unchecked(event);
+	        }.bind(this));
+	    },
+
+	    checked: function checked(event) {
+	        var chosen = this.state.wish.chosen;
+	        chosen.push(event.target.value);
+	        this.setState({ wish: {
+	                delete: this.state.wish.delete,
+	                title: this.state.wish.title,
+	                chosen: chosen
+	            } });
+	    },
+
+	    unchecked: function unchecked(event) {
+	        var value = event.target.value;
+	        var chosen = this.state.wish.chosen;
+	        chosen.splice(chosen.indexOf(value), 1);
+	        this.setState({ wish: {
+	                delete: this.state.wish.delete,
+	                title: this.state.wish.title,
+	                chosen: chosen
+	            } });
+	    },
+
+	    componentWillUnmount: function componentWillUnmount() {
+	        var wish = {
+	            delete: this.state.wish.delete,
+	            title: this.state.wish.title,
+	            chosen: this.state.wish.chosen
+	        };
+	        var reason = this.state.reason;
+	        this.props.dataRecall('wish', wish);
+	        this.props.dataRecall('reason', reason);
+	    },
+
+	    render: function render() {
+	        var bordStyle = {
+	            display: 'inline-block',
+	            padding: '20px',
+	            border: '5px solid #ffffff',
+	            borderRadius: '8px',
+	            width: '758px',
+	            height: 'auto',
+	            minHeight: '618px',
+	            _height: '618px',
+	            marginLeft: '30px',
+	            marginBottom: '30px'
+	        };
+	        var titleStyle = {
+	            display: 'block',
+	            textAlign: 'center',
+	            fontSize: '30px',
+	            color: '#FFFFFF',
+	            margin: '10px',
+	            fontWeight: 'bold'
+	        };
+	        var checkboxStyle = {
+	            color: '#FFFFFF',
+	            marginBottom: '20px'
+
+	        };
+	        var wishNodes = this.props.schema.wish.option.map(function (wish) {
+	            return React.createElement(
+	                "div",
+	                { className: "dank-checkbox-inOneLine", key: wish },
+	                this.props.wish.chosen.indexOf(wish) > 0 ? React.createElement("input", { type: "checkbox", value: wish, defaultChecked: true }) : React.createElement("input", { type: "checkbox", value: wish }),
+	                React.createElement(
+	                    "label",
+	                    null,
+	                    " ",
+	                    wish,
+	                    " "
+	                )
+	            );
+	        }.bind(this));
+
+	        var reasonNodes = this.state.wish.chosen.map(function (chosen, i) {
+	            if (i == 0) {
+	                return null;
+	            } else {
+	                return React.createElement(
+	                    "div",
+	                    { className: "d24", key: i },
+	                    React.createElement(
+	                        "div",
+	                        { className: "text-left d25" },
+	                        React.createElement(
+	                            "h1",
+	                            { className: "h1f dank-form-h2" },
+	                            React.createElement(
+	                                "b",
+	                                null,
+	                                "希望进入第",
+	                                i,
+	                                "志愿 ",
+	                                chosen,
+	                                " 的原因是"
+	                            )
+	                        ),
+	                        React.createElement(
+	                            "div",
+	                            null,
+	                            React.createElement(
+	                                "b",
+	                                null,
+	                                React.createElement("textarea", { title: i, value: this.state.reason[i], onChange: this.reasonChange, className: "text-left tt1" })
+	                            )
+	                        )
+	                    )
+	                );
+	            }
+	        }.bind(this));
+
+	        return React.createElement(
+	            "div",
+	            { style: bordStyle },
+	            React.createElement(
+	                "h1",
+	                { className: "h1a" },
+	                React.createElement(
+	                    "b",
+	                    null,
+	                    "志愿选择"
+	                )
+	            ),
+	            this.props.schema.wish.delete ? null : React.createElement(
+	                "div",
+	                { className: "d24" },
+	                React.createElement(
+	                    "div",
+	                    { className: "text-left d25" },
+	                    React.createElement(
+	                        "h1",
+	                        { className: "h1f dank-form-h2" },
+	                        React.createElement(
+	                            "b",
+	                            null,
+	                            this.props.schema.wish.title
+	                        )
+	                    ),
+	                    wishNodes
+	                )
+	            ),
+	            reasonNodes
+	        );
+	    }
+	});
+
+	var Others = React.createClass({
+	    displayName: "Others",
+
+	    getInitialState: function getInitialState() {
+	        return {
+	            others: this.props.others
+	        };
+	    },
+
+	    componentDidMount: function componentDidMount() {
+	        /*iCheck initialize*/
+	        window.iCheck();
+	        $("input[type='checkbox']").on('ifChecked', function (event) {
+	            this.otherComponentUpdater(event, 1);
+	        }.bind(this));
+	        $("input[type='checkbox']").on('ifUnchecked', function (event) {
+	            this.otherComponentUpdater(event, 0);
+	        }.bind(this));
+	        $("input[type='radio']").on('ifChecked', function (event) {
+	            this.otherComponentUpdater(event, 1);
+	        }.bind(this));
+	    },
+
+	    otherComponentUpdater: function otherComponentUpdater(event, checkState) {
+	        var object = event.target;
+	        //console.log(object);
+	        var index = object.getAttribute('name');
+	        //console.log(index);
+	        var others = this.state.others;
+	        var old = others[index];
+	        var element;
+	        switch (old.type) {
+	            case 'single-text':
+	                element = {
+	                    type: old.type,
+	                    title: old.title,
+	                    content: object.value
+	                    //required: tough.required
+	                };
+	                break;
+	            case 'multi-text':
+	                element = {
+	                    type: old.type,
+	                    title: old.title,
+	                    content: object.value
+	                    //required: tough.required
+	                };
+	                break;
+	            case 'multi-choose':
+	                var chosen = old.chosen;
+	                if (checkState == 1) //checked
+	                    {
+	                        chosen.push(object.value);
+	                    } else if (checkState == 0) //unchecked
+	                    {
+	                        chosen.splice(chosen.indexOf(object.value), 1);
+	                    } else if (checkState == -1) //check other
+	                    {
+	                        chosen[0] = object.value;
+	                    }
+	                element = {
+	                    type: old.type,
+	                    title: old.title,
+	                    //max: rough.max,
+	                    chosen: chosen
+	                };
+	                break;
+	            case 'single-choose':
+	                //单选暂不实现可自填的功能
+	                var chosen = old.chosen;
+	                if (checkState == 1) {
+	                    chosen = object.value;
+	                }
+	                element = {
+	                    type: old.type,
+	                    title: old.title,
+	                    //max: rough.max,
+	                    chosen: chosen
+	                };
+	                break;
+	            case 'file':
+	                element = {
+	                    type: old.type,
+	                    title: old.title,
+	                    url: object.value
+	                };
+	                break;
+	            case 'image':
+	                element = {
+	                    type: old.type,
+	                    title: old.title,
+	                    url: object.value
+	                };
+	                break;
+	            default:
+	                element = {};
+	        }
+	        others[index] = element;
+	        this.setState({ others: others });
+	    },
+
+	    componentWillUnmount: function componentWillUnmount() {
+	        this.props.dataRecall('others', this.state.others);
+	    },
+
+	    render: function render() {
+	        var bordStyle = {
+	            display: 'inline-block',
+	            padding: '20px',
+	            border: '5px solid #ffffff',
+	            borderRadius: '8px',
+	            width: '758px',
+	            height: 'auto',
+	            minHeight: '618px',
+	            _height: '618px',
+	            marginLeft: '30px',
+	            marginBottom: '30px'
+	        };
+	        var titleStyle = {
+	            display: 'block',
+	            textAlign: 'center',
+	            fontSize: '30px',
+	            color: '#FFFFFF',
+	            margin: '10px',
+	            fontWeight: 'bold'
+	        };
+	        var checkboxStyle = {
+	            color: '#FFFFFF',
+	            marginBottom: '20px'
+
+	        };
+	        var otherNodes = this.props.schema.others.map(function (other, i) {
+	            switch (other.type) {
+	                case 'single-text':
+	                    return React.createElement(
+	                        "div",
+	                        { className: "d24", key: i },
+	                        React.createElement(
+	                            "div",
+	                            { className: "text-left d25" },
+	                            React.createElement(
+	                                "h1",
+	                                { className: "h1f dank-form-h2" },
+	                                React.createElement(
+	                                    "b",
+	                                    null,
+	                                    other.title
+	                                )
+	                            ),
+	                            React.createElement(
+	                                "div",
+	                                null,
+	                                React.createElement("input", { type: "text", name: i, defaultValue: this.state.others[i].content, onChange: function (event) {
+	                                        this.otherComponentUpdater(event, null);
+	                                    }.bind(this), className: "dank-form-single-text" })
+	                            )
+	                        )
+	                    );
+	                    break;
+	                case 'multi-text':
+	                    return React.createElement(
+	                        "div",
+	                        { className: "d24", key: i },
+	                        React.createElement(
+	                            "div",
+	                            { className: "text-left d25" },
+	                            React.createElement(
+	                                "h1",
+	                                { className: "h1f dank-form-h2" },
+	                                React.createElement(
+	                                    "b",
+	                                    null,
+	                                    other.title
+	                                )
+	                            ),
+	                            React.createElement(
+	                                "div",
+	                                null,
+	                                React.createElement("textarea", { name: i, defaultValue: this.state.others[i].content, onChange: function (event) {
+	                                        this.otherComponentUpdater(event, null);
+	                                    }.bind(this), className: "text-left tt1" })
+	                            )
+	                        )
+	                    );
+	                    break;
+	                case 'multi-choose':
+	                    return React.createElement(
+	                        "div",
+	                        { className: "text-left d25", key: i },
+	                        React.createElement(
+	                            "h1",
+	                            { className: "h1f dank-form-h2" },
+	                            React.createElement(
+	                                "b",
+	                                null,
+	                                other.title
+	                            )
+	                        ),
+	                        other.option.map(function (option) {
+	                            option = "" + option;
+	                            return React.createElement(
+	                                "div",
+	                                { className: "dank-checkbox-inOneLine", key: option },
+	                                this.props.others[i].chosen.indexOf(option) > 0 ? React.createElement("input", { type: "checkbox", name: i, value: option, defaultChecked: true }) : React.createElement("input", { type: "checkbox", name: i, value: option }),
+	                                React.createElement(
+	                                    "label",
+	                                    null,
+	                                    " ",
+	                                    option,
+	                                    " "
+	                                )
+	                            );
+	                        }.bind(this)),
+	                        other.free ? React.createElement(
+	                            "div",
+	                            { className: "dank-form-group-inline" },
+	                            React.createElement(
+	                                "label",
+	                                { className: "dank-label dank-select-label" },
+	                                "其他"
+	                            ),
+	                            React.createElement("input", { type: "text", name: i, defaultValue: this.state.others[i].chosen[0], onBlur: function (event) {
+	                                    this.otherComponentUpdater(event, -1);
+	                                }.bind(this), className: "dank-form-input dank-select-input" })
+	                        ) : null
+	                    );
+	                    break;
+	                case 'single-choose':
+	                    //单选暂不实现可自填的功能
+	                    return React.createElement(
+	                        "div",
+	                        { className: "text-left d25", key: i },
+	                        React.createElement(
+	                            "h1",
+	                            { className: "h1f dank-form-h2" },
+	                            React.createElement(
+	                                "b",
+	                                null,
+	                                other.title
+	                            )
+	                        ),
+	                        other.option.map(function (option) {
+	                            option = "" + option;
+	                            return React.createElement(
+	                                "div",
+	                                { className: "dank-radio-inOneLine", key: option },
+	                                this.props.others[i].chosen == option ? React.createElement("input", { type: "radio", name: i, value: option, defaultChecked: true }) : React.createElement("input", { type: "radio", name: i, value: option }),
+	                                React.createElement(
+	                                    "label",
+	                                    null,
+	                                    " ",
+	                                    option,
+	                                    " "
+	                                )
+	                            );
+	                        }.bind(this))
+	                    );
+	                    break;
+	                case 'file':
+	                    return null;
+	                    break;
+	                case 'image':
+	                    return null;
+	                    break;
+	                default:
+	                    return null;
+	            }
+	        }.bind(this));
+	        return React.createElement(
+	            "div",
+	            { style: bordStyle },
+	            React.createElement(
+	                "h1",
+	                { className: "h1a" },
+	                React.createElement(
+	                    "b",
+	                    null,
+	                    "其他问题"
+	                )
+	            ),
+	            otherNodes
+	        );
+	    }
+	});
+
+/***/ },
+/* 82 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 
 	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -10214,7 +11574,9 @@ var App =
 	            border: '5px solid #ffffff',
 	            borderRadius: '8px',
 	            width: '758px',
-	            height: '618px',
+	            height: 'auto',
+	            minHeight: '618px',
+	            _height: '618px',
 	            marginLeft: '30px',
 	            marginBottom: '30px'
 	        };

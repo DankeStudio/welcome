@@ -25,6 +25,7 @@ var infoChange = require('./containers/component/infoChange.jsx');
 
 var back = require('./containers/back.jsx');
 var formManager = require('./containers/component/formManage.jsx');
+var addEvent = require('./containers/component/addEvent.jsx');
 
 var form = require('./containers/form.jsx');
 
@@ -57,6 +58,7 @@ render((
         </Route>
         <Route path="/back" component={back}>
             <Route path="formmanage" component={formManager}/>
+            <Route path="addevent" component={addEvent}/>
         </Route>
         <Route path="/form/:id" component={form}/>
     </Router>

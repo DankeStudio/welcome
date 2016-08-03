@@ -1,0 +1,16 @@
+body {
+    font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+}
+
+li {
+    display: inline-block;
+}
+
+a:hover, a:focus {
+    text-decoration: none;
+    outline: none;
+}
+
+button:focus {
+    outline: none!important;
+}

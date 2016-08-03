@@ -1,0 +1,17 @@
+.content {
+    margin: 40px 20px;
+    padding: 30px 55px;
+    border-radius: 8px;
+    background-color: #fff;
+
+    &.highlight {
+        background-color: #f57a6c;
+    }
+
+    > h1 {
+        margin-bottom: 15px;
+        color: #345062;
+        font-size: 28px;
+        letter-spacing: 3px;
+    }
+}

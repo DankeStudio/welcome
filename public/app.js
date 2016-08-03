@@ -73,10 +73,15 @@ var App =
 	var infoChange = __webpack_require__(77);
 
 	var back = __webpack_require__(78);
-	var formManager = __webpack_require__(80);
-	var addEvent = __webpack_require__(81);
+	//var dispatcher;
+	var time = __webpack_require__(80);
+	var status = __webpack_require__(81);
+	var message = __webpack_require__(82);
+	var trashbin;
+	var formManager = __webpack_require__(83);
+	var addEvent = __webpack_require__(84);
 
-	var form = __webpack_require__(82);
+	var form = __webpack_require__(85);
 
 	var Root = React.createClass({
 	    displayName: 'Root',
@@ -114,7 +119,18 @@ var App =
 	        Route,
 	        { path: '/back', component: back },
 	        React.createElement(Route, { path: 'formmanage', component: formManager }),
-	        React.createElement(Route, { path: 'addevent', component: addEvent })
+	        React.createElement(Route, { path: 'addevent', component: addEvent }),
+	        React.createElement(IndexRedirect, { to: 'formmanage' }),
+	        React.createElement(Route, { path: 'formmanage', component: formManager }),
+	        React.createElement(
+	            Route,
+	            { path: 'dispatcher' },
+	            React.createElement(IndexRedirect, { to: 'time' }),
+	            React.createElement(Route, { path: 'time', component: time }),
+	            React.createElement(Route, { path: 'status', component: status }),
+	            React.createElement(Route, { path: 'message', component: message })
+	        ),
+	        React.createElement(Route, { path: 'transhbin' })
 	    ),
 	    React.createElement(Route, { path: '/form/:id', component: form })
 	), document.getElementById('content'));
@@ -8442,11 +8458,8 @@ var App =
 
 	'use strict';
 
-	/**
-	 * Created by admin on 2016/7/25.
-	 */
 	var React = __webpack_require__(1);
-	var Component = React.Component;
+	var Link = __webpack_require__(3).Link;
 
 	var Header = __webpack_require__(79);
 
@@ -8454,16 +8467,117 @@ var App =
 	    displayName: 'exports',
 
 	    render: function render() {
-	        var globalStyle = {
-	            background: "#EFEFEF",
-	            height: "100%",
-	            padding: 0
-	        };
 	        return React.createElement(
 	            'div',
-	            { style: globalStyle },
+	            null,
 	            React.createElement(Header, null),
-	            this.props.children
+	            React.createElement(
+	                'div',
+	                null,
+	                React.createElement(Slider, null),
+	                React.createElement(
+	                    'div',
+	                    { className: 'dank-slider-right' },
+	                    this.props.children
+	                )
+	            )
+	        );
+	    }
+	});
+
+	var Slider = React.createClass({
+	    displayName: 'Slider',
+
+	    render: function render() {
+	        return React.createElement(
+	            'div',
+	            { className: 'dank-slider-org' },
+	            React.createElement(
+	                'div',
+	                null,
+	                React.createElement(
+	                    Link,
+	                    { to: '/back/formManage', activeClassName: 'dank-slider-active' },
+	                    React.createElement('i', { className: 'fa fa-lg fa-fw fa-file-text-o', 'aria-hidden': 'true' }),
+	                    React.createElement(
+	                        'b',
+	                        null,
+	                        '报名表管理'
+	                    )
+	                )
+	            ),
+	            React.createElement(
+	                'div',
+	                null,
+	                React.createElement(
+	                    Link,
+	                    { to: '/back/dispatcher', activeClassName: 'dank-slider-active' },
+	                    React.createElement('i', { className: 'fa fa-lg fa-fw fa-calendar', 'aria-hidden': 'true' }),
+	                    React.createElement(
+	                        'b',
+	                        null,
+	                        '面试调度'
+	                    ),
+	                    React.createElement(
+	                        'p',
+	                        null,
+	                        ' >'
+	                    )
+	                ),
+	                React.createElement(
+	                    'ul',
+	                    { id: 'dispatcher-menu' },
+	                    React.createElement(
+	                        Link,
+	                        { to: '/back/dispatcher/time', activeClassName: 'active' },
+	                        React.createElement(
+	                            'li',
+	                            null,
+	                            React.createElement('i', { className: 'fa fa-angle-right' }),
+	                            '面试场次安排'
+	                        )
+	                    ),
+	                    React.createElement(
+	                        Link,
+	                        { to: '/back/dispatcher/status', activeClassName: 'active' },
+	                        React.createElement(
+	                            'li',
+	                            null,
+	                            React.createElement('i', { className: 'fa fa-angle-right' }),
+	                            '面试状态查看/管理'
+	                        )
+	                    ),
+	                    React.createElement(
+	                        Link,
+	                        { to: '/back/dispatcher/message', activeClassName: 'active' },
+	                        React.createElement(
+	                            'li',
+	                            null,
+	                            React.createElement('i', { className: 'fa fa-angle-right' }),
+	                            '消息发送'
+	                        )
+	                    )
+	                )
+	            ),
+	            React.createElement(
+	                'div',
+	                null,
+	                React.createElement(
+	                    Link,
+	                    { to: '/back/transhbin', activeClassName: 'dank-slider-active' },
+	                    React.createElement('i', { className: 'fa fa-lg fa-fw fa-trash', 'aria-hidden': 'true' }),
+	                    React.createElement(
+	                        'b',
+	                        null,
+	                        '回收站'
+	                    ),
+	                    React.createElement(
+	                        'p',
+	                        null,
+	                        ' >'
+	                    )
+	                )
+	            )
 	        );
 	    }
 	});
@@ -8584,11 +8698,268 @@ var App =
 
 	"use strict";
 
-	/**
-	 * Created by admin on 2016/7/25.
-	 */
 	var React = __webpack_require__(1);
-	var Component = React.Component;
+
+	module.exports = React.createClass({
+	    displayName: "exports",
+
+	    getInitialState: function getInitialState() {
+	        return { infoComplete: true };
+	    },
+	    checkInfo: function checkInfo() {
+	        this.setState({ infoComplete: !this.state.infoComplete });
+	    },
+	    render: function render() {
+	        var section1 = this.state.infoComplete == false ? null : React.createElement(InterviewCard, null);
+	        return React.createElement(
+	            "div",
+	            { className: "container-fluid" },
+	            React.createElement(
+	                "div",
+	                { className: "panel", id: "interview-select-panel" },
+	                React.createElement(
+	                    "div",
+	                    { className: "panel-heading" },
+	                    React.createElement(
+	                        "h3",
+	                        { className: "panel-title" },
+	                        "请完善您的面试场次安排信息"
+	                    )
+	                ),
+	                React.createElement(
+	                    "div",
+	                    { className: "panel-body" },
+	                    React.createElement(
+	                        "div",
+	                        { className: "row" },
+	                        React.createElement(
+	                            "div",
+	                            { className: "col-md-4" },
+	                            React.createElement(
+	                                "div",
+	                                { className: "dropdown" },
+	                                React.createElement(
+	                                    "div",
+	                                    { className: "dp-title" },
+	                                    "蛋壳工作室纳新",
+	                                    React.createElement("i", { className: "fa fa-caret-down" })
+	                                ),
+	                                React.createElement(
+	                                    "div",
+	                                    { className: "dp-body" },
+	                                    React.createElement(
+	                                        "label",
+	                                        { className: "radio" },
+	                                        React.createElement("input", { type: "radio", name: "radio" }),
+	                                        "蛋壳工作室2016春季纳新"
+	                                    ),
+	                                    React.createElement(
+	                                        "label",
+	                                        { className: "radio" },
+	                                        React.createElement("input", { type: "radio", name: "radio" }),
+	                                        "蛋壳工作室2015秋季纳新"
+	                                    ),
+	                                    React.createElement(
+	                                        "label",
+	                                        { className: "radio" },
+	                                        React.createElement("input", { type: "radio", name: "radio" }),
+	                                        "蛋壳工作室2015春季纳新"
+	                                    )
+	                                )
+	                            )
+	                        ),
+	                        React.createElement(
+	                            "div",
+	                            { className: "col-md-4" },
+	                            React.createElement(
+	                                "a",
+	                                { className: "thumbnail", onClick: this.checkInfo },
+	                                '>>第一轮面试<<'
+	                            )
+	                        ),
+	                        React.createElement(
+	                            "div",
+	                            { className: "col-md-4" },
+	                            React.createElement(
+	                                "div",
+	                                { className: "dropdown" },
+	                                React.createElement(
+	                                    "div",
+	                                    { className: "dp-title" },
+	                                    "部门选择",
+	                                    React.createElement("i", { className: "fa fa-caret-down" })
+	                                ),
+	                                React.createElement(
+	                                    "div",
+	                                    { className: "dp-body" },
+	                                    React.createElement(
+	                                        "label",
+	                                        { className: "radio" },
+	                                        React.createElement("input", { type: "radio", name: "radio" }),
+	                                        "所有部门（混面）"
+	                                    ),
+	                                    React.createElement(
+	                                        "label",
+	                                        { className: "radio" },
+	                                        React.createElement("input", { type: "radio", name: "radio" }),
+	                                        "产品"
+	                                    ),
+	                                    React.createElement(
+	                                        "label",
+	                                        { className: "radio" },
+	                                        React.createElement("input", { type: "radio", name: "radio" }),
+	                                        "运营"
+	                                    ),
+	                                    React.createElement(
+	                                        "label",
+	                                        { className: "radio" },
+	                                        React.createElement("input", { type: "radio", name: "radio" }),
+	                                        "推广"
+	                                    ),
+	                                    React.createElement(
+	                                        "label",
+	                                        { className: "radio" },
+	                                        React.createElement("input", { type: "radio", name: "radio" }),
+	                                        "前端"
+	                                    )
+	                                )
+	                            )
+	                        )
+	                    ),
+	                    section1
+	                )
+	            )
+	        );
+	    }
+	});
+
+	var InterviewCard = React.createClass({
+	    displayName: "InterviewCard",
+
+	    render: function render() {
+	        return React.createElement(
+	            "div",
+	            { className: "container-fluid", id: "interview-info" },
+	            React.createElement(
+	                "div",
+	                { className: "interview-date" },
+	                "10月1号"
+	            ),
+	            React.createElement(
+	                "div",
+	                { className: "interview-date", id: "add-date" },
+	                "添加日期"
+	            ),
+	            React.createElement(
+	                "div",
+	                { className: "row" },
+	                React.createElement(
+	                    "div",
+	                    { className: "col-md-6" },
+	                    React.createElement(
+	                        "div",
+	                        { className: "interview-card" },
+	                        React.createElement(
+	                            "div",
+	                            { className: "card-heading" },
+	                            React.createElement(
+	                                "p",
+	                                null,
+	                                "10月1日面试场次A"
+	                            ),
+	                            React.createElement("i", { className: "fa fa-times" })
+	                        ),
+	                        React.createElement(
+	                            "label",
+	                            null,
+	                            "面试地点",
+	                            React.createElement("input", { type: "text" })
+	                        ),
+	                        React.createElement(
+	                            "label",
+	                            null,
+	                            "此场点安排的场数为",
+	                            React.createElement("input", { type: "text" })
+	                        ),
+	                        React.createElement(
+	                            "label",
+	                            null,
+	                            "每场次面试时间为",
+	                            React.createElement(
+	                                "p",
+	                                null,
+	                                "分钟"
+	                            ),
+	                            React.createElement("input", { type: "text" })
+	                        ),
+	                        React.createElement(
+	                            "label",
+	                            null,
+	                            "每场次面试休息时间",
+	                            React.createElement(
+	                                "p",
+	                                null,
+	                                "分钟"
+	                            ),
+	                            React.createElement("input", { type: "text" })
+	                        ),
+	                        React.createElement(
+	                            "label",
+	                            null,
+	                            "该场地面试开始于",
+	                            React.createElement("input", { type: "text" }),
+	                            React.createElement(
+	                                "p",
+	                                null,
+	                                ":"
+	                            ),
+	                            React.createElement("input", { type: "text" })
+	                        ),
+	                        React.createElement(
+	                            "label",
+	                            null,
+	                            "面试将结束于",
+	                            React.createElement("input", { type: "text" }),
+	                            React.createElement(
+	                                "p",
+	                                null,
+	                                ":"
+	                            ),
+	                            React.createElement("input", { type: "text" })
+	                        )
+	                    )
+	                ),
+	                React.createElement(
+	                    "div",
+	                    { className: "col-md-6" },
+	                    React.createElement(
+	                        "div",
+	                        { className: "interview-card", id: "add-interview-card" },
+	                        React.createElement("i", { className: "fa fa-3x fa-plus" })
+	                    )
+	                )
+	            ),
+	            React.createElement(
+	                "button",
+	                { className: "btn", id: "gen-btn" },
+	                "生成"
+	            ),
+	            React.createElement(
+	                "button",
+	                { className: "btn", id: "cancle-btn" },
+	                "取消"
+	            )
+	        );
+	    }
+	});
+
+/***/ },
+/* 81 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var React = __webpack_require__(1);
 
 	module.exports = React.createClass({
 	    displayName: "exports",
@@ -8596,64 +8967,924 @@ var App =
 	    render: function render() {
 	        return React.createElement(
 	            "div",
-	            null,
+	            { className: "container-fluid" },
 	            React.createElement(
 	                "div",
-	                { className: "dank-slider-org" },
+	                { className: "panel", id: "interview-status-panel" },
 	                React.createElement(
 	                    "div",
-	                    null,
+	                    { className: "panel-heading" },
 	                    React.createElement(
-	                        "big",
-	                        { className: "dank-slider-active" },
-	                        React.createElement("i", { className: "fa fa-file-text", "aria-hidden": "true" }),
+	                        "div",
+	                        { className: "row" },
 	                        React.createElement(
-	                            "b",
-	                            null,
-	                            "报名表管理"
+	                            "div",
+	                            { className: "col-md-2" },
+	                            React.createElement(
+	                                "div",
+	                                { className: "dropdown" },
+	                                React.createElement(
+	                                    "div",
+	                                    { className: "dp-title" },
+	                                    "蛋壳工作室纳新",
+	                                    React.createElement("i", { className: "fa fa-caret-down" })
+	                                ),
+	                                React.createElement(
+	                                    "div",
+	                                    { className: "dp-body" },
+	                                    React.createElement(
+	                                        "label",
+	                                        { className: "radio" },
+	                                        React.createElement("input", { type: "radio", name: "radio" }),
+	                                        "蛋壳工作室2016春季纳新"
+	                                    ),
+	                                    React.createElement(
+	                                        "label",
+	                                        { className: "radio" },
+	                                        React.createElement("input", { type: "radio", name: "radio" }),
+	                                        "蛋壳工作室2015秋季纳新"
+	                                    ),
+	                                    React.createElement(
+	                                        "label",
+	                                        { className: "radio" },
+	                                        React.createElement("input", { type: "radio", name: "radio" }),
+	                                        "蛋壳工作室2015春季纳新"
+	                                    )
+	                                )
+	                            )
+	                        ),
+	                        React.createElement(
+	                            "div",
+	                            { className: "col-md-2" },
+	                            React.createElement(
+	                                "div",
+	                                { className: "dropdown" },
+	                                React.createElement(
+	                                    "div",
+	                                    { className: "dp-title" },
+	                                    "第一轮面试",
+	                                    React.createElement("i", { className: "fa fa-caret-down" })
+	                                ),
+	                                React.createElement(
+	                                    "div",
+	                                    { className: "dp-body" },
+	                                    React.createElement(
+	                                        "label",
+	                                        { className: "radio" },
+	                                        React.createElement("input", { type: "radio", name: "radio" }),
+	                                        "蛋壳工作室2016春季纳新"
+	                                    ),
+	                                    React.createElement(
+	                                        "label",
+	                                        { className: "radio" },
+	                                        React.createElement("input", { type: "radio", name: "radio" }),
+	                                        "蛋壳工作室2015秋季纳新"
+	                                    ),
+	                                    React.createElement(
+	                                        "label",
+	                                        { className: "radio" },
+	                                        React.createElement("input", { type: "radio", name: "radio" }),
+	                                        "蛋壳工作室2015春季纳新"
+	                                    )
+	                                )
+	                            )
+	                        ),
+	                        React.createElement(
+	                            "div",
+	                            { className: "col-md-2" },
+	                            React.createElement(
+	                                "div",
+	                                { className: "dropdown" },
+	                                React.createElement(
+	                                    "div",
+	                                    { className: "dp-title" },
+	                                    "部门选择",
+	                                    React.createElement("i", { className: "fa fa-caret-down" })
+	                                ),
+	                                React.createElement(
+	                                    "div",
+	                                    { className: "dp-body" },
+	                                    React.createElement(
+	                                        "label",
+	                                        { className: "radio" },
+	                                        React.createElement("input", { type: "radio", name: "radio" }),
+	                                        "所有部门（混面）"
+	                                    ),
+	                                    React.createElement(
+	                                        "label",
+	                                        { className: "radio" },
+	                                        React.createElement("input", { type: "radio", name: "radio" }),
+	                                        "产品"
+	                                    ),
+	                                    React.createElement(
+	                                        "label",
+	                                        { className: "radio" },
+	                                        React.createElement("input", { type: "radio", name: "radio" }),
+	                                        "运营"
+	                                    ),
+	                                    React.createElement(
+	                                        "label",
+	                                        { className: "radio" },
+	                                        React.createElement("input", { type: "radio", name: "radio" }),
+	                                        "推广"
+	                                    ),
+	                                    React.createElement(
+	                                        "label",
+	                                        { className: "radio" },
+	                                        React.createElement("input", { type: "radio", name: "radio" }),
+	                                        "前端"
+	                                    )
+	                                )
+	                            )
+	                        ),
+	                        React.createElement(
+	                            "div",
+	                            { className: "col-md-2" },
+	                            React.createElement(
+	                                "button",
+	                                { className: "btn" },
+	                                "面试安排信息导出"
+	                            )
+	                        ),
+	                        React.createElement(
+	                            "div",
+	                            { className: "col-md-2" },
+	                            React.createElement(
+	                                "button",
+	                                { className: "btn" },
+	                                "本轮面试状态更新"
+	                            )
+	                        ),
+	                        React.createElement(
+	                            "div",
+	                            { className: "col-md-2" },
+	                            React.createElement(
+	                                "div",
+	                                { className: "input-group search-bar" },
+	                                React.createElement("input", { type: "text", className: "form-control", placeholder: "Search" }),
+	                                React.createElement(
+	                                    "span",
+	                                    { className: "input-group-btn" },
+	                                    React.createElement(
+	                                        "button",
+	                                        { className: "btn", type: "button" },
+	                                        React.createElement("i", { className: "fa fa-search" })
+	                                    )
+	                                )
+	                            )
 	                        )
 	                    )
 	                ),
 	                React.createElement(
 	                    "div",
-	                    null,
+	                    { className: "panel-body" },
 	                    React.createElement(
-	                        "a",
-	                        { href: "#" },
-	                        React.createElement("i", { className: "fa fa-commenting", "aria-hidden": "true" }),
+	                        "div",
+	                        { className: "container-fluid", id: "interview-status" },
 	                        React.createElement(
-	                            "b",
-	                            null,
-	                            " 消息通知"
+	                            "div",
+	                            { className: "interview-date" },
+	                            "10月1号"
+	                        ),
+	                        React.createElement(
+	                            "div",
+	                            { className: "interview-date", id: "add-date" },
+	                            "添加日期"
+	                        ),
+	                        React.createElement(
+	                            "div",
+	                            { className: "row" },
+	                            React.createElement(
+	                                "div",
+	                                { className: "panel" },
+	                                React.createElement(
+	                                    "div",
+	                                    { className: "panel-heading row" },
+	                                    React.createElement(
+	                                        "div",
+	                                        { className: "col-md-3 col-lg-3 col-sm-3 col-xs-3" },
+	                                        "A1"
+	                                    ),
+	                                    React.createElement(
+	                                        "div",
+	                                        { className: "col-md-3 col-lg-3 col-sm-3 col-xs-3" },
+	                                        "19:20 - 20:00"
+	                                    ),
+	                                    React.createElement(
+	                                        "div",
+	                                        { className: "col-md-3 col-lg-3 col-sm-3 col-xs-3" },
+	                                        "地点：东1B-203"
+	                                    ),
+	                                    React.createElement(
+	                                        "div",
+	                                        { className: "col-md-3 col-lg-3 col-sm-3 col-xs-3" },
+	                                        "本场面试人数：3人"
+	                                    )
+	                                ),
+	                                React.createElement(
+	                                    "div",
+	                                    { className: "panel-body" },
+	                                    React.createElement(
+	                                        "div",
+	                                        { className: "row" },
+	                                        React.createElement(
+	                                            "div",
+	                                            { className: "col-md-1" },
+	                                            "Frank"
+	                                        ),
+	                                        React.createElement(
+	                                            "div",
+	                                            { className: "col-md-1" },
+	                                            "男"
+	                                        ),
+	                                        React.createElement(
+	                                            "div",
+	                                            { className: "col-md-2" },
+	                                            "12344567788909"
+	                                        ),
+	                                        React.createElement(
+	                                            "div",
+	                                            { className: "col-md-2" },
+	                                            "产品部门"
+	                                        ),
+	                                        React.createElement(
+	                                            "div",
+	                                            { className: "col-md-2" },
+	                                            "表刷通过"
+	                                        ),
+	                                        React.createElement(
+	                                            "div",
+	                                            { className: "col-md-2" },
+	                                            "修改场次 删除"
+	                                        ),
+	                                        React.createElement(
+	                                            "div",
+	                                            { className: "col-md-2" },
+	                                            "一轮面试"
+	                                        )
+	                                    ),
+	                                    React.createElement(
+	                                        "div",
+	                                        { className: "row" },
+	                                        React.createElement(
+	                                            "div",
+	                                            { className: "col-md-1" },
+	                                            "Frank"
+	                                        ),
+	                                        React.createElement(
+	                                            "div",
+	                                            { className: "col-md-1" },
+	                                            "男"
+	                                        ),
+	                                        React.createElement(
+	                                            "div",
+	                                            { className: "col-md-2" },
+	                                            "12344567788909"
+	                                        ),
+	                                        React.createElement(
+	                                            "div",
+	                                            { className: "col-md-2" },
+	                                            "产品部门"
+	                                        ),
+	                                        React.createElement(
+	                                            "div",
+	                                            { className: "col-md-2" },
+	                                            "表刷通过"
+	                                        ),
+	                                        React.createElement(
+	                                            "div",
+	                                            { className: "col-md-2" },
+	                                            "修改场次 删除"
+	                                        ),
+	                                        React.createElement(
+	                                            "div",
+	                                            { className: "col-md-2" },
+	                                            "一轮面试"
+	                                        )
+	                                    )
+	                                )
+	                            ),
+	                            React.createElement(
+	                                "div",
+	                                { className: "panel" },
+	                                React.createElement(
+	                                    "div",
+	                                    { className: "panel-heading row" },
+	                                    React.createElement(
+	                                        "div",
+	                                        { className: "col-md-3 col-lg-3 col-sm-3 col-xs-3" },
+	                                        "A1"
+	                                    ),
+	                                    React.createElement(
+	                                        "div",
+	                                        { className: "col-md-3 col-lg-3 col-sm-3 col-xs-3" },
+	                                        "19:20 - 20:00"
+	                                    ),
+	                                    React.createElement(
+	                                        "div",
+	                                        { className: "col-md-3 col-lg-3 col-sm-3 col-xs-3" },
+	                                        "地点：东1B-203"
+	                                    ),
+	                                    React.createElement(
+	                                        "div",
+	                                        { className: "col-md-3 col-lg-3 col-sm-3 col-xs-3" },
+	                                        "本场面试人数：3人"
+	                                    )
+	                                )
+	                            ),
+	                            React.createElement(
+	                                "div",
+	                                { id: "add-interview" },
+	                                React.createElement("i", { className: "fa fa-plus" }),
+	                                "添加本日面试场次"
+	                            )
+	                        )
+	                    )
+	                )
+	            )
+	        );
+	    }
+	});
+
+/***/ },
+/* 82 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var React = __webpack_require__(1);
+
+	module.exports = React.createClass({
+	    displayName: "exports",
+
+	    getInitialState: function getInitialState() {
+	        return { add: false };
+	    },
+	    addMessage: function addMessage() {
+	        this.setState({ add: true });
+	    },
+	    checkMessage: function checkMessage() {
+	        this.setState({ add: false });
+	    },
+	    render: function render() {
+	        var section1, section2, section3, class1, class2;
+	        if (this.state.add == false) {
+	            section1 = React.createElement(SendedMessage, null), section2 = null, section3 = React.createElement(ReplyMessage, null);
+	            class1 = "", class2 = " active";
+	        } else {
+	            section1 = React.createElement(NewMessageInfoSelect, null), section2 = React.createElement(NewMessageEdit, null), section3 = null;
+	            class1 = " active", class2 = "";
+	        }
+	        return React.createElement(
+	            "div",
+	            { className: "container-fluid" },
+	            React.createElement(
+	                "div",
+	                { className: "col-md-12" },
+	                React.createElement(
+	                    "div",
+	                    { className: "content" },
+	                    React.createElement(
+	                        "h1",
+	                        null,
+	                        "群发消息"
+	                    ),
+	                    React.createElement(
+	                        "div",
+	                        { id: "message-fun" },
+	                        React.createElement(
+	                            "button",
+	                            { className: "btn" + class1, onClick: this.addMessage },
+	                            "新建群发消息"
+	                        ),
+	                        React.createElement(
+	                            "button",
+	                            { className: "btn" + class2, onClick: this.checkMessage },
+	                            "已发送"
+	                        )
+	                    ),
+	                    section1,
+	                    section2
+	                )
+	            ),
+	            section3
+	        );
+	    }
+	});
+
+	var SendedMessage = React.createClass({
+	    displayName: "SendedMessage",
+
+	    render: function render() {
+	        return React.createElement(
+	            "div",
+	            { className: "row", id: "sended-message" },
+	            React.createElement(
+	                "div",
+	                { className: "col-md-3" },
+	                React.createElement(
+	                    "div",
+	                    { className: "dropdown" },
+	                    React.createElement(
+	                        "div",
+	                        { className: "dp-title" },
+	                        "蛋壳工作室秋季纳新",
+	                        React.createElement("i", { className: "fa fa-caret-down" })
+	                    ),
+	                    React.createElement(
+	                        "div",
+	                        { className: "dp-body" },
+	                        React.createElement(
+	                            "label",
+	                            { className: "radio" },
+	                            React.createElement("input", { type: "radio", name: "radio" }),
+	                            "蛋壳工作室2016春季纳新"
+	                        ),
+	                        React.createElement(
+	                            "label",
+	                            { className: "radio" },
+	                            React.createElement("input", { type: "radio", name: "radio" }),
+	                            "蛋壳工作室2015秋季纳新"
+	                        ),
+	                        React.createElement(
+	                            "label",
+	                            { className: "radio" },
+	                            React.createElement("input", { type: "radio", name: "radio" }),
+	                            "蛋壳工作室2015春季纳新"
 	                        )
 	                    )
 	                ),
 	                React.createElement(
 	                    "div",
-	                    null,
+	                    { className: "dropdown" },
 	                    React.createElement(
-	                        "a",
-	                        { href: "#" },
-	                        React.createElement("i", { className: "fa fa-trash", "aria-hidden": "true" }),
+	                        "div",
+	                        { className: "dp-title" },
+	                        "所有部门",
+	                        React.createElement("i", { className: "fa fa-caret-down" })
+	                    ),
+	                    React.createElement(
+	                        "div",
+	                        { className: "dp-body" },
 	                        React.createElement(
-	                            "b",
-	                            null,
-	                            " 回收站"
+	                            "label",
+	                            { className: "radio" },
+	                            React.createElement("input", { type: "radio", name: "radio" }),
+	                            "蛋壳工作室2016春季纳新"
+	                        ),
+	                        React.createElement(
+	                            "label",
+	                            { className: "radio" },
+	                            React.createElement("input", { type: "radio", name: "radio" }),
+	                            "蛋壳工作室2015秋季纳新"
+	                        ),
+	                        React.createElement(
+	                            "label",
+	                            { className: "radio" },
+	                            React.createElement("input", { type: "radio", name: "radio" }),
+	                            "蛋壳工作室2015春季纳新"
+	                        )
+	                    )
+	                ),
+	                React.createElement(
+	                    "div",
+	                    { className: "dropdown" },
+	                    React.createElement(
+	                        "div",
+	                        { className: "dp-title" },
+	                        "一轮面试",
+	                        React.createElement("i", { className: "fa fa-caret-down" })
+	                    ),
+	                    React.createElement(
+	                        "div",
+	                        { className: "dp-body" },
+	                        React.createElement(
+	                            "label",
+	                            { className: "radio" },
+	                            React.createElement("input", { type: "radio", name: "radio" }),
+	                            "蛋壳工作室2016春季纳新"
+	                        ),
+	                        React.createElement(
+	                            "label",
+	                            { className: "radio" },
+	                            React.createElement("input", { type: "radio", name: "radio" }),
+	                            "蛋壳工作室2015秋季纳新"
+	                        ),
+	                        React.createElement(
+	                            "label",
+	                            { className: "radio" },
+	                            React.createElement("input", { type: "radio", name: "radio" }),
+	                            "蛋壳工作室2015春季纳新"
 	                        )
 	                    )
 	                )
 	            ),
 	            React.createElement(
 	                "div",
-	                { className: "dank-slider-right" },
-	                React.createElement(Content, null)
+	                { className: "col-md-6" },
+	                React.createElement(
+	                    "p",
+	                    null,
+	                    "balabala..."
+	                )
+	            ),
+	            React.createElement("div", { className: "col-md-3" })
+	        );
+	    }
+	});
+
+	var ReplyMessage = React.createClass({
+	    displayName: "ReplyMessage",
+
+	    render: function render() {
+	        return React.createElement(
+	            "div",
+	            { className: "col-md-12" },
+	            React.createElement(
+	                "div",
+	                { className: "content" },
+	                React.createElement(
+	                    "h1",
+	                    null,
+	                    "回复详情"
+	                ),
+	                React.createElement(
+	                    "div",
+	                    { id: "reply-fun" },
+	                    React.createElement(
+	                        "button",
+	                        { className: "btn order" },
+	                        "面试场次",
+	                        React.createElement("i", { className: "fa fa-lg fa-caret-up" }),
+	                        React.createElement("i", { className: "fa fa-lg fa-caret-down" })
+	                    ),
+	                    React.createElement(
+	                        "button",
+	                        { className: "btn order" },
+	                        "状态",
+	                        React.createElement("i", { className: "fa fa-lg fa-caret-up" }),
+	                        React.createElement("i", { className: "fa fa-lg fa-caret-down" })
+	                    ),
+	                    React.createElement(
+	                        "div",
+	                        { className: "col-md-2" },
+	                        React.createElement(
+	                            "div",
+	                            { className: "input-group search-bar" },
+	                            React.createElement("input", { type: "text", className: "form-control", placeholder: "Search" }),
+	                            React.createElement(
+	                                "span",
+	                                { className: "input-group-btn" },
+	                                React.createElement(
+	                                    "button",
+	                                    { className: "btn", type: "button" },
+	                                    React.createElement("i", { className: "fa fa-search" })
+	                                )
+	                            )
+	                        )
+	                    )
+	                ),
+	                React.createElement(
+	                    "div",
+	                    { id: "reply-table" },
+	                    React.createElement(
+	                        "div",
+	                        { className: "row" },
+	                        React.createElement(
+	                            "div",
+	                            { className: "col-md-1" },
+	                            "Frank"
+	                        ),
+	                        React.createElement(
+	                            "div",
+	                            { className: "col-md-1" },
+	                            "男"
+	                        ),
+	                        React.createElement(
+	                            "div",
+	                            { className: "col-md-2" },
+	                            "12344567788909"
+	                        ),
+	                        React.createElement(
+	                            "div",
+	                            { className: "col-md-2" },
+	                            "产品部门"
+	                        ),
+	                        React.createElement(
+	                            "div",
+	                            { className: "col-md-2" },
+	                            "表刷通过"
+	                        ),
+	                        React.createElement(
+	                            "div",
+	                            { className: "col-md-2" },
+	                            "修改场次 删除"
+	                        ),
+	                        React.createElement(
+	                            "div",
+	                            { className: "col-md-2" },
+	                            "一轮面试"
+	                        )
+	                    ),
+	                    React.createElement(
+	                        "div",
+	                        { className: "row" },
+	                        React.createElement(
+	                            "div",
+	                            { className: "col-md-1" },
+	                            "Frank"
+	                        ),
+	                        React.createElement(
+	                            "div",
+	                            { className: "col-md-1" },
+	                            "男"
+	                        ),
+	                        React.createElement(
+	                            "div",
+	                            { className: "col-md-2" },
+	                            "12344567788909"
+	                        ),
+	                        React.createElement(
+	                            "div",
+	                            { className: "col-md-2" },
+	                            "产品部门"
+	                        ),
+	                        React.createElement(
+	                            "div",
+	                            { className: "col-md-2" },
+	                            "表刷通过"
+	                        ),
+	                        React.createElement(
+	                            "div",
+	                            { className: "col-md-2" },
+	                            "修改场次 删除"
+	                        ),
+	                        React.createElement(
+	                            "div",
+	                            { className: "col-md-2" },
+	                            "一轮面试"
+	                        )
+	                    )
+	                ),
+	                React.createElement(
+	                    "div",
+	                    { className: "page-nav" },
+	                    React.createElement(
+	                        "a",
+	                        { href: "" },
+	                        "首页"
+	                    ),
+	                    React.createElement(
+	                        "a",
+	                        { href: "" },
+	                        "上一页"
+	                    ),
+	                    React.createElement(
+	                        "a",
+	                        { href: "" },
+	                        "下一页"
+	                    ),
+	                    React.createElement(
+	                        "a",
+	                        { href: "" },
+	                        "尾页"
+	                    )
+	                )
 	            )
 	        );
 	    }
 	});
 
+	var NewMessageInfoSelect = React.createClass({
+	    displayName: "NewMessageInfoSelect",
+
+	    render: function render() {
+	        return React.createElement(
+	            "div",
+	            { className: "row", id: "message-info-select" },
+	            React.createElement(
+	                "div",
+	                { className: "col-md-4" },
+	                React.createElement(
+	                    "div",
+	                    { className: "dropdown" },
+	                    React.createElement(
+	                        "div",
+	                        { className: "dp-title" },
+	                        "蛋壳工作室秋季纳新",
+	                        React.createElement("i", { className: "fa fa-caret-down" })
+	                    ),
+	                    React.createElement(
+	                        "div",
+	                        { className: "dp-body" },
+	                        React.createElement(
+	                            "label",
+	                            { className: "radio" },
+	                            React.createElement("input", { type: "radio", name: "radio" }),
+	                            "蛋壳工作室2016春季纳新"
+	                        ),
+	                        React.createElement(
+	                            "label",
+	                            { className: "radio" },
+	                            React.createElement("input", { type: "radio", name: "radio" }),
+	                            "蛋壳工作室2015秋季纳新"
+	                        ),
+	                        React.createElement(
+	                            "label",
+	                            { className: "radio" },
+	                            React.createElement("input", { type: "radio", name: "radio" }),
+	                            "蛋壳工作室2015春季纳新"
+	                        )
+	                    )
+	                )
+	            ),
+	            React.createElement(
+	                "div",
+	                { className: "col-md-8" },
+	                "群发对象：",
+	                React.createElement(
+	                    "div",
+	                    { className: "dropdown" },
+	                    React.createElement(
+	                        "div",
+	                        { className: "dp-title" },
+	                        "所有部门",
+	                        React.createElement("i", { className: "fa fa-caret-down" })
+	                    ),
+	                    React.createElement(
+	                        "div",
+	                        { className: "dp-body" },
+	                        React.createElement(
+	                            "label",
+	                            { className: "radio" },
+	                            React.createElement("input", { type: "radio", name: "radio" }),
+	                            "所有部门（混面）"
+	                        ),
+	                        React.createElement(
+	                            "label",
+	                            { className: "radio" },
+	                            React.createElement("input", { type: "radio", name: "radio" }),
+	                            "产品"
+	                        ),
+	                        React.createElement(
+	                            "label",
+	                            { className: "radio" },
+	                            React.createElement("input", { type: "radio", name: "radio" }),
+	                            "运营"
+	                        ),
+	                        React.createElement(
+	                            "label",
+	                            { className: "radio" },
+	                            React.createElement("input", { type: "radio", name: "radio" }),
+	                            "推广"
+	                        ),
+	                        React.createElement(
+	                            "label",
+	                            { className: "radio" },
+	                            React.createElement("input", { type: "radio", name: "radio" }),
+	                            "前端"
+	                        )
+	                    )
+	                ),
+	                React.createElement(
+	                    "div",
+	                    { className: "dropdown" },
+	                    React.createElement(
+	                        "div",
+	                        { className: "dp-title" },
+	                        "一轮面试",
+	                        React.createElement("i", { className: "fa fa-caret-down" })
+	                    ),
+	                    React.createElement("div", { className: "dp-body" })
+	                ),
+	                React.createElement(
+	                    "button",
+	                    { className: "btn" },
+	                    "通过者"
+	                ),
+	                React.createElement(
+	                    "button",
+	                    { className: "btn" },
+	                    "未通过者"
+	                )
+	            )
+	        );
+	    }
+	});
+
+	var NewMessageEdit = React.createClass({
+	    displayName: "NewMessageEdit",
+
+	    render: function render() {
+	        return React.createElement(
+	            "div",
+	            { className: "row", id: "message-edit" },
+	            React.createElement(
+	                "div",
+	                { className: "col-md-6" },
+	                React.createElement(
+	                    "div",
+	                    { className: "content highlight" },
+	                    React.createElement(
+	                        "h1",
+	                        null,
+	                        "短信编辑"
+	                    ),
+	                    React.createElement(
+	                        "div",
+	                        null,
+	                        React.createElement(
+	                            "button",
+	                            { className: "btn" },
+	                            "姓名"
+	                        ),
+	                        React.createElement(
+	                            "button",
+	                            { className: "btn" },
+	                            "部门"
+	                        ),
+	                        React.createElement(
+	                            "button",
+	                            { className: "btn" },
+	                            "时间"
+	                        ),
+	                        React.createElement(
+	                            "button",
+	                            { className: "btn" },
+	                            "时长"
+	                        ),
+	                        React.createElement(
+	                            "button",
+	                            { className: "btn" },
+	                            "地点"
+	                        ),
+	                        React.createElement(
+	                            "button",
+	                            { className: "btn" },
+	                            "回复确认"
+	                        )
+	                    ),
+	                    React.createElement(
+	                        "div",
+	                        null,
+	                        React.createElement("textarea", { type: "text", placeholder: "这是要造个编辑器吗0 0" })
+	                    )
+	                )
+	            ),
+	            React.createElement(
+	                "div",
+	                { className: "col-md-6" },
+	                React.createElement(
+	                    "div",
+	                    { className: "content highlight" },
+	                    React.createElement(
+	                        "h1",
+	                        null,
+	                        "短信预览"
+	                    ),
+	                    React.createElement(
+	                        "div",
+	                        null,
+	                        React.createElement(
+	                            "button",
+	                            { className: "btn" },
+	                            "确认发送"
+	                        ),
+	                        "您还有500条短信余量"
+	                    ),
+	                    React.createElement(
+	                        "div",
+	                        null,
+	                        React.createElement("textarea", { type: "text", placeholder: "这是要造个编辑器吗0 0" })
+	                    )
+	                )
+	            )
+	        );
+	    }
+	});
+
+/***/ },
+/* 83 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	/**
+	 * Created by admin on 2016/7/25.
+	 */
+	var React = __webpack_require__(1);
+	var Component = React.Component;
+
+	module.exports = React.createClass({
+	    displayName: 'exports',
+
+	    render: function render() {
+	        return React.createElement(Content, null);
+	    }
+	});
+
 	var Content = React.createClass({
-	    displayName: "Content",
+	    displayName: 'Content',
 
 	    getInitialState: function getInitialState() {
 	        return {
@@ -8692,23 +9923,23 @@ var App =
 	    },
 	    render: function render() {
 	        return React.createElement(
-	            "div",
-	            { className: "container-fluid" },
+	            'div',
+	            { className: 'container-fluid' },
 	            React.createElement(
-	                "div",
-	                { className: "row" },
+	                'div',
+	                { className: 'row' },
 	                React.createElement(
-	                    "div",
-	                    { className: "col-md-3 c4" },
+	                    'div',
+	                    { className: 'col-md-4 col-sm-4' },
 	                    React.createElement(
-	                        "div",
-	                        { className: "c5" },
+	                        'div',
+	                        { className: 'event' },
 	                        React.createElement(Event, { eventID: this.state.nowEventID, events: this.state.events, eventChange: this.eventChange })
 	                    )
 	                ),
 	                React.createElement(
-	                    "div",
-	                    { className: "col-md-9 c4" },
+	                    'div',
+	                    { className: 'col-md-8 col-sm-8' },
 	                    this.state.nowEventID != '' ? React.createElement(Form, { eventID: this.state.nowEventID }) : null
 	                )
 	            )
@@ -8717,7 +9948,7 @@ var App =
 	});
 
 	var Event = React.createClass({
-	    displayName: "Event",
+	    displayName: 'Event',
 
 
 	    render: function render() {
@@ -8731,52 +9962,40 @@ var App =
 	            }.bind(this);
 
 	            return React.createElement(
-	                "div",
-	                { className: className, onClick: clickEvent, key: eventItem.eventID },
+	                'div',
+	                { className: 'row dank-temp-table', onClick: clickEvent, key: eventItem.eventID },
 	                React.createElement(
-	                    "div",
-	                    { className: "col-md-12" },
+	                    'div',
+	                    { className: 'col-md-12' },
 	                    React.createElement(
-	                        "table",
-	                        { className: "center-block" },
+	                        'table',
+	                        { className: 'center-block' },
 	                        React.createElement(
-	                            "tbody",
+	                            'tbody',
 	                            null,
 	                            React.createElement(
-	                                "tr",
+	                                'tr',
 	                                null,
 	                                React.createElement(
-	                                    "td",
+	                                    'td',
 	                                    null,
 	                                    React.createElement(
-	                                        "div",
-	                                        { className: "text-center" },
+	                                        'div',
+	                                        { className: 'text-center' },
 	                                        React.createElement(
-	                                            "div",
-	                                            { className: "dank-d4" },
-	                                            React.createElement(
-	                                                "b",
-	                                                null,
-	                                                eventItem.ym
-	                                            )
+	                                            'div',
+	                                            { className: 'dank-d4' },
+	                                            eventItem.ym
 	                                        )
 	                                    )
 	                                ),
 	                                React.createElement(
-	                                    "td",
+	                                    'td',
 	                                    null,
 	                                    React.createElement(
-	                                        "div",
-	                                        { className: "text-left" },
-	                                        React.createElement(
-	                                            "div",
-	                                            null,
-	                                            React.createElement(
-	                                                "h1",
-	                                                { className: "dank-temp-h1" },
-	                                                eventItem.name
-	                                            )
-	                                        )
+	                                        'div',
+	                                        { className: 'text-left' },
+	                                        eventItem.name
 	                                    )
 	                                )
 	                            )
@@ -8787,39 +10006,31 @@ var App =
 	        }.bind(this));
 
 	        return React.createElement(
-	            "div",
-	            { className: "container-fluid" },
+	            'div',
+	            { className: 'container-fluid' },
 	            React.createElement(
-	                "div",
-	                { className: "row" },
+	                'div',
+	                { className: 'row' },
 	                React.createElement(
-	                    "div",
-	                    { className: "col-md-12 text-left" },
+	                    'div',
+	                    { className: 'col-md-12 text-left' },
 	                    React.createElement(
-	                        "big",
-	                        { className: "big11", href: "#" },
-	                        React.createElement(
-	                            "b",
-	                            null,
-	                            "纳新事项"
-	                        )
+	                        'div',
+	                        { className: 'panel-title', href: '#' },
+	                        '纳新事项'
 	                    )
 	                )
 	            ),
 	            React.createElement(
-	                "div",
-	                { className: "row" },
+	                'div',
+	                { className: 'row' },
 	                React.createElement(
-	                    "div",
-	                    { className: "col-md-12 text-left" },
+	                    'div',
+	                    { className: 'col-md-12 text-left' },
 	                    React.createElement(
-	                        "a",
-	                        { className: "btn dank-temp-a12", href: "#" },
-	                        React.createElement(
-	                            "b",
-	                            null,
-	                            "新增事项"
-	                        )
+	                        'a',
+	                        { className: 'btn panel-btn', href: '#' },
+	                        '新增事项'
 	                    )
 	                )
 	            ),
@@ -8829,33 +10040,33 @@ var App =
 	});
 
 	var Form = React.createClass({
-	    displayName: "Form",
+	    displayName: 'Form',
 
 
 	    render: function render() {
 	        return React.createElement(
-	            "div",
-	            { className: "container-fluid" },
+	            'div',
+	            { className: 'container-fluid' },
 	            React.createElement(
-	                "div",
-	                { className: "row" },
+	                'div',
+	                { className: 'row' },
 	                React.createElement(
-	                    "div",
-	                    { className: "col-md-6" },
+	                    'div',
+	                    { className: 'col-md-6' },
 	                    React.createElement(Graph1, { eventID: this.props.eventID })
 	                ),
 	                React.createElement(
-	                    "div",
-	                    { className: "col-md-6" },
+	                    'div',
+	                    { className: 'col-md-6' },
 	                    React.createElement(Graph2, { eventID: this.props.eventID })
 	                )
 	            ),
 	            React.createElement(
-	                "div",
-	                { className: "row" },
+	                'div',
+	                { className: 'row' },
 	                React.createElement(
-	                    "div",
-	                    { className: "col-md-12" },
+	                    'div',
+	                    { className: 'col-md-12' },
 	                    React.createElement(List, { eventID: this.props.eventID })
 	                )
 	            )
@@ -8864,7 +10075,7 @@ var App =
 	});
 
 	var Graph1 = React.createClass({
-	    displayName: "Graph1",
+	    displayName: 'Graph1',
 
 	    getInitialState: function getInitialState() {
 	        return {
@@ -8980,21 +10191,21 @@ var App =
 
 	    render: function render() {
 	        return React.createElement(
-	            "div",
-	            { className: "c6 text-center" },
+	            'div',
+	            { className: 'c6 text-center' },
 	            React.createElement(
-	                "table",
-	                { className: "t2" },
+	                'table',
+	                { className: 't2' },
 	                React.createElement(
-	                    "tbody",
+	                    'tbody',
 	                    null,
 	                    React.createElement(
-	                        "tr",
+	                        'tr',
 	                        null,
 	                        React.createElement(
-	                            "td",
+	                            'td',
 	                            null,
-	                            React.createElement("canvas", { id: "myChart3", width: "300px", height: "220px", className: "can1" })
+	                            React.createElement('canvas', { id: 'myChart3', width: '300px', height: '220px', className: 'can1' })
 	                        )
 	                    )
 	                )
@@ -9004,7 +10215,7 @@ var App =
 	});
 
 	var Graph2 = React.createClass({
-	    displayName: "Graph2",
+	    displayName: 'Graph2',
 
 	    print1: function print1(data) {
 	        var value1 = data.counts[2];
@@ -9130,26 +10341,26 @@ var App =
 	    render: function render() {
 
 	        return React.createElement(
-	            "div",
-	            { className: "dank-c6 text-center" },
+	            'div',
+	            { className: 'dank-c6 text-center' },
 	            React.createElement(
-	                "table",
-	                { className: "dank-t3" },
+	                'table',
+	                { className: 'dank-t3' },
 	                React.createElement(
-	                    "tbody",
+	                    'tbody',
 	                    null,
 	                    React.createElement(
-	                        "tr",
+	                        'tr',
 	                        null,
 	                        React.createElement(
-	                            "td",
+	                            'td',
 	                            null,
-	                            React.createElement("canvas", { id: "myChart1", width: "150px", height: "200px", className: "dank-can2" })
+	                            React.createElement('canvas', { id: 'myChart1', width: '150px', height: '200px', className: 'dank-can2' })
 	                        ),
 	                        React.createElement(
-	                            "td",
+	                            'td',
 	                            null,
-	                            React.createElement("canvas", { id: "myChart2", width: "150px", height: "200px", className: "dank-can2" })
+	                            React.createElement('canvas', { id: 'myChart2', width: '150px', height: '200px', className: 'dank-can2' })
 	                        )
 	                    )
 	                )
@@ -9159,7 +10370,7 @@ var App =
 	});
 
 	var List = React.createClass({
-	    displayName: "List",
+	    displayName: 'List',
 
 	    getInitialState: function getInitialState() {
 	        return {
@@ -9302,25 +10513,25 @@ var App =
 	        };
 	        var formRecords = this.state.forms.map(function (form, i) {
 	            return React.createElement(
-	                "tr",
+	                'tr',
 	                { key: i },
 	                React.createElement(
-	                    "td",
+	                    'td',
 	                    null,
 	                    form.baseinfo.name
 	                ),
 	                React.createElement(
-	                    "td",
+	                    'td',
 	                    null,
 	                    form.baseinfo.sex
 	                ),
 	                React.createElement(
-	                    "td",
+	                    'td',
 	                    null,
 	                    form.baseinfo.major
 	                ),
 	                React.createElement(
-	                    "td",
+	                    'td',
 	                    null,
 	                    new function () {
 	                        var data = [];
@@ -9353,117 +10564,117 @@ var App =
 	                    }()
 	                ),
 	                React.createElement(
-	                    "td",
+	                    'td',
 	                    null,
 	                    form.date.substring(0, 10)
 	                ),
 	                React.createElement(
-	                    "td",
+	                    'td',
 	                    { style: deleteStyle },
 	                    React.createElement(
-	                        "a",
-	                        { className: "a19", href: "#" },
-	                        "删除"
+	                        'a',
+	                        { className: 'a19', href: '#' },
+	                        '删除'
 	                    )
 	                )
 	            );
 	        }.bind(this));
 	        return React.createElement(
-	            "div",
-	            { className: "dank-c7 text-center" },
+	            'div',
+	            { className: 'dank-c7 text-center' },
 	            React.createElement(
-	                "div",
+	                'div',
 	                { style: titleStyle1 },
 	                React.createElement(
-	                    "big",
+	                    'big',
 	                    { style: eventIDStyle },
-	                    "报名表序号 ",
+	                    '报名表序号 ',
 	                    this.props.eventID
 	                )
 	            ),
 	            React.createElement(
-	                "div",
+	                'div',
 	                { style: titleStyle2 },
 	                React.createElement(
-	                    "a",
-	                    { className: "btn dank-a14", href: "#" },
+	                    'a',
+	                    { className: 'btn dank-a14', href: '#' },
 	                    React.createElement(
-	                        "b",
+	                        'b',
 	                        null,
-	                        "导入报名表"
+	                        '导入报名表'
 	                    )
 	                ),
 	                React.createElement(
-	                    "a",
-	                    { className: "btn dank-a14", href: "#" },
+	                    'a',
+	                    { className: 'btn dank-a14', href: '#' },
 	                    React.createElement(
-	                        "b",
+	                        'b',
 	                        null,
-	                        "导出报名表"
+	                        '导出报名表'
 	                    )
 	                )
 	            ),
 	            React.createElement(
-	                "div",
-	                { style: titleStyle3, className: "form-inline" },
+	                'div',
+	                { style: titleStyle3, className: 'form-inline' },
 	                React.createElement(
-	                    "select",
-	                    { className: "form-control", style: selectStyle },
+	                    'select',
+	                    { className: 'form-control', style: selectStyle },
 	                    React.createElement(
-	                        "option",
+	                        'option',
 	                        null,
-	                        "全部部门"
+	                        '全部部门'
 	                    )
 	                ),
 	                React.createElement(
-	                    "a",
-	                    { className: "btn dank-a14", href: "#" },
+	                    'a',
+	                    { className: 'btn dank-a14', href: '#' },
 	                    React.createElement(
-	                        "b",
+	                        'b',
 	                        null,
-	                        "时间",
-	                        React.createElement("i", { className: "fa fa-chevron-up i3", "aria-hidden": "true" })
+	                        '时间',
+	                        React.createElement('i', { className: 'fa fa-chevron-up i3', 'aria-hidden': 'true' })
 	                    )
 	                )
 	            ),
 	            React.createElement(
-	                "b",
+	                'b',
 	                null,
 	                React.createElement(
-	                    "table",
-	                    { className: "table dank-t5" },
+	                    'table',
+	                    { className: 'table dank-t5' },
 	                    React.createElement(
-	                        "tbody",
+	                        'tbody',
 	                        null,
 	                        this.state.forms ? formRecords : null
 	                    )
 	                )
 	            ),
 	            React.createElement(
-	                "div",
+	                'div',
 	                null,
 	                React.createElement(
-	                    "b",
+	                    'b',
 	                    null,
 	                    React.createElement(
-	                        "a",
-	                        { className: "a20", href: "#" },
-	                        "首页"
+	                        'a',
+	                        { className: 'a20', href: '#' },
+	                        '首页'
 	                    ),
 	                    React.createElement(
-	                        "a",
-	                        { className: "a20", href: "#" },
-	                        "上一页"
+	                        'a',
+	                        { className: 'a20', href: '#' },
+	                        '上一页'
 	                    ),
 	                    React.createElement(
-	                        "a",
-	                        { className: "a20", href: "#" },
-	                        "下一页"
+	                        'a',
+	                        { className: 'a20', href: '#' },
+	                        '下一页'
 	                    ),
 	                    React.createElement(
-	                        "a",
-	                        { className: "a20", href: "#" },
-	                        "尾页"
+	                        'a',
+	                        { className: 'a20', href: '#' },
+	                        '尾页'
 	                    )
 	                )
 	            )
@@ -9472,7 +10683,7 @@ var App =
 	});
 
 /***/ },
-/* 81 */
+/* 84 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -9555,153 +10766,37 @@ var App =
 	    getInitialState: function getInitialState() {
 	        return {
 	            page: 1,
-	            event: {},
-	            pagesState: [true, false, false, false],
+	            pagesState: [true, true, true, true],
 	            pagesNumber: [1, 2, 3, 4],
 	            totalPage: 4,
-	            eventID: '',
-	            writetime: '',
-	            browserinfo: '',
-	            baseinfo: {
-	                name: '',
-	                sex: '',
-	                origin: '',
-	                nation: '',
-	                schoolID: '',
-	                politicalStatus: '',
-	                telnumber: '',
-	                telshort: '',
-	                email: '',
-	                qq: '',
-	                major: '',
-	                birth: '',
-	                address: ''
-	            },
+	            name: { type: String, require: 'miss eventname' },
+	            date: { type: Date, default: Date.now },
+	            orgID: '',
 	            skills: {
-	                delete: '',
-	                title: '',
-	                chosen: ['']
+	                delete: false,
+	                title: '请选择你的技能',
+	                max: null,
+	                option: [],
+	                free: true
 	            },
 	            introduction: {
-	                delete: '',
-	                title: '',
-	                content: ''
+	                delete: false,
+	                title: '个人介绍（经历，获奖，特长）',
+	                require: true
 	            },
 	            wish: {
-	                delete: '',
-	                title: '',
-	                chosen: ['']
+	                delete: false,
+	                title: '请选择你的志愿（不超过两项）',
+	                max: 2,
+	                option: [],
+	                free: false
 	            },
-	            reason: [''],
-	            others: [],
-	            remark: ''
+	            remark: '无',
+	            others: []
 	        };
 	    },
-	    otherComponentInitialize: function otherComponentInitialize(schema) {
-	        var others = this.state.others;
-	        for (var index = 0; index < schema.others.length; index++) {
-	            var otherSchema = schema.others[index];
-	            var element;
-	            switch (otherSchema.type) {
-	                case 'single-text':
-	                    element = {
-	                        type: otherSchema.type,
-	                        title: otherSchema.title,
-	                        content: ''
-	                        //required: tough.required
-	                    };
-	                    break;
-	                case 'multi-text':
-	                    element = {
-	                        type: otherSchema.type,
-	                        title: otherSchema.title,
-	                        content: ''
-	                        //required: tough.required
-	                    };
-	                    break;
-	                case 'multi-choose':
-	                    element = {
-	                        type: otherSchema.type,
-	                        title: otherSchema.title,
-	                        //max: rough.max,
-	                        chosen: ['']
-	                    };
-	                    break;
-	                case 'single-choose':
-	                    //单选暂不实现可自填的功能
-	                    element = {
-	                        type: otherSchema.type,
-	                        title: otherSchema.title,
-	                        //max: rough.max,
-	                        chosen: ''
-	                    };
-	                    break;
-	                case 'file':
-	                    element = {
-	                        type: otherSchema.type,
-	                        title: otherSchema.title,
-	                        url: ''
-	                    };
-	                    break;
-	                case 'image':
-	                    element = {
-	                        type: otherSchema.type,
-	                        title: otherSchema.title,
-	                        url: ''
-	                    };
-	                    break;
-	                default:
-	                    element = {};
-	            }
-	            others.push(element);
-	        }
-	        this.setState({ others: others });
-	    },
 
-	    componentDidMount: function componentDidMount() {
-
-	        $.ajax({
-	            url: "/form",
-	            contentType: 'application/json',
-	            type: 'GET',
-	            data: {
-	                eventID: this.props.eventID
-	            },
-	            success: function (data) {
-	                console.log(data);
-	                switch (data.code) {
-	                    case 0:
-	                        if (this.isMounted()) {
-	                            this.setState({ event: data.body.event });
-	                            var pagesState = [];
-	                            pagesState[0] = true;
-	                            pagesState[1] = !(data.body.event.formschema.skills.delete && data.body.event.formschema.introduction.delete);
-	                            pagesState[2] = !data.body.event.formschema.wish.delete;
-	                            pagesState[3] = data.body.event.formschema.others ? true : false;
-	                            this.setState({ pagesState: pagesState });
-	                            var i = 0;
-	                            var pagesNumber = [];
-	                            var j;
-	                            for (j = 0; j < 4; j++) {
-	                                pagesNumber[j] = pagesState[j] ? ++i : 0;
-	                            }
-	                            this.setState({ totalPage: j });
-	                            this.setState({ pagesNumber: pagesNumber });
-	                            this.setState({ eventID: data.body.event.eventID });
-	                            this.setState({ remark: data.body.event.formschema.remark });
-	                            this.otherComponentInitialize(data.body.event.formschema);
-	                        }
-	                        break;
-	                    default:
-	                        console.log(data.msg);
-	                        break;
-	                }
-	            }.bind(this),
-	            error: function (xhr, status, err) {
-	                console.error("ajax请求发起失败");
-	            }.bind(this)
-	        });
-	    },
+	    componentDidMount: function componentDidMount() {},
 	    dataRecall: function dataRecall(item, data) {
 	        this.setState(_defineProperty({}, item, data));
 	    },
@@ -9786,94 +10881,7 @@ var App =
 	            float: 'right',
 	            marginTop: '160px'
 	        };
-	        return React.createElement(
-	            "div",
-	            { style: backgroundStyle },
-	            React.createElement(
-	                "div",
-	                { className: "container-fluid" },
-	                React.createElement(
-	                    "div",
-	                    { className: "row" },
-	                    React.createElement(
-	                        "div",
-	                        { className: "col-md-12" },
-	                        this.state.event ? React.createElement(
-	                            "big",
-	                            { style: titleStyle, className: "center-block" },
-	                            this.state.event.name
-	                        ) : null
-	                    )
-	                ),
-	                React.createElement(
-	                    "div",
-	                    { className: "row" },
-	                    React.createElement(
-	                        "div",
-	                        { className: "col-md-12" },
-	                        React.createElement(
-	                            "div",
-	                            { className: "center-block", style: bordStyle },
-	                            React.createElement(
-	                                "div",
-	                                { className: "dank-time-line" },
-	                                React.createElement(
-	                                    "big",
-	                                    { className: this.state.page == 1 ? "dank-time-node-active" : "dank-time-node", onClick: function () {
-	                                            this.setState({ page: this.state.pagesNumber[0] });
-	                                        }.bind(this) },
-	                                    this.state.pagesNumber[0]
-	                                ),
-	                                this.state.pagesState[1] ? React.createElement(
-	                                    "big",
-	                                    { className: this.state.page == this.state.pagesNumber[1] ? "dank-time-node-active" : "dank-time-node", style: timeLineStyle, onClick: function () {
-	                                            this.setState({ page: this.state.pagesNumber[1] });
-	                                        }.bind(this) },
-	                                    this.state.pagesNumber[1]
-	                                ) : null,
-	                                this.state.pagesState[2] ? React.createElement(
-	                                    "big",
-	                                    { className: this.state.page == this.state.pagesNumber[2] ? "dank-time-node-active" : "dank-time-node", style: timeLineStyle, onClick: function () {
-	                                            this.setState({ page: this.state.pagesNumber[2] });
-	                                        }.bind(this) },
-	                                    this.state.pagesNumber[2]
-	                                ) : null,
-	                                this.state.pagesState[3] ? React.createElement(
-	                                    "big",
-	                                    { className: this.state.page == this.state.pagesNumber[3] ? "dank-time-node-active" : "dank-time-node", style: timeLineStyle, onClick: function () {
-	                                            this.setState({ page: this.state.pagesNumber[3] });
-	                                        }.bind(this) },
-	                                    this.state.pagesNumber[3]
-	                                ) : null
-	                            ),
-	                            this.state.page == this.state.pagesNumber[0] ? React.createElement(Baseinfo, { ref: "baseinfo", data: this.state.baseinfo, dataRecall: this.dataRecall }) : null,
-	                            this.state.page == this.state.pagesNumber[1] ? React.createElement(Person, { ref: "person", introduction: this.state.introduction, skills: this.state.skills, schema: this.state.event.formschema, dataRecall: this.dataRecall }) : null,
-	                            this.state.page == this.state.pagesNumber[2] ? React.createElement(Wish, { ref: "wish", wish: this.state.wish, reason: this.state.reason, schema: this.state.event.formschema, dataRecall: this.dataRecall }) : null,
-	                            this.state.page == this.state.pagesNumber[3] ? React.createElement(Others, { ref: "others", others: this.state.others, schema: this.state.event.formschema, dataRecall: this.dataRecall }) : null,
-	                            React.createElement(
-	                                "div",
-	                                { style: buttonGroupStyle },
-	                                React.createElement(
-	                                    "a",
-	                                    { className: "dank-button-2", onClick: this.lastPage },
-	                                    "上一页"
-	                                ),
-	                                React.createElement(
-	                                    "a",
-	                                    { className: "dank-button-2", onClick: this.nextPage },
-	                                    "下一页"
-	                                ),
-	                                React.createElement(
-	                                    "a",
-	                                    { className: "dank-button-2", onClick: this.submit },
-	                                    "提交"
-	                                )
-	                            )
-	                        )
-	                    )
-	                )
-	            )
-	        );
+	        return React.createElement("div", null);
 	    }
 
 	});
@@ -10830,7 +11838,7 @@ var App =
 	});
 
 /***/ },
-/* 82 */
+/* 85 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

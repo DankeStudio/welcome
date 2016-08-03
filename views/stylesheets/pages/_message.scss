@@ -1,0 +1,140 @@
+/*
+ * back - 面试调度 - 消息发送
+ */
+#message-fun {
+    .btn {
+        margin: 10px 35px 10px 0;
+        font-size: 20px;
+        letter-spacing: 2px;
+    }
+}
+
+#message-info-select {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: #345062;
+    .btn {
+        margin-left: 30px;
+        height: 40px;
+        font-size: 16px;
+    }
+    .dropdown {
+        margin-right: 35px;
+        height: 40px;
+    }
+    .dp-title {
+        padding: 10px;
+        padding-right: 30px;
+        font-size: 16px;
+    }
+    .col-md-8 {
+        text-align: right;
+        .dropdown {
+            margin-left: 30px;
+            margin-right: 0;
+        }
+    }
+    .col-md-4 .dropdown {
+        width: 100%;
+    }
+}
+
+#message-edit {
+    .btn {
+        margin-right: 15px;
+        border-color: #fff;
+        background-color: #f57a6c;
+        color: #fff;
+    }
+    .content {
+        margin: 0;
+        padding: 15px;
+        color: #fff;
+        h1 {
+            color: #fff;
+        }
+    }
+    textarea {
+        display: block;
+        float: none;
+        margin: 15px 0;
+        padding: 15px;
+        border: 1px solid #fff;
+        border-radius: 8px;
+        width: 100%;
+        min-height: 500px;
+        background-color: #f57a6c;
+    }
+    ::-webkit-input-placeholder {
+        color: #fff;
+        opacity: 1;
+    }
+}
+
+#sended-message {
+    margin-top: 30px;
+    font-size: 16px;
+    .dropdown {
+        width: 100%;
+        height: 40px;
+    }
+    .dp-title {
+        padding: 10px;
+        padding-right: 30px;
+        background-color: #f57a6c;
+    }
+    .dp-body label {
+        padding: 10px;
+    }
+    p {
+        padding: 10px;
+        border: 1px solid #345062;
+        border-radius: 4px;
+        width: 100%;
+        min-height: 165px;
+        color: #345062;
+    }
+}
+
+#reply-fun {
+    font-size: 16px;
+    text-align: right;
+    .order {
+        position: relative;
+        margin: 0 20px;
+        padding: 0 70px 0 35px;
+        height: 40px;
+        font-size: 16px;
+        text-align: right;
+        i {
+            position: absolute;
+            bottom: 5px;
+            right: 10%;
+            &:first-child {
+                top: 5px;
+                bottom: 0;
+            }
+        }
+    }
+    [class^='col-'] {
+        float: right;
+    }
+}
+
+#reply-table {
+    margin: 20px 0;
+    color: #345062;
+    .row {
+        margin-bottom: 15px;
+        padding-bottom: 15px; 
+        border-bottom: 1px solid;
+        text-align: center;
+        > div {
+            border-left: 1px solid;
+            &:first-child {
+                border-left: none;
+            }
+        }
+    }
+}

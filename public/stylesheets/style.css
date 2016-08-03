@@ -6,9 +6,7 @@ body {
   zoom:0.73;
   height: 100%;
   padding:0px;
-  font-family: SimHei, STXihei, "Microsoft YaHei", "Hiragino Sans GB", "STHeiti Light";
   font-size:20px;
-
 }
 
 #content {
@@ -115,7 +113,6 @@ body {
 }
 
 .dank-a {
-  font-family:SimHei, STXihei, "Microsoft YaHei", "Hiragino Sans GB", "STHeiti Light";
   font-size:20px;
   color:#ffffff;
 }
@@ -129,12 +126,7 @@ body {
   color:#ffffff;
 }
 
-a {
-  font-family: SimHei, STXihei, "Microsoft YaHei", "Hiragino Sans GB", "STHeiti Light";
-}
-
 .dank-small {
-  font-family:SimHei, STXihei, "Microsoft YaHei", "Hiragino Sans GB", "STHeiti Light";
   font-size:20px;
   color:#ffffff;
 }

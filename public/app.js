@@ -7580,7 +7580,23 @@ var App =
 	                switch (data.code) {
 	                    case 0:
 	                        if (this.isMounted()) {
-	                            this.setState({ data: data.body.user });
+	                            this.setState({
+	                                _id: data.body.user._id,
+	                                username: data.body.user.username,
+	                                address: data.body.user.baseinfo.address,
+	                                birth: data.body.user.baseinfo.birth,
+	                                email: data.body.user.baseinfo.email,
+	                                name: data.body.user.baseinfo.name,
+	                                nation: data.body.user.baseinfo.nation,
+	                                origin: data.body.user.baseinfo.origin,
+	                                politicalStatus: data.body.user.baseinfo.politicalStatus,
+	                                qq: data.body.user.baseinfo.qq,
+	                                schoolID: data.body.user.baseinfo.schoolID,
+	                                sex: data.body.user.baseinfo.sex,
+	                                telnumber: data.body.user.baseinfo.telnumber,
+	                                telshort: data.body.user.baseinfo.telshort,
+	                                major: data.body.user.baseinfo.major
+	                            });
 	                        }
 	                        break;
 	                    default:
@@ -9963,7 +9979,7 @@ var App =
 
 	            return React.createElement(
 	                'div',
-	                { className: 'row dank-temp-table', onClick: clickEvent, key: eventItem.eventID },
+	                { className: className, onClick: clickEvent, key: eventItem.eventID },
 	                React.createElement(
 	                    'div',
 	                    { className: 'col-md-12' },
@@ -10419,14 +10435,14 @@ var App =
 
 	    componentDidMount: function componentDidMount() {
 	        $.ajax({
-	            url: "/org/form",
+	            url: "/form",
 	            contentType: 'application/json',
 	            type: 'GET',
 	            data: {
 	                eventID: this.props.eventID,
 	                order: this.state.order,
 	                page: this.state.page,
-	                wish: this.state.wish
+	                wish: this.state.wish == '全部部门' ? null : this.state.wish
 	            },
 	            success: function (data) {
 	                console.log(data);
@@ -10452,14 +10468,14 @@ var App =
 	        this.setState({ page: 1 });
 
 	        $.ajax({
-	            url: "/org/form",
+	            url: "/form",
 	            contentType: 'application/json',
 	            type: 'GET',
 	            data: {
 	                eventID: nextProps.eventID,
 	                order: this.state.order,
 	                page: this.state.page,
-	                wish: this.state.wish
+	                wish: this.state.wish == '全部部门' ? null : this.state.wish
 	            },
 	            success: function (data) {
 	                console.log(data);

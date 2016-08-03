@@ -80,7 +80,7 @@ var Event = React.createClass({
                 null:function(){this.props.eventChange(eventItem.eventID)}.bind(this);
 
             return (
-                <div className="row dank-temp-table" onClick={clickEvent} key={eventItem.eventID}>
+                <div className={className} onClick={clickEvent} key={eventItem.eventID}>
                     <div className="col-md-12">
                         <table className="center-block">
                             <tbody>
@@ -492,14 +492,14 @@ var List = React.createClass({
 
     componentDidMount: function(){
         $.ajax({
-            url: "/org/form",
+            url: "/form",
             contentType: 'application/json',
             type: 'GET',
             data: {
                 eventID: this.props.eventID,
                 order: this.state.order,
                 page: this.state.page,
-                wish: this.state.wish
+                wish: (this.state.wish=='全部部门')?null:this.state.wish
             },
             success: function(data) {
                 console.log(data);
@@ -525,14 +525,14 @@ var List = React.createClass({
         this.setState({page:1});
 
         $.ajax({
-            url: "/org/form",
+            url: "/form",
             contentType: 'application/json',
             type: 'GET',
             data: {
                 eventID: nextProps.eventID,
                 order: this.state.order,
                 page: this.state.page,
-                wish: this.state.wish
+                wish: (this.state.wish=='全部部门')?null:this.state.wish
             },
             success: function(data) {
                 console.log(data);

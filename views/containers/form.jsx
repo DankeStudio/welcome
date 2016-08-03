@@ -129,7 +129,7 @@ var Content = React.createClass({
     componentDidMount: function(){
 
         $.ajax({
-            url: "/form",
+            url: "/form/id",
             contentType: 'application/json',
             type: 'GET',
             data:{

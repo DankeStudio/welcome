@@ -157,7 +157,7 @@ var Content = React.createClass({
             marginTop:'160px'
         };
         return (
-            
+            <div></div>
         )
     }
 

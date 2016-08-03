@@ -47,7 +47,7 @@ module.exports = require('express').Router()
     .get('/form',form.getForm)
 
      //get form to write
-    .get('/form', event.getEventByID)
+    .get('/form/id', event.getEventByID)
 
     //form submit
     //若未登录，由前端先发起注册请求，然后再发起提交请求

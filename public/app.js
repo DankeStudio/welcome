@@ -9555,153 +9555,37 @@ var App =
 	    getInitialState: function getInitialState() {
 	        return {
 	            page: 1,
-	            event: {},
-	            pagesState: [true, false, false, false],
+	            pagesState: [true, true, true, true],
 	            pagesNumber: [1, 2, 3, 4],
 	            totalPage: 4,
-	            eventID: '',
-	            writetime: '',
-	            browserinfo: '',
-	            baseinfo: {
-	                name: '',
-	                sex: '',
-	                origin: '',
-	                nation: '',
-	                schoolID: '',
-	                politicalStatus: '',
-	                telnumber: '',
-	                telshort: '',
-	                email: '',
-	                qq: '',
-	                major: '',
-	                birth: '',
-	                address: ''
-	            },
+	            name: { type: String, require: 'miss eventname' },
+	            date: { type: Date, default: Date.now },
+	            orgID: '',
 	            skills: {
-	                delete: '',
-	                title: '',
-	                chosen: ['']
+	                delete: false,
+	                title: '请选择你的技能',
+	                max: null,
+	                option: [],
+	                free: true
 	            },
 	            introduction: {
-	                delete: '',
-	                title: '',
-	                content: ''
+	                delete: false,
+	                title: '个人介绍（经历，获奖，特长）',
+	                require: true
 	            },
 	            wish: {
-	                delete: '',
-	                title: '',
-	                chosen: ['']
+	                delete: false,
+	                title: '请选择你的志愿（不超过两项）',
+	                max: 2,
+	                option: [],
+	                free: false
 	            },
-	            reason: [''],
-	            others: [],
-	            remark: ''
+	            remark: '无',
+	            others: []
 	        };
 	    },
-	    otherComponentInitialize: function otherComponentInitialize(schema) {
-	        var others = this.state.others;
-	        for (var index = 0; index < schema.others.length; index++) {
-	            var otherSchema = schema.others[index];
-	            var element;
-	            switch (otherSchema.type) {
-	                case 'single-text':
-	                    element = {
-	                        type: otherSchema.type,
-	                        title: otherSchema.title,
-	                        content: ''
-	                        //required: tough.required
-	                    };
-	                    break;
-	                case 'multi-text':
-	                    element = {
-	                        type: otherSchema.type,
-	                        title: otherSchema.title,
-	                        content: ''
-	                        //required: tough.required
-	                    };
-	                    break;
-	                case 'multi-choose':
-	                    element = {
-	                        type: otherSchema.type,
-	                        title: otherSchema.title,
-	                        //max: rough.max,
-	                        chosen: ['']
-	                    };
-	                    break;
-	                case 'single-choose':
-	                    //单选暂不实现可自填的功能
-	                    element = {
-	                        type: otherSchema.type,
-	                        title: otherSchema.title,
-	                        //max: rough.max,
-	                        chosen: ''
-	                    };
-	                    break;
-	                case 'file':
-	                    element = {
-	                        type: otherSchema.type,
-	                        title: otherSchema.title,
-	                        url: ''
-	                    };
-	                    break;
-	                case 'image':
-	                    element = {
-	                        type: otherSchema.type,
-	                        title: otherSchema.title,
-	                        url: ''
-	                    };
-	                    break;
-	                default:
-	                    element = {};
-	            }
-	            others.push(element);
-	        }
-	        this.setState({ others: others });
-	    },
 
-	    componentDidMount: function componentDidMount() {
-
-	        $.ajax({
-	            url: "/form",
-	            contentType: 'application/json',
-	            type: 'GET',
-	            data: {
-	                eventID: this.props.eventID
-	            },
-	            success: function (data) {
-	                console.log(data);
-	                switch (data.code) {
-	                    case 0:
-	                        if (this.isMounted()) {
-	                            this.setState({ event: data.body.event });
-	                            var pagesState = [];
-	                            pagesState[0] = true;
-	                            pagesState[1] = !(data.body.event.formschema.skills.delete && data.body.event.formschema.introduction.delete);
-	                            pagesState[2] = !data.body.event.formschema.wish.delete;
-	                            pagesState[3] = data.body.event.formschema.others ? true : false;
-	                            this.setState({ pagesState: pagesState });
-	                            var i = 0;
-	                            var pagesNumber = [];
-	                            var j;
-	                            for (j = 0; j < 4; j++) {
-	                                pagesNumber[j] = pagesState[j] ? ++i : 0;
-	                            }
-	                            this.setState({ totalPage: j });
-	                            this.setState({ pagesNumber: pagesNumber });
-	                            this.setState({ eventID: data.body.event.eventID });
-	                            this.setState({ remark: data.body.event.formschema.remark });
-	                            this.otherComponentInitialize(data.body.event.formschema);
-	                        }
-	                        break;
-	                    default:
-	                        console.log(data.msg);
-	                        break;
-	                }
-	            }.bind(this),
-	            error: function (xhr, status, err) {
-	                console.error("ajax请求发起失败");
-	            }.bind(this)
-	        });
-	    },
+	    componentDidMount: function componentDidMount() {},
 	    dataRecall: function dataRecall(item, data) {
 	        this.setState(_defineProperty({}, item, data));
 	    },
@@ -9786,94 +9670,7 @@ var App =
 	            float: 'right',
 	            marginTop: '160px'
 	        };
-	        return React.createElement(
-	            "div",
-	            { style: backgroundStyle },
-	            React.createElement(
-	                "div",
-	                { className: "container-fluid" },
-	                React.createElement(
-	                    "div",
-	                    { className: "row" },
-	                    React.createElement(
-	                        "div",
-	                        { className: "col-md-12" },
-	                        this.state.event ? React.createElement(
-	                            "big",
-	                            { style: titleStyle, className: "center-block" },
-	                            this.state.event.name
-	                        ) : null
-	                    )
-	                ),
-	                React.createElement(
-	                    "div",
-	                    { className: "row" },
-	                    React.createElement(
-	                        "div",
-	                        { className: "col-md-12" },
-	                        React.createElement(
-	                            "div",
-	                            { className: "center-block", style: bordStyle },
-	                            React.createElement(
-	                                "div",
-	                                { className: "dank-time-line" },
-	                                React.createElement(
-	                                    "big",
-	                                    { className: this.state.page == 1 ? "dank-time-node-active" : "dank-time-node", onClick: function () {
-	                                            this.setState({ page: this.state.pagesNumber[0] });
-	                                        }.bind(this) },
-	                                    this.state.pagesNumber[0]
-	                                ),
-	                                this.state.pagesState[1] ? React.createElement(
-	                                    "big",
-	                                    { className: this.state.page == this.state.pagesNumber[1] ? "dank-time-node-active" : "dank-time-node", style: timeLineStyle, onClick: function () {
-	                                            this.setState({ page: this.state.pagesNumber[1] });
-	                                        }.bind(this) },
-	                                    this.state.pagesNumber[1]
-	                                ) : null,
-	                                this.state.pagesState[2] ? React.createElement(
-	                                    "big",
-	                                    { className: this.state.page == this.state.pagesNumber[2] ? "dank-time-node-active" : "dank-time-node", style: timeLineStyle, onClick: function () {
-	                                            this.setState({ page: this.state.pagesNumber[2] });
-	                                        }.bind(this) },
-	                                    this.state.pagesNumber[2]
-	                                ) : null,
-	                                this.state.pagesState[3] ? React.createElement(
-	                                    "big",
-	                                    { className: this.state.page == this.state.pagesNumber[3] ? "dank-time-node-active" : "dank-time-node", style: timeLineStyle, onClick: function () {
-	                                            this.setState({ page: this.state.pagesNumber[3] });
-	                                        }.bind(this) },
-	                                    this.state.pagesNumber[3]
-	                                ) : null
-	                            ),
-	                            this.state.page == this.state.pagesNumber[0] ? React.createElement(Baseinfo, { ref: "baseinfo", data: this.state.baseinfo, dataRecall: this.dataRecall }) : null,
-	                            this.state.page == this.state.pagesNumber[1] ? React.createElement(Person, { ref: "person", introduction: this.state.introduction, skills: this.state.skills, schema: this.state.event.formschema, dataRecall: this.dataRecall }) : null,
-	                            this.state.page == this.state.pagesNumber[2] ? React.createElement(Wish, { ref: "wish", wish: this.state.wish, reason: this.state.reason, schema: this.state.event.formschema, dataRecall: this.dataRecall }) : null,
-	                            this.state.page == this.state.pagesNumber[3] ? React.createElement(Others, { ref: "others", others: this.state.others, schema: this.state.event.formschema, dataRecall: this.dataRecall }) : null,
-	                            React.createElement(
-	                                "div",
-	                                { style: buttonGroupStyle },
-	                                React.createElement(
-	                                    "a",
-	                                    { className: "dank-button-2", onClick: this.lastPage },
-	                                    "上一页"
-	                                ),
-	                                React.createElement(
-	                                    "a",
-	                                    { className: "dank-button-2", onClick: this.nextPage },
-	                                    "下一页"
-	                                ),
-	                                React.createElement(
-	                                    "a",
-	                                    { className: "dank-button-2", onClick: this.submit },
-	                                    "提交"
-	                                )
-	                            )
-	                        )
-	                    )
-	                )
-	            )
-	        );
+	        return React.createElement("div", null);
 	    }
 
 	});
@@ -10972,7 +10769,7 @@ var App =
 	    componentDidMount: function componentDidMount() {
 
 	        $.ajax({
-	            url: "/form",
+	            url: "/form/id",
 	            contentType: 'application/json',
 	            type: 'GET',
 	            data: {

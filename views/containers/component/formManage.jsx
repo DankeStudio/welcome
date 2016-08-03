@@ -7,22 +7,7 @@ var Component = React.Component;
 module.exports = React.createClass({
     render: function(){
         return(
-            <div>
-                <div className="dank-slider-org">
-                    <div>
-                        <big className="dank-slider-active"><i className="fa fa-file-text" aria-hidden="true"/><b>报名表管理</b></big>
-                    </div>
-                    <div>
-                        <a href="#"><i className="fa fa-commenting" aria-hidden="true"/><b> 消息通知</b></a>
-                    </div>
-                    <div>
-                        <a href="#"><i className="fa fa-trash" aria-hidden="true"/><b> 回收站</b></a>
-                    </div>
-                </div>
-                <div className="dank-slider-right">
-                    <Content/>
-                </div>
-            </div>
+            <Content/>
         )
     }
 });
@@ -67,12 +52,12 @@ var Content = React.createClass({
         return(
             <div className="container-fluid">
                 <div className="row">
-                    <div className="col-md-3 c4">
-                        <div className="c5">
+                    <div className="col-md-4 col-sm-4">
+                        <div className="event">
                             <Event eventID={this.state.nowEventID} events={this.state.events} eventChange={this.eventChange}/>
                         </div>
                     </div>
-                    <div className="col-md-9 c4">
+                    <div className="col-md-8 col-sm-8">
                         {(this.state.nowEventID!='')?<Form eventID={this.state.nowEventID}/>:null}
                     </div>
                 </div>
@@ -95,21 +80,23 @@ var Event = React.createClass({
                 null:function(){this.props.eventChange(eventItem.eventID)}.bind(this);
 
             return (
-                <div className={className} onClick={clickEvent} key={eventItem.eventID}>
+                <div className="row dank-temp-table" onClick={clickEvent} key={eventItem.eventID}>
                     <div className="col-md-12">
                         <table className="center-block">
                             <tbody>
                             <tr>
-                                <td><div className="text-center">
-                                    <div className="dank-d4">
-                                        <b>{eventItem.ym}</b>
+                                <td>
+                                    <div className="text-center">
+                                        <div className="dank-d4">
+                                          {eventItem.ym}
+                                        </div>
                                     </div>
-                                </div></td>
-                                <td><div className="text-left">
-                                    <div>
-                                        <h1 className="dank-temp-h1">{eventItem.name}</h1>
+                                </td>
+                                <td>
+                                    <div className="text-left">
+                                        {eventItem.name}
                                     </div>
-                                </div></td>
+                                </td>
                             </tr>
                             </tbody>
                         </table>
@@ -122,14 +109,20 @@ var Event = React.createClass({
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-md-12 text-left">
-                        <big className="big11" href="#"><b>纳新事项</b></big>
+                        <div className="panel-title" href="#">
+                            纳新事项
+                        </div>
                     </div>
                 </div>
+
                 <div className="row">
                     <div className="col-md-12 text-left">
-                        <a className="btn dank-temp-a12" href="#"><b>新增事项</b></a>
+                        <a className="btn panel-btn" href="#">
+                            新增事项
+                        </a>
                     </div>
                 </div>
+
                 {eventNodes}
             </div>
         )

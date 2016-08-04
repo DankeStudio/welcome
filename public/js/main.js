@@ -1,3 +1,4 @@
+/*
 $(".dropdown").click(function(){
     var body = $(this).children('.dp-body');
     var collapse = $(this).children('.dp-title').children('i');
@@ -11,3 +12,4 @@ $(".dropdown").click(function(){
         collapse.css('transform', 'rotate(0deg) scale(1.4)');
     }
 });
+*/

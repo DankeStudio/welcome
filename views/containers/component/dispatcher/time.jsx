@@ -43,13 +43,13 @@ module.exports = React.createClass({
         $(".dropdown").click(function(){
             var body = $(this).children('.dp-body');
             var collapse = $(this).children('.dp-title').children('i');
-            var itemNum = $(body).children('label') ? $(body).children('label').length : 0;
-            if(body.css('height') == '0px') {
-                body.css('height', itemNum + '00%');
+            var item = $(body).children('label');
+            if(collapse.css('transform')=='matrix(1.4, 0, 0, 1.4, 0, 0)') {
+                if(item) body.css('height', item.outerHeight()*item.length+'px');
                 collapse.css('transform', 'rotate(180deg) scale(1.4)');
             }
             else {
-                body.css('height', '0px');
+                if(item) body.css('height', '0px');
                 collapse.css('transform', 'rotate(0deg) scale(1.4)');
             }
         });
@@ -115,7 +115,7 @@ var EventDropdown = React.createClass({
                 </div>
                 <div className="dp-body">
                     {this.props.data.map((event) => 
-                        <label className="radio" key={event.eventID}>
+                        <label key={event.eventID}>
                             <input type="radio" name="event" value={event.name}
                                 checked={this.state.selectedItem === event.name} 
                                 onChange={this.handleChecked.bind(null, event.eventID)}/>
@@ -145,7 +145,7 @@ var DepartDropdown = React.createClass({
                 </div>
                 <div className="dp-body">
                     {this.props.data.map((department) =>
-                        <label className="radio" onClick={this.handleChecked}>
+                        <label onClick={this.handleChecked}>
                             <input type="radio" name="department" value={department} 
                                    checked={this.state.selectedItem === department}
                                    onChange={this.handleChecked.bind(null)} />

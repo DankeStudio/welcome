@@ -8632,6 +8632,19 @@ var App =
 	            }.bind(this)
 	        });
 	    },
+	    logout: function logout() {
+	        $.ajax({
+	            url: "/org/logout",
+	            contentType: 'application/json',
+	            type: 'GET',
+	            success: function (data) {
+	                window.location.href = '/#/orgsign/in';
+	            }.bind(this),
+	            error: function (xhr, status, err) {
+	                console.error("ajax请求发起失败");
+	            }.bind(this)
+	        });
+	    },
 	    render: function render() {
 	        var leftPosition = {
 	            float: "left"
@@ -8684,12 +8697,12 @@ var App =
 	                { style: leftPosition2 },
 	                React.createElement(
 	                    'a',
-	                    { className: 'dank-button-header', style: leftItemPosition, href: '#' },
+	                    { className: 'dank-button-header', style: leftItemPosition, href: '#/sign/in' },
 	                    '首页'
 	                ),
 	                React.createElement(
 	                    'a',
-	                    { className: 'dank-button-header', style: leftItemPosition, href: '#' },
+	                    { className: 'dank-button-header', style: leftItemPosition, onClick: null },
 	                    '社团目录'
 	                )
 	            ),
@@ -8698,13 +8711,13 @@ var App =
 	                { style: rightPosition },
 	                React.createElement(
 	                    'small',
-	                    { className: 'dank-small', href: '#', style: rightItemPosition },
+	                    { className: 'dank-small', onClick: null, style: rightItemPosition },
 	                    '辛苦了，',
 	                    this.state.name
 	                ),
 	                React.createElement(
 	                    'a',
-	                    { className: 'dank-a', href: '#', style: rightItemPosition },
+	                    { className: 'dank-a', onClick: this.logout, style: rightItemPosition },
 	                    '注销'
 	                )
 	            )

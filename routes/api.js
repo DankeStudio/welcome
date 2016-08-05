@@ -39,6 +39,9 @@ module.exports = require('express').Router()
     //organization signup
     .post('/org/signup', org.signup)
 
+    //organization logout
+    .get('/org/logout', org.logout)
+
     //get org info in session
     .get('/org/session',org.getOrgInSession)
 

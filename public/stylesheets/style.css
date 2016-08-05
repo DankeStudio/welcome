@@ -124,11 +124,18 @@ body {
 .dank-a:hover {
   text-decoration: underline;
   color:#ffffff;
+  cursor: pointer;
 }
 
 .dank-small {
   font-size:20px;
   color:#ffffff;
+}
+
+.dank-small:hover {
+  font-size:20px;
+  color:#ffffff;
+  text-decoration: none;
 }
 
 .dank-form-group{

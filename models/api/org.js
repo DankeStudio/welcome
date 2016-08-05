@@ -117,6 +117,15 @@ exports.signup = (req, res, next) => {
     }
 }
 
+exports.logout = (req, res, next) => {
+    req.session.org = null;
+    res.json({
+       code: 0,
+        msg:'ok',
+        body:{}
+    });
+}
+
 //从会话中获取组织信息
 exports.getOrgInSession = (req, res, next) => {
     res.json({

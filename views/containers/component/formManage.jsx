@@ -20,6 +20,17 @@ var Content = React.createClass({
             events:[{eventID : '', name : '', ym:''}]
         }
     },
+    bottomUp: function(array){
+        var stack = [];
+        var result = [];
+        for(var i=0; i<array.length; i++){
+            stack.push(array[i]);
+        }
+        for(var j=0; j<array.length; j++){
+            result.push(stack.pop());
+        }
+        return result;
+    },
     componentDidMount: function(){
         $.ajax({
             url: "/event",
@@ -29,9 +40,10 @@ var Content = React.createClass({
                 switch(data.code){
                     case 0:
                         if(this.isMounted()){
-                            this.setState({events:data.body.events});
+                            var events = this.bottomUp(data.body.events);
+                            this.setState({events:events});
                             if(this.state.initial){
-                                this.setState({nowEventID:data.body.events[0].eventID, initial:0});
+                                this.setState({nowEventID:events[0].eventID, initial:0});
                             }
                         }
                         break;
@@ -117,7 +129,7 @@ var Event = React.createClass({
 
                 <div className="row">
                     <div className="col-md-12 text-left">
-                        <a className="btn panel-btn" href="#">
+                        <a className="btn panel-btn" href="#/back/manage/add">
                             新增事项
                         </a>
                     </div>

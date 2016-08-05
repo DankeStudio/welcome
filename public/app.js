@@ -9913,6 +9913,17 @@ var App =
 	            events: [{ eventID: '', name: '', ym: '' }]
 	        };
 	    },
+	    bottomUp: function bottomUp(array) {
+	        var stack = [];
+	        var result = [];
+	        for (var i = 0; i < array.length; i++) {
+	            stack.push(array[i]);
+	        }
+	        for (var j = 0; j < array.length; j++) {
+	            result.push(stack.pop());
+	        }
+	        return result;
+	    },
 	    componentDidMount: function componentDidMount() {
 	        $.ajax({
 	            url: "/event",
@@ -9922,9 +9933,10 @@ var App =
 	                switch (data.code) {
 	                    case 0:
 	                        if (this.isMounted()) {
-	                            this.setState({ events: data.body.events });
+	                            var events = this.bottomUp(data.body.events);
+	                            this.setState({ events: events });
 	                            if (this.state.initial) {
-	                                this.setState({ nowEventID: data.body.events[0].eventID, initial: 0 });
+	                                this.setState({ nowEventID: events[0].eventID, initial: 0 });
 	                            }
 	                        }
 	                        break;
@@ -10049,7 +10061,7 @@ var App =
 	                    { className: 'col-md-12 text-left' },
 	                    React.createElement(
 	                        'a',
-	                        { className: 'btn panel-btn', href: '#' },
+	                        { className: 'btn panel-btn', href: '#/back/manage/add' },
 	                        '新增事项'
 	                    )
 	                )

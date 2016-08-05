@@ -112,7 +112,7 @@ var FormBox = React.createClass({
                             this.refs.passwordErr2.className="err-display";
                             break;
                         case 0:
-                            alert("登陆成功");
+                            window.location.href = "#/back";
                             break;
                         default:
                             alert(msg);
@@ -136,7 +136,7 @@ var FormBox = React.createClass({
         };
 
         return (
-            <form id="orgSignin" className="dank-box-2 center-block" style={formStyle}>
+            <div id="orgSignin" className="dank-box-2 center-block" style={formStyle}>
                 <div className="dank-form-group">
                     <label htmlFor="username">账号</label>
                     <small className="err-hidden" ref="usernameErr1">请输入用户名</small>
@@ -157,7 +157,7 @@ var FormBox = React.createClass({
                     <a href="#" className="forget-password">忘记密码</a>
                 </div>
                 <button onClick={this.handleSubmit} className="dank-button btn-block" style={buttonStyle}>登陆</button>
-            </form>
+            </div>
         )
     }
 });

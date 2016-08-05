@@ -16,6 +16,7 @@ var Content = React.createClass({
             pagesState:[true, true, true, true],
             pagesNumber:[1, 2, 3, 4],
             totalPage:4,
+            name : '请输入纳新事项名称',
             skills: {
                 delete:false,
                 title:'技能',
@@ -69,26 +70,23 @@ var Content = React.createClass({
             this.refs.others.componentWillUnmount();
         }
         $.ajax({
-            url: "form/submit",
+            url: "form/design",
             contentType: 'application/json',
             type: 'POST',
             data: JSON.stringify({
-                eventID: this.state.eventID,
-                writetime: this.state.writetime,
-                browserinfo: this.state.browserinfo,
-                baseinfo: this.state.baseinfo,
-                skills: this.state.skills,
-                introduction: this.state.introduction,
-                wish: this.state.wish,
-                reason: this.state.reason,
-                others: this.state.others,
-                remark: this.state.remark
+                name: this.state.name,
+                formschema:{
+                    skills: this.state.skills,
+                    introduction: this.state.introduction,
+                    wish: this.state.wish,
+                    others: this.state.others
+                }
             }),
             success: function(data) {
                 console.log(data);
                 switch(data.code){
                     case 0:
-                        window.location.href = '/#/person/info';
+                        window.location.href = '/#/back';
                         break;
                     default:
                         console.log(data.msg);
@@ -161,7 +159,7 @@ var Content = React.createClass({
                     <div className="container-fluid">
                         <div className="row">
                             <div className="col-md-12">
-                                <big style={titleStyle} className="center-block"><input type="text" className="dank-form-title-input" /></big>
+                                <big style={titleStyle} className="center-block"><input type="text" value={this.state.name} ref="name" onChange={function(){this.setState({name:this.refs.name.value})}.bind(this)} className="dank-form-title-input" /></big>
                             </div>
                         </div>
                         <div className="row">
@@ -176,7 +174,7 @@ var Content = React.createClass({
                                     {(this.state.page==this.state.pagesNumber[0]&&this.state.pagesState[0])?<Baseinfo ref="baseinfo" data={this.state.baseinfo} dataRecall={this.dataRecall} pageDelete={this.pageDelete}/>:null}
                                     {(this.state.page==this.state.pagesNumber[1]&&this.state.pagesState[1])?<Person ref="person" introduction={this.state.introduction} skills={this.state.skills} dataRecall={this.dataRecall} pageDelete={this.pageDelete}/>:null}
                                     {(this.state.page==this.state.pagesNumber[2]&&this.state.pagesState[2])?<Wish ref="wish" wish={this.state.wish} dataRecall={this.dataRecall} pageDelete={this.pageDelete}/>:null}
-                                    {(this.state.page==this.state.pagesNumber[3]&&this.state.pagesState[3])?<Others ref="other" other={this.state.other} dataRecall={this.dataRecall} pageDelete={this.pageDelete}/>:null}
+                                    {(this.state.page==this.state.pagesNumber[3]&&this.state.pagesState[3])?<Others ref="others" others={this.state.others} dataRecall={this.dataRecall} pageDelete={this.pageDelete}/>:null}
                                     <div style={buttonGroupStyle}>
                                         <a className="dank-button-2" onClick={this.lastPage}>上一页</a>
                                         <a className="dank-button-2" onClick={this.nextPage}>下一页</a>
@@ -192,19 +190,19 @@ var Content = React.createClass({
                         <div className="d15">
                             <h1 className="h1b"><b>报名表组件</b></h1>
                         </div>
-                        <div className="dank-library-component">
+                        <div className="dank-library-component" onClick={function(){this.refs.others.componentAdd('single-text')}.bind(this)}>
                             单行文本框
                         </div>
-                        <div className="dank-library-component">
+                        <div className="dank-library-component" onClick={function(){this.refs.others.componentAdd('multi-text')}.bind(this)}>
                             多行文本框
                         </div>
-                        <div className="dank-library-component">
+                        <div className="dank-library-component" onClick={function(){this.refs.others.componentAdd('single-choose')}.bind(this)}>
                             单选组件
                         </div>
-                        <div className="dank-library-component">
+                        <div className="dank-library-component" onClick={function(){this.refs.others.componentAdd('multi-choose')}.bind(this)}>
                             多选组件
                         </div>
-                        <div className="dank-library-component">
+                        <div className="dank-library-component" onClick={function(){this.refs.others.componentAdd('file')}.bind(this)}>
                             上传文件
                         </div>
                     </div>
@@ -692,8 +690,13 @@ var Wish = React.createClass({
 
 var Others = React.createClass({
     getInitialState: function(){
+        var othersEdit = [];
+        for(var i=0; i<this.props.others.length; i++){
+            othersEdit.push('false');
+        }
         return {
-            others:this.props.others
+            others:this.props.others,
+            othersEdit:othersEdit
         }
     },
 
@@ -701,89 +704,171 @@ var Others = React.createClass({
         /*iCheck initialize*/
         window.iCheck();
     },
+    componentDidUpdate: function(){
+        /*iCheck initialize*/
+        window.iCheck();
+    },
+    componentWillUnmount: function(){
+        this.props.dataRecall('others', this.state.others);
+    },
 
-    otherComponentUpdater: function(event,checkState){
-        var object = event.target;
-        //console.log(object);
-        var index = object.getAttribute('name');
-        //console.log(index);
+    decoder: function(options){
+        return options.join('#');
+    },
+
+    encoder: function(text){
+        return text.split('#');
+    },
+
+    componentAdd: function(type){
         var others = this.state.others;
-        var old = others[index];
+        var othersEdit = this.state.othersEdit;
         var element;
-        switch(old.type){
+        switch (type){
             case 'single-text' :
                 element = {
-                    type: old.type,
-                    title: old.title,
-                    content: object.value
-                    //required: tough.required
+                    type: 'single-text',
+                    title: '请在此处输入标题',
+                    //content: rough.content
+                    required: false
                 };
                 break;
             case 'multi-text' :
                 element = {
-                    type: old.type,
-                    title: old.title,
-                    content: object.value
-                    //required: tough.required
+                    type: 'multi-text',
+                    title: '请在此处输入标题',
+                    //content: rough.content
+                    required: false
                 };
                 break;
             case 'multi-choose' :
-                var chosen = old.chosen;
-                if(checkState == 1)//checked
-                {
-                    chosen.push(object.value);
-                }
-                else if(checkState == 0)//unchecked
-                {
-                    chosen.splice(chosen.indexOf(object.value),1);
-                }
-                else if(checkState == -1)//check other
-                {
-                    chosen[0] = object.value;
-                }
                 element = {
-                    type: old.type,
-                    title: old.title,
-                    //max: rough.max,
-                    chosen: chosen
+                    type: 'multi-choose',
+                    title: '请在此处输入标题',
+                    max: null,
+                    option: ['选项一', '选项二', '选项三'],
+                    free: true
                 };
                 break;
-            case 'single-choose': //单选暂不实现可自填的功能
-                var chosen = old.chosen;
-                if(checkState == 1)
-                {
-                    chosen = object.value;
-                }
+            case 'single-choose' :
                 element = {
-                    type: old.type,
-                    title: old.title,
-                    //max: rough.max,
-                    chosen: chosen
+                    type: 'single-choose',
+                    title: '请在此处输入标题',
+                    option: ['选项一', '选项二', '选项三'],
+                    free: false
                 };
                 break;
             case 'file' :
                 element = {
-                    type: old.type,
-                    title: old.title,
-                    url : object.value
+                    type: 'file',
+                    title: '请在此处输入标题'
                 };
                 break;
             case 'image' :
                 element = {
-                    type: old.type,
-                    title: old.title,
-                    url : object.value
+                    type: 'image',
+                    title: '请在此处输入标题'
                 };
                 break;
             default:
                 element = {};
         }
-        others[index] = element;
+        if(element){
+            others.push(element);
+            othersEdit.push('true');
+            this.setState({others:others, othersEdit:othersEdit});
+        }
+    },
+
+    dataUpdate: function(type, index){
+        var others = this.state.others;
+        var element;
+        switch (type){
+            case 'single-text':
+                var title = $('#othersTitle'+index).val();
+                others[index].title = title;
+                break;
+            case 'multi-text':
+                var title = $('#othersTitle'+index).val();
+                others[index].title = title;
+                break;
+            case 'multi-choose':
+                var title = $('#othersTitle'+index).val();
+                var max = $('#othersMax'+index).val();
+                var free = ($('#othersFree'+index).is(":checked"))?true:false;
+                var option =this.encoder($('#othersOption'+index).val());
+                others[index].title = title;
+                others[index].max = max;
+                others[index].free = free;
+                others[index].option = option;
+                break;
+            case 'single-choose':
+                var title = $('#othersTitle'+index).val();
+                var option =this.encoder($('#othersOption'+index).val());
+                others[index].title = title;
+                others[index].option = option;
+                break;
+        }
         this.setState({others:others});
     },
 
-    componentWillUnmount: function(){
-        this.props.dataRecall('others', this.state.others);
+    save: function(type, index){
+        this.dataUpdate(type, index);
+
+        var othersEdit = this.state.othersEdit;
+        othersEdit[index] = false;
+        this.setState({othersEdit: othersEdit});
+    },
+
+    deleteComponent: function(index){
+        var others = this.state.others;
+        var othersEdit = this.state.othersEdit;
+        others.splice(index, 1);
+        othersEdit.splice(index,1);
+        this.setState({others:others, othersEdit:othersEdit});
+    },
+
+    editState: function (index) {
+        var othersEdit = this.state.othersEdit;
+        othersEdit[index] = true;
+        this.setState({othersEdit:othersEdit});
+    },
+
+    moveBefore: function (type, index){
+        this.dataUpdate(type, index);
+
+        var others = this.state.others;
+        var othersEdit = this.state.othersEdit;
+        var length = others.length;
+        var before = (index-1+length)%length
+
+        var temp1 = others[index];
+        others[index] = others[before];
+        others[before] = temp1;
+
+        var temp2 = othersEdit[index];
+        othersEdit[index] = othersEdit[before];
+        othersEdit[before] = temp2;
+
+        this.setState({others:others, othersEdit:othersEdit});
+    },
+    moveBack: function (type, index){
+        this.dataUpdate(type, index);
+
+        var others = this.state.others;
+        var othersEdit = this.state.othersEdit;
+        var length = others.length;
+        var next = (index+1+length)%length;
+
+        var temp1 = others[index];
+        others[index] = others[next];
+        others[next] = temp1;
+
+        var temp2 = othersEdit[index];
+        othersEdit[index] = othersEdit[next];
+        othersEdit[next] = temp2;
+
+        this.setState({others:others, othersEdit:othersEdit});
     },
 
     render: function(){
@@ -810,74 +895,208 @@ var Others = React.createClass({
         var checkboxStyle = {
             color:'#FFFFFF',
             marginBottom: '20px'
-
         };
-        var otherNodes = this.props.schema.others.map(function(other, i){
+        var otherNodes = this.state.others.map(function(other, i){
             switch(other.type){
                 case 'single-text' :
                     return(
-                        <div className="d24" key={i}>
-                            <div className="text-left d25">
-                                <h1 className="h1f dank-form-h2"><b>{other.title}</b></h1>
-                                <div>
-                                    <input type="text" name={i} defaultValue={this.state.others[i].content} onChange={function(event){this.otherComponentUpdater(event,null);}.bind(this)} className="dank-form-single-text"/>
-                                </div>
-                            </div>
+                        <div key={i}>
+                            {
+                                (this.state.othersEdit[i])?
+                                    <div className="d24">
+                                        <div className="d25 dank-schema-component">
+                                            <div>
+                                                <h1 className="dank-schema-label">标题</h1>
+                                                <div>
+                                                    <input className="dank-schema-input" id={"othersTitle"+i} type="text"
+                                                           defaultValue={other.title}/>
+                                                </div>
+                                            </div>
+                                            <div className="dank-schema-option-group">
+                                                <a className="dank-schema-option" onClick={function(){this.moveBefore('single-text', i)}.bind(this)}>上移</a>
+                                                <a className="dank-schema-option" onClick={function(){this.moveBack('single-text', i)}.bind(this)}>下移</a>
+                                                <a className="dank-schema-option" onClick={function(){this.deleteComponent(i)}.bind(this)}>删除</a>
+                                                <a className="dank-schema-option"
+                                                   onClick={function(){this.save('single-text', i)}.bind(this)}>完成</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    :
+                                    <div className="d24" onClick={function(){this.editState(i)}.bind(this)}>
+                                        <div className="text-left d25">
+                                            <h1 className="h1f dank-form-h2"><b>{other.title}</b></h1>
+                                            <div>
+                                                <b><input type="text" className="dank-form-single-text"/></b>
+                                            </div>
+                                        </div>
+                                    </div>
+                            }
                         </div>
+                        
                     );
                     break;
                 case 'multi-text' :
                     return(
-                        <div className="d24" key={i}>
-                            <div className="text-left d25">
-                                <h1 className="h1f dank-form-h2"><b>{other.title}</b></h1>
-                                <div>
-                                    <textarea name={i} defaultValue={this.state.others[i].content} onChange={function(event){this.otherComponentUpdater(event,null);}.bind(this)} className="text-left tt1"/>
-                                </div>
-                            </div>
+                        <div key={i}>
+                            {
+                                (this.state.othersEdit[i])?
+                                    <div className="d24">
+                                        <div className="d25 dank-schema-component">
+                                            <div>
+                                                <h1 className="dank-schema-label">标题</h1>
+                                                <div>
+                                                    <input className="dank-schema-input" id={"othersTitle"+i} type="text"
+                                                           defaultValue={other.title}/>
+                                                </div>
+                                            </div>
+                                            <div className="dank-schema-option-group">
+                                                <a className="dank-schema-option" onClick={function(){this.moveBefore('multi-text', i)}.bind(this)}>上移</a>
+                                                <a className="dank-schema-option" onClick={function(){this.moveBack('multi-text', i)}.bind(this)}>下移</a>
+                                                <a className="dank-schema-option" onClick={function(){this.deleteComponent(i)}.bind(this)}>删除</a>
+                                                <a className="dank-schema-option"
+                                                   onClick={function(){this.save('multi-text', i)}.bind(this)}>完成</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    :
+                                    <div className="d24" onClick={function(){this.editState(i)}.bind(this)}>
+                                        <div className="text-left d25">
+                                            <h1 className="h1f dank-form-h2"><b>{other.title}</b></h1>
+                                            <div>
+                                                <b><textarea name="introduction.content" className="text-left tt1"/></b>
+                                            </div>
+                                        </div>
+                                    </div>
+                            }
                         </div>
                     );
                     break;
                 case 'multi-choose' :
                     return (
-                        <div className="text-left d25" key={i}>
-                            <h1 className="h1f dank-form-h2"><b>{other.title}</b></h1>
+                        <div key={i}>
                             {
-                                other.option.map(function(option){
-                                    option = "" + option;
-                                    return(
-                                        <div className="dank-checkbox-inOneLine" key={option}>
-                                            {(this.props.others[i].chosen.indexOf(option)>0)?<input type="checkbox" name={i} value={option} defaultChecked/>:<input type="checkbox" name={i} value={option}/>}
-                                            <label> {option} </label>
+                                (this.state.othersEdit[i]) ?
+                                    <div className="d24">
+                                        <div className="d25 dank-schema-component">
+                                            <div>
+                                                <div className="dank-form-group-inline dank-schema-form-group-inline">
+                                                    <h1 className="dank-schema-label">标题</h1>
+                                                    <div>
+                                                        <input className="dank-schema-input" type="text" id={"othersTitle"+i}
+                                                               defaultValue={other.title}/>
+                                                    </div>
+                                                </div>
+                                                <div
+                                                    className="dank-form-group-inline dank-schema-form-group-inline dank-schema-form-group-short">
+                                                    <h1 className="dank-schema-label">选择数量限制</h1>
+                                                    <div>
+                                                        <input className="dank-schema-input" type="number" id={"othersMax"+i}
+                                                               defaultValue={other.max}/>
+                                                    </div>
+                                                </div>
+                                                <div
+                                                    className="dank-form-group-inline dank-schema-form-group-inline dank-schema-form-group-short">
+                                                    <h1 className="dank-schema-label">是否允许自填</h1>
+                                                    <div>
+                                                        {(other.free) ?
+                                                            <input type="checkbox" id={"othersFree"+i} defaultChecked/> :
+                                                            <input type="checkbox" id={"othersFree"+i}/>}
+                                                        <label>允许自填</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <h1 className="dank-schema-label">可选项（选项间以#分隔）</h1>
+                                                <div>
+                                                    <input className="dank-schema-input" type="text" id={"othersOption"+i}
+                                                           defaultValue={this.decoder(other.option)}/>
+                                                </div>
+                                            </div>
+                                            <div className="dank-schema-option-group">
+                                                <a className="dank-schema-option" onClick={function(){this.moveBefore('multi-choose', i)}.bind(this)}>上移</a>
+                                                <a className="dank-schema-option" onClick={function(){this.moveBack('multi-choose', i)}.bind(this)}>下移</a>
+                                                <a className="dank-schema-option"
+                                                   onClick={function(){this.deleteComponent(i)}.bind(this)}>删除</a>
+                                                <a className="dank-schema-option"
+                                                   onClick={function(){this.save('multi-choose', i)}.bind(this)}>完成</a>
+                                            </div>
                                         </div>
-                                    )
-                                }.bind(this))
-                            }
-                            {
-                                (other.free)?
-                                    <div className="dank-form-group-inline">
-                                        <label className="dank-label dank-select-label">其他</label>
-                                        <input type="text" name={i} defaultValue={this.state.others[i].chosen[0]} onBlur={function(event){this.otherComponentUpdater(event,-1);}.bind(this)} className="dank-form-input dank-select-input"/>
                                     </div>
-                                    :null
+                                    :
+                                    <div className="d24" onClick={function(){this.editState(i)}.bind(this)}>
+                                        <div className="text-left d25">
+                                            <h1 className="h1f dank-form-h2"><b>{other.title}</b></h1>
+                                            {
+                                                other.option.map(function(option){
+                                                    return(
+                                                        <div className="dank-checkbox-inOneLine" key={option}>
+                                                            <input type="checkbox" value={option} />
+                                                            <label> {option} </label>
+                                                        </div>
+                                                    )
+                                                }.bind(this))
+                                            }
+                                            {(other.free) ?
+                                                <div className="dank-form-group-inline">
+                                                    <label className="dank-label dank-select-label">其他</label>
+                                                    <input type="text" className="dank-form-input dank-select-input"/>
+                                                </div>
+                                                : null}
+                                        </div>
+                                    </div>
                             }
                         </div>
                     );
                     break;
                 case 'single-choose': //单选暂不实现可自填的功能
                     return (
-                        <div className="text-left d25" key={i}>
-                            <h1 className="h1f dank-form-h2"><b>{other.title}</b></h1>
+                        <div key={i}>
                             {
-                                other.option.map(function(option){
-                                    option = "" + option;
-                                    return(
-                                        <div className="dank-radio-inOneLine" key={option}>
-                                            {(this.props.others[i].chosen==option)?<input type="radio" name={i} value={option} defaultChecked/>:<input type="radio" name={i} value={option}/>}
-                                            <label> {option} </label>
+                                (this.state.othersEdit[i]) ?
+                                    <div className="d24">
+                                        <div className="d25 dank-schema-component">
+                                            <div>
+                                                <div className="dank-form-group-inline dank-schema-form-group-inline">
+                                                    <h1 className="dank-schema-label">标题</h1>
+                                                    <div>
+                                                        <input className="dank-schema-input" type="text" id={"othersTitle"+i}
+                                                               defaultValue={other.title}/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <h1 className="dank-schema-label">可选项（选项间以#分隔）</h1>
+                                                <div>
+                                                    <input className="dank-schema-input" type="text" id={"othersOption"+i}
+                                                           defaultValue={this.decoder(other.option)}/>
+                                                </div>
+                                            </div>
+                                            <div className="dank-schema-option-group">
+                                                <a className="dank-schema-option" onClick={function(){this.moveBefore('single-choose', i)}.bind(this)}>上移</a>
+                                                <a className="dank-schema-option" onClick={function(){this.moveBack('single-choose', i)}.bind(this)}>下移</a>
+                                                <a className="dank-schema-option"
+                                                   onClick={function(){this.deleteComponent(i)}.bind(this)}>删除</a>
+                                                <a className="dank-schema-option"
+                                                   onClick={function(){this.save('single-choose', i)}.bind(this)}>完成</a>
+                                            </div>
                                         </div>
-                                    )
-                                }.bind(this))
+                                    </div>
+                                    :
+                                    <div className="d24" onClick={function(){this.editState(i)}.bind(this)}>
+                                        <div className="text-left d25">
+                                            <h1 className="h1f dank-form-h2"><b>{other.title}</b></h1>
+                                            {
+                                                other.option.map(function(option){
+                                                    return(
+                                                        <div className="dank-checkbox-inOneLine" key={option}>
+                                                            <input type="radio" value={option} />
+                                                            <label> {option} </label>
+                                                        </div>
+                                                    )
+                                                }.bind(this))
+                                            }
+                                        </div>
+                                    </div>
                             }
                         </div>
                     );

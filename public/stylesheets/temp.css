@@ -439,12 +439,11 @@ div.d13{
 	margin: 0;
 }
 div.d14{
-	margin: 50px auto auto -20px;
-	background-color: #434751;
-	height: 800px;
 	-webkit-box-shadow:0 3px 5px #434751;
 	-moz-box-shadow:0 3px 5px #434751;
-	box-shadow:0 3px 5px #434751;
+	background:#345062;
+	box-shadow:0px 2px 4px 0px rgba(0,0,0,0.50);
+	height: 100%;
 }
 div.d15{
 	width: 80%;
@@ -538,8 +537,9 @@ div.d24{
 	margin: 25px auto;
 }
 div.d25{
-	 width: 90%;
 	 margin: auto;
+	padding-left: 20px;
+	padding-right: 20px;
 }
 div.d26{
 	font-size: 18px;

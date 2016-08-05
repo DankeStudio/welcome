@@ -24,7 +24,7 @@ var Slider = React.createClass({
         return (
             <div className="dank-slider-org">
                 <div>
-                    <Link to="/back/formManage" activeClassName="dank-slider-active">
+                    <Link to="/back/manage" activeClassName="dank-slider-active">
                         <i className="fa fa-lg fa-fw fa-file-text-o" aria-hidden="true"/>
                         <b>报名表管理</b>
                     </Link>

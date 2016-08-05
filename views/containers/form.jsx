@@ -277,10 +277,10 @@ var Content = React.createClass({
                                     {(this.state.pagesState[2])?<big className={(this.state.page==this.state.pagesNumber[2])?"dank-time-node-active":"dank-time-node"} style={timeLineStyle} onClick={ function(){this.setState({page:this.state.pagesNumber[2]})}.bind(this) }>{this.state.pagesNumber[2]}</big>:null}
                                     {(this.state.pagesState[3])?<big className={(this.state.page==this.state.pagesNumber[3])?"dank-time-node-active":"dank-time-node"} style={timeLineStyle} onClick={ function(){this.setState({page:this.state.pagesNumber[3]})}.bind(this) }>{this.state.pagesNumber[3]}</big>:null}
                                 </div>
-                                {(this.state.page==this.state.pagesNumber[0])?<Baseinfo ref="baseinfo" data={this.state.baseinfo} dataRecall={this.dataRecall}/>:null}
-                                {(this.state.page==this.state.pagesNumber[1])?<Person ref="person" introduction={this.state.introduction} skills={this.state.skills} schema={this.state.event.formschema} dataRecall={this.dataRecall}/>:null}
-                                {(this.state.page==this.state.pagesNumber[2])?<Wish ref="wish" wish={this.state.wish} reason={this.state.reason} schema={this.state.event.formschema} dataRecall={this.dataRecall}/>:null}
-                                {(this.state.page==this.state.pagesNumber[3])?<Others ref="others" others={this.state.others} schema={this.state.event.formschema} dataRecall={this.dataRecall}/>:null}
+                                {(this.state.page==this.state.pagesNumber[0]&&this.state.pagesState[0])?<Baseinfo ref="baseinfo" data={this.state.baseinfo} dataRecall={this.dataRecall}/>:null}
+                                {(this.state.page==this.state.pagesNumber[1]&&this.state.pagesState[1])?<Person ref="person" introduction={this.state.introduction} skills={this.state.skills} schema={this.state.event.formschema} dataRecall={this.dataRecall}/>:null}
+                                {(this.state.page==this.state.pagesNumber[2]&&this.state.pagesState[2])?<Wish ref="wish" wish={this.state.wish} reason={this.state.reason} schema={this.state.event.formschema} dataRecall={this.dataRecall}/>:null}
+                                {(this.state.page==this.state.pagesNumber[3]&&this.state.pagesState[3])?<Others ref="others" others={this.state.others} schema={this.state.event.formschema} dataRecall={this.dataRecall}/>:null}
                                 <div style={buttonGroupStyle}>
                                     <a className="dank-button-2" onClick={this.lastPage}>上一页</a>
                                     <a className="dank-button-2" onClick={this.nextPage}>下一页</a>
@@ -540,10 +540,11 @@ var Person = React.createClass({
                     <div className="text-left d25">
                         <h1 className="h1f dank-form-h2"><b>{this.props.schema.skills.title}</b></h1>
                         {skillNodes}
+                        {(this.props.schema.skills.free)?
                         <div className="dank-form-group-inline">
                             <label className="dank-label dank-select-label">其他</label>
                             <input type="text" defaultValue={this.props.skills.chosen[0]} onBlur={this.otherCheck} className="dank-form-input dank-select-input"/>
-                        </div>
+                        </div>:null}
                     </div>
                 </div>}
 

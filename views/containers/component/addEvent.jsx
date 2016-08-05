@@ -2,31 +2,11 @@ var React = require('react');
 var Component = React.Component;
 
 module.exports = React.createClass({
-    render: function(){
-        var globalStyle = {
-            background: "#EFEFEF",
-            height: "100%",
-            padding: 0
-        };
-        return(
-            <div style={globalStyle}>
-                <div className="dank-slider-org">
-                    <div>
-                        <big className="dank-slider-active"><i className="fa fa-file-text" aria-hidden="true"/><b>报名表管理</b></big>
-                    </div>
-                    <div>
-                        <a href="#"><i className="fa fa-commenting" aria-hidden="true"/><b> 消息通知</b></a>
-                    </div>
-                    <div>
-                        <a href="#"><i className="fa fa-trash" aria-hidden="true"/><b> 回收站</b></a>
-                    </div>
-                </div>
-                <div className="dank-slider-right">
-                    <Content/>
-                </div>
-            </div>
-        )
-    }
+   render: function(){
+       return(
+           <Content/>
+       )
+   }
 });
 
 var Content = React.createClass({
@@ -36,36 +16,28 @@ var Content = React.createClass({
             pagesState:[true, true, true, true],
             pagesNumber:[1, 2, 3, 4],
             totalPage:4,
-            name: {type:String, require:'miss eventname'},
-            date: {type:Date, default:Date.now},
-            orgID: '',
             skills: {
                 delete:false,
-                title:'请选择你的技能',
-                max: null,
-                option:[],
+                title:'技能',
+                max:null,
+                option:['ppt', '视频', '主持', '摄影', 'ps'],
                 free: true
             },
             introduction: {
                 delete:false,
-                title: '个人介绍（经历，获奖，特长）',
+                title: '个人履历（经历，荣誉）',
                 require: true
             },
             wish: {
-                delete: false,
-                title: '请选择你的志愿（不超过两项）',
+                delete:false,
+                title:'请选择您的志愿',
                 max: 2,
-                option: [],
+                option:['产品','设计','前端','后端','运营','推广'],
                 free: false
             },
-            remark:'无',
-            others: []
+            others:[],
+            remark:'无'
         }
-    },
-
-
-    componentDidMount: function(){
-
     },
     dataRecall: function(item, data){
         this.setState({[item]:data});
@@ -129,12 +101,32 @@ var Content = React.createClass({
         });
 
     },
+
+    pageDelete: function(i) {
+        var pagesState = this.state.pagesState;
+        var pagesNumber = this.state.pagesNumber;
+        var totalPage = this.state.totalPage;
+
+        pagesState[i-1] = false;
+        for (var j = i; j < 4; j++) {
+            pagesNumber[j]--;
+        }
+        totalPage--;
+
+        this.setState({
+            pagesState:pagesState,
+            pagesNumber:pagesNumber,
+            totalPage:totalPage
+        });
+
+    },
+
     render: function(){
         var backgroundStyle = {
             top: '60px',
             bottom:'0px',
-            left: '0px',
-            right: '0px',
+            left: '215px',
+            right: '292px',
             position: 'fixed',
             overflow:'auto',
             background:'#f77968'
@@ -156,56 +148,77 @@ var Content = React.createClass({
             float:'right',
             marginTop:'160px'
         };
+        var libraryStyle={
+            position: 'fixed',
+            right:'0',
+            bottom:'0',
+            top:'60px',
+            width:'292px'
+        };
         return (
-            <div></div>
+            <div>
+                <div style={backgroundStyle}>
+                    <div className="container-fluid">
+                        <div className="row">
+                            <div className="col-md-12">
+                                <big style={titleStyle} className="center-block"><input type="text" className="dank-form-title-input" /></big>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-md-12">
+                                <div className="center-block" style={bordStyle}>
+                                    <div className="dank-time-line">
+                                        <big className={(this.state.page==1)?"dank-time-node-active":"dank-time-node"} onClick={ function(){this.setState({page:this.state.pagesNumber[0]})}.bind(this) } >{this.state.pagesNumber[0]}</big>
+                                        {(this.state.pagesState[1])?<big className={(this.state.page==this.state.pagesNumber[1])?"dank-time-node-active":"dank-time-node"} style={timeLineStyle} onClick={ function(){this.setState({page:this.state.pagesNumber[1]})}.bind(this) }>{this.state.pagesNumber[1]}</big>:null}
+                                        {(this.state.pagesState[2])?<big className={(this.state.page==this.state.pagesNumber[2])?"dank-time-node-active":"dank-time-node"} style={timeLineStyle} onClick={ function(){this.setState({page:this.state.pagesNumber[2]})}.bind(this) }>{this.state.pagesNumber[2]}</big>:null}
+                                        {(this.state.pagesState[3])?<big className={(this.state.page==this.state.pagesNumber[3])?"dank-time-node-active":"dank-time-node"} style={timeLineStyle} onClick={ function(){this.setState({page:this.state.pagesNumber[3]})}.bind(this) }>{this.state.pagesNumber[3]}</big>:null}
+                                    </div>
+                                    {(this.state.page==this.state.pagesNumber[0]&&this.state.pagesState[0])?<Baseinfo ref="baseinfo" data={this.state.baseinfo} dataRecall={this.dataRecall} pageDelete={this.pageDelete}/>:null}
+                                    {(this.state.page==this.state.pagesNumber[1]&&this.state.pagesState[1])?<Person ref="person" introduction={this.state.introduction} skills={this.state.skills} dataRecall={this.dataRecall} pageDelete={this.pageDelete}/>:null}
+                                    {(this.state.page==this.state.pagesNumber[2]&&this.state.pagesState[2])?<Wish ref="wish" wish={this.state.wish} dataRecall={this.dataRecall} pageDelete={this.pageDelete}/>:null}
+                                    {(this.state.page==this.state.pagesNumber[3]&&this.state.pagesState[3])?<Others ref="other" other={this.state.other} dataRecall={this.dataRecall} pageDelete={this.pageDelete}/>:null}
+                                    <div style={buttonGroupStyle}>
+                                        <a className="dank-button-2" onClick={this.lastPage}>上一页</a>
+                                        <a className="dank-button-2" onClick={this.nextPage}>下一页</a>
+                                        <a className="dank-button-2" onClick={this.submit}>提交</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style={libraryStyle}>
+                    <div className="d14">
+                        <div className="d15">
+                            <h1 className="h1b"><b>报名表组件</b></h1>
+                        </div>
+                        <div className="dank-library-component">
+                            单行文本框
+                        </div>
+                        <div className="dank-library-component">
+                            多行文本框
+                        </div>
+                        <div className="dank-library-component">
+                            单选组件
+                        </div>
+                        <div className="dank-library-component">
+                            多选组件
+                        </div>
+                        <div className="dank-library-component">
+                            上传文件
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
         )
     }
 
 });
 
 var Baseinfo = React.createClass({
-    getInitialState: function(){
-        return {
-            name:this.props.data.name,
-            sex: this.props.data.sex,
-            origin:this.props.data.origin,
-            nation:this.props.data.nation,
-            schoolID:this.props.data.schoolID,
-            politicalStatus:this.props.data.politicalStatus,
-            telnumber:this.props.data.telnumber,
-            telshort:this.props.data.telshort,
-            email:this.props.data.email,
-            qq:this.props.data.qq,
-            major:this.props.data.major,
-            birth:this.props.data.birth,
-            address:this.props.data.address
-        }
-    },
     componentDidMount: function(){
         window.iCheck();
-    },
-
-    handleChange: function(event){
-        this.setState({[event.target.getAttribute('name')]: event.target.value});
-    },
-
-    componentWillUnmount: function(){
-        var data = {
-            name:this.state.name,
-            sex: this.state.sex,
-            origin:this.state.origin,
-            nation:this.state.nation,
-            schoolID:this.state.schoolID,
-            politicalStatus:this.state.politicalStatus,
-            telnumber:this.state.telnumber,
-            telshort:this.state.telshort,
-            email:this.state.email,
-            qq:this.state.qq,
-            major:this.state.major,
-            birth:this.state.birth,
-            address:this.state.address
-        };
-        this.props.dataRecall('baseinfo', data);
     },
 
     render: function(){
@@ -233,7 +246,7 @@ var Baseinfo = React.createClass({
                 <div className="d8">
                     <b><table className="center-block dank-form-table"><tbody>
                     <tr className="">
-                        <td className="form-group">姓　　名</td><td><input value={this.state.name} onChange={this.handleChange} name="name" className="dank-form-input" type="text"/></td>
+                        <td className="form-group">姓　　名</td><td><input name="name" className="dank-form-input" type="text"/></td>
                         <td>性　　别</td><td>
                         <label className="dank-checkbox-inline">
                             <input type="radio" name="sex" value="男"/><b> 男</b>
@@ -244,29 +257,29 @@ var Baseinfo = React.createClass({
                     </td>
                     </tr>
                     <tr className="">
-                        <td>籍　　贯</td><td><input  value={this.state.origin} onChange={this.handleChange} name="origin" className="dank-form-input" type="text"/></td>
-                        <td>民　　族</td><td><input value={this.state.nation} onChange={this.handleChange} name="nation" className="dank-form-input" type="text"/></td>
+                        <td>籍　　贯</td><td><input name="origin" className="dank-form-input" type="text"/></td>
+                        <td>民　　族</td><td><input name="nation" className="dank-form-input" type="text"/></td>
                     </tr>
                     <tr className="">
-                        <td>学　　号</td><td><input value={this.state.schoolID} onChange={this.handleChange} name="schoolID" className="dank-form-input" type="text"/></td>
-                        <td>政治面貌</td><td><input value={this.state.politicalStatus} onChange={this.handleChange} name="politicalStatus" className="dank-form-input" type="text"/></td>
+                        <td>学　　号</td><td><input name="schoolID" className="dank-form-input" type="text"/></td>
+                        <td>政治面貌</td><td><input name="politicalStatus" className="dank-form-input" type="text"/></td>
                     </tr>
                     <tr className="">
-                        <td>手机长号</td><td><input value={this.state.telnumber} onChange={this.handleChange} name="telnumber" className="dank-form-input" type="text"/></td>
-                        <td>手机短号</td><td><input value={this.state.telshort} onChange={this.handleChange} name="telshort" className="dank-form-input" type="text"/></td>
+                        <td>手机长号</td><td><input name="telnumber" className="dank-form-input" type="text"/></td>
+                        <td>手机短号</td><td><input name="telshort" className="dank-form-input" type="text"/></td>
                     </tr>
                     <tr className="">
-                        <td>邮　　箱</td><td><input value={this.state.email} onChange={this.handleChange} name="email" className="dank-form-input" type="text"/></td>
-                        <td>ＱＱ号码</td><td><input value={this.state.qq} onChange={this.handleChange} name="qq" className="dank-form-input" type="text"/></td>
+                        <td>邮　　箱</td><td><input name="email" className="dank-form-input" type="text"/></td>
+                        <td>ＱＱ号码</td><td><input name="qq" className="dank-form-input" type="text"/></td>
                     </tr>
                     <tr className="">
-                        <td>专　　业</td><td><input value={this.state.major} onChange={this.handleChange} name="major" className="dank-form-input" type="text"/>
+                        <td>专　　业</td><td><input name="major" className="dank-form-input" type="text"/>
                     </td>
-                        <td>出生日期</td><td><input value={this.state.birth} onChange={this.handleChange} name="birth" className="dank-form-input" type="text"/>
+                        <td>出生日期</td><td><input name="birth" className="dank-form-input" type="text"/>
                     </td>
                     </tr>
                     <tr className="">
-                        <td>寝室地址</td><td><input value={this.state.address} onChange={this.handleChange} name="address" className="dank-form-input" type="text"/></td>
+                        <td>寝室地址</td><td><input name="address" className="dank-form-input" type="text"/></td>
                         <td></td>
                     </tr>
                     </tbody>
@@ -286,84 +299,85 @@ var Baseinfo = React.createClass({
 var Person = React.createClass({
     getInitialState: function(){
         return {
-            skills: {
-                delete:this.props.schema.skills.delete,
-                title:this.props.schema.skills.title,
-                chosen:this.props.skills.chosen
-            },
-            introduction: {
-                delete:this.props.schema.introduction.delete,
-                title: this.props.schema.introduction.title,
-                content: this.props.introduction.content
-            }
+            skills: this.props.skills,
+            introduction: this.props.introduction,
+            skillsEdit: false,
+            introductionEdit: false
         }
-    },
-
-    introHandleChange: function(event){
-        this.setState({
-            introduction:{
-                delete:this.state.introduction.delete,
-                title: this.state.introduction.title,
-                content: event.target.value
-            }
-        });
     },
 
     componentDidMount: function(){
         window.iCheck();
-        $("input[type='checkbox']").on('ifChecked', function(event){
-            this.checked(event);
-        }.bind(this));
-        $("input[type='checkbox']").on('ifUnchecked', function(event){
-            this.unchecked(event);
-        }.bind(this));
-
     },
-
-    checked: function(event){
-        var chosen = this.state.skills.chosen;
-        chosen.push(event.target.value);
-        this.setState({skills:{
-            delete:this.state.skills.delete,
-            title:this.state.skills.title,
-            chosen: chosen
-        }});
-    },
-
-    unchecked: function(event){
-        var value = event.target.value;
-        var chosen = this.state.skills.chosen;
-        chosen.splice(chosen.indexOf(value),1);
-        this.setState({skills:{
-            delete:this.state.skills.delete,
-            title:this.state.skills.title,
-            chosen: chosen
-        }});
-    },
-
-    otherCheck: function(event){
-        var chosen = this.state.skills.chosen;
-        chosen[0] = event.target.value;
-        this.setState({skills:{
-            delete:this.state.skills.delete,
-            title:this.state.skills.title,
-            chosen: chosen
-        }});
+    componentDidUpdate: function(){
+        window.iCheck();
     },
 
     componentWillUnmount: function(){
-        var skills = {
-            delete:this.state.skills.delete,
-            title:this.state.skills.title,
-            chosen: this.state.skills.chosen
-        };
-        var introduction = {
-            delete:this.state.introduction.delete,
-            title: this.state.introduction.title,
-            content: this.state.introduction.content
-        };
+        var skills = this.state.skills;
+        var introduction = this.state.introduction;
         this.props.dataRecall('skills', skills);
         this.props.dataRecall('introduction', introduction);
+        if(skills.delete && introduction.delete)
+        {
+            this.props.pageDelete(2);
+        }
+    },
+
+    decoder: function(options){
+        return options.join('#');
+    },
+
+    encoder: function(text){
+        return text.split('#');
+    },
+
+    save: function(type){
+        switch (type){
+            case 'skill':
+                var title = this.refs.skillsTitle.value;
+                var max = this.refs.skillsMax.value;
+                var free = (this.refs.skillsFree.checked)?true:false;
+                var option = this.encoder(this.refs.skillsOption.value);
+
+                this.setState({
+                    skills:{
+                        title: title,
+                        max: max,
+                        free: free,
+                        option: option,
+                        require: this.state.skills.require
+                    },
+                    skillsEdit: false
+                });
+                break;
+            case 'introduction':
+                var title = this.refs.introductionTitle.value;
+                this.setState({
+                    introduction:{
+                        title: title,
+                        delete: this.state.introduction.delete
+                    },
+                    introductionEdit: false
+                });
+
+        }
+    },
+
+    deleteComponent: function (type) {
+        switch (type){
+            case 'skills':
+                var skills = this.state.skills;
+                skills.delete = true;
+                this.setState({skills:skills});
+                break;
+            case 'introduction':
+                var introduction = this.state.introduction;
+                introduction.delete = true;
+                this.setState({introduction: introduction});
+                break;
+        }
+
     },
 
     render: function(){
@@ -392,10 +406,10 @@ var Person = React.createClass({
             marginBottom: '20px'
 
         };
-        var skillNodes = this.props.schema.skills.option.map(function(skill){
+        var skillNodes = this.state.skills.option.map(function(skill){
             return(
                 <div className="dank-checkbox-inOneLine" key={skill}>
-                    {(this.props.skills.chosen.indexOf(skill)>0)?<input type="checkbox" value={skill} defaultChecked/>:<input type="checkbox" value={skill}/>}
+                    <input type="checkbox" value={skill} />
                     <label> {skill} </label>
                 </div>
             )
@@ -403,26 +417,100 @@ var Person = React.createClass({
         return(
             <div style={bordStyle}>
                 <h1 className="h1a"><b>个人介绍</b></h1>
-                {(this.props.schema.skills.delete)?null:<div className="d24">
-                    <div className="text-left d25">
-                        <h1 className="h1f dank-form-h2"><b>{this.props.schema.skills.title}</b></h1>
-                        {skillNodes}
-                        <div className="dank-form-group-inline">
-                            <label className="dank-label dank-select-label">其他</label>
-                            <input type="text" defaultValue={this.props.skills.chosen[0]} onBlur={this.otherCheck} className="dank-form-input dank-select-input"/>
+                {(this.state.skills.delete)?null:
+                (this.state.skillsEdit) ?
+                    <div className="d24">
+                        <div className="d25 dank-schema-component">
+                            <div>
+                                <div className="dank-form-group-inline dank-schema-form-group-inline">
+                                    <h1 className="dank-schema-label">标题</h1>
+                                    <div>
+                                        <input className="dank-schema-input" type="text" ref="skillsTitle"
+                                               defaultValue={this.state.skills.title}/>
+                                    </div>
+                                </div>
+                                <div
+                                    className="dank-form-group-inline dank-schema-form-group-inline dank-schema-form-group-short">
+                                    <h1 className="dank-schema-label">选择数量限制</h1>
+                                    <div>
+                                        <input className="dank-schema-input" type="number" ref="skillsMax"
+                                               defaultValue={this.state.skills.max}/>
+                                    </div>
+                                </div>
+                                <div
+                                    className="dank-form-group-inline dank-schema-form-group-inline dank-schema-form-group-short">
+                                    <h1 className="dank-schema-label">是否允许自填</h1>
+                                    <div>
+                                        {(this.state.skills.free) ?
+                                            <input type="checkbox" ref="skillsFree" defaultChecked/> :
+                                            <input type="checkbox" ref="skillsFree"/>}
+                                        <label>允许自填</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h1 className="dank-schema-label">可选项（选项间以#分隔）</h1>
+                                <div>
+                                    <input className="dank-schema-input" type="text" ref="skillsOption"
+                                           defaultValue={this.decoder(this.state.skills.option)}/>
+                                </div>
+                            </div>
+                            <div className="dank-schema-option-group">
+                                <a className="dank-schema-option">上移</a>
+                                <a className="dank-schema-option">下移</a>
+                                <a className="dank-schema-option"
+                                   onClick={function(){this.deleteComponent('skills')}.bind(this)}>删除</a>
+                                <a className="dank-schema-option"
+                                   onClick={function(){this.save('skill')}.bind(this)}>完成</a>
+                            </div>
                         </div>
                     </div>
-                </div>}
-
-
-                {(this.props.schema.introduction.delete)?null:<div className="d24">
-                    <div className="text-left d25">
-                        <h1 className="h1f dank-form-h2"><b>{this.props.schema.introduction.title}</b></h1>
-                        <div>
-                            <b><textarea name="introduction.content" value={this.state.introduction.content} onChange={this.introHandleChange} className="text-left tt1"/></b>
+                    :
+                    <div className="d24" onClick={function(){this.setState({skillsEdit: true})}.bind(this)}>
+                        <div className="text-left d25">
+                            <h1 className="h1f dank-form-h2"><b>{this.state.skills.title}</b></h1>
+                            {skillNodes}
+                            {(this.state.skills.free) ?
+                                <div className="dank-form-group-inline">
+                                    <label className="dank-label dank-select-label">其他</label>
+                                    <input type="text" className="dank-form-input dank-select-input"/>
+                                </div>
+                                : null}
                         </div>
                     </div>
-                </div>}
+
+                }
+
+
+                {(this.state.introduction.delete)?null:
+                    ((this.state.introductionEdit)?
+                        <div className="d24">
+                            <div className="d25 dank-schema-component">
+                                <div>
+                                    <h1 className="dank-schema-label">标题</h1>
+                                    <div>
+                                        <input className="dank-schema-input" ref="introductionTitle" type="text"
+                                               defaultValue={this.state.introduction.title}/>
+                                    </div>
+                                </div>
+                                <div className="dank-schema-option-group">
+                                    <a className="dank-schema-option" onClick={function(){this.deleteComponent('introduction')}.bind(this)}>删除</a>
+                                    <a className="dank-schema-option"
+                                       onClick={function(){this.save('introduction')}.bind(this)}>完成</a>
+                                </div>
+                            </div>
+                        </div>
+                        :
+                        <div className="d24" onClick={function(){this.setState({introductionEdit: true})}.bind(this)}>
+                            <div className="text-left d25">
+                                <h1 className="h1f dank-form-h2"><b>{this.state.introduction.title}</b></h1>
+                                <div>
+                                    <b><textarea name="introduction.content" className="text-left tt1"/></b>
+                                </div>
+                            </div>
+                        </div>
+                    )
+                }
             </div>
         )
     }
@@ -431,65 +519,63 @@ var Person = React.createClass({
 var Wish = React.createClass({
     getInitialState: function(){
         return {
-            wish: {
-                delete:this.props.schema.wish.delete,
-                title:this.props.schema.wish.title,
-                chosen:this.props.wish.chosen
-            },
-            reason: this.props.reason
+            wish: this.props.wish,
+            wishEdit: false
         }
-    },
-
-    reasonChange: function(event){
-        var reason = this.state.reason;
-        var index = event.target.getAttribute('title');
-        reason[index] = event.target.value;
-        this.setState({
-            reason: reason
-        });
     },
 
     componentDidMount: function(){
         window.iCheck();
-        $("input[type='checkbox']").on('ifChecked', function(event){
-            this.checked(event);
-        }.bind(this));
-        $("input[type='checkbox']").on('ifUnchecked', function(event){
-            this.unchecked(event);
-        }.bind(this));
-
     },
-
-    checked: function(event){
-        var chosen = this.state.wish.chosen;
-        chosen.push(event.target.value);
-        this.setState({wish:{
-            delete:this.state.wish.delete,
-            title:this.state.wish.title,
-            chosen: chosen
-        }});
-    },
-
-    unchecked: function(event){
-        var value = event.target.value;
-        var chosen = this.state.wish.chosen;
-        chosen.splice(chosen.indexOf(value),1);
-        this.setState({wish:{
-            delete:this.state.wish.delete,
-            title:this.state.wish.title,
-            chosen: chosen
-        }});
+    componentDidUpdate: function(){
+        window.iCheck();
     },
 
     componentWillUnmount: function(){
-        var wish = {
-            delete:this.state.wish.delete,
-            title:this.state.wish.title,
-            chosen: this.state.wish.chosen
-        };
-        var reason = this.state.reason;
+        var wish = this.state.wish;
         this.props.dataRecall('wish', wish);
-        this.props.dataRecall('reason', reason);
+        if(wish.delete)
+        {
+            this.props.pageDelete(3);
+        }
+    },
+    decoder: function(options){
+        return options.join('#');
+    },
+
+    encoder: function(text){
+        return text.split('#');
+    },
+    deleteComponent: function (type) {
+        switch (type){
+            case 'wish':
+                var wish = this.state.wish;
+                wish.delete = true;
+                this.setState({skills:wish});
+                break;
+        }
+
+    },
+    save: function(type){
+        switch (type){
+            case 'wish':
+                var title = this.refs.wishTitle.value;
+                var max = this.refs.wishMax.value;
+                var free = (this.refs.wishFree.checked)?true:false;
+                var option = this.encoder(this.refs.wishOption.value);
+
+                this.setState({
+                    wish:{
+                        title: title,
+                        max: max,
+                        free: free,
+                        option: option,
+                        require: this.state.wish.require
+                    },
+                    wishEdit: false
+                });
+                break;
+        }
     },
 
     render: function(){
@@ -518,43 +604,87 @@ var Wish = React.createClass({
             marginBottom: '20px'
 
         };
-        var wishNodes = this.props.schema.wish.option.map(function(wish){
+        var wishNodes = this.state.wish.option.map(function(wish){
             return(
                 <div className="dank-checkbox-inOneLine" key={wish}>
-                    {(this.props.wish.chosen.indexOf(wish)>0)?<input type="checkbox" value={wish} defaultChecked/>:<input type="checkbox" value={wish}/>}
+                    <input type="checkbox" value={wish}/>
                     <label> {wish} </label>
                 </div>
             )
         }.bind(this));
 
-        var reasonNodes = this.state.wish.chosen.map(function(chosen, i){
-            if(i==0){
-                return null;
-            }
-            else{
-                return(
-                    <div className="d24" key={i}>
-                        <div className="text-left d25">
-                            <h1 className="h1f dank-form-h2"><b>希望进入第{i}志愿 {chosen} 的原因是</b></h1>
-                            <div>
-                                <b><textarea title={i} value={this.state.reason[i]} onChange={this.reasonChange} className="text-left tt1"/></b>
-                            </div>
-                        </div>
-                    </div>
-                )
-            }
-        }.bind(this));
-
         return(
             <div style={bordStyle}>
                 <h1 className="h1a"><b>志愿选择</b></h1>
-                {(this.props.schema.wish.delete)?null:<div className="d24">
+                {(this.state.wish.delete)?null:
+                    (this.state.wishEdit) ?
+                        <div className="d24">
+                            <div className="d25 dank-schema-component">
+                                <div>
+                                    <div className="dank-form-group-inline dank-schema-form-group-inline">
+                                        <h1 className="dank-schema-label">标题</h1>
+                                        <div>
+                                            <input className="dank-schema-input" type="text" ref="wishTitle"
+                                                   defaultValue={this.state.wish.title}/>
+                                        </div>
+                                    </div>
+                                    <div
+                                        className="dank-form-group-inline dank-schema-form-group-inline dank-schema-form-group-short">
+                                        <h1 className="dank-schema-label">选择数量限制</h1>
+                                        <div>
+                                            <input className="dank-schema-input" type="number" ref="wishMax"
+                                                   defaultValue={this.state.wish.max}/>
+                                        </div>
+                                    </div>
+                                    <div
+                                        className="dank-form-group-inline dank-schema-form-group-inline dank-schema-form-group-short">
+                                        <h1 className="dank-schema-label">是否允许自填</h1>
+                                        <div>
+                                            {(this.state.wish.free) ?
+                                                <input type="checkbox" ref="wishFree" defaultChecked/> :
+                                                <input type="checkbox" ref="wishFree"/>}
+                                            <label>允许自填</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h1 className="dank-schema-label">可选项（选项间以#分隔）</h1>
+                                    <div>
+                                        <input className="dank-schema-input" type="text" ref="wishOption"
+                                               defaultValue={this.decoder(this.state.wish.option)}/>
+                                    </div>
+                                </div>
+                                <div className="dank-schema-option-group">
+                                    <a className="dank-schema-option"
+                                       onClick={function(){this.deleteComponent('wish')}.bind(this)}>删除</a>
+                                    <a className="dank-schema-option"
+                                       onClick={function(){this.save('wish')}.bind(this)}>完成</a>
+                                </div>
+                            </div>
+                        </div>
+                        :
+                        <div className="d24" onClick={function(){this.setState({wishEdit: true})}.bind(this)}>
+                            <div className="text-left d25">
+                                <h1 className="h1f dank-form-h2"><b>{this.state.wish.title}</b></h1>
+                                {wishNodes}
+                                {(this.state.wish.free) ?
+                                    <div className="dank-form-group-inline">
+                                        <label className="dank-label dank-select-label">其他</label>
+                                        <input type="text" className="dank-form-input dank-select-input"/>
+                                    </div>
+                                    : null}
+                            </div>
+                        </div>
+
+                }
+                {(this.state.wish.delete)?null:<div className="d24">
                     <div className="text-left d25">
-                        <h1 className="h1f dank-form-h2"><b>{this.props.schema.wish.title}</b></h1>
-                        {wishNodes}
+                        <h1 className="h1f dank-form-h2"><b>希望进入第1志愿 {this.state.wish.option[0]} 的原因是</b></h1>
+                        <div>
+                            <b><textarea value={'此组件会自动根据面试者的选择生成'} className="text-left tt1" readOnly/></b>
+                        </div>
                     </div>
                 </div>}
-                {reasonNodes}
             </div>
         )
     }
@@ -570,16 +700,6 @@ var Others = React.createClass({
     componentDidMount: function(){
         /*iCheck initialize*/
         window.iCheck();
-        $("input[type='checkbox']").on('ifChecked', function(event){
-            this.otherComponentUpdater(event, 1);
-        }.bind(this));
-        $("input[type='checkbox']").on('ifUnchecked', function(event){
-            this.otherComponentUpdater(event, 0);
-        }.bind(this));
-        $("input[type='radio']").on('ifChecked', function(event){
-            this.otherComponentUpdater(event, 1);
-        }.bind(this));
-
     },
 
     otherComponentUpdater: function(event,checkState){

@@ -118,10 +118,14 @@ var App =
 	    React.createElement(
 	        Route,
 	        { path: '/back', component: back },
-	        React.createElement(Route, { path: 'formmanage', component: formManager }),
-	        React.createElement(Route, { path: 'addevent', component: addEvent }),
-	        React.createElement(IndexRedirect, { to: 'formmanage' }),
-	        React.createElement(Route, { path: 'formmanage', component: formManager }),
+	        React.createElement(IndexRedirect, { to: 'manage' }),
+	        React.createElement(
+	            Route,
+	            { path: 'manage' },
+	            React.createElement(IndexRedirect, { to: 'form' }),
+	            React.createElement(Route, { path: 'form', component: formManager }),
+	            React.createElement(Route, { path: 'add', component: addEvent })
+	        ),
 	        React.createElement(
 	            Route,
 	            { path: 'dispatcher' },
@@ -8513,7 +8517,7 @@ var App =
 	                null,
 	                React.createElement(
 	                    Link,
-	                    { to: '/back/formManage', activeClassName: 'dank-slider-active' },
+	                    { to: '/back/manage', activeClassName: 'dank-slider-active' },
 	                    React.createElement('i', { className: 'fa fa-lg fa-fw fa-file-text-o', 'aria-hidden': 'true' }),
 	                    React.createElement(
 	                        'b',
@@ -10702,7 +10706,7 @@ var App =
 /* 84 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -10710,74 +10714,15 @@ var App =
 	var Component = React.Component;
 
 	module.exports = React.createClass({
-	    displayName: "exports",
+	    displayName: 'exports',
 
 	    render: function render() {
-	        var globalStyle = {
-	            background: "#EFEFEF",
-	            height: "100%",
-	            padding: 0
-	        };
-	        return React.createElement(
-	            "div",
-	            { style: globalStyle },
-	            React.createElement(
-	                "div",
-	                { className: "dank-slider-org" },
-	                React.createElement(
-	                    "div",
-	                    null,
-	                    React.createElement(
-	                        "big",
-	                        { className: "dank-slider-active" },
-	                        React.createElement("i", { className: "fa fa-file-text", "aria-hidden": "true" }),
-	                        React.createElement(
-	                            "b",
-	                            null,
-	                            "报名表管理"
-	                        )
-	                    )
-	                ),
-	                React.createElement(
-	                    "div",
-	                    null,
-	                    React.createElement(
-	                        "a",
-	                        { href: "#" },
-	                        React.createElement("i", { className: "fa fa-commenting", "aria-hidden": "true" }),
-	                        React.createElement(
-	                            "b",
-	                            null,
-	                            " 消息通知"
-	                        )
-	                    )
-	                ),
-	                React.createElement(
-	                    "div",
-	                    null,
-	                    React.createElement(
-	                        "a",
-	                        { href: "#" },
-	                        React.createElement("i", { className: "fa fa-trash", "aria-hidden": "true" }),
-	                        React.createElement(
-	                            "b",
-	                            null,
-	                            " 回收站"
-	                        )
-	                    )
-	                )
-	            ),
-	            React.createElement(
-	                "div",
-	                { className: "dank-slider-right" },
-	                React.createElement(Content, null)
-	            )
-	        );
+	        return React.createElement(Content, null);
 	    }
 	});
 
 	var Content = React.createClass({
-	    displayName: "Content",
+	    displayName: 'Content',
 
 	    getInitialState: function getInitialState() {
 	        return {
@@ -10785,34 +10730,29 @@ var App =
 	            pagesState: [true, true, true, true],
 	            pagesNumber: [1, 2, 3, 4],
 	            totalPage: 4,
-	            name: { type: String, require: 'miss eventname' },
-	            date: { type: Date, default: Date.now },
-	            orgID: '',
 	            skills: {
 	                delete: false,
-	                title: '请选择你的技能',
+	                title: '技能',
 	                max: null,
-	                option: [],
+	                option: ['ppt', '视频', '主持', '摄影', 'ps'],
 	                free: true
 	            },
 	            introduction: {
 	                delete: false,
-	                title: '个人介绍（经历，获奖，特长）',
+	                title: '个人履历（经历，荣誉）',
 	                require: true
 	            },
 	            wish: {
 	                delete: false,
-	                title: '请选择你的志愿（不超过两项）',
+	                title: '请选择您的志愿',
 	                max: 2,
-	                option: [],
+	                option: ['产品', '设计', '前端', '后端', '运营', '推广'],
 	                free: false
 	            },
-	            remark: '无',
-	            others: []
+	            others: [],
+	            remark: '无'
 	        };
 	    },
-
-	    componentDidMount: function componentDidMount() {},
 	    dataRecall: function dataRecall(item, data) {
 	        this.setState(_defineProperty({}, item, data));
 	    },
@@ -10870,12 +10810,31 @@ var App =
 	            }.bind(this)
 	        });
 	    },
+
+	    pageDelete: function pageDelete(i) {
+	        var pagesState = this.state.pagesState;
+	        var pagesNumber = this.state.pagesNumber;
+	        var totalPage = this.state.totalPage;
+
+	        pagesState[i - 1] = false;
+	        for (var j = i; j < 4; j++) {
+	            pagesNumber[j]--;
+	        }
+	        totalPage--;
+
+	        this.setState({
+	            pagesState: pagesState,
+	            pagesNumber: pagesNumber,
+	            totalPage: totalPage
+	        });
+	    },
+
 	    render: function render() {
 	        var backgroundStyle = {
 	            top: '60px',
 	            bottom: '0px',
-	            left: '0px',
-	            right: '0px',
+	            left: '215px',
+	            right: '292px',
 	            position: 'fixed',
 	            overflow: 'auto',
 	            background: '#f77968'
@@ -10897,56 +10856,159 @@ var App =
 	            float: 'right',
 	            marginTop: '160px'
 	        };
-	        return React.createElement("div", null);
+	        var libraryStyle = {
+	            position: 'fixed',
+	            right: '0',
+	            bottom: '0',
+	            top: '60px',
+	            width: '292px'
+	        };
+	        return React.createElement(
+	            'div',
+	            null,
+	            React.createElement(
+	                'div',
+	                { style: backgroundStyle },
+	                React.createElement(
+	                    'div',
+	                    { className: 'container-fluid' },
+	                    React.createElement(
+	                        'div',
+	                        { className: 'row' },
+	                        React.createElement(
+	                            'div',
+	                            { className: 'col-md-12' },
+	                            React.createElement(
+	                                'big',
+	                                { style: titleStyle, className: 'center-block' },
+	                                React.createElement('input', { type: 'text', className: 'dank-form-title-input' })
+	                            )
+	                        )
+	                    ),
+	                    React.createElement(
+	                        'div',
+	                        { className: 'row' },
+	                        React.createElement(
+	                            'div',
+	                            { className: 'col-md-12' },
+	                            React.createElement(
+	                                'div',
+	                                { className: 'center-block', style: bordStyle },
+	                                React.createElement(
+	                                    'div',
+	                                    { className: 'dank-time-line' },
+	                                    React.createElement(
+	                                        'big',
+	                                        { className: this.state.page == 1 ? "dank-time-node-active" : "dank-time-node", onClick: function () {
+	                                                this.setState({ page: this.state.pagesNumber[0] });
+	                                            }.bind(this) },
+	                                        this.state.pagesNumber[0]
+	                                    ),
+	                                    this.state.pagesState[1] ? React.createElement(
+	                                        'big',
+	                                        { className: this.state.page == this.state.pagesNumber[1] ? "dank-time-node-active" : "dank-time-node", style: timeLineStyle, onClick: function () {
+	                                                this.setState({ page: this.state.pagesNumber[1] });
+	                                            }.bind(this) },
+	                                        this.state.pagesNumber[1]
+	                                    ) : null,
+	                                    this.state.pagesState[2] ? React.createElement(
+	                                        'big',
+	                                        { className: this.state.page == this.state.pagesNumber[2] ? "dank-time-node-active" : "dank-time-node", style: timeLineStyle, onClick: function () {
+	                                                this.setState({ page: this.state.pagesNumber[2] });
+	                                            }.bind(this) },
+	                                        this.state.pagesNumber[2]
+	                                    ) : null,
+	                                    this.state.pagesState[3] ? React.createElement(
+	                                        'big',
+	                                        { className: this.state.page == this.state.pagesNumber[3] ? "dank-time-node-active" : "dank-time-node", style: timeLineStyle, onClick: function () {
+	                                                this.setState({ page: this.state.pagesNumber[3] });
+	                                            }.bind(this) },
+	                                        this.state.pagesNumber[3]
+	                                    ) : null
+	                                ),
+	                                this.state.page == this.state.pagesNumber[0] && this.state.pagesState[0] ? React.createElement(Baseinfo, { ref: 'baseinfo', data: this.state.baseinfo, dataRecall: this.dataRecall, pageDelete: this.pageDelete }) : null,
+	                                this.state.page == this.state.pagesNumber[1] && this.state.pagesState[1] ? React.createElement(Person, { ref: 'person', introduction: this.state.introduction, skills: this.state.skills, dataRecall: this.dataRecall, pageDelete: this.pageDelete }) : null,
+	                                this.state.page == this.state.pagesNumber[2] && this.state.pagesState[2] ? React.createElement(Wish, { ref: 'wish', wish: this.state.wish, dataRecall: this.dataRecall, pageDelete: this.pageDelete }) : null,
+	                                React.createElement(
+	                                    'div',
+	                                    { style: buttonGroupStyle },
+	                                    React.createElement(
+	                                        'a',
+	                                        { className: 'dank-button-2', onClick: this.lastPage },
+	                                        '上一页'
+	                                    ),
+	                                    React.createElement(
+	                                        'a',
+	                                        { className: 'dank-button-2', onClick: this.nextPage },
+	                                        '下一页'
+	                                    ),
+	                                    React.createElement(
+	                                        'a',
+	                                        { className: 'dank-button-2', onClick: this.submit },
+	                                        '提交'
+	                                    )
+	                                )
+	                            )
+	                        )
+	                    )
+	                )
+	            ),
+	            React.createElement(
+	                'div',
+	                { style: libraryStyle },
+	                React.createElement(
+	                    'div',
+	                    { className: 'd14' },
+	                    React.createElement(
+	                        'div',
+	                        { className: 'd15' },
+	                        React.createElement(
+	                            'h1',
+	                            { className: 'h1b' },
+	                            React.createElement(
+	                                'b',
+	                                null,
+	                                '报名表组件'
+	                            )
+	                        )
+	                    ),
+	                    React.createElement(
+	                        'div',
+	                        { className: 'dank-library-component' },
+	                        '单行文本框'
+	                    ),
+	                    React.createElement(
+	                        'div',
+	                        { className: 'dank-library-component' },
+	                        '多行文本框'
+	                    ),
+	                    React.createElement(
+	                        'div',
+	                        { className: 'dank-library-component' },
+	                        '单选组件'
+	                    ),
+	                    React.createElement(
+	                        'div',
+	                        { className: 'dank-library-component' },
+	                        '多选组件'
+	                    ),
+	                    React.createElement(
+	                        'div',
+	                        { className: 'dank-library-component' },
+	                        '上传文件'
+	                    )
+	                )
+	            )
+	        );
 	    }
 
 	});
 
 	var Baseinfo = React.createClass({
-	    displayName: "Baseinfo",
+	    displayName: 'Baseinfo',
 
-	    getInitialState: function getInitialState() {
-	        return {
-	            name: this.props.data.name,
-	            sex: this.props.data.sex,
-	            origin: this.props.data.origin,
-	            nation: this.props.data.nation,
-	            schoolID: this.props.data.schoolID,
-	            politicalStatus: this.props.data.politicalStatus,
-	            telnumber: this.props.data.telnumber,
-	            telshort: this.props.data.telshort,
-	            email: this.props.data.email,
-	            qq: this.props.data.qq,
-	            major: this.props.data.major,
-	            birth: this.props.data.birth,
-	            address: this.props.data.address
-	        };
-	    },
 	    componentDidMount: function componentDidMount() {
 	        window.iCheck();
-	    },
-
-	    handleChange: function handleChange(event) {
-	        this.setState(_defineProperty({}, event.target.getAttribute('name'), event.target.value));
-	    },
-
-	    componentWillUnmount: function componentWillUnmount() {
-	        var data = {
-	            name: this.state.name,
-	            sex: this.state.sex,
-	            origin: this.state.origin,
-	            nation: this.state.nation,
-	            schoolID: this.state.schoolID,
-	            politicalStatus: this.state.politicalStatus,
-	            telnumber: this.state.telnumber,
-	            telshort: this.state.telshort,
-	            email: this.state.email,
-	            qq: this.state.qq,
-	            major: this.state.major,
-	            birth: this.state.birth,
-	            address: this.state.address
-	        };
-	        this.props.dataRecall('baseinfo', data);
 	    },
 
 	    render: function render() {
@@ -10969,225 +11031,225 @@ var App =
 	            fontWeight: 'bold'
 	        };
 	        return React.createElement(
-	            "div",
+	            'div',
 	            { style: bordStyle },
 	            React.createElement(
-	                "h1",
+	                'h1',
 	                { style: titleStyle },
 	                React.createElement(
-	                    "b",
+	                    'b',
 	                    null,
-	                    "个人信息"
+	                    '个人信息'
 	                )
 	            ),
 	            React.createElement(
-	                "div",
-	                { className: "d8" },
+	                'div',
+	                { className: 'd8' },
 	                React.createElement(
-	                    "b",
+	                    'b',
 	                    null,
 	                    React.createElement(
-	                        "table",
-	                        { className: "center-block dank-form-table" },
+	                        'table',
+	                        { className: 'center-block dank-form-table' },
 	                        React.createElement(
-	                            "tbody",
+	                            'tbody',
 	                            null,
 	                            React.createElement(
-	                                "tr",
-	                                { className: "" },
+	                                'tr',
+	                                { className: '' },
 	                                React.createElement(
-	                                    "td",
-	                                    { className: "form-group" },
-	                                    "姓　　名"
+	                                    'td',
+	                                    { className: 'form-group' },
+	                                    '姓　　名'
 	                                ),
 	                                React.createElement(
-	                                    "td",
+	                                    'td',
 	                                    null,
-	                                    React.createElement("input", { value: this.state.name, onChange: this.handleChange, name: "name", className: "dank-form-input", type: "text" })
+	                                    React.createElement('input', { name: 'name', className: 'dank-form-input', type: 'text' })
 	                                ),
 	                                React.createElement(
-	                                    "td",
+	                                    'td',
 	                                    null,
-	                                    "性　　别"
+	                                    '性　　别'
 	                                ),
 	                                React.createElement(
-	                                    "td",
+	                                    'td',
 	                                    null,
 	                                    React.createElement(
-	                                        "label",
-	                                        { className: "dank-checkbox-inline" },
-	                                        React.createElement("input", { type: "radio", name: "sex", value: "男" }),
+	                                        'label',
+	                                        { className: 'dank-checkbox-inline' },
+	                                        React.createElement('input', { type: 'radio', name: 'sex', value: '男' }),
 	                                        React.createElement(
-	                                            "b",
+	                                            'b',
 	                                            null,
-	                                            " 男"
+	                                            ' 男'
 	                                        )
 	                                    ),
 	                                    React.createElement(
-	                                        "label",
-	                                        { className: "dank-checkbox-inline" },
-	                                        React.createElement("input", { type: "radio", name: "sex", value: "女" }),
+	                                        'label',
+	                                        { className: 'dank-checkbox-inline' },
+	                                        React.createElement('input', { type: 'radio', name: 'sex', value: '女' }),
 	                                        React.createElement(
-	                                            "b",
+	                                            'b',
 	                                            null,
-	                                            " 女"
+	                                            ' 女'
 	                                        )
 	                                    )
 	                                )
 	                            ),
 	                            React.createElement(
-	                                "tr",
-	                                { className: "" },
+	                                'tr',
+	                                { className: '' },
 	                                React.createElement(
-	                                    "td",
+	                                    'td',
 	                                    null,
-	                                    "籍　　贯"
+	                                    '籍　　贯'
 	                                ),
 	                                React.createElement(
-	                                    "td",
+	                                    'td',
 	                                    null,
-	                                    React.createElement("input", { value: this.state.origin, onChange: this.handleChange, name: "origin", className: "dank-form-input", type: "text" })
+	                                    React.createElement('input', { name: 'origin', className: 'dank-form-input', type: 'text' })
 	                                ),
 	                                React.createElement(
-	                                    "td",
+	                                    'td',
 	                                    null,
-	                                    "民　　族"
+	                                    '民　　族'
 	                                ),
 	                                React.createElement(
-	                                    "td",
+	                                    'td',
 	                                    null,
-	                                    React.createElement("input", { value: this.state.nation, onChange: this.handleChange, name: "nation", className: "dank-form-input", type: "text" })
+	                                    React.createElement('input', { name: 'nation', className: 'dank-form-input', type: 'text' })
 	                                )
 	                            ),
 	                            React.createElement(
-	                                "tr",
-	                                { className: "" },
+	                                'tr',
+	                                { className: '' },
 	                                React.createElement(
-	                                    "td",
+	                                    'td',
 	                                    null,
-	                                    "学　　号"
+	                                    '学　　号'
 	                                ),
 	                                React.createElement(
-	                                    "td",
+	                                    'td',
 	                                    null,
-	                                    React.createElement("input", { value: this.state.schoolID, onChange: this.handleChange, name: "schoolID", className: "dank-form-input", type: "text" })
+	                                    React.createElement('input', { name: 'schoolID', className: 'dank-form-input', type: 'text' })
 	                                ),
 	                                React.createElement(
-	                                    "td",
+	                                    'td',
 	                                    null,
-	                                    "政治面貌"
+	                                    '政治面貌'
 	                                ),
 	                                React.createElement(
-	                                    "td",
+	                                    'td',
 	                                    null,
-	                                    React.createElement("input", { value: this.state.politicalStatus, onChange: this.handleChange, name: "politicalStatus", className: "dank-form-input", type: "text" })
+	                                    React.createElement('input', { name: 'politicalStatus', className: 'dank-form-input', type: 'text' })
 	                                )
 	                            ),
 	                            React.createElement(
-	                                "tr",
-	                                { className: "" },
+	                                'tr',
+	                                { className: '' },
 	                                React.createElement(
-	                                    "td",
+	                                    'td',
 	                                    null,
-	                                    "手机长号"
+	                                    '手机长号'
 	                                ),
 	                                React.createElement(
-	                                    "td",
+	                                    'td',
 	                                    null,
-	                                    React.createElement("input", { value: this.state.telnumber, onChange: this.handleChange, name: "telnumber", className: "dank-form-input", type: "text" })
+	                                    React.createElement('input', { name: 'telnumber', className: 'dank-form-input', type: 'text' })
 	                                ),
 	                                React.createElement(
-	                                    "td",
+	                                    'td',
 	                                    null,
-	                                    "手机短号"
+	                                    '手机短号'
 	                                ),
 	                                React.createElement(
-	                                    "td",
+	                                    'td',
 	                                    null,
-	                                    React.createElement("input", { value: this.state.telshort, onChange: this.handleChange, name: "telshort", className: "dank-form-input", type: "text" })
+	                                    React.createElement('input', { name: 'telshort', className: 'dank-form-input', type: 'text' })
 	                                )
 	                            ),
 	                            React.createElement(
-	                                "tr",
-	                                { className: "" },
+	                                'tr',
+	                                { className: '' },
 	                                React.createElement(
-	                                    "td",
+	                                    'td',
 	                                    null,
-	                                    "邮　　箱"
+	                                    '邮　　箱'
 	                                ),
 	                                React.createElement(
-	                                    "td",
+	                                    'td',
 	                                    null,
-	                                    React.createElement("input", { value: this.state.email, onChange: this.handleChange, name: "email", className: "dank-form-input", type: "text" })
+	                                    React.createElement('input', { name: 'email', className: 'dank-form-input', type: 'text' })
 	                                ),
 	                                React.createElement(
-	                                    "td",
+	                                    'td',
 	                                    null,
-	                                    "ＱＱ号码"
+	                                    'ＱＱ号码'
 	                                ),
 	                                React.createElement(
-	                                    "td",
+	                                    'td',
 	                                    null,
-	                                    React.createElement("input", { value: this.state.qq, onChange: this.handleChange, name: "qq", className: "dank-form-input", type: "text" })
+	                                    React.createElement('input', { name: 'qq', className: 'dank-form-input', type: 'text' })
 	                                )
 	                            ),
 	                            React.createElement(
-	                                "tr",
-	                                { className: "" },
+	                                'tr',
+	                                { className: '' },
 	                                React.createElement(
-	                                    "td",
+	                                    'td',
 	                                    null,
-	                                    "专　　业"
+	                                    '专　　业'
 	                                ),
 	                                React.createElement(
-	                                    "td",
+	                                    'td',
 	                                    null,
-	                                    React.createElement("input", { value: this.state.major, onChange: this.handleChange, name: "major", className: "dank-form-input", type: "text" })
+	                                    React.createElement('input', { name: 'major', className: 'dank-form-input', type: 'text' })
 	                                ),
 	                                React.createElement(
-	                                    "td",
+	                                    'td',
 	                                    null,
-	                                    "出生日期"
+	                                    '出生日期'
 	                                ),
 	                                React.createElement(
-	                                    "td",
+	                                    'td',
 	                                    null,
-	                                    React.createElement("input", { value: this.state.birth, onChange: this.handleChange, name: "birth", className: "dank-form-input", type: "text" })
+	                                    React.createElement('input', { name: 'birth', className: 'dank-form-input', type: 'text' })
 	                                )
 	                            ),
 	                            React.createElement(
-	                                "tr",
-	                                { className: "" },
+	                                'tr',
+	                                { className: '' },
 	                                React.createElement(
-	                                    "td",
+	                                    'td',
 	                                    null,
-	                                    "寝室地址"
+	                                    '寝室地址'
 	                                ),
 	                                React.createElement(
-	                                    "td",
+	                                    'td',
 	                                    null,
-	                                    React.createElement("input", { value: this.state.address, onChange: this.handleChange, name: "address", className: "dank-form-input", type: "text" })
+	                                    React.createElement('input', { name: 'address', className: 'dank-form-input', type: 'text' })
 	                                ),
-	                                React.createElement("td", null)
+	                                React.createElement('td', null)
 	                            )
 	                        )
 	                    )
 	                )
 	            ),
 	            React.createElement(
-	                "div",
-	                { className: "d9" },
+	                'div',
+	                { className: 'd9' },
 	                React.createElement(
-	                    "div",
-	                    { className: "d10" },
-	                    React.createElement("img", { src: "img/photo.png", className: "i6" }),
+	                    'div',
+	                    { className: 'd10' },
+	                    React.createElement('img', { src: 'img/photo.png', className: 'i6' }),
 	                    React.createElement(
-	                        "a",
-	                        { className: "a21" },
+	                        'a',
+	                        { className: 'a21' },
 	                        React.createElement(
-	                            "b",
+	                            'b',
 	                            null,
-	                            "上传照片"
+	                            '上传照片'
 	                        )
 	                    )
 	                )
@@ -11197,87 +11259,87 @@ var App =
 	});
 
 	var Person = React.createClass({
-	    displayName: "Person",
+	    displayName: 'Person',
 
 	    getInitialState: function getInitialState() {
 	        return {
-	            skills: {
-	                delete: this.props.schema.skills.delete,
-	                title: this.props.schema.skills.title,
-	                chosen: this.props.skills.chosen
-	            },
-	            introduction: {
-	                delete: this.props.schema.introduction.delete,
-	                title: this.props.schema.introduction.title,
-	                content: this.props.introduction.content
-	            }
+	            skills: this.props.skills,
+	            introduction: this.props.introduction,
+	            skillsEdit: false,
+	            introductionEdit: false
 	        };
-	    },
-
-	    introHandleChange: function introHandleChange(event) {
-	        this.setState({
-	            introduction: {
-	                delete: this.state.introduction.delete,
-	                title: this.state.introduction.title,
-	                content: event.target.value
-	            }
-	        });
 	    },
 
 	    componentDidMount: function componentDidMount() {
 	        window.iCheck();
-	        $("input[type='checkbox']").on('ifChecked', function (event) {
-	            this.checked(event);
-	        }.bind(this));
-	        $("input[type='checkbox']").on('ifUnchecked', function (event) {
-	            this.unchecked(event);
-	        }.bind(this));
 	    },
-
-	    checked: function checked(event) {
-	        var chosen = this.state.skills.chosen;
-	        chosen.push(event.target.value);
-	        this.setState({ skills: {
-	                delete: this.state.skills.delete,
-	                title: this.state.skills.title,
-	                chosen: chosen
-	            } });
-	    },
-
-	    unchecked: function unchecked(event) {
-	        var value = event.target.value;
-	        var chosen = this.state.skills.chosen;
-	        chosen.splice(chosen.indexOf(value), 1);
-	        this.setState({ skills: {
-	                delete: this.state.skills.delete,
-	                title: this.state.skills.title,
-	                chosen: chosen
-	            } });
-	    },
-
-	    otherCheck: function otherCheck(event) {
-	        var chosen = this.state.skills.chosen;
-	        chosen[0] = event.target.value;
-	        this.setState({ skills: {
-	                delete: this.state.skills.delete,
-	                title: this.state.skills.title,
-	                chosen: chosen
-	            } });
+	    componentDidUpdate: function componentDidUpdate() {
+	        window.iCheck();
 	    },
 
 	    componentWillUnmount: function componentWillUnmount() {
-	        var skills = {
-	            delete: this.state.skills.delete,
-	            title: this.state.skills.title,
-	            chosen: this.state.skills.chosen
-	        };
-	        var introduction = {
-	            delete: this.state.introduction.delete,
-	            title: this.state.introduction.title,
-	            content: this.state.introduction.content
-	        };
+	        var skills = this.state.skills;
+	        var introduction = this.state.introduction;
 	        this.props.dataRecall('skills', skills);
 	        this.props.dataRecall('introduction', introduction);
+	        if (skills.delete && introduction.delete) {
+	            this.props.pageDelete(2);
+	        }
+	    },
+
+	    decoder: function decoder(options) {
+	        return options.join('#');
+	    },
+
+	    encoder: function encoder(text) {
+	        return text.split('#');
+	    },
+
+	    save: function save(type) {
+	        switch (type) {
+	            case 'skill':
+	                var title = this.refs.skillsTitle.value;
+	                var max = this.refs.skillsMax.value;
+	                var free = this.refs.skillsFree.checked ? true : false;
+	                var option = this.encoder(this.refs.skillsOption.value);
+
+	                this.setState({
+	                    skills: {
+	                        title: title,
+	                        max: max,
+	                        free: free,
+	                        option: option,
+	                        require: this.state.skills.require
+	                    },
+	                    skillsEdit: false
+	                });
+	                break;
+	            case 'introduction':
+	                var title = this.refs.introductionTitle.value;
+	                this.setState({
+	                    introduction: {
+	                        title: title,
+	                        delete: this.state.introduction.delete
+	                    },
+	                    introductionEdit: false
+	                });
+
+	        }
+	    },
+
+	    deleteComponent: function deleteComponent(type) {
+	        switch (type) {
+	            case 'skills':
+	                var skills = this.state.skills;
+	                skills.delete = true;
+	                this.setState({ skills: skills });
+	                break;
+	            case 'introduction':
+	                var introduction = this.state.introduction;
+	                introduction.delete = true;
+	                this.setState({ introduction: introduction });
+	                break;
+	        }
 	    },
 
 	    render: function render() {
@@ -11306,82 +11368,234 @@ var App =
 	            marginBottom: '20px'
 
 	        };
-	        var skillNodes = this.props.schema.skills.option.map(function (skill) {
+	        var skillNodes = this.state.skills.option.map(function (skill) {
 	            return React.createElement(
-	                "div",
-	                { className: "dank-checkbox-inOneLine", key: skill },
-	                this.props.skills.chosen.indexOf(skill) > 0 ? React.createElement("input", { type: "checkbox", value: skill, defaultChecked: true }) : React.createElement("input", { type: "checkbox", value: skill }),
+	                'div',
+	                { className: 'dank-checkbox-inOneLine', key: skill },
+	                React.createElement('input', { type: 'checkbox', value: skill }),
 	                React.createElement(
-	                    "label",
+	                    'label',
 	                    null,
-	                    " ",
+	                    ' ',
 	                    skill,
-	                    " "
+	                    ' '
 	                )
 	            );
 	        }.bind(this));
 	        return React.createElement(
-	            "div",
+	            'div',
 	            { style: bordStyle },
 	            React.createElement(
-	                "h1",
-	                { className: "h1a" },
+	                'h1',
+	                { className: 'h1a' },
 	                React.createElement(
-	                    "b",
+	                    'b',
 	                    null,
-	                    "个人介绍"
+	                    '个人介绍'
 	                )
 	            ),
-	            this.props.schema.skills.delete ? null : React.createElement(
-	                "div",
-	                { className: "d24" },
+	            this.state.skills.delete ? null : this.state.skillsEdit ? React.createElement(
+	                'div',
+	                { className: 'd24' },
 	                React.createElement(
-	                    "div",
-	                    { className: "text-left d25" },
+	                    'div',
+	                    { className: 'd25 dank-schema-component' },
 	                    React.createElement(
-	                        "h1",
-	                        { className: "h1f dank-form-h2" },
+	                        'div',
+	                        null,
 	                        React.createElement(
-	                            "b",
+	                            'div',
+	                            { className: 'dank-form-group-inline dank-schema-form-group-inline' },
+	                            React.createElement(
+	                                'h1',
+	                                { className: 'dank-schema-label' },
+	                                '标题'
+	                            ),
+	                            React.createElement(
+	                                'div',
+	                                null,
+	                                React.createElement('input', { className: 'dank-schema-input', type: 'text', ref: 'skillsTitle',
+	                                    defaultValue: this.state.skills.title })
+	                            )
+	                        ),
+	                        React.createElement(
+	                            'div',
+	                            {
+	                                className: 'dank-form-group-inline dank-schema-form-group-inline dank-schema-form-group-short' },
+	                            React.createElement(
+	                                'h1',
+	                                { className: 'dank-schema-label' },
+	                                '选择数量限制'
+	                            ),
+	                            React.createElement(
+	                                'div',
+	                                null,
+	                                React.createElement('input', { className: 'dank-schema-input', type: 'number', ref: 'skillsMax',
+	                                    defaultValue: this.state.skills.max })
+	                            )
+	                        ),
+	                        React.createElement(
+	                            'div',
+	                            {
+	                                className: 'dank-form-group-inline dank-schema-form-group-inline dank-schema-form-group-short' },
+	                            React.createElement(
+	                                'h1',
+	                                { className: 'dank-schema-label' },
+	                                '是否允许自填'
+	                            ),
+	                            React.createElement(
+	                                'div',
+	                                null,
+	                                this.state.skills.free ? React.createElement('input', { type: 'checkbox', ref: 'skillsFree', defaultChecked: true }) : React.createElement('input', { type: 'checkbox', ref: 'skillsFree' }),
+	                                React.createElement(
+	                                    'label',
+	                                    null,
+	                                    '允许自填'
+	                                )
+	                            )
+	                        )
+	                    ),
+	                    React.createElement(
+	                        'div',
+	                        null,
+	                        React.createElement(
+	                            'h1',
+	                            { className: 'dank-schema-label' },
+	                            '可选项（选项间以#分隔）'
+	                        ),
+	                        React.createElement(
+	                            'div',
 	                            null,
-	                            this.props.schema.skills.title
+	                            React.createElement('input', { className: 'dank-schema-input', type: 'text', ref: 'skillsOption',
+	                                defaultValue: this.decoder(this.state.skills.option) })
+	                        )
+	                    ),
+	                    React.createElement(
+	                        'div',
+	                        { className: 'dank-schema-option-group' },
+	                        React.createElement(
+	                            'a',
+	                            { className: 'dank-schema-option' },
+	                            '上移'
+	                        ),
+	                        React.createElement(
+	                            'a',
+	                            { className: 'dank-schema-option' },
+	                            '下移'
+	                        ),
+	                        React.createElement(
+	                            'a',
+	                            { className: 'dank-schema-option',
+	                                onClick: function () {
+	                                    this.deleteComponent('skills');
+	                                }.bind(this) },
+	                            '删除'
+	                        ),
+	                        React.createElement(
+	                            'a',
+	                            { className: 'dank-schema-option',
+	                                onClick: function () {
+	                                    this.save('skill');
+	                                }.bind(this) },
+	                            '完成'
+	                        )
+	                    )
+	                )
+	            ) : React.createElement(
+	                'div',
+	                { className: 'd24', onClick: function () {
+	                        this.setState({ skillsEdit: true });
+	                    }.bind(this) },
+	                React.createElement(
+	                    'div',
+	                    { className: 'text-left d25' },
+	                    React.createElement(
+	                        'h1',
+	                        { className: 'h1f dank-form-h2' },
+	                        React.createElement(
+	                            'b',
+	                            null,
+	                            this.state.skills.title
 	                        )
 	                    ),
 	                    skillNodes,
-	                    React.createElement(
-	                        "div",
-	                        { className: "dank-form-group-inline" },
+	                    this.state.skills.free ? React.createElement(
+	                        'div',
+	                        { className: 'dank-form-group-inline' },
 	                        React.createElement(
-	                            "label",
-	                            { className: "dank-label dank-select-label" },
-	                            "其他"
+	                            'label',
+	                            { className: 'dank-label dank-select-label' },
+	                            '其他'
 	                        ),
-	                        React.createElement("input", { type: "text", defaultValue: this.props.skills.chosen[0], onBlur: this.otherCheck, className: "dank-form-input dank-select-input" })
-	                    )
+	                        React.createElement('input', { type: 'text', className: 'dank-form-input dank-select-input' })
+	                    ) : null
 	                )
 	            ),
-	            this.props.schema.introduction.delete ? null : React.createElement(
-	                "div",
-	                { className: "d24" },
+	            this.state.introduction.delete ? null : this.state.introductionEdit ? React.createElement(
+	                'div',
+	                { className: 'd24' },
 	                React.createElement(
-	                    "div",
-	                    { className: "text-left d25" },
+	                    'div',
+	                    { className: 'd25 dank-schema-component' },
 	                    React.createElement(
-	                        "h1",
-	                        { className: "h1f dank-form-h2" },
+	                        'div',
+	                        null,
 	                        React.createElement(
-	                            "b",
+	                            'h1',
+	                            { className: 'dank-schema-label' },
+	                            '标题'
+	                        ),
+	                        React.createElement(
+	                            'div',
 	                            null,
-	                            this.props.schema.introduction.title
+	                            React.createElement('input', { className: 'dank-schema-input', ref: 'introductionTitle', type: 'text',
+	                                defaultValue: this.state.introduction.title })
 	                        )
 	                    ),
 	                    React.createElement(
-	                        "div",
+	                        'div',
+	                        { className: 'dank-schema-option-group' },
+	                        React.createElement(
+	                            'a',
+	                            { className: 'dank-schema-option', onClick: function () {
+	                                    this.deleteComponent('introduction');
+	                                }.bind(this) },
+	                            '删除'
+	                        ),
+	                        React.createElement(
+	                            'a',
+	                            { className: 'dank-schema-option',
+	                                onClick: function () {
+	                                    this.save('introduction');
+	                                }.bind(this) },
+	                            '完成'
+	                        )
+	                    )
+	                )
+	            ) : React.createElement(
+	                'div',
+	                { className: 'd24', onClick: function () {
+	                        this.setState({ introductionEdit: true });
+	                    }.bind(this) },
+	                React.createElement(
+	                    'div',
+	                    { className: 'text-left d25' },
+	                    React.createElement(
+	                        'h1',
+	                        { className: 'h1f dank-form-h2' },
+	                        React.createElement(
+	                            'b',
+	                            null,
+	                            this.state.introduction.title
+	                        )
+	                    ),
+	                    React.createElement(
+	                        'div',
 	                        null,
 	                        React.createElement(
-	                            "b",
+	                            'b',
 	                            null,
-	                            React.createElement("textarea", { name: "introduction.content", value: this.state.introduction.content, onChange: this.introHandleChange, className: "text-left tt1" })
+	                            React.createElement('textarea', { name: 'introduction.content', className: 'text-left tt1' })
 	                        )
 	                    )
 	                )
@@ -11391,68 +11605,65 @@ var App =
 	});
 
 	var Wish = React.createClass({
-	    displayName: "Wish",
+	    displayName: 'Wish',
 
 	    getInitialState: function getInitialState() {
 	        return {
-	            wish: {
-	                delete: this.props.schema.wish.delete,
-	                title: this.props.schema.wish.title,
-	                chosen: this.props.wish.chosen
-	            },
-	            reason: this.props.reason
+	            wish: this.props.wish,
+	            wishEdit: false
 	        };
-	    },
-
-	    reasonChange: function reasonChange(event) {
-	        var reason = this.state.reason;
-	        var index = event.target.getAttribute('title');
-	        reason[index] = event.target.value;
-	        this.setState({
-	            reason: reason
-	        });
 	    },
 
 	    componentDidMount: function componentDidMount() {
 	        window.iCheck();
-	        $("input[type='checkbox']").on('ifChecked', function (event) {
-	            this.checked(event);
-	        }.bind(this));
-	        $("input[type='checkbox']").on('ifUnchecked', function (event) {
-	            this.unchecked(event);
-	        }.bind(this));
 	    },
-
-	    checked: function checked(event) {
-	        var chosen = this.state.wish.chosen;
-	        chosen.push(event.target.value);
-	        this.setState({ wish: {
-	                delete: this.state.wish.delete,
-	                title: this.state.wish.title,
-	                chosen: chosen
-	            } });
-	    },
-
-	    unchecked: function unchecked(event) {
-	        var value = event.target.value;
-	        var chosen = this.state.wish.chosen;
-	        chosen.splice(chosen.indexOf(value), 1);
-	        this.setState({ wish: {
-	                delete: this.state.wish.delete,
-	                title: this.state.wish.title,
-	                chosen: chosen
-	            } });
+	    componentDidUpdate: function componentDidUpdate() {
+	        window.iCheck();
 	    },
 
 	    componentWillUnmount: function componentWillUnmount() {
-	        var wish = {
-	            delete: this.state.wish.delete,
-	            title: this.state.wish.title,
-	            chosen: this.state.wish.chosen
-	        };
-	        var reason = this.state.reason;
+	        var wish = this.state.wish;
 	        this.props.dataRecall('wish', wish);
-	        this.props.dataRecall('reason', reason);
+	        if (wish.delete) {
+	            this.props.pageDelete(3);
+	        }
+	    },
+	    decoder: function decoder(options) {
+	        return options.join('#');
+	    },
+
+	    encoder: function encoder(text) {
+	        return text.split('#');
+	    },
+	    deleteComponent: function deleteComponent(type) {
+	        switch (type) {
+	            case 'wish':
+	                var wish = this.state.wish;
+	                wish.delete = true;
+	                this.setState({ skills: wish });
+	                break;
+	        }
+	    },
+	    save: function save(type) {
+	        switch (type) {
+	            case 'wish':
+	                var title = this.refs.wishTitle.value;
+	                var max = this.refs.wishMax.value;
+	                var free = this.refs.wishFree.checked ? true : false;
+	                var option = this.encoder(this.refs.wishOption.value);
+
+	                this.setState({
+	                    wish: {
+	                        title: title,
+	                        max: max,
+	                        free: free,
+	                        option: option,
+	                        require: this.state.wish.require
+	                    },
+	                    wishEdit: false
+	                });
+	                break;
+	        }
 	    },
 
 	    render: function render() {
@@ -11481,95 +11692,194 @@ var App =
 	            marginBottom: '20px'
 
 	        };
-	        var wishNodes = this.props.schema.wish.option.map(function (wish) {
+	        var wishNodes = this.state.wish.option.map(function (wish) {
 	            return React.createElement(
-	                "div",
-	                { className: "dank-checkbox-inOneLine", key: wish },
-	                this.props.wish.chosen.indexOf(wish) > 0 ? React.createElement("input", { type: "checkbox", value: wish, defaultChecked: true }) : React.createElement("input", { type: "checkbox", value: wish }),
+	                'div',
+	                { className: 'dank-checkbox-inOneLine', key: wish },
+	                React.createElement('input', { type: 'checkbox', value: wish }),
 	                React.createElement(
-	                    "label",
+	                    'label',
 	                    null,
-	                    " ",
+	                    ' ',
 	                    wish,
-	                    " "
+	                    ' '
 	                )
 	            );
 	        }.bind(this));
 
-	        var reasonNodes = this.state.wish.chosen.map(function (chosen, i) {
-	            if (i == 0) {
-	                return null;
-	            } else {
-	                return React.createElement(
-	                    "div",
-	                    { className: "d24", key: i },
+	        return React.createElement(
+	            'div',
+	            { style: bordStyle },
+	            React.createElement(
+	                'h1',
+	                { className: 'h1a' },
+	                React.createElement(
+	                    'b',
+	                    null,
+	                    '志愿选择'
+	                )
+	            ),
+	            this.state.wish.delete ? null : this.state.wishEdit ? React.createElement(
+	                'div',
+	                { className: 'd24' },
+	                React.createElement(
+	                    'div',
+	                    { className: 'd25 dank-schema-component' },
 	                    React.createElement(
-	                        "div",
-	                        { className: "text-left d25" },
+	                        'div',
+	                        null,
 	                        React.createElement(
-	                            "h1",
-	                            { className: "h1f dank-form-h2" },
+	                            'div',
+	                            { className: 'dank-form-group-inline dank-schema-form-group-inline' },
 	                            React.createElement(
-	                                "b",
+	                                'h1',
+	                                { className: 'dank-schema-label' },
+	                                '标题'
+	                            ),
+	                            React.createElement(
+	                                'div',
 	                                null,
-	                                "希望进入第",
-	                                i,
-	                                "志愿 ",
-	                                chosen,
-	                                " 的原因是"
+	                                React.createElement('input', { className: 'dank-schema-input', type: 'text', ref: 'wishTitle',
+	                                    defaultValue: this.state.wish.title })
 	                            )
 	                        ),
 	                        React.createElement(
-	                            "div",
-	                            null,
+	                            'div',
+	                            {
+	                                className: 'dank-form-group-inline dank-schema-form-group-inline dank-schema-form-group-short' },
 	                            React.createElement(
-	                                "b",
+	                                'h1',
+	                                { className: 'dank-schema-label' },
+	                                '选择数量限制'
+	                            ),
+	                            React.createElement(
+	                                'div',
 	                                null,
-	                                React.createElement("textarea", { title: i, value: this.state.reason[i], onChange: this.reasonChange, className: "text-left tt1" })
+	                                React.createElement('input', { className: 'dank-schema-input', type: 'number', ref: 'wishMax',
+	                                    defaultValue: this.state.wish.max })
+	                            )
+	                        ),
+	                        React.createElement(
+	                            'div',
+	                            {
+	                                className: 'dank-form-group-inline dank-schema-form-group-inline dank-schema-form-group-short' },
+	                            React.createElement(
+	                                'h1',
+	                                { className: 'dank-schema-label' },
+	                                '是否允许自填'
+	                            ),
+	                            React.createElement(
+	                                'div',
+	                                null,
+	                                this.state.wish.free ? React.createElement('input', { type: 'checkbox', ref: 'wishFree', defaultChecked: true }) : React.createElement('input', { type: 'checkbox', ref: 'wishFree' }),
+	                                React.createElement(
+	                                    'label',
+	                                    null,
+	                                    '允许自填'
+	                                )
 	                            )
 	                        )
-	                    )
-	                );
-	            }
-	        }.bind(this));
-
-	        return React.createElement(
-	            "div",
-	            { style: bordStyle },
-	            React.createElement(
-	                "h1",
-	                { className: "h1a" },
-	                React.createElement(
-	                    "b",
-	                    null,
-	                    "志愿选择"
-	                )
-	            ),
-	            this.props.schema.wish.delete ? null : React.createElement(
-	                "div",
-	                { className: "d24" },
-	                React.createElement(
-	                    "div",
-	                    { className: "text-left d25" },
+	                    ),
 	                    React.createElement(
-	                        "h1",
-	                        { className: "h1f dank-form-h2" },
+	                        'div',
+	                        null,
 	                        React.createElement(
-	                            "b",
+	                            'h1',
+	                            { className: 'dank-schema-label' },
+	                            '可选项（选项间以#分隔）'
+	                        ),
+	                        React.createElement(
+	                            'div',
 	                            null,
-	                            this.props.schema.wish.title
+	                            React.createElement('input', { className: 'dank-schema-input', type: 'text', ref: 'wishOption',
+	                                defaultValue: this.decoder(this.state.wish.option) })
 	                        )
 	                    ),
-	                    wishNodes
+	                    React.createElement(
+	                        'div',
+	                        { className: 'dank-schema-option-group' },
+	                        React.createElement(
+	                            'a',
+	                            { className: 'dank-schema-option',
+	                                onClick: function () {
+	                                    this.deleteComponent('wish');
+	                                }.bind(this) },
+	                            '删除'
+	                        ),
+	                        React.createElement(
+	                            'a',
+	                            { className: 'dank-schema-option',
+	                                onClick: function () {
+	                                    this.save('wish');
+	                                }.bind(this) },
+	                            '完成'
+	                        )
+	                    )
+	                )
+	            ) : React.createElement(
+	                'div',
+	                { className: 'd24', onClick: function () {
+	                        this.setState({ wishEdit: true });
+	                    }.bind(this) },
+	                React.createElement(
+	                    'div',
+	                    { className: 'text-left d25' },
+	                    React.createElement(
+	                        'h1',
+	                        { className: 'h1f dank-form-h2' },
+	                        React.createElement(
+	                            'b',
+	                            null,
+	                            this.state.wish.title
+	                        )
+	                    ),
+	                    wishNodes,
+	                    this.state.wish.free ? React.createElement(
+	                        'div',
+	                        { className: 'dank-form-group-inline' },
+	                        React.createElement(
+	                            'label',
+	                            { className: 'dank-label dank-select-label' },
+	                            '其他'
+	                        ),
+	                        React.createElement('input', { type: 'text', className: 'dank-form-input dank-select-input' })
+	                    ) : null
 	                )
 	            ),
-	            reasonNodes
+	            this.state.wish.delete ? null : React.createElement(
+	                'div',
+	                { className: 'd24' },
+	                React.createElement(
+	                    'div',
+	                    { className: 'text-left d25' },
+	                    React.createElement(
+	                        'h1',
+	                        { className: 'h1f dank-form-h2' },
+	                        React.createElement(
+	                            'b',
+	                            null,
+	                            '希望进入第1志愿 ',
+	                            this.state.wish.option[0],
+	                            ' 的原因是'
+	                        )
+	                    ),
+	                    React.createElement(
+	                        'div',
+	                        null,
+	                        React.createElement(
+	                            'b',
+	                            null,
+	                            React.createElement('textarea', { value: '此组件会自动根据面试者的选择生成', className: 'text-left tt1', readOnly: true })
+	                        )
+	                    )
+	                )
+	            )
 	        );
 	    }
 	});
 
 	var Others = React.createClass({
-	    displayName: "Others",
+	    displayName: 'Others',
 
 	    getInitialState: function getInitialState() {
 	        return {
@@ -11703,65 +12013,65 @@ var App =
 	            switch (other.type) {
 	                case 'single-text':
 	                    return React.createElement(
-	                        "div",
-	                        { className: "d24", key: i },
+	                        'div',
+	                        { className: 'd24', key: i },
 	                        React.createElement(
-	                            "div",
-	                            { className: "text-left d25" },
+	                            'div',
+	                            { className: 'text-left d25' },
 	                            React.createElement(
-	                                "h1",
-	                                { className: "h1f dank-form-h2" },
+	                                'h1',
+	                                { className: 'h1f dank-form-h2' },
 	                                React.createElement(
-	                                    "b",
+	                                    'b',
 	                                    null,
 	                                    other.title
 	                                )
 	                            ),
 	                            React.createElement(
-	                                "div",
+	                                'div',
 	                                null,
-	                                React.createElement("input", { type: "text", name: i, defaultValue: this.state.others[i].content, onChange: function (event) {
+	                                React.createElement('input', { type: 'text', name: i, defaultValue: this.state.others[i].content, onChange: function (event) {
 	                                        this.otherComponentUpdater(event, null);
-	                                    }.bind(this), className: "dank-form-single-text" })
+	                                    }.bind(this), className: 'dank-form-single-text' })
 	                            )
 	                        )
 	                    );
 	                    break;
 	                case 'multi-text':
 	                    return React.createElement(
-	                        "div",
-	                        { className: "d24", key: i },
+	                        'div',
+	                        { className: 'd24', key: i },
 	                        React.createElement(
-	                            "div",
-	                            { className: "text-left d25" },
+	                            'div',
+	                            { className: 'text-left d25' },
 	                            React.createElement(
-	                                "h1",
-	                                { className: "h1f dank-form-h2" },
+	                                'h1',
+	                                { className: 'h1f dank-form-h2' },
 	                                React.createElement(
-	                                    "b",
+	                                    'b',
 	                                    null,
 	                                    other.title
 	                                )
 	                            ),
 	                            React.createElement(
-	                                "div",
+	                                'div',
 	                                null,
-	                                React.createElement("textarea", { name: i, defaultValue: this.state.others[i].content, onChange: function (event) {
+	                                React.createElement('textarea', { name: i, defaultValue: this.state.others[i].content, onChange: function (event) {
 	                                        this.otherComponentUpdater(event, null);
-	                                    }.bind(this), className: "text-left tt1" })
+	                                    }.bind(this), className: 'text-left tt1' })
 	                            )
 	                        )
 	                    );
 	                    break;
 	                case 'multi-choose':
 	                    return React.createElement(
-	                        "div",
-	                        { className: "text-left d25", key: i },
+	                        'div',
+	                        { className: 'text-left d25', key: i },
 	                        React.createElement(
-	                            "h1",
-	                            { className: "h1f dank-form-h2" },
+	                            'h1',
+	                            { className: 'h1f dank-form-h2' },
 	                            React.createElement(
-	                                "b",
+	                                'b',
 	                                null,
 	                                other.title
 	                            )
@@ -11769,42 +12079,42 @@ var App =
 	                        other.option.map(function (option) {
 	                            option = "" + option;
 	                            return React.createElement(
-	                                "div",
-	                                { className: "dank-checkbox-inOneLine", key: option },
-	                                this.props.others[i].chosen.indexOf(option) > 0 ? React.createElement("input", { type: "checkbox", name: i, value: option, defaultChecked: true }) : React.createElement("input", { type: "checkbox", name: i, value: option }),
+	                                'div',
+	                                { className: 'dank-checkbox-inOneLine', key: option },
+	                                this.props.others[i].chosen.indexOf(option) > 0 ? React.createElement('input', { type: 'checkbox', name: i, value: option, defaultChecked: true }) : React.createElement('input', { type: 'checkbox', name: i, value: option }),
 	                                React.createElement(
-	                                    "label",
+	                                    'label',
 	                                    null,
-	                                    " ",
+	                                    ' ',
 	                                    option,
-	                                    " "
+	                                    ' '
 	                                )
 	                            );
 	                        }.bind(this)),
 	                        other.free ? React.createElement(
-	                            "div",
-	                            { className: "dank-form-group-inline" },
+	                            'div',
+	                            { className: 'dank-form-group-inline' },
 	                            React.createElement(
-	                                "label",
-	                                { className: "dank-label dank-select-label" },
-	                                "其他"
+	                                'label',
+	                                { className: 'dank-label dank-select-label' },
+	                                '其他'
 	                            ),
-	                            React.createElement("input", { type: "text", name: i, defaultValue: this.state.others[i].chosen[0], onBlur: function (event) {
+	                            React.createElement('input', { type: 'text', name: i, defaultValue: this.state.others[i].chosen[0], onBlur: function (event) {
 	                                    this.otherComponentUpdater(event, -1);
-	                                }.bind(this), className: "dank-form-input dank-select-input" })
+	                                }.bind(this), className: 'dank-form-input dank-select-input' })
 	                        ) : null
 	                    );
 	                    break;
 	                case 'single-choose':
 	                    //单选暂不实现可自填的功能
 	                    return React.createElement(
-	                        "div",
-	                        { className: "text-left d25", key: i },
+	                        'div',
+	                        { className: 'text-left d25', key: i },
 	                        React.createElement(
-	                            "h1",
-	                            { className: "h1f dank-form-h2" },
+	                            'h1',
+	                            { className: 'h1f dank-form-h2' },
 	                            React.createElement(
-	                                "b",
+	                                'b',
 	                                null,
 	                                other.title
 	                            )
@@ -11812,15 +12122,15 @@ var App =
 	                        other.option.map(function (option) {
 	                            option = "" + option;
 	                            return React.createElement(
-	                                "div",
-	                                { className: "dank-radio-inOneLine", key: option },
-	                                this.props.others[i].chosen == option ? React.createElement("input", { type: "radio", name: i, value: option, defaultChecked: true }) : React.createElement("input", { type: "radio", name: i, value: option }),
+	                                'div',
+	                                { className: 'dank-radio-inOneLine', key: option },
+	                                this.props.others[i].chosen == option ? React.createElement('input', { type: 'radio', name: i, value: option, defaultChecked: true }) : React.createElement('input', { type: 'radio', name: i, value: option }),
 	                                React.createElement(
-	                                    "label",
+	                                    'label',
 	                                    null,
-	                                    " ",
+	                                    ' ',
 	                                    option,
-	                                    " "
+	                                    ' '
 	                                )
 	                            );
 	                        }.bind(this))
@@ -11837,15 +12147,15 @@ var App =
 	            }
 	        }.bind(this));
 	        return React.createElement(
-	            "div",
+	            'div',
 	            { style: bordStyle },
 	            React.createElement(
-	                "h1",
-	                { className: "h1a" },
+	                'h1',
+	                { className: 'h1a' },
 	                React.createElement(
-	                    "b",
+	                    'b',
 	                    null,
-	                    "其他问题"
+	                    '其他问题'
 	                )
 	            ),
 	            otherNodes
@@ -12181,10 +12491,10 @@ var App =
 	                                    this.state.pagesNumber[3]
 	                                ) : null
 	                            ),
-	                            this.state.page == this.state.pagesNumber[0] ? React.createElement(Baseinfo, { ref: 'baseinfo', data: this.state.baseinfo, dataRecall: this.dataRecall }) : null,
-	                            this.state.page == this.state.pagesNumber[1] ? React.createElement(Person, { ref: 'person', introduction: this.state.introduction, skills: this.state.skills, schema: this.state.event.formschema, dataRecall: this.dataRecall }) : null,
-	                            this.state.page == this.state.pagesNumber[2] ? React.createElement(Wish, { ref: 'wish', wish: this.state.wish, reason: this.state.reason, schema: this.state.event.formschema, dataRecall: this.dataRecall }) : null,
-	                            this.state.page == this.state.pagesNumber[3] ? React.createElement(Others, { ref: 'others', others: this.state.others, schema: this.state.event.formschema, dataRecall: this.dataRecall }) : null,
+	                            this.state.page == this.state.pagesNumber[0] && this.state.pagesState[0] ? React.createElement(Baseinfo, { ref: 'baseinfo', data: this.state.baseinfo, dataRecall: this.dataRecall }) : null,
+	                            this.state.page == this.state.pagesNumber[1] && this.state.pagesState[1] ? React.createElement(Person, { ref: 'person', introduction: this.state.introduction, skills: this.state.skills, schema: this.state.event.formschema, dataRecall: this.dataRecall }) : null,
+	                            this.state.page == this.state.pagesNumber[2] && this.state.pagesState[2] ? React.createElement(Wish, { ref: 'wish', wish: this.state.wish, reason: this.state.reason, schema: this.state.event.formschema, dataRecall: this.dataRecall }) : null,
+	                            this.state.page == this.state.pagesNumber[3] && this.state.pagesState[3] ? React.createElement(Others, { ref: 'others', others: this.state.others, schema: this.state.event.formschema, dataRecall: this.dataRecall }) : null,
 	                            React.createElement(
 	                                'div',
 	                                { style: buttonGroupStyle },
@@ -12659,7 +12969,7 @@ var App =
 	                        )
 	                    ),
 	                    skillNodes,
-	                    React.createElement(
+	                    this.props.schema.skills.free ? React.createElement(
 	                        'div',
 	                        { className: 'dank-form-group-inline' },
 	                        React.createElement(
@@ -12668,7 +12978,7 @@ var App =
 	                            '其他'
 	                        ),
 	                        React.createElement('input', { type: 'text', defaultValue: this.props.skills.chosen[0], onBlur: this.otherCheck, className: 'dank-form-input dank-select-input' })
-	                    )
+	                    ) : null
 	                )
 	            ),
 	            this.props.schema.introduction.delete ? null : React.createElement(

@@ -62,10 +62,12 @@ render((
             <Route path="info/change" component={infoChange} />
         </Route>
         <Route path="/back" component={back}>
-            <Route path="formmanage" component={formManager}/>
-            <Route path="addevent" component={addEvent}/>
-            <IndexRedirect to="formmanage" />
-            <Route path="formmanage" component={formManager} />
+            <IndexRedirect to="manage" />
+            <Route path="manage">
+                <IndexRedirect to="form" />
+                <Route path="form" component={formManager} />
+                <Route path="add" component={addEvent}/>
+            </Route>
             <Route path="dispatcher">
                 <IndexRedirect to="time" />
                 <Route path="time" component={time} />

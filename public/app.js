@@ -6325,12 +6325,12 @@ var App =
 	                React.createElement("img", { src: "./img/logo.png", style: leftItemPosition, alt: "logo", className: "logo" }),
 	                React.createElement(
 	                    "a",
-	                    { className: "dank-button-header", style: leftItemPosition, href: "#" },
+	                    { className: "dank-button-header", style: leftItemPosition, onClick: null },
 	                    "首页"
 	                ),
 	                React.createElement(
 	                    "a",
-	                    { className: "dank-button-header", style: leftItemPosition, href: "#" },
+	                    { className: "dank-button-header", style: leftItemPosition, onClick: null },
 	                    "社团目录"
 	                )
 	            ),
@@ -7431,6 +7431,7 @@ var App =
 	            }.bind(this),
 	            error: function (xhr, status, err) {
 	                console.error("ajax请求发起失败");
+	                alert(data.msg);
 	            }.bind(this)
 	        });
 	    },
@@ -8662,6 +8663,7 @@ var App =
 	            }.bind(this),
 	            error: function (xhr, status, err) {
 	                console.error("ajax请求发起失败");
+	                alert(data.msg);
 	            }.bind(this)
 	        });
 	    },

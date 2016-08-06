@@ -117,6 +117,7 @@ exports.signup = (req, res, next) => {
     }
 }
 
+//logout
 exports.logout = (req, res, next) => {
     req.session.org = null;
     res.json({

@@ -18,6 +18,9 @@ module.exports = require('express').Router()
     //user signup
     .post('/user/signup', user.signup)
 
+    //user logout
+    .get('/user/logout', user.logout)
+
     //get user profile
     .get('/user/profile',grantUser)
     .get('/user/profile',user.getProfile)

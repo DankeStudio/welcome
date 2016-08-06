@@ -2,7 +2,39 @@ var React = require('react');
 var Component = React.Component;
 
 module.exports = React.createClass({
-   render: function(){
+    getInitialState: function(){
+        return{
+            name:''
+        }
+    },
+    logout: function(){
+        $.ajax({
+            url: "/user/logout",
+            contentType: 'application/json',
+            type: 'GET',
+            success: function(data) {
+                window.location.href = '/#/sign/in';
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error("ajax请求发起失败");
+            }.bind(this)
+        });
+    },
+    componentDidMount: function(){
+        $.ajax({
+            url: "/user/session",
+            contentType: 'application/json',
+            type: 'GET',
+            success: function(data) {
+                var name = (data.body.user.baseinfo.name)?data.body.user.baseinfo.name:data.body.user.username;
+                this.setState({name : name});
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error("ajax请求发起失败");
+            }.bind(this)
+        });
+    },
+    render: function(){
        var leftPosition = {
            float: "left"
        };
@@ -43,14 +75,14 @@ module.exports = React.createClass({
                     <big style={titleStyle} >WELCOME</big>
                 </div>
                 <div style={leftPosition2}>
-                    <a className="dank-button-header" style={leftItemPosition} href="#">首页</a>
-                    <a className="dank-button-header" style={leftItemPosition} href="#">社团目录</a>
+                    <a className="dank-button-header" style={leftItemPosition} onClick={null}>首页</a>
+                    <a className="dank-button-header" style={leftItemPosition} onClick={null}>社团目录</a>
                 </div>
                 <div style={rightPosition}>
-                    <a className="dank-a" href="#" style={rightItemPosition}>Hi,XXX</a>
-                    <a className="dank-a" href="#" style={rightItemPosition}>我的报名</a>|
+                    <small className="dank-small" style={rightItemPosition}>Hi,{this.state.name}</small>
+                    <a className="dank-a" onClick={null} style={rightItemPosition}>我的报名</a>|
                     <a className="dank-a" href="/#/person/info" style={rightItemPosition}>个人资料</a>|
-                    <a className="dank-a" href="#" style={rightItemPosition}>注销</a>
+                    <a className="dank-a" onClick={this.logout} style={rightItemPosition}>注销</a>
                 </div>
            </div>
        )

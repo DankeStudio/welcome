@@ -7074,7 +7074,7 @@ var App =
 	        };
 
 	        return React.createElement(
-	            "form",
+	            "div",
 	            { id: "orgSignin", className: "dank-box-2 center-block", style: formStyle },
 	            React.createElement(
 	                "div",
@@ -7394,14 +7394,46 @@ var App =
 /* 75 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	var React = __webpack_require__(1);
 	var Component = React.Component;
 
 	module.exports = React.createClass({
-	    displayName: "exports",
+	    displayName: 'exports',
 
+	    getInitialState: function getInitialState() {
+	        return {
+	            name: ''
+	        };
+	    },
+	    logout: function logout() {
+	        $.ajax({
+	            url: "/user/logout",
+	            contentType: 'application/json',
+	            type: 'GET',
+	            success: function (data) {
+	                window.location.href = '/#/sign/in';
+	            }.bind(this),
+	            error: function (xhr, status, err) {
+	                console.error("ajax请求发起失败");
+	            }.bind(this)
+	        });
+	    },
+	    componentDidMount: function componentDidMount() {
+	        $.ajax({
+	            url: "/user/session",
+	            contentType: 'application/json',
+	            type: 'GET',
+	            success: function (data) {
+	                var name = data.body.user.baseinfo.name ? data.body.user.baseinfo.name : data.body.user.username;
+	                this.setState({ name: name });
+	            }.bind(this),
+	            error: function (xhr, status, err) {
+	                console.error("ajax请求发起失败");
+	            }.bind(this)
+	        });
+	    },
 	    render: function render() {
 	        var leftPosition = {
 	            float: "left"
@@ -7438,55 +7470,56 @@ var App =
 	            marginRight: "40px"
 	        };
 	        return React.createElement(
-	            "div",
-	            { className: "dank-header" },
+	            'div',
+	            { className: 'dank-header' },
 	            React.createElement(
-	                "div",
+	                'div',
 	                { style: leftPosition },
 	                React.createElement(
-	                    "big",
+	                    'big',
 	                    { style: titleStyle },
-	                    "WELCOME"
+	                    'WELCOME'
 	                )
 	            ),
 	            React.createElement(
-	                "div",
+	                'div',
 	                { style: leftPosition2 },
 	                React.createElement(
-	                    "a",
-	                    { className: "dank-button-header", style: leftItemPosition, href: "#" },
-	                    "首页"
+	                    'a',
+	                    { className: 'dank-button-header', style: leftItemPosition, onClick: null },
+	                    '首页'
 	                ),
 	                React.createElement(
-	                    "a",
-	                    { className: "dank-button-header", style: leftItemPosition, href: "#" },
-	                    "社团目录"
+	                    'a',
+	                    { className: 'dank-button-header', style: leftItemPosition, onClick: null },
+	                    '社团目录'
 	                )
 	            ),
 	            React.createElement(
-	                "div",
+	                'div',
 	                { style: rightPosition },
 	                React.createElement(
-	                    "a",
-	                    { className: "dank-a", href: "#", style: rightItemPosition },
-	                    "Hi,XXX"
+	                    'small',
+	                    { className: 'dank-small', style: rightItemPosition },
+	                    'Hi,',
+	                    this.state.name
 	                ),
 	                React.createElement(
-	                    "a",
-	                    { className: "dank-a", href: "#", style: rightItemPosition },
-	                    "我的报名"
+	                    'a',
+	                    { className: 'dank-a', onClick: null, style: rightItemPosition },
+	                    '我的报名'
 	                ),
-	                "|",
+	                '|',
 	                React.createElement(
-	                    "a",
-	                    { className: "dank-a", href: "/#/person/info", style: rightItemPosition },
-	                    "个人资料"
+	                    'a',
+	                    { className: 'dank-a', href: '/#/person/info', style: rightItemPosition },
+	                    '个人资料'
 	                ),
-	                "|",
+	                '|',
 	                React.createElement(
-	                    "a",
-	                    { className: "dank-a", href: "#", style: rightItemPosition },
-	                    "注销"
+	                    'a',
+	                    { className: 'dank-a', onClick: this.logout, style: rightItemPosition },
+	                    '注销'
 	                )
 	            )
 	        );

@@ -4,7 +4,10 @@
 var Interview = require('../db/interview');
 var Form = require('../db/form');
 
+//使用orgID判断调用者合法性
+
 exports.create = (req, res, next) => {
+	var orgID = req.session.org._id;
 	var eventID = Number(req.body.eventID);
 	var department = req.body.department;
 	var round = Number(req.body.round);
@@ -18,6 +21,7 @@ exports.create = (req, res, next) => {
 	// 如果不是一轮面试，继承通过上一次面试的面试者
 	if (round > 1) {
 		Interview.findOne({
+				orgID: orgID,
 				eventID: eventID,
 				department: department,
 				round: round
@@ -81,7 +85,7 @@ exports.create = (req, res, next) => {
 				for (form of forms) {
 					interviewers.push({
 						telnumber: form.baseinfo.telnumber,
-						name:form.baseinfo.name,
+						name: form.baseinfo.name,
 						state: '未面试'
 					})
 				}
@@ -112,6 +116,7 @@ exports.create = (req, res, next) => {
 }
 
 exports.delete = (req, res, next) => {
+	var orgID = req.session.orgID;
 	var eventID = Number(req.body.eventID);
 	var department = req.body.department;
 	var round = Number(req.body.round);
@@ -125,6 +130,7 @@ exports.delete = (req, res, next) => {
 	}
 
 	query = Interview.remove({
+		orgID: orgID,
 		eventID: eventID,
 		department: department,
 		round: round,
@@ -156,6 +162,7 @@ exports.delete = (req, res, next) => {
 }
 
 exports.get = (req, res, next) => {
+	var orgID = req.session.orgID;
 	var eventID = Number(req.query.eventID);
 	var department = req.query.department;
 	var round = Number(req.query.round);
@@ -168,6 +175,7 @@ exports.get = (req, res, next) => {
 		})
 	}
 	query = Interview.find({
+		orgID: orgID,
 		eventID: eventID
 	});
 	if (department) {
@@ -199,6 +207,7 @@ exports.get = (req, res, next) => {
 }
 
 exports.createArrangement = (req, res, next) => {
+	var orgID = req.session.orgID;
 	var interviewID = req.body.interviewID;
 	var arrangement = req.body.arrangement;
 	//console.log(req.body);
@@ -210,7 +219,8 @@ exports.createArrangement = (req, res, next) => {
 		})
 	}
 	Interview.findOneAndUpdate({
-			_id: interviewID
+			_id: interviewID,
+			orgID: orgID
 		}, {
 			$addToSet: {
 				arrangement: arrangement
@@ -246,6 +256,7 @@ exports.createArrangement = (req, res, next) => {
 }
 
 exports.deleteArrangement = (req, res, next) => {
+	var orgID = req.session.orgID;
 	var interviewID = req.body.interviewID;
 	var arrangementID = req.body.arrangementID;
 	if (!interviewID || !arrangementID) {
@@ -256,7 +267,8 @@ exports.deleteArrangement = (req, res, next) => {
 		})
 	}
 	Interview.findOneAndUpdate({
-			_id: interviewID
+			_id: interviewID,
+			orgID: orgID
 		}, {
 			$pull: {
 				arrangement: {
@@ -294,6 +306,7 @@ exports.deleteArrangement = (req, res, next) => {
 }
 
 exports.interviewerUpdate = (req, res, next) => {
+	var orgID = req.session.orgID;
 	var interviewID = req.body.interviewID;
 	var interviewers = req.body.interviewers;
 	if (!interviewID) {
@@ -303,7 +316,10 @@ exports.interviewerUpdate = (req, res, next) => {
 			body: {}
 		})
 	}
-	Interview.findById(interviewID)
+	Interview.findOne({
+			_id: interviewID,
+			orgID: orgID
+		})
 		.then((interview) => {
 			var oldInterviewers = interview.interviewer;
 			if (interview) {
@@ -338,7 +354,7 @@ exports.interviewerUpdate = (req, res, next) => {
 		.catch((err) => {
 			if (err.code < 0) {
 				res.json(err);
-			} else { 
+			} else {
 				//console.log(err);
 				res.json({
 					code: 1,
@@ -350,6 +366,7 @@ exports.interviewerUpdate = (req, res, next) => {
 }
 
 exports.interviewerDelete = (req, res, next) => {
+	var orgID = req.session.orgID;
 	var interviewID = req.body.interviewID;
 	var telnumber = req.body.telnumber;
 	if (!interviewID) {
@@ -360,7 +377,8 @@ exports.interviewerDelete = (req, res, next) => {
 		})
 	}
 	Interview.findOneAndUpdate({
-			_id: interviewID
+			_id: interviewID,
+			orgID: orgID
 		}, {
 			$pull: {
 				interview: {
@@ -377,9 +395,9 @@ exports.interviewerDelete = (req, res, next) => {
 		})
 		.catch((err) => {
 			res.json({
-				code:1,
-				msg:'数据库未知错误',
-				body:{}
+				code: 1,
+				msg: '数据库未知错误',
+				body: {}
 			})
 		})
 

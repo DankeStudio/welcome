@@ -11,7 +11,7 @@ module.exports = React.createClass({
                         <big className="dank-slider-active"><i className="fa fa-user" aria-hidden="true"></i><b> 个人信息</b></big>
                     </div>
                     <div>
-                        <a href="#"><i className="fa fa-file-text" aria-hidden="true"></i><b> 我的报名</b></a>
+                        <a onClick={null}><i className="fa fa-file-text" aria-hidden="true"></i><b> 我的报名</b></a>
                     </div>
                 </div>
                 <div className="dank-slider-right">
@@ -51,7 +51,23 @@ var InfoBox = React.createClass({
                 switch(data.code){
                     case 0:
                         if(this.isMounted()){
-                            this.setState({data:data.body.user});
+                            this.setState({
+                                _id :data.body.user._id,
+                                username:data.body.user.username,
+                                address: data.body.user.baseinfo.address,
+                                birth: data.body.user.baseinfo.birth,
+                                email: data.body.user.baseinfo.email,
+                                name: data.body.user.baseinfo.name,
+                                nation: data.body.user.baseinfo.nation,
+                                origin: data.body.user.baseinfo.origin,
+                                politicalStatus: data.body.user.baseinfo.politicalStatus,
+                                qq: data.body.user.baseinfo.qq,
+                                schoolID: data.body.user.baseinfo.schoolID,
+                                sex: data.body.user.baseinfo.sex,
+                                telnumber: data.body.user.baseinfo.telnumber,
+                                telshort: data.body.user.baseinfo.telshort,
+                                major: data.body.user.baseinfo.major
+                            });
                         }
                         break;
                     default:

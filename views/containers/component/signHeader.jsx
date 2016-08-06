@@ -28,8 +28,8 @@ module.exports = React.createClass({
             <div className="dank-header">
                 <div style={leftPosition}>
                     <img src="./img/logo.png" style={leftItemPosition} alt="logo" className="logo"/>
-                    <a className="dank-button-header" style={leftItemPosition} href="#">首页</a>
-                    <a className="dank-button-header" style={leftItemPosition} href="#">社团目录</a>
+                    <a className="dank-button-header" style={leftItemPosition} onClick={null}>首页</a>
+                    <a className="dank-button-header" style={leftItemPosition} onClick={null}>社团目录</a>
                 </div>
                 <div style={rightPosition}>
                     <a href="#/orgsign/in" className="dank-a" style={rightItemPosition}>社团入口</a>

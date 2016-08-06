@@ -1,3 +1,5 @@
 .idea
 node_modules
 public/app.js
+.vscode
+public/stylesheets/main.css

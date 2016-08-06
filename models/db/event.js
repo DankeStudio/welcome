@@ -20,7 +20,6 @@ module.exports = mongoose.model('event', new Schema({
         introduction: {
             delete:Boolean,
             title: String,
-            content: String,
             require: Boolean
         },
         wish: {

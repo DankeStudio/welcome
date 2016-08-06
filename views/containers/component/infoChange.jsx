@@ -11,7 +11,7 @@ module.exports = React.createClass({
                         <big className="dank-slider-active"><i className="fa fa-user" aria-hidden="true"></i><b> 个人信息</b></big>
                     </div>
                     <div>
-                        <a href="#"><i className="fa fa-file-text" aria-hidden="true"></i><b> 我的报名</b></a>
+                        <a onClick={null}><i className="fa fa-file-text" aria-hidden="true"></i><b> 我的报名</b></a>
                     </div>
                 </div>
                 <div className="dank-slider-right">
@@ -140,7 +140,7 @@ var InfoBox = React.createClass({
                                     <div className="col-md-8 col-md-offset-1 text-left">
                                         <div className="btn-group btn-group-lg d3">
                                             <a className="btn dank-a5" onClick={this.submitHandler}><b className="b1">保存</b></a>
-                                            <a className="btn dank-a6" href="#"href="#"><b className="b1">从教务网导入</b></a>
+                                            <a className="btn dank-a6" data-toggle="modal" data-target="#syncprofile"><b className="b1">从教务网导入</b></a>
                                         </div>
                                     </div>
                                     <div className="col-md-1 col-md-offset-1 text-right">

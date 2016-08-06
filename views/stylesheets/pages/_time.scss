@@ -1,0 +1,116 @@
+/* 面试调度 - 场次安排 - 选择栏*/
+/* 待重构 */
+#interview-select-panel, #interview-status-panel {
+    margin: 40px 20px;
+    background-color: #fff; 
+    border-radius: 8px;
+    border: none;
+}
+
+#interview-select-panel .panel-title{
+    padding: 0 90px 0 30px;
+    text-align: center;
+    font-size:36px;
+    color:#345062;
+}
+
+#interview-select-panel .panel-body {
+    padding: 0 90px 0 30px;
+}
+
+#interview-select-panel .dropdown {
+    width: 100%;
+}
+
+#interview-select-panel .thumbnail {
+    padding: 20px 30px;
+    border-width: 2px;
+    color: #000;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#interview-select-panel .thumbnail:hover {
+    border-color: #000;
+}
+
+/* 面试调度 - 场次安排 - 信息填空*/
+#interview-info {
+    position: relative;
+    margin: 40px 0;
+    padding: 50px 30px;
+    border-radius: 8px;
+    min-height: 365px;
+    background-color: #f57a6c;
+}
+
+#interview-info .col-md-6 {
+    text-align: center;
+}
+
+.interview-date {
+    float: left;
+    padding-top: 9px;
+    border-radius: 8px;
+    width: 120px;
+    height: 45px;
+    background-color: #93ccd4;
+    color: #fff;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    z-index: 1;
+    cursor: pointer;
+    transition: 0.2s ease-in;
+
+    &.active {
+        background-color: $main-theme-pink;
+        transition: 0.2s ease-in;
+    }
+}
+
+#add-date {
+    margin-left: 0;
+    left: 120px;
+    background-color: #fc9999;
+    color: #345062;
+    z-index: 0;
+}
+
+#add-interview-card {
+    border: none;
+}
+
+#add-interview-card i {
+    position: absolute;
+    padding: 15px 20px;
+    border: 2px solid;
+    border-radius: 4px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    cursor: pointer;
+}
+
+#gen-btn, #cancle-btn {
+    position: absolute;
+    right: -85px;
+    bottom: 50px;
+    width: 80px;
+    background-color: #345062;
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#cancle-btn {
+    bottom: 0;
+}
+
+.date-fun {
+    position: absolute;
+    top: -20px;
+    left: 0;
+}

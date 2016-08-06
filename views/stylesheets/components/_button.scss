@@ -1,0 +1,17 @@
+.btn {
+    border: 2px solid #345062;
+    border-radius: 8px;
+    background-color: #fff;
+    color: #345062;
+    -webkit-transition: 0.2s ease-in-out;
+    -moz-transition: 0.2s ease-in-out;
+    transition: 0.2s ease-in-out;
+
+    &:hover, &.active {
+        background-color: #345062;
+        color: #fff;
+        -webkit-transition: 0.2s ease-in-out;
+        -moz-transition: 0.2s ease-in-out;
+        transition: 0.2s ease-in-out;
+    }
+}

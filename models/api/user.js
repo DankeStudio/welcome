@@ -240,6 +240,16 @@ exports.syncProfile = (req, res, next) => {
         })
 }
 
+//logout
+exports.logout = (req, res, next) => {
+    req.session.user = null;
+    res.json({
+        code: 0,
+        msg:'ok',
+        body:{}
+    });
+}
+
 //从会话中获取用户信息
 exports.getUserInSession = (req, res, next) => {
     res.json({

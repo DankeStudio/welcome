@@ -99,31 +99,52 @@ $.ajax({
     url: "/form/design",
     contentType: 'application/json',
     type: 'POST',
-    data: JSON.stringify({
-        name: "蛋壳工作室纳新",
-        formschema: {
-            skills: {
+    data:JSON.stringify({
+        name:"蛋壳工作室纳新",
+        formschema:{
+            skills:{
                 delete: false,
                 title: "技能/特长",
                 max: null,
                 option: ["nodejs", "react", "产品设计", "用户调研", "UI设计", "文案"],
                 free: true
             },
-            introduction: {
-                delete: true
+            introduction:{
+                delete: false,
+                title:'个人履历',
+                required:true
             },
-            wish: {
+            wish:{
                 delete: false,
                 title: "部门选择",
                 max: 2,
                 option: ["产品", "设计", "前端", "后端", "运营"],
                 free: false
             },
-            others: [{
+            others:[{
                 type: "single-text",
                 title: "说出你的梦想",
                 required: true
-            }]
+            },
+                {
+                    type: "multi-text",
+                    title: "说出你的梦想",
+                    required: true
+                },
+                {
+                    type: "multi-choose",
+                    title: "你有几个女朋友",
+                    max: null,
+                    option: [0,1,2,3,4,5,6,7,8,9,10],
+                    free: true
+                },
+                {
+                    type: "single-choose",
+                    title: "你有几个女朋友",
+                    max: null,
+                    option: [0,1,2,3,4,5,6,7,8,9,10],
+                    free: true
+                }]
         }
     }),
     success: function(data) {

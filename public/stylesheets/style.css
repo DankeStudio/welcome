@@ -6,9 +6,7 @@ body {
   zoom:0.73;
   height: 100%;
   padding:0px;
-  font-family: SimHei, STXihei, "Microsoft YaHei", "Hiragino Sans GB", "STHeiti Light";
   font-size:20px;
-
 }
 
 #content {
@@ -115,7 +113,6 @@ body {
 }
 
 .dank-a {
-  font-family:SimHei, STXihei, "Microsoft YaHei", "Hiragino Sans GB", "STHeiti Light";
   font-size:20px;
   color:#ffffff;
 }
@@ -127,16 +124,18 @@ body {
 .dank-a:hover {
   text-decoration: underline;
   color:#ffffff;
-}
-
-a {
-  font-family: SimHei, STXihei, "Microsoft YaHei", "Hiragino Sans GB", "STHeiti Light";
+  cursor: pointer;
 }
 
 .dank-small {
-  font-family:SimHei, STXihei, "Microsoft YaHei", "Hiragino Sans GB", "STHeiti Light";
   font-size:20px;
   color:#ffffff;
+}
+
+.dank-small:hover {
+  font-size:20px;
+  color:#ffffff;
+  text-decoration: none;
 }
 
 .dank-form-group{
@@ -376,16 +375,270 @@ a {
   padding-left: 24px;
 }
 
+.dank-time-line{
+  display: inline-block;
+  background-image: url("../img/line.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 6px 100%;
+  float: left;
+  margin-left: 50px;
+  margin-top: 60px;
+}
+
+.dank-time-node-active{
+  width: 44px;
+  height: 44px;
+  display: block;
+  border-radius: 100%;
+  font-weight: bold;
+  line-height: 44px;
+  text-align: center;
+  background-color: #355163;
+  color: #FFFFFF;
+  font-size: 29px;
+
+}
+
+.dank-time-node{
+  width: 44px;
+  height: 44px;
+  display: block;
+  border-radius: 100%;
+  font-weight: bold;
+  line-height: 44px;
+  text-align: center;
+  background-color: #FFFFFF;
+  font-size: 29px;
+
+}
+
+.dank-time-node:hover{
+  background-color: #355163;
+  color: #FFFFFF;
+  cursor: pointer;
+}
+
+.dank-button-2 {
+  background:#345062;
+  border:2px solid #345062;
+  border-radius:8px;
+  width:94px;
+  height:40px;
+  margin:28px 0;
+  display: block;
+  color: #FFFFFF;
+  line-height: 40px;
+  font-size:20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.dank-button-2:hover {
+  color: #FFFFFF;
+  text-decoration: none;
+  cursor: pointer;
+  background-color: #7396ae;
+}
+
+.dank-form-h2{
+  margin-bottom: 20px;
+}
+
+.dank-form-table{
+  font-size: 18px;
+  color: #FFFFFF;
+  display: inline-block;
+  margin: auto;
+}
+
+.dank-form-table>tbody>tr{
+  height:56px;
+}
 
 
 
+.dank-checkbox-inline{
+  color: #FFFFFF;
+  display: inline-block;
+  margin-right: 20px;
+  margin-left: 15px;
+}
 
+.dank-checkbox-inOneLine{
+  color: #FFFFFF;
+  margin-bottom: 20px;
+  display: inline-block;
+  margin-right: 20px;
+}
 
+.dank-radio-inOneLine{
+  color: #FFFFFF;
+  margin-bottom: 20px;
+  display: inline-block;
+  margin-right: 20px;
+}
 
+.dank-form-input{
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-left:10px;
+  margin-right: 10px;
+  background-color: transparent;
+  border-color:#FFFFFF;
+  border-style:solid;
+  border-top-width:0px;
+  border-right-width:0px;
+  border-bottom-width:1px;
+  border-left-width:0px;
+  color:#FFFFFF;
+  outline:medium;
+  width: 150px;
+}
 
+.dank-label{
+  font-size:20px;
+  color:#ffffff;
+  font-weight: normal;
+}
 
+.dank-select-label{
+  font-size:16px;
+  color:#ffffff;
+  font-weight: normal;
+}
+
+.dank-form-group-inline{
+  display: inline-block;
+}
+
+.dank-select-input{
+  width: 130px;
+}
+
+.dank-form-single-text{
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-left:10px;
+  margin-right: 10px;
+  background-color: transparent;
+  border-color:#FFFFFF;
+  border-style:solid;
+  border-top-width:0px;
+  border-right-width:0px;
+  border-bottom-width:1px;
+  border-left-width:0px;
+  color:#FFFFFF;
+  outline:medium;
+  width: 100%;
+}
+
+.dank-library-component{
+  line-height: 50px;
+  margin: 20px auto;
+  border:1px solid #ffffff;
+  width:244px;
+  height:50px;
+  text-align: center;
+  color: #FFFFFF;
+  font-size: 20px;
+}
+
+.dank-library-component-forbidden{
+  line-height: 50px;
+  margin: 20px auto;
+  border:1px solid #dadada;
+  width:244px;
+  height:50px;
+  text-align: center;
+  color: #dadada;
+  font-size: 20px;
+  background-color: #6b8291;
+  cursor: not-allowed;
+}
+
+.dank-form-title-input{
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-left:10px;
+  margin-right: 10px;
+  background-color: transparent;
+  border-color:#FFFFFF;
+  border-style:solid;
+  border-top-width:0px;
+  border-right-width:0px;
+  border-bottom-width:1px;
+  border-left-width:0px;
+  color:#FFFFFF;
+  outline:medium;
+  width: 758px;
+  text-align: center;
+}
+
+.dank-schema-label{
+  color: #ffffff;
+  font-size: 20px;
+  margin-bottom: 10px;
+  margin-top:10px;
+}
+
+.dank-schema-option-group{
+  text-align: right;
+  margin: 10px auto;
+}
+
+.dank-schema-option{
+  margin: auto 10px;
+  color: #FFFFFF;
+}
+
+.dank-schema-form-group-inline{
+  margin-right: 40px;
+}
+
+.dank-schema-form-group-short{
+  width:135px;
+}
+
+.dank-schema-input{
+  background-color: inherit;
+  margin-top:5px;
+  margin-bottom:5px;
+  width:100%;
+  padding:5px;
+  color: #FFFFFF;
+  border:2px solid #e8e9ed;
+  border-radius:6px;
+  height:32px;
+}
+
+.dank-schema-component{
+  border:1px solid #ffffff;
+}
 
 /*补充temp.css的内容*/
+.dank-library-file-input{
+  width: 65px;
+  height: 25px;
+  background-color: #FFFFFF;
+  border:none;
+  border-radius: 10px;
+  outline:medium;
+  padding: 0;
+  margin: auto -15px auto auto;
+}
+
+.dank-library-file-span{
+  width: 65px;
+  height: 25px;
+  background-color: transparent;
+  border-style:solid;
+  border-color:#FFFFFF;
+  border-width: 2px;
+  border-radius: 10px;
+  padding: 0;
+  color: #FFFFFF;;
+}
 
 .dank-a14{
   margin: 10px;
@@ -416,14 +669,14 @@ a {
 
 .dank-t1{
   font-size: 24px;
-  color: #434751;
+  color: #676c77;
   margin: 15px 40px;
   text-align: left;
   width: 100%;
 }
 
-.dank-t1>tr{
-  height: 44px;
+.dank-t1>tbody>tr{
+  height: 60px;
 }
 
 .td-title {

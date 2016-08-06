@@ -18,6 +18,9 @@ module.exports = require('express').Router()
     //user signup
     .post('/user/signup', user.signup)
 
+    //user logout
+    .get('/user/logout', user.logout)
+
     //get user profile
     .get('/user/profile',grantUser)
     .get('/user/profile',user.getProfile)
@@ -39,12 +42,18 @@ module.exports = require('express').Router()
     //organization signup
     .post('/org/signup', org.signup)
 
+    //organization logout
+    .get('/org/logout', org.logout)
+
     //get org info in session
     .get('/org/session',org.getOrgInSession)
 
     //get form
     .get('/form',grantOrg)
     .get('/form',form.getForm)
+
+     //get form to write
+    .get('/form/id', event.getEventByID)
 
     //form submit
     //若未登录，由前端先发起注册请求，然后再发起提交请求

@@ -7,22 +7,7 @@ var Component = React.Component;
 module.exports = React.createClass({
     render: function(){
         return(
-            <div>
-                <div className="dank-slider-org">
-                    <div>
-                        <big className="dank-slider-active"><i className="fa fa-file-text" aria-hidden="true"/><b>报名表管理</b></big>
-                    </div>
-                    <div>
-                        <a href="#"><i className="fa fa-commenting" aria-hidden="true"/><b> 消息通知</b></a>
-                    </div>
-                    <div>
-                        <a href="#"><i className="fa fa-trash" aria-hidden="true"/><b> 回收站</b></a>
-                    </div>
-                </div>
-                <div className="dank-slider-right">
-                    <Content/>
-                </div>
-            </div>
+            <Content/>
         )
     }
 });
@@ -35,6 +20,17 @@ var Content = React.createClass({
             events:[{eventID : '', name : '', ym:''}]
         }
     },
+    bottomUp: function(array){
+        var stack = [];
+        var result = [];
+        for(var i=0; i<array.length; i++){
+            stack.push(array[i]);
+        }
+        for(var j=0; j<array.length; j++){
+            result.push(stack.pop());
+        }
+        return result;
+    },
     componentDidMount: function(){
         $.ajax({
             url: "/event",
@@ -44,9 +40,10 @@ var Content = React.createClass({
                 switch(data.code){
                     case 0:
                         if(this.isMounted()){
-                            this.setState({events:data.body.events});
+                            var events = this.bottomUp(data.body.events);
+                            this.setState({events:events});
                             if(this.state.initial){
-                                this.setState({nowEventID:data.body.events[0].eventID, initial:0});
+                                this.setState({nowEventID:events[0].eventID, initial:0});
                             }
                         }
                         break;
@@ -67,12 +64,12 @@ var Content = React.createClass({
         return(
             <div className="container-fluid">
                 <div className="row">
-                    <div className="col-md-3 c4">
-                        <div className="c5">
+                    <div className="col-md-4 col-sm-4">
+                        <div className="event">
                             <Event eventID={this.state.nowEventID} events={this.state.events} eventChange={this.eventChange}/>
                         </div>
                     </div>
-                    <div className="col-md-9 c4">
+                    <div className="col-md-8 col-sm-8">
                         {(this.state.nowEventID!='')?<Form eventID={this.state.nowEventID}/>:null}
                     </div>
                 </div>
@@ -100,16 +97,18 @@ var Event = React.createClass({
                         <table className="center-block">
                             <tbody>
                             <tr>
-                                <td><div className="text-center">
-                                    <div className="dank-d4">
-                                        <b>{eventItem.ym}</b>
+                                <td>
+                                    <div className="text-center">
+                                        <div className="dank-d4">
+                                          {eventItem.ym}
+                                        </div>
                                     </div>
-                                </div></td>
-                                <td><div className="text-left">
-                                    <div>
-                                        <h1 className="dank-temp-h1">{eventItem.name}</h1>
+                                </td>
+                                <td>
+                                    <div className="text-left">
+                                        {eventItem.name}
                                     </div>
-                                </div></td>
+                                </td>
                             </tr>
                             </tbody>
                         </table>
@@ -122,14 +121,20 @@ var Event = React.createClass({
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-md-12 text-left">
-                        <big className="big11" href="#"><b>纳新事项</b></big>
+                        <div className="panel-title" href="#">
+                            纳新事项
+                        </div>
                     </div>
                 </div>
+
                 <div className="row">
                     <div className="col-md-12 text-left">
-                        <a className="btn dank-temp-a12" href="#"><b>新增事项</b></a>
+                        <a className="btn panel-btn" href="#/back/manage/add">
+                            新增事项
+                        </a>
                     </div>
                 </div>
+
                 {eventNodes}
             </div>
         )
@@ -499,14 +504,14 @@ var List = React.createClass({
 
     componentDidMount: function(){
         $.ajax({
-            url: "/org/form",
+            url: "/form",
             contentType: 'application/json',
             type: 'GET',
             data: {
                 eventID: this.props.eventID,
                 order: this.state.order,
                 page: this.state.page,
-                wish: this.state.wish
+                wish: (this.state.wish=='全部部门')?null:this.state.wish
             },
             success: function(data) {
                 console.log(data);
@@ -532,14 +537,14 @@ var List = React.createClass({
         this.setState({page:1});
 
         $.ajax({
-            url: "/org/form",
+            url: "/form",
             contentType: 'application/json',
             type: 'GET',
             data: {
                 eventID: nextProps.eventID,
                 order: this.state.order,
                 page: this.state.page,
-                wish: this.state.wish
+                wish: (this.state.wish=='全部部门')?null:this.state.wish
             },
             success: function(data) {
                 console.log(data);

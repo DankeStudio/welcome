@@ -24,7 +24,15 @@ var info = require('./containers/component/info.jsx');
 var infoChange = require('./containers/component/infoChange.jsx');
 
 var back = require('./containers/back.jsx');
+//var dispatcher;
+var time = require('./containers/component/dispatcher/time.jsx');
+var status = require('./containers/component/dispatcher/status.jsx');
+var message = require('./containers/component/dispatcher/message.jsx');
+var trashbin;
 var formManager = require('./containers/component/formManage.jsx');
+var addEvent = require('./containers/component/addEvent.jsx');
+
+var form = require('./containers/form.jsx');
 
 var Root = React.createClass({
    render: function(){
@@ -54,7 +62,20 @@ render((
             <Route path="info/change" component={infoChange} />
         </Route>
         <Route path="/back" component={back}>
-            <Route path="formmanage" component={formManager}/>
+            <IndexRedirect to="manage" />
+            <Route path="manage">
+                <IndexRedirect to="form" />
+                <Route path="form" component={formManager} />
+                <Route path="add" component={addEvent}/>
+            </Route>
+            <Route path="dispatcher">
+                <IndexRedirect to="time" />
+                <Route path="time" component={time} />
+                <Route path="status" component={status} />
+                <Route path="message" component={message} />
+            </Route>
+            <Route path="transhbin" />
         </Route>
+        <Route path="/form/:id" component={form}/>
     </Router>
 ), document.getElementById('content'));

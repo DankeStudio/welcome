@@ -26,7 +26,7 @@ module.exports = React.createClass({
             contentType: 'application/json',
             type: 'GET',
             success: function(data) {
-                var name = (data.body.user.baseinfo.name)?data.body.user.baseinfo.name:data.body.user.username;
+                var name = (data.body.user.baseinfo && data.body.user.baseinfo.name)?data.body.user.baseinfo.name:data.body.user.username;
                 this.setState({name : name});
             }.bind(this),
             error: function(xhr, status, err) {

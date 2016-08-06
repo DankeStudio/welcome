@@ -185,28 +185,56 @@ var Content = React.createClass({
                         </div>
                     </div>
                 </div>
-                <div style={libraryStyle}>
-                    <div className="d14">
-                        <div className="d15">
-                            <h1 className="h1b"><b>报名表组件</b></h1>
+                {
+                    (this.state.page==this.state.pagesNumber[3]&&this.state.pagesState[3])?
+                        <div style={libraryStyle}>
+                            <div className="d14">
+                                <div className="d15">
+                                    <h1 className="h1b"><b>报名表组件</b></h1>
+                                </div>
+                                <div className="dank-library-component" onClick={function(){this.refs.others.componentAdd('single-text')}.bind(this)}>
+                                    单行文本框
+                                </div>
+                                <div className="dank-library-component" onClick={function(){this.refs.others.componentAdd('multi-text')}.bind(this)}>
+                                    多行文本框
+                                </div>
+                                <div className="dank-library-component" onClick={function(){this.refs.others.componentAdd('single-choose')}.bind(this)}>
+                                    单选组件
+                                </div>
+                                <div className="dank-library-component" onClick={function(){this.refs.others.componentAdd('multi-choose')}.bind(this)}>
+                                    多选组件
+                                </div>
+                                <div className="dank-library-component" onClick={function(){this.refs.others.componentAdd('file')}.bind(this)}>
+                                    上传文件
+                                </div>
+                            </div>
                         </div>
-                        <div className="dank-library-component" onClick={function(){this.refs.others.componentAdd('single-text')}.bind(this)}>
-                            单行文本框
+                        :
+                        <div style={libraryStyle}>
+                            <div className="d14">
+                                <div className="d15">
+                                    <h1 className="h1b"><b>报名表组件</b></h1>
+                                    <h2 className="h2b"><b>仅在最后一页可用</b></h2>
+                                </div>
+                                <div className="dank-library-component-forbidden">
+                                    单行文本框
+                                </div>
+                                <div className="dank-library-component-forbidden">
+                                    多行文本框
+                                </div>
+                                <div className="dank-library-component-forbidden">
+                                    单选组件
+                                </div>
+                                <div className="dank-library-component-forbidden">
+                                    多选组件
+                                </div>
+                                <div className="dank-library-component-forbidden">
+                                    上传文件
+                                </div>
+                            </div>
                         </div>
-                        <div className="dank-library-component" onClick={function(){this.refs.others.componentAdd('multi-text')}.bind(this)}>
-                            多行文本框
-                        </div>
-                        <div className="dank-library-component" onClick={function(){this.refs.others.componentAdd('single-choose')}.bind(this)}>
-                            单选组件
-                        </div>
-                        <div className="dank-library-component" onClick={function(){this.refs.others.componentAdd('multi-choose')}.bind(this)}>
-                            多选组件
-                        </div>
-                        <div className="dank-library-component" onClick={function(){this.refs.others.componentAdd('file')}.bind(this)}>
-                            上传文件
-                        </div>
-                    </div>
-                </div>
+                }
+
             </div>
             
         )

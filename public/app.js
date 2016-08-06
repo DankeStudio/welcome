@@ -7426,7 +7426,7 @@ var App =
 	            contentType: 'application/json',
 	            type: 'GET',
 	            success: function (data) {
-	                var name = data.body.user.baseinfo.name ? data.body.user.baseinfo.name : data.body.user.username;
+	                var name = data.body.user.baseinfo && data.body.user.baseinfo.name ? data.body.user.baseinfo.name : data.body.user.username;
 	                this.setState({ name: name });
 	            }.bind(this),
 	            error: function (xhr, status, err) {
@@ -11014,7 +11014,7 @@ var App =
 	                    )
 	                )
 	            ),
-	            React.createElement(
+	            this.state.page == this.state.pagesNumber[3] && this.state.pagesState[3] ? React.createElement(
 	                'div',
 	                { style: libraryStyle },
 	                React.createElement(
@@ -11066,6 +11066,60 @@ var App =
 	                        { className: 'dank-library-component', onClick: function () {
 	                                this.refs.others.componentAdd('file');
 	                            }.bind(this) },
+	                        '上传文件'
+	                    )
+	                )
+	            ) : React.createElement(
+	                'div',
+	                { style: libraryStyle },
+	                React.createElement(
+	                    'div',
+	                    { className: 'd14' },
+	                    React.createElement(
+	                        'div',
+	                        { className: 'd15' },
+	                        React.createElement(
+	                            'h1',
+	                            { className: 'h1b' },
+	                            React.createElement(
+	                                'b',
+	                                null,
+	                                '报名表组件'
+	                            )
+	                        ),
+	                        React.createElement(
+	                            'h2',
+	                            { className: 'h2b' },
+	                            React.createElement(
+	                                'b',
+	                                null,
+	                                '仅在最后一页可用'
+	                            )
+	                        )
+	                    ),
+	                    React.createElement(
+	                        'div',
+	                        { className: 'dank-library-component-forbidden' },
+	                        '单行文本框'
+	                    ),
+	                    React.createElement(
+	                        'div',
+	                        { className: 'dank-library-component-forbidden' },
+	                        '多行文本框'
+	                    ),
+	                    React.createElement(
+	                        'div',
+	                        { className: 'dank-library-component-forbidden' },
+	                        '单选组件'
+	                    ),
+	                    React.createElement(
+	                        'div',
+	                        { className: 'dank-library-component-forbidden' },
+	                        '多选组件'
+	                    ),
+	                    React.createElement(
+	                        'div',
+	                        { className: 'dank-library-component-forbidden' },
 	                        '上传文件'
 	                    )
 	                )
@@ -12687,7 +12741,7 @@ var App =
 	            browserinfo: '',
 	            baseinfo: {
 	                name: '',
-	                sex: '',
+	                sex: '男',
 	                origin: '',
 	                nation: '',
 	                schoolID: '',
@@ -13023,6 +13077,9 @@ var App =
 	    },
 	    componentDidMount: function componentDidMount() {
 	        window.iCheck();
+	        $("input[type='radio']").on('ifChecked', function (event) {
+	            this.handleChange(event);
+	        }.bind(this));
 	    },
 
 	    handleChange: function handleChange(event) {
@@ -13115,7 +13172,7 @@ var App =
 	                                    React.createElement(
 	                                        'label',
 	                                        { className: 'dank-checkbox-inline' },
-	                                        React.createElement('input', { type: 'radio', name: 'sex', value: '男' }),
+	                                        React.createElement('input', { type: 'radio', name: 'sex', value: '男', defaultChecked: true }),
 	                                        React.createElement(
 	                                            'b',
 	                                            null,

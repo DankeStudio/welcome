@@ -32,7 +32,7 @@ var Content = React.createClass({
             browserinfo: '',
             baseinfo:{
                 name:'',
-                sex: '',
+                sex: '男',
                 origin:'',
                 nation:'',
                 schoolID:'',
@@ -316,6 +316,9 @@ var Baseinfo = React.createClass({
     },
     componentDidMount: function(){
         window.iCheck();
+        $("input[type='radio']").on('ifChecked', function(event){
+            this.handleChange(event);
+        }.bind(this));
     },
 
     handleChange: function(event){
@@ -369,7 +372,7 @@ var Baseinfo = React.createClass({
                         <td className="form-group">姓　　名</td><td><input value={this.state.name} onChange={this.handleChange} name="name" className="dank-form-input" type="text"/></td>
                         <td>性　　别</td><td>
                             <label className="dank-checkbox-inline">
-                                <input type="radio" name="sex" value="男"/><b> 男</b>
+                                <input type="radio" name="sex" value="男" defaultChecked/><b> 男</b>
                             </label>
                             <label className="dank-checkbox-inline">
                                 <input type="radio" name="sex" value="女"/><b> 女</b>

@@ -544,6 +544,19 @@ body {
   font-size: 20px;
 }
 
+.dank-library-component-forbidden{
+  line-height: 50px;
+  margin: 20px auto;
+  border:1px solid #dadada;
+  width:244px;
+  height:50px;
+  text-align: center;
+  color: #dadada;
+  font-size: 20px;
+  background-color: #6b8291;
+  cursor: not-allowed;
+}
+
 .dank-form-title-input{
   padding-left: 5px;
   padding-right: 5px;

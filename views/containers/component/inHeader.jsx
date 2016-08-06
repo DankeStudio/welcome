@@ -31,6 +31,7 @@ module.exports = React.createClass({
             }.bind(this),
             error: function(xhr, status, err) {
                 console.error("ajax请求发起失败");
+                alert(data.msg);
             }.bind(this)
         });
     },

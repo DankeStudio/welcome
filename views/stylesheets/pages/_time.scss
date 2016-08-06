@@ -51,13 +51,11 @@
 }
 
 .interview-date {
-    position: absolute;
+    float: left;
     padding-top: 9px;
     border-radius: 8px;
     width: 120px;
     height: 45px;
-    top: -35px;
-    left: 0;
     background-color: #93ccd4;
     color: #fff;
     text-align: center;
@@ -65,10 +63,16 @@
     font-weight: bold;
     z-index: 1;
     cursor: pointer;
+    transition: 0.2s ease-in;
+
+    &.active {
+        background-color: $main-theme-pink;
+        transition: 0.2s ease-in;
+    }
 }
 
 #add-date {
-    margin-left: -15px;
+    margin-left: 0;
     left: 120px;
     background-color: #fc9999;
     color: #345062;
@@ -87,6 +91,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
+    cursor: pointer;
 }
 
 #gen-btn, #cancle-btn {
@@ -102,4 +107,10 @@
 
 #cancle-btn {
     bottom: 0;
+}
+
+.date-fun {
+    position: absolute;
+    top: -20px;
+    left: 0;
 }

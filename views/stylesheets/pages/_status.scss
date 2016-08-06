@@ -46,6 +46,7 @@
 #add-interview {
     color: #fff;
     font-weight: bold;
+    cursor: pointer;
 }
 
 #add-interview i {
@@ -88,4 +89,14 @@
 #interview-status-panel .dp-body label {
     padding: 10px;
     font-size: 16px;
+}
+
+#interview-status {
+    .interview-date.active {
+        background-color: $main-theme-dark;
+    }
+
+    .panel-body {
+        display: none;
+    }
 }

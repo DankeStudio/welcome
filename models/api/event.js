@@ -6,6 +6,97 @@ var Form = require('../db/form');
 var Org = require('../db/org');
 var date = require('../support/date');
 
+exports.create = (req, res, next) => {
+	var event = req.body.event;
+	var orgID = event.orgID = req.session.org._id;
+	var eventRet;
+	//console.log(event);
+	if (!event) {
+		res.json({
+			code: -1,
+			msg: '报名表有误',
+			body: {}
+		});
+	} else {
+		//将event存入数据库中
+		Event.create(event)
+			//按照部门创建面试
+			.then((event) => {
+				var promises = [];
+				var option = event.wish.option;
+				eventRet = event;
+				for (department of option) {
+					promises.push(Interview.create({
+						orgID: orgID,
+						eventID: eventID,
+						department: department,
+						round: 0
+					}));
+				}
+				return Promise.all(promises);
+			})
+			.then((interviews) => {
+				res.json({
+					code: 0,
+					msg: 'ok',
+					body: {
+						interviews: interviews,
+						event: eventRet
+					}
+				})
+			})
+			.catch((err) => {
+				res.json({
+					code: 1,
+					msg: '数据库未知错误'，
+					body: {}
+				});
+
+			})
+
+		/*Org.findOne({
+		    _id:req.session.organization._id
+		}, function(err, organization){
+		    if(err){
+		        res.json({
+		            code:-1,
+		            msg:'查找社团时数据库错误' + err,
+		            body:{}
+		        });
+		    }
+		    else{
+		        if(!organization){
+		            res.json({
+		                code:-2,
+		                msg:'将事项添加入社团时用户查无此号',
+		                body:{}
+		            });
+		        }
+		        else{
+		            organization.events.push(event);
+		            organization.save(function(err){
+		                if(err){
+		                    res.json({
+		                        code: -1,
+		                        msg: '将事项添加入社团时数据库出错' + err,
+		                        body: {}
+		                    });
+		                }
+		                else{
+		                    res.json({
+		                        code: 0,
+		                        msg: '添加事项成功!',
+		                        body: {}
+		                    });
+		                }
+		            });
+		        }
+		    }
+		});*/
+	}
+}
+
+
 exports.getEvent = (req, res, next) => {
 	var username = req.session.org.username;
 	Org.findOne({
@@ -70,10 +161,10 @@ exports.getRecentCount = (req, res, next) => {
 			for (var i = 0; i < dates.length; i++) {
 				counts[i] = 0;
 			}
-			for(form of forms){
+			for (form of forms) {
 				var index;
-				index=date.indexOfDate(form.date,dates);
-				if(index>=0){
+				index = date.indexOfDate(form.date, dates);
+				if (index >= 0) {
 					counts[index]++;
 				}
 			}

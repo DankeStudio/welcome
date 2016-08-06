@@ -18,8 +18,8 @@ exports.create = (req, res, next) => {
 			body: {}
 		})
 	}
-	// 如果不是一轮面试，继承通过上一次面试的面试者
-	if (round > 1) {
+	// 如果不是表刷，继承通过上一次面试的面试者
+	if (round > 0) {
 		Interview.findOne({
 				orgID: orgID,
 				eventID: eventID,
@@ -46,7 +46,7 @@ exports.create = (req, res, next) => {
 					})
 				} else {
 					throw {
-						code: -1,
+						code: -2,
 						msg: '上一次面试不存在',
 						body: {}
 					}
@@ -69,7 +69,14 @@ exports.create = (req, res, next) => {
 				});
 			});
 
+	} else {
+		res.json({
+			code:-3,
+			msg:'面试轮数错误',
+			body:{}
+		})
 	}
+	/*
 	// 如果是一轮面试，从申请表中继承面试者
 	else {
 		var wish = [department];
@@ -113,10 +120,11 @@ exports.create = (req, res, next) => {
 				});
 			});
 	}
+	*/
 }
 
 exports.delete = (req, res, next) => {
-	var orgID = req.session.orgID;
+	var orgID = req.session.org._id;
 	var eventID = Number(req.body.eventID);
 	var department = req.body.department;
 	var round = Number(req.body.round);
@@ -162,7 +170,7 @@ exports.delete = (req, res, next) => {
 }
 
 exports.get = (req, res, next) => {
-	var orgID = req.session.orgID;
+	var orgID = req.session.org._id;
 	var eventID = Number(req.query.eventID);
 	var department = req.query.department;
 	var round = Number(req.query.round);
@@ -207,7 +215,7 @@ exports.get = (req, res, next) => {
 }
 
 exports.createArrangement = (req, res, next) => {
-	var orgID = req.session.orgID;
+	var orgID = req.session.org._id;
 	var interviewID = req.body.interviewID;
 	var arrangement = req.body.arrangement;
 	//console.log(req.body);
@@ -256,7 +264,7 @@ exports.createArrangement = (req, res, next) => {
 }
 
 exports.deleteArrangement = (req, res, next) => {
-	var orgID = req.session.orgID;
+	var orgID = req.session.org._id;
 	var interviewID = req.body.interviewID;
 	var arrangementID = req.body.arrangementID;
 	if (!interviewID || !arrangementID) {
@@ -306,7 +314,7 @@ exports.deleteArrangement = (req, res, next) => {
 }
 
 exports.interviewerUpdate = (req, res, next) => {
-	var orgID = req.session.orgID;
+	var orgID = req.session.org._id;
 	var interviewID = req.body.interviewID;
 	var interviewers = req.body.interviewers;
 	if (!interviewID) {
@@ -366,7 +374,7 @@ exports.interviewerUpdate = (req, res, next) => {
 }
 
 exports.interviewerDelete = (req, res, next) => {
-	var orgID = req.session.orgID;
+	var orgID = req.session.org._id;
 	var interviewID = req.body.interviewID;
 	var telnumber = req.body.telnumber;
 	if (!interviewID) {

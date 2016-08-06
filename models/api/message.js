@@ -5,6 +5,7 @@
 var Message = require('../db/message');
 exports.create = (req,res,next)=>{
 	var message = req.body.message;
+	message.orgID = req.session.org._id;
 	Message.create(message)
 	.then((message)=>{
 		res.json({

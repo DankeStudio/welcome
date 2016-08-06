@@ -11,7 +11,7 @@ module.exports = React.createClass({
                         <big className="dank-slider-active"><i className="fa fa-user" aria-hidden="true"></i><b> 个人信息</b></big>
                     </div>
                     <div>
-                        <a href="#"><i className="fa fa-file-text" aria-hidden="true"></i><b> 我的报名</b></a>
+                        <a onClick={null}><i className="fa fa-file-text" aria-hidden="true"></i><b> 我的报名</b></a>
                     </div>
                 </div>
                 <div className="dank-slider-right">

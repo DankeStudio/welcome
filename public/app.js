@@ -7568,7 +7568,7 @@ var App =
 	                    null,
 	                    React.createElement(
 	                        "a",
-	                        { href: "#" },
+	                        { onClick: null },
 	                        React.createElement("i", { className: "fa fa-file-text", "aria-hidden": "true" }),
 	                        React.createElement(
 	                            "b",
@@ -8033,7 +8033,7 @@ var App =
 	                    null,
 	                    React.createElement(
 	                        "a",
-	                        { href: "#" },
+	                        { onClick: null },
 	                        React.createElement("i", { className: "fa fa-file-text", "aria-hidden": "true" }),
 	                        React.createElement(
 	                            "b",
@@ -8197,7 +8197,7 @@ var App =
 	                                        ),
 	                                        React.createElement(
 	                                            "a",
-	                                            _defineProperty({ className: "btn dank-a6", href: "#" }, "href", "#"),
+	                                            { className: "btn dank-a6", "data-toggle": "modal", "data-target": "#syncprofile" },
 	                                            React.createElement(
 	                                                "b",
 	                                                { className: "b1" },

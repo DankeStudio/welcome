@@ -62,18 +62,23 @@ exports.create = (req, res, next) => {
 				});
 			})
 			.catch((err) => {
-				res.json({
-					code: 1,
-					msg: '数据库未知错误',
-					body: {}
-				});
+				//console.log(err);
+				if (err.code < 0) {
+					res.json(err);
+				} else {
+					res.json({
+						code: 1,
+						msg: '数据库未知错误',
+						body: {}
+					});
+				}
 			});
 
 	} else {
 		res.json({
-			code:-3,
-			msg:'面试轮数错误',
-			body:{}
+			code: -3,
+			msg: '面试轮数错误',
+			body: {}
 		})
 	}
 	/*
@@ -174,6 +179,7 @@ exports.get = (req, res, next) => {
 	var eventID = Number(req.query.eventID);
 	var department = req.query.department;
 	var round = Number(req.query.round);
+	var isNew = Number(req.query.new);
 	var query;
 	if (!eventID) {
 		return res.json({
@@ -191,10 +197,15 @@ exports.get = (req, res, next) => {
 			department: department
 		});
 	}
-	if (round) {
+	if (round >= 0) {
 		query = query.where({
 			round: round
 		});
+	}
+	if (isNew > 0) {
+		query = query.sort({
+			round: -1
+		}).limit(1);
 	}
 	query.then((interviews) => {
 			res.json({

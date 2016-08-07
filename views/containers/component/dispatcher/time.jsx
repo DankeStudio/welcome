@@ -9,16 +9,7 @@ module.exports = React.createClass({
             departments: [],
             selectedEvent: {},
             selectedDep: '',
-            arrangements: [{"duration": 90,
-                            "startTime": new Date(2016, 9, 16, 10, 0),
-                            "place": "学校", 
-                            "interval": 10,
-                            "total": 10},
-                            {"duration": 120,
-                            "startTime": new Date(2016, 8, 4, 10, 0),
-                            "place": "家里", 
-                            "interval": 10,
-                            "total": 10}]
+            arrangements: []
         }
     },
     componentDidMount: function(){
@@ -160,17 +151,19 @@ var DepartDropdown = React.createClass({
 
 var Interviews = React.createClass({
     getInitialState: function() {
-        var tmp = (this.props.data.map((data) => data.startTime))
-                  .sort((a,b) => new Date(a.date) - new Date(b.date));
+        //var tmp = (this.props.data.map((data) => data.startTime))
+        //          .sort((a,b) => new Date(a.date) - new Date(b.date));
         return {
-            selectedDate: tmp[0] ? tmp[0] : new Date(),
-            days: tmp[0] ? tmp : [new Date()],
-            arrangements: this.props.data,
-            initial: this.props.data,
-            initialDays: []
+            selectedDate: new Date(),
+            days: [new Date()],
+            arrangements: [],
+            initial: [],
+            initialDays: [],
+            addDay: false
         }
     },
     componentDidMount: function() {
+        /*
         var tmp = this.state.days;
         var unique = [tmp[0]];
         for (var i = 0; i < tmp.length-1; i++) {
@@ -179,22 +172,25 @@ var Interviews = React.createClass({
             }
         }
         this.setState({days: unique, initialDays: unique});
+        */
     },
     changeDay: function(date) {
         this.setState({selectedDate: date});
     },
     isActive: function(data) {
-        return ((data.getMonth() == this.state.selectedDate.getMonth() &&
-               data.getDate() == this.state.selectedDate.getDate()) ? ' active' : '');
+        if (this.state.selectedDate)
+            return ((data.getMonth() == this.state.selectedDate.getMonth() &&
+                data.getDate() == this.state.selectedDate.getDate()) ? ' active' : '');
+        else return '';
     },
-    addDay: function(date) {
-        var tmp = this.state.days.length;
-        var last = this.state.days[tmp-1];
-        var newDate = new Date();
-        newDate.setMonth(last.getMonth());
-        newDate.setDate(last.getDate()+1);
-        this.setState({days: this.state.days.concat([newDate]),
-                       selectedDate: newDate});
+    addDay: function(e) {
+        var str = e.target.value;
+        var date = new Date();
+        date.setMonth(str.split('-')[1]);
+        date.setDate(str.split('-')[2]);
+        this.setState({days: this.state.days.concat([date]),
+                       selectedDate: date,
+                       addDay: false});
     },
     addCard: function() {
         var selected = this.state.selectedDate;
@@ -227,6 +223,9 @@ var Interviews = React.createClass({
         change[i][name] = e.target.value;
         this.setState({arrangements: change});
     },
+    handleClick: function() {
+        this.setState({addDay: true});
+    },
     render: function() {
         return (
             <div className="container-fluid" id="interview-info">
@@ -237,7 +236,8 @@ var Interviews = React.createClass({
                             {data.getMonth()+'月'+data.getDate()+'日'}
                         </div>
                     )}
-                    <div className="interview-date" id="add-date" onClick={this.addDay}>添加日期</div>
+                    <input type="date" className={this.state.addDay ? 'active':''} required onChange={this.addDay}/>
+                    <div className="interview-date" id="add-date" onClick={this.handleClick}>添加日期</div>
                 </div>
 
                 <Cards items={this.state.arrangements} selectedDate={this.state.selectedDate} 

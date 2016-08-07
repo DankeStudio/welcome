@@ -12,6 +12,10 @@ var eventFilter = filter.eventFilter;
 
 exports.submit = (req, res, next) => {
 	var form = formFilter(req);
+	Form.create(form)
+		.then((form)=>{
+			
+		})
 	Form.create(form, function(err, form) {
 		if (err) {
 			res.json({

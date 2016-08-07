@@ -96,55 +96,55 @@ $.ajax({
 
 
 $.ajax({
-    url: "/form/design",
+    url: "/event/create",
     contentType: 'application/json',
     type: 'POST',
-    data:JSON.stringify({
-        name:"蛋壳工作室纳新",
-        formschema:{
-            skills:{
-                delete: false,
-                title: "技能/特长",
-                max: null,
-                option: ["nodejs", "react", "产品设计", "用户调研", "UI设计", "文案"],
-                free: true
-            },
-            introduction:{
-                delete: false,
-                title:'个人履历',
-                required:true
-            },
-            wish:{
-                delete: false,
-                title: "部门选择",
-                max: 2,
-                option: ["产品", "设计", "前端", "后端", "运营"],
-                free: false
-            },
-            others:[{
-                type: "single-text",
-                title: "说出你的梦想",
-                required: true
-            },
-                {
+    data: JSON.stringify({
+        event: {
+            name: "蛋壳工作室纳新",
+            eventID: 1,
+            formschema: {
+                skills: {
+                    delete: false,
+                    title: "技能/特长",
+                    max: null,
+                    option: ["nodejs", "react", "产品设计", "用户调研", "UI设计", "文案"],
+                    free: true
+                },
+                introduction: {
+                    delete: false,
+                    title: '个人履历',
+                    required: true
+                },
+                wish: {
+                    delete: false,
+                    title: "部门选择",
+                    max: 2,
+                    option: ["产品", "设计", "前端", "后端", "运营"],
+                    free: false
+                },
+                others: [{
+                    type: "single-text",
+                    title: "说出你的梦想",
+                    required: true
+                }, {
                     type: "multi-text",
                     title: "说出你的梦想",
                     required: true
-                },
-                {
+                }, {
                     type: "multi-choose",
                     title: "你有几个女朋友",
                     max: null,
-                    option: [0,1,2,3,4,5,6,7,8,9,10],
+                    option: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
                     free: true
-                },
-                {
+                }, {
                     type: "single-choose",
                     title: "你有几个女朋友",
                     max: null,
-                    option: [0,1,2,3,4,5,6,7,8,9,10],
+                    option: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
                     free: true
                 }]
+            }
         }
     }),
     success: function(data) {
@@ -163,7 +163,7 @@ $.ajax({
         eventID: 1,
         wish: {
             title: 'wish',
-            chosen: ['技术']
+            chosen: ['产品']
         },
         skills: ['PPT', 'node', 'react'],
         baseinfo: {
@@ -195,26 +195,32 @@ $.ajax({
     }.bind(this)
 });
 
-$.get('/form?name=吴昊潜&telnumber=17764519167&eventID=1&order=-1&page=1&wish=技术', function(data) {
+$.get('/form?name=吴昊潜&telnumber=17764519167&eventID=1&order=-1&page=1&wish=产品', function(data) {
     console.log(data);
 })
 
 $.post('/interview/create', {
     eventID: 1,
     round: 1,
-    department: '技术'
+    department: '产品'
 }, function(data) {
     console.log(data);
 })
 
-$.get('/interview?eventID=1&department=技术&round=1', function(data) {
+$.post('/event/delete', {
+    eventID: 1,
+}, function(data) {
+    console.log(data);
+})
+
+$.get('/interview?eventID=1&department=产品&round=1', function(data) {
     console.log(data);
 })
 
 $.post('/interview/delete', {
     eventID: 1,
     round: 1,
-    department: '技术'
+    department: '产品'
 }, function(data) {
     console.log(data);
 })
@@ -275,7 +281,7 @@ $.ajax({
     data: JSON.stringify({
         message: {
             orgID: '57965122455f5a582ffa823a',
-            department: '技术',
+            department: '产品',
             date: new Date(),
             telnumber: ['17764519167'],
             text: 'This is test message.',

@@ -21,7 +21,8 @@ module.exports = React.createClass({
                             "total": 10}],
             days: [new Date(2016, 8, 5)],
             interviews: [{},{}],
-            selectedDate: new Date(2016, 8, 5)
+            selectedDate: new Date(2016, 8, 5),
+            addDay: false
         }
     },
     componentDidMount: function(){
@@ -73,14 +74,14 @@ module.exports = React.createClass({
     changeDay: function(date) {
         this.setState({selectedDate: date});
     },
-    addDay: function(date) {
-        var tmp = this.state.days.length;
-        var last = this.state.days[tmp-1];
-        var newDate = new Date();
-        newDate.setMonth(last.getMonth());
-        newDate.setDate(last.getDate()+1);
-        this.setState({days: this.state.days.concat([newDate]),
-                       selectedDate: newDate});
+    addDay: function(e) {
+        var str = e.target.value;
+        var date = new Date();
+        date.setMonth(str.split('-')[1]);
+        date.setDate(str.split('-')[2]);
+        this.setState({days: this.state.days.concat([date]),
+                       selectedDate: date,
+                       addDay: false});
     },
     addArg: function() {
 
@@ -88,6 +89,9 @@ module.exports = React.createClass({
     isActive: function(data) {
         return ((data.getMonth() == this.state.selectedDate.getMonth() &&
                data.getDate() == this.state.selectedDate.getDate()) ? ' active' : '');
+    },
+    handleClick: function() {
+        this.setState({addDay: true});
     },
     render: function(){
         return(
@@ -139,7 +143,8 @@ module.exports = React.createClass({
                                         {day.getMonth()+'月'+day.getDate()+'日'}
                                     </div>
                                 )}
-                                <div className="interview-date" id="add-date" onClick={this.addDay}>添加日期</div>
+                                <input type="date" className={this.state.addDay ? 'active':''} required onChange={this.addDay}/>
+                                <div className="interview-date" id="add-date" onClick={this.handleClick}>添加日期</div>
                             </div>
                             <div className="row">
                                 {this.state.interviews.map((interview, i) => 

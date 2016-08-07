@@ -114,3 +114,10 @@
     top: -20px;
     left: 0;
 }
+
+input[type='date'] {
+    display: none;
+    &.active {
+        display: inline;
+    }
+}

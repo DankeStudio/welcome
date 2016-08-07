@@ -48,7 +48,7 @@ exports.create = (req, res, next) => {
 			.catch((err) => {
 				res.json({
 					code: 1,
-					msg: '数据库未知错误'，
+					msg: '数据库未知错误',
 					body: {}
 				});
 

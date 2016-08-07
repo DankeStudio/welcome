@@ -63,7 +63,7 @@ module.exports = require('express').Router()
     //form design
     .post('/form/design', grantOrg)
     .post('/form/design', eventFilter)
-    .post('/form/design', form.design)
+    .post('/form/design', event.create)
 
     //get org events
     .get('/event',grantOrg)

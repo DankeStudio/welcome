@@ -17,7 +17,7 @@ var signupBox = require('./containers/component/signupBox.jsx');
 
 var orgSign = require('./containers/orgSign.jsx');
 var orgSigninBox = require('./containers/component/orgsigninBox.jsx');
-var orgSignupBox = require('./containers/component/orgsignupBox1.jsx');
+var orgSignupBox = require('./containers/component/orgsignupBox.jsx');
 
 var person = require('./containers/person.jsx');
 var info = require('./containers/component/info.jsx');

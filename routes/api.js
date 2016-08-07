@@ -70,12 +70,12 @@ module.exports = require('express').Router()
     .get('/event',event.getEvent)
 
     //create an event
-    .post('/event',grantOrg)
-    .post('/event',eventFilter)
+    .post('/event/create',grantOrg)
+    .post('/event/create',eventFilter)
     .post('/event/create',event.create)
 
     //delete an event and its interviews
-    .post('/event',grantOrg)
+    .post('/event/delete',grantOrg)
     .post('/event/delete',event.delete)
 
     //get event count data

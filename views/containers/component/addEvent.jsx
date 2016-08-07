@@ -53,10 +53,6 @@ var Content = React.createClass({
     },
 
     submit: function(){
-        if(this.refs.baseinfo)
-        {
-            this.refs.baseinfo.componentWillUnmount();
-        }
         if(this.refs.person)
         {
             this.refs.person.componentWillUnmount();
@@ -70,7 +66,7 @@ var Content = React.createClass({
             this.refs.others.componentWillUnmount();
         }
         $.ajax({
-            url: "form/design",
+            url: "event/create",
             contentType: 'application/json',
             type: 'POST',
             data: JSON.stringify({

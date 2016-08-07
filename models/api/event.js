@@ -3,6 +3,7 @@
  */
 var Event = require('../db/event');
 var Form = require('../db/form');
+var Interview = require('../db/interview');
 var Org = require('../db/org');
 var date = require('../support/date');
 
@@ -11,7 +12,7 @@ exports.create = (req, res, next) => {
 	var orgID = event.orgID = req.session.org._id;
 	var eventRet;
 	//console.log(event);
-	if (!event) {
+	if (!event || !event.eventID) {
 		res.json({
 			code: -1,
 			msg: '报名表有误',
@@ -22,13 +23,14 @@ exports.create = (req, res, next) => {
 		Event.create(event)
 			//按照部门创建面试
 			.then((event) => {
+				//console.log(event);
 				var promises = [];
-				var option = event.wish.option;
+				var option = event.formschema.wish.option;
 				eventRet = event;
 				for (department of option) {
 					promises.push(Interview.create({
 						orgID: orgID,
-						eventID: eventID,
+						eventID: event.eventID,
 						department: department,
 						round: 0
 					}));
@@ -46,11 +48,16 @@ exports.create = (req, res, next) => {
 				})
 			})
 			.catch((err) => {
-				res.json({
-					code: 1,
-					msg: '数据库未知错误',
-					body: {}
-				});
+				//console.log(err);
+				if (code.err < 0) {
+					res.json(err);
+				} else {
+					res.json({
+						code: 1,
+						msg: '数据库未知错误',
+						body: {}
+					});
+				}
 
 			})
 
@@ -96,66 +103,106 @@ exports.create = (req, res, next) => {
 	}
 }
 
-
+exports.delete = (req, res, next) => {
+	var eventID = req.body.eventID;
+	var orgID = req.session.org._id;
+	if (!eventID || !orgID) {
+		res.json({
+			code: -1,
+			msg: '缺少参数',
+			body: {}
+		})
+	}
+	Event.remove({
+			orgID: orgID,
+			eventID: eventID
+		})
+		.then(() => {
+			return Interview.remove({
+				orgID: orgID,
+				eventID: eventID
+			})
+		})
+		.then(() => {
+			res.json({
+				code: 0,
+				msg: 'ok',
+				body: {}
+			})
+		})
+		.catch((err) => {
+			if (err.code < 0) {
+				res.json(err);
+			} else {
+				res.json({
+					code: 1,
+					msg: '数据库未知错误',
+					body: {}
+				});
+			}
+		})
+}
 exports.getEvent = (req, res, next) => {
 	var username = req.session.org.username;
 	Org.findOne({
-		username: username
-	}).then((org) => {
-		if (!org) {
-			throw {
-				code: -1,
-				msg: '用户名不存在',
-				body: {}
-			}
-		} else {
-			return Event.find({
-				orgID: org._id
-			});
-		}
-	}).then((events) => {
-		var results = [];
-		for (event of events) {
-			results.push({
-				eventID: event.eventID,
-				name: event.name,
-				ym: `${event.date.getFullYear()}.${event.date.getMonth()}`
-			})
-		};
-		res.json({
-			code: 0,
-			msg: 'ok',
-			body: {
-				events: results
+			username: username
+		})
+		.then((org) => {
+			if (!org) {
+				throw {
+					code: -1,
+					msg: '用户名不存在',
+					body: {}
+				}
+			} else {
+				return Event.find({
+					orgID: org._id
+				});
 			}
 		})
-	}).catch((err) => {
-		if (err.code < 0) {
-			res.json(err);
-		} else {
+		.then((events) => {
+			var results = [];
+			for (event of events) {
+				results.push({
+					eventID: event.eventID,
+					name: event.name,
+					ym: `${event.date.getFullYear()}.${event.date.getMonth()}`
+				})
+			};
 			res.json({
-				code: -2,
-				msg: '数据库未知错误',
-				body: {}
-			});
-		}
-	})
+				code: 0,
+				msg: 'ok',
+				body: {
+					events: results
+				}
+			})
+		})
+		.catch((err) => {
+			if (err.code < 0) {
+				res.json(err);
+			} else {
+				res.json({
+					code: 1,
+					msg: '数据库未知错误',
+					body: {}
+				});
+			}
+		})
 }
 
 exports.getEventByID = (req, res, next) => {
 	var eventID = req.query.eventID;
-	console.log(eventID);
+	//console.log(eventID);
 	Event.findOne({
 		eventID: eventID
 	}).then((event) => {
-		if(!event){
+		if (!event) {
 			res.json({
 				code: -1,
 				msg: '报名事项不存在',
 				body: {}
 			})
-		}
-		else{
+		} else {
 			res.json({
 				code: 0,
 				msg: 'ok',
@@ -169,7 +216,7 @@ exports.getEventByID = (req, res, next) => {
 			res.json(err);
 		} else {
 			res.json({
-				code: -2,
+				code: 1,
 				msg: '数据库未知错误',
 				body: {}
 			});
@@ -219,7 +266,7 @@ exports.getRecentCount = (req, res, next) => {
 		})
 		.catch((err) => {
 			res.json({
-				code: -1,
+				code: 1,
 				msg: '数据库未知错误',
 				body: {}
 			})
@@ -288,7 +335,7 @@ exports.getAllCount = (req, res, next) => {
 				res.json(err);
 			} else {
 				res.json({
-					code: -2,
+					code: 1,
 					msg: '数据库未知错误',
 					body: {}
 				})

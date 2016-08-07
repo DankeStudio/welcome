@@ -25,7 +25,7 @@ module.exports = mongoose.model('user', new Schema({
         origin : String,
         nation : String,
         schoolID : String,
-        politicalStatus : {type:String,enum:['群众','共青团员','中共预备党员','中共党员']},
+        politicalStatus : String, //{type:String,enum:['群众','共青团员','中共预备党员','中共党员']},
         telnumber : String,
         telshort : String,
         email : String,

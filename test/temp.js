@@ -230,14 +230,14 @@ $.ajax({
     contentType: 'application/json',
     type: 'POST',
     data: JSON.stringify({
-        arrangement: {
+        arrangements: [{
             duration: 30 * 60 * 1000,
             startTime: new Date(),
             place: '小剧场',
             interval: 15 * 60 * 1000,
             total: 50
-        },
-        interviewID: "579e1cdbb115fe4441cb0ed8"
+        }],
+        interviewID: "57a6f5192901315060e87dbd"
     }),
     success: function(data) {
         console.log(data);

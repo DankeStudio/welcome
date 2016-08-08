@@ -229,7 +229,7 @@ exports.get = (req, res, next) => {
 exports.createArrangement = (req, res, next) => {
 	var orgID = req.session.org._id;
 	var interviewID = req.body.interviewID;
-	var arrangement = req.body.arrangement;
+	var arrangements = req.body.arrangements;
 	//console.log(req.body);
 	if (!interviewID) {
 		return res.json({
@@ -243,7 +243,9 @@ exports.createArrangement = (req, res, next) => {
 			orgID: orgID
 		}, {
 			$addToSet: {
-				arrangement: arrangement
+				arrangement: {
+					$each: arrangements
+				}
 			}
 		}, {
 			new: true
@@ -254,7 +256,7 @@ exports.createArrangement = (req, res, next) => {
 					code: 0,
 					msg: 'ok',
 					body: {
-						arrangement: interview.arrangement
+						interview: interview
 					}
 				});
 			} else {

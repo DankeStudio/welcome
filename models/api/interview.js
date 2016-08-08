@@ -24,7 +24,7 @@ exports.create = (req, res, next) => {
 				orgID: orgID,
 				eventID: eventID,
 				department: department,
-				round: round
+				round: round - 1
 			})
 			.then((interview) => {
 				var interviewers = [];

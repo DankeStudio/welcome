@@ -39,6 +39,7 @@ exports.create = (req, res, next) => {
 						}
 					}
 					return Interview.create({
+						orgID: orgID,
 						eventID: eventID,
 						department: department,
 						round: round,

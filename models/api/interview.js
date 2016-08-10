@@ -238,6 +238,7 @@ exports.createArrangement = (req, res, next) => {
 			body: {}
 		})
 	}
+
 	Interview.findOneAndUpdate({
 			_id: interviewID,
 			orgID: orgID
@@ -251,6 +252,38 @@ exports.createArrangement = (req, res, next) => {
 			new: true
 		})
 		.then((interview) => {
+			var interviewer = interview.interviewer;
+			var arrangements = interview.arrangement;
+			var i;
+			// 自动安排面试人员
+			if (interview) {
+				for (arrangement of arrangements) {
+					i = 0;
+					for (index in interviewer) {
+						if (i >= arrangement.total) {
+							break;
+						}
+						if (interviewer[index].arrangement) {
+							continue;
+						}
+						interviewer[index].arrangementID = arrangement._id;
+						i++;
+					}
+					// 如果全部面试者都已安排完成，跳出循环
+					if(!i){
+						break;
+					}
+				}
+				return interview.save();
+			} else {
+				throw {
+					code: -2,
+					msg: '更新安排后面试不存在',
+					body: {}
+				}
+			}
+		})
+		.then((interview) => {
 			if (interview) {
 				res.json({
 					code: 0,
@@ -261,8 +294,8 @@ exports.createArrangement = (req, res, next) => {
 				});
 			} else {
 				throw {
-					code: -2,
-					msg: '面试不存在',
+					code: -3,
+					msg: '自动安排面试人员后面试不存在',
 					body: {}
 				}
 			}

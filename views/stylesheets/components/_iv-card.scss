@@ -60,3 +60,22 @@
         cursor: pointer;
     }
 }
+
+input[type='date'] {
+    background-color: #fc9999;
+    border: none;
+    border-radius: 8px;
+    height: 45px;
+    margin-left: -15px;
+    &:focus {
+        outline: none;
+    }
+    &::-webkit-datetime-edit {  padding: 5px 15px; }
+    &::-webkit-datetime-edit-fields-wrapper { background: none; }
+    &::-webkit-datetime-edit-text { color: $main-theme-dark; padding: 0 5px; }
+    &::-webkit-datetime-edit-month-field { color: $main-theme-dark; }
+    &::-webkit-datetime-edit-day-field {color: $main-theme-dark; }
+    &::-webkit-datetime-edit-year-field { color: $main-theme-dark; }
+    &::-webkit-inner-spin-button { display: none; }
+    &::-webkit-calendar-picker-indicator { margin-right:10px; background: none; }
+}

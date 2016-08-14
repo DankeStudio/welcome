@@ -73,7 +73,6 @@ module.exports = React.createClass({
             success: function(data) {
                 switch(data.code){
                     case 0:
-                        console.log(data);
                         this.setState({round: data.body.interviews[0].round+1, infoComplete: true});
                         break;
                     default:
@@ -130,17 +129,23 @@ var Interviews = React.createClass({
             department: this.props.department,
             round: this.props.round,
             selectedDate: new Date(),
-            days: [new Date()],
+            days: [],
             arrangements: [],
             initial: [],
-            initialDays: [new Date()],
+            initialDays: [],
             addDay: false,
+            dateSelected: true
         }
     },
+    componentDidMount: function(){
+        var after7 = new Date(new Date().getTime() + 7*24*60*60*1000);
+        this.setState({
+            selectedDate: after7,
+            days: [after7]
+        })
+    },
     changeDay: function(date) {
-        this.setState({selectedDate: date});
-                console.log(this.state.arrangements);
-
+        this.setState({selectedDate: date, dateSelected: true});
     },
     isActive: function(data) {
         if (this.state.selectedDate)
@@ -151,7 +156,7 @@ var Interviews = React.createClass({
     addDay: function(e) {
         var str = e.target.value;
         var date = new Date();
-        date.setMonth(str.split('-')[1]);
+        date.setMonth(str.split('-')[1]-1);
         date.setDate(str.split('-')[2]);
         var days = this.state.days;
         if(days.findIndex((element) => 
@@ -159,9 +164,15 @@ var Interviews = React.createClass({
             days.push(date);
         this.setState({days: days,
                        selectedDate: date,
-                       addDay: false});
+                       addDay: false,
+                       dateSelected: true});
     },
     addCard: function() {
+        console.log(this.state);
+        if (!this.state.dateSelected) {
+            alert("请先选择日期");
+            return;
+        }
         var selected = this.state.selectedDate;
         var voidArg = {
             "duration": 0,
@@ -178,6 +189,21 @@ var Interviews = React.createClass({
             state.arrangements.splice(i, 1);
             return {arrangements: state.arrangements};
         });
+    },
+    deleteDate: function(i, e) {
+        var days = this.state.days;
+        var day = days[i];
+        days.splice(i, 1);
+        var args = this.state.arrangements;
+        args.forEach((arg, i) => {
+            if (arg.startTime.getMonth() == day.getMonth() && arg.startTime.getDate() == day.getDate())
+                args.splice(i, 1);
+        });
+        args = args || [];
+        this.setState({dateSelected: false, days: days, arrangements: args},
+            function(){
+                console.log(this.state.dateSelected);
+            });
     },
     postArgs: function() {
         console.log(this.state.event);
@@ -235,12 +261,13 @@ var Interviews = React.createClass({
                 <div className="date-fun">
                     {this.state.days.map((data, i) =>
                         <div className={"interview-date"+this.isActive(data)} 
-                             onClick={this.changeDay.bind(null, data)} key={i}>
-                            {data.getMonth()+'月'+data.getDate()+'日'}
+                             title={(data.getMonth()+1)+'月'+data.getDate()+'日'} key={i}>
+                            <p onClick={this.changeDay.bind(null, data)}>{(data.getMonth()+1)+'月'+data.getDate()+'日'}</p>
+                            <i className="fa fa-fw fa-close" onClick={this.deleteDate.bind(null, i)}></i>
                         </div>
                     )}
-                    <input type="date" className={this.state.addDay ? 'active':''} required onChange={this.addDay}/>
                     <div className="interview-date" id="add-date" onClick={this.handleClick}>添加日期</div>
+                    <input type="date" className={this.state.addDay ? 'active':''} required onChange={this.addDay}/>
                 </div>
 
                 <Cards items={this.state.arrangements} selectedDate={this.state.selectedDate} 
@@ -264,7 +291,7 @@ var Cards = React.createClass({
                     <div className="col-md-6" key={i}>
                         <div className="interview-card">
                             <div className="card-heading">
-                                <p>{arg.startTime.getMonth()+'月'+arg.startTime.getDate()+'日'}面试场次</p>
+                                <p>{(arg.startTime.getMonth()+1)+'月'+arg.startTime.getDate()+'日'}面试场次</p>
                                 <i className="fa fa-times" onClick={this.props.handleDelete.bind(null, i)} value={i}></i>
                             </div>
                             <label>面试地点<input type="text" name="place" value={arg.place} 

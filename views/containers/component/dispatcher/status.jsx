@@ -163,7 +163,7 @@ module.exports = React.createClass({
     addDay: function(e) {
         var str = e.target.value;
         var date = new Date();
-        date.setMonth(str.split('-')[1]);
+        date.setMonth(str.split('-')[1]-1);
         date.setDate(str.split('-')[2]);
         var days = this.state.days;
         if(days.findIndex((element) => 
@@ -204,13 +204,14 @@ module.exports = React.createClass({
                         <div className="container-fluid" id="interview-status">
                             <div className="date-fun">
                                 {this.state.days.map((day, i) =>
-                                    <div className={"interview-date"+this.isActive(day)} 
+                                    <div className={"interview-date"+this.isActive(day)}
+                                         title={(day.getMonth()+1)+'月'+day.getDate()+'日'}
                                          onClick={this.changeDay.bind(null, day)} key={i}>
-                                        {day.getMonth()+'月'+day.getDate()+'日'}
+                                        {(day.getMonth()+1)+'月'+day.getDate()+'日'}
                                     </div>
                                 )}
-                                <input type="date" className={this.state.addDay ? 'active':''} required onChange={this.addDay}/>
                                 <div className="interview-date" id="add-date" onClick={this.handleClick}>添加日期</div>
+                                <input type="date" className={this.state.addDay ? 'active':''} required onChange={this.addDay}/>
                             </div>
                             <div className="row">
                                 {this.state.interview.arrangement.map((arg, i) => {

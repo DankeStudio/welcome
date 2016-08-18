@@ -100,3 +100,46 @@
         display: none;
     }
 }
+
+.check-state {
+  position: relative;
+  display: inline-block;
+  background: #fff;
+  color: $main-theme-dark;
+  padding: 5px 18px;
+  width: 80%;
+  text-align: left;
+  label {
+    margin: 5px 0; 
+    border-left: 2px solid;
+    width: 40px;
+    height: 30px;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+    &:after {
+      content: '';
+      width: 28px;
+      height: 15px;
+      position: absolute;
+      top: 2px;
+      left: 4px;
+      border: 3px solid;
+      border-top: none;
+      border-right: none;
+      background: transparent;
+      opacity: 0;
+      transform: rotate(-45deg);
+    }
+    &:hover::after {
+      opacity: 0.3;
+    }
+  }
+  input[type=checkbox] {
+    visibility: hidden;
+    &:checked + label:after {
+      opacity: 1;
+    }
+  }    
+}

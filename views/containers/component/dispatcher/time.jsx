@@ -52,7 +52,7 @@ module.exports = React.createClass({
             success: function(data) {
                 switch(data.code){
                     case 0:
-                        this.setState({departments: data.body.event.formschema.wish.option});
+                        this.setState({departments: ['全部部门'].concat(data.body.event.formschema.wish.option)});
                         break;
                     default:
                         console.log(data.msg);
@@ -66,6 +66,7 @@ module.exports = React.createClass({
     },
     departChecked: function(department, i) {
         this.setState({selectedDep: department});
+        department = department == '全部部门' ? this.state.departments[1] : department;
         $.ajax({
             url: "/interview?eventID="+this.state.selectedEvent.eventID+'&department='+this.state.selectedDep+'&new=1',
             contentType: 'application/json',
@@ -286,7 +287,8 @@ var Cards = React.createClass({
             <div className="row">
                 {this.props.items.map((arg, i) => {
                     if (arg.startTime.getMonth() == this.props.selectedDate.getMonth() && 
-                        arg.startTime.getDate() == this.props.selectedDate.getDate())
+                        arg.startTime.getDate() == this.props.selectedDate.getDate()) {
+                    let endTime = new Date(arg.startTime.getTime()+60*1000*(arg.duration*arg.total+arg.interval*(arg.total-1)));
                     return (
                     <div className="col-md-6" key={i}>
                         <div className="interview-card">
@@ -320,13 +322,14 @@ var Cards = React.createClass({
                             </label>
                             <label>
                                 面试将结束于
-                                <input type="text"/>
+                                <input type="text" disabled value={endTime.getMinutes()}/>
                                 <p>:</p>
-                                <input type="text"/>
+                                <input type="text" disabled value={endTime.getHours()}/>
                             </label>
                         </div>
                     </div>
                     )}
+                }
                 )}
                 <div className="col-md-6">
                     <div className="interview-card" id="add-interview-card">

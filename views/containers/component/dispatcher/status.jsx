@@ -13,8 +13,10 @@ module.exports = React.createClass({
             rounds: [],
             round: 0,
             days: [],
-            interview: [],
+            interview: {},
             selectedDate: new Date(),
+            searchResult: {},
+            search: false,
             addDay: false
         }
     },
@@ -41,9 +43,6 @@ module.exports = React.createClass({
                 console.error("ajax请求发起失败");
             }.bind(this)
         });
-        $('#interview-status .panel-heading').click(function(){
-            $(this).next().slideToggle(300);
-        })
     },
     eventChecked: function(eventName, i) {
         var event = this.state.events[i];
@@ -59,7 +58,7 @@ module.exports = React.createClass({
             success: function(data) {
                 switch(data.code){
                     case 0:
-                        this.setState({departments: data.body.event.formschema.wish.option});
+                        this.setState({departments: ['全部部门'].concat(data.body.event.formschema.wish.option)});
                         break;
                     default:
                         console.log(data.msg);
@@ -120,7 +119,6 @@ module.exports = React.createClass({
                                 element.getMonth() == day.getMonth() && element.getDate() == day.getDate()) == -1)
                                 days.push(day);
                         }
-                        console.log(days);
                         this.setState({interview: tmp, days: days, infoComplete: true});
                         if (days.length) this.setState({selectedDate: days[0]});
                         break;
@@ -154,8 +152,26 @@ module.exports = React.createClass({
             }.bind(this)
         });
     },
-    search: function() {
-        alert('coming soon...');
+    search: function(e) {
+        if (!e.target.value) {
+            this.setState({search: false});
+            return;
+        }
+        let keyword = new RegExp(e.target.value, 'gi'),
+            targets = this.state.interview,
+            result = [], days = [], args = [];
+        for (let i=0; i<targets.interviewer.length; i++)
+            for (let attr in targets.interviewer[i])
+                if (targets.interviewer[i][attr].match(keyword)) 
+                    result.push(targets.interviewer[i]);
+        for (let i=0; i<targets.arrangement.length; i++)
+            for (let j=0; j<result.length; j++)
+                if (targets.arrangement[i]._id == result[j].arrangementID)
+                    args.push(targets.arrangement[i]), days.push(targets.arrangement[i].startTime);
+        this.setState({
+            searchResult: {days: days, arrangement: args, interviewer: result},
+            search: true
+        });
     },
     changeDay: function(date) {
         this.setState({selectedDate: date});
@@ -183,27 +199,29 @@ module.exports = React.createClass({
     handleClick: function() {
         this.setState({addDay: true});
     },
-    handleIverChange: function(interviwer) {
-        var index = this.state.interview.interviwer.findIndex((element) => interviwer._id == element._id);
+    handleIverChange: function(interviewer) {
+        var index = this.state.interview.interviewer.findIndex((element) => interviewer._id == element._id);
         var tmp = this.state.interview;
-        tmp.interviewer[index] = interviwer;
+        tmp.interviewer[index] = interviewer;
         this.setState({interview: tmp});
         console.log('change iver ok');
     },
-    handleDelete: function(interviwer) {
-        var index = this.state.interview.interviwer.findIndex((element) => interviwer._id == element._id);
+    handleDelete: function(interviewer) {
+        var index = this.state.interview.interviewer.findIndex((element) => interviewer.telnumber == element.telnumber);
         var tmp = this.state.interview;
         if(index > -1)
-            tmp.splice(index, 1);
+            tmp.interviewer.splice(index, 1);
         this.setState({interview: tmp});
-        console.log('delete ok');
+        console.log(this.state.interview);
     },
     render: function(){
+        let interview = this.state.search ? this.state.searchResult : this.state.interview;
+        let days = this.state.search ? interview.days : this.state.days;
         var section = this.state.infoComplete ?
                     <div className="panel-body">
                         <div className="container-fluid" id="interview-status">
                             <div className="date-fun">
-                                {this.state.days.map((day, i) =>
+                                {days.map((day, i) =>
                                     <div className={"interview-date"+this.isActive(day)}
                                          title={(day.getMonth()+1)+'月'+day.getDate()+'日'}
                                          onClick={this.changeDay.bind(null, day)} key={i}>
@@ -214,12 +232,13 @@ module.exports = React.createClass({
                                 <input type="date" className={this.state.addDay ? 'active':''} required onChange={this.addDay}/>
                             </div>
                             <div className="row">
-                                {this.state.interview.arrangement.map((arg, i) => {
+                                {interview.arrangement.map((arg, i) => {
                                     if (arg.startTime.getMonth() == this.state.selectedDate.getMonth() &&
                                         arg.startTime.getDate() == this.state.selectedDate.getDate()) {
-                                        var data = this.state.interview.interviewer.map((iv) => {
+                                        var data = [];
+                                        interview.interviewer.forEach((iv) => {
                                             if (iv.arrangementID == arg._id)
-                                                return iv;
+                                                data.push(iv);
                                         });
                                             return <ArgStatus key={i} index={i} data={data} arg={arg} iv={this.state.interview}
                                                             handleChange={this.handleIverChange} handleDelete={this.handleDelete}/>
@@ -258,9 +277,9 @@ module.exports = React.createClass({
                             </div>
                              <div className="col-md-2">
                                 <div className="input-group search-bar">
-                                    <input type="text" className="form-control" placeholder="Search"></input>
+                                    <input type="text" className="form-control" placeholder="Search" onChange={this.search}></input>
                                     <span className="input-group-btn">
-                                        <button className="btn" type="button" onClick={this.search}>
+                                        <button className="btn" type="button">
                                             <i className="fa fa-search"></i>
                                         </button>
                                     </span>
@@ -285,27 +304,34 @@ var ArgStatus = React.createClass({
             interview: this.props.iv
         }
     },
+    componentWillReceiveProps: function(nextProps) {
+        this.setState({interviewers: nextProps.data||[]});
+        return true;
+    },
     changeArg: function(interviewer) {
         alert('coming soon');
     },
     deleteIv: function(interviewer) {
-        $.post('/interview/interviwer/delete', {
-            interviewID: interview._id,
+        $.post('/interview/interviewer/delete', {
+            interviewID: this.state.interview._id,
             telnumber: interviewer.telnumber
-        }, function(data) {
+        }, (data)=> {
             this.props.handleDelete(interviewer);
         });
     },
-    changeState: function(interviwer, e) {
-        interviwer.state = e.target.checked ? '通过' : '未通过';
+    changeState: function(interviewer, e) {
+        interviewer.state = e.target.checked ? '通过' : '未通过';
         this.props.handleChange(interviewer);
+    },
+    handleClick: function() {
+        $(this.refs[this.props.index]).next().slideToggle(300);
     },
     render: function () {
         var arg = this.state.arg;
         var endTime = new Date(arg.startTime.getTime()+arg.duration*60000);
         return (
             <div className="panel">
-                <div className="panel-heading row" onClick={this.handleClick}>
+                <div className="panel-heading row" onClick={this.handleClick} ref={this.props.index}>
                     <div className="col-md-3 col-lg-3 col-sm-3 col-xs-3">{'第'+(this.props.index+1)+'场'}</div>
                     <div className="col-md-3 col-lg-3 col-sm-3 col-xs-3">
                         {arg.startTime.getHours()+':'+ arg.startTime.getMinutes()} - 
@@ -315,28 +341,32 @@ var ArgStatus = React.createClass({
                         地点：{arg.place}
                     </div>
                     <div className="col-md-3 col-lg-3 col-sm-3 col-xs-3">
-                        本场面试人数：{this.state.arg.total}人
+                        本场面试人数：{this.state.interviewers.length}人
                     </div>
                 </div>
                 <div className="panel-body">
-                    {this.state.interviewers.map((interviewer, i) =>
+                    {this.state.interviewers.map((interviewer, i) => {
+                        let current = this.state.interview.round == 1 ? '表刷通过' : '第'+(this.state.interview.round-1)+'轮面试通过'
+                        return (
                         <div className="row" key={i}>
                             <div className="col-md-1">{interviewer.name}</div>
                             <div className="col-md-1">{interviewer.sex}</div>
                             <div className="col-md-2">{interviewer.telnumber}</div>
-                            <div className="col-md-2">{interviewer.department}</div>
-                            <div className="col-md-2">{interviewer.state}</div>
+                            <div className="col-md-2">{this.state.interview.department}</div>
+                            <div className="col-md-2">{current}</div>
                             <div className="col-md-2">
                                 <button className="btn" onClick={this.changeArg.bind(null, interviewer)}>修改场次</button>
                                 <button className="btn" onClick={this.deleteIv.bind(null, interviewer)}>删除</button>
                             </div>
                             <div className="col-md-2">
-                                <label>
-                                    {this.state.round}
-                                    <input type="checkbox" onChange={this.changeState.bind(null, interviewer)} />
-                                </label>
+                                <div className="check-state">
+                                    {'第'+this.state.interview.round+'轮面试'}
+                                    <input type="checkbox" id="ivstate" name="check" onChange={this.changeState.bind(null, interviewer)}/>
+                                    <label htmlFor="ivstate"></label>
+                                </div>
                             </div>
                         </div>
+                        )}
                     )}
                 </div>
             </div>

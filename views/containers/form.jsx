@@ -372,10 +372,10 @@ var Baseinfo = React.createClass({
                         <td className="form-group">姓　　名</td><td><input value={this.state.name} onChange={this.handleChange} name="name" className="dank-form-input" type="text"/></td>
                         <td>性　　别</td><td>
                             <label className="dank-checkbox-inline">
-                                <input type="radio" name="sex" value="男" defaultChecked/><b> 男</b>
+                                {(this.state.sex=='男')?<input type="radio" name="sex" value="男" defaultChecked/>:<input type="radio" name="sex" value="男" />}<b> 男</b>
                             </label>
                             <label className="dank-checkbox-inline">
-                                <input type="radio" name="sex" value="女"/><b> 女</b>
+                                {(this.state.sex=='女')?<input type="radio" name="sex" value="女" defaultChecked/>:<input type="radio" name="sex" value="女" />}<b> 女</b>
                             </label>
                         </td>
                     </tr>

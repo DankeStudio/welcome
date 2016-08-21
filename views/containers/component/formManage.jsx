@@ -3,6 +3,7 @@
  */
 var React = require('react');
 var Component = React.Component;
+var Dropdown = require('./dropdown');
 
 module.exports = React.createClass({
     render: function(){
@@ -143,6 +144,28 @@ var Event = React.createClass({
 
 var Form = React.createClass({
 
+    getInitialState: function(){
+        return({
+           event:{}
+        });
+    },
+    componentDidMount: function(){
+        $.ajax({
+            url: "/form/id",
+            contentType: 'application/json',
+            type: 'GET',
+            data:{
+                eventID: this.props.eventID
+            },
+            success: function(data) {
+                this.setState({'event':data.body.event});
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error("ajax请求发起失败");
+            }.bind(this)
+        });
+    },
+
     render:function(){
         return(
             <div className="container-fluid">
@@ -156,7 +179,7 @@ var Form = React.createClass({
                 </div>
                 <div className="row">
                     <div className="col-md-12">
-                        <List eventID={this.props.eventID}/>
+                        <List eventID={this.props.eventID} departments={(this.state.event.formschema)?this.state.event.formschema.wish.option:[]}/>
                     </div>
                 </div>
             </div>
@@ -460,7 +483,6 @@ var List = React.createClass({
     getInitialState : function(){
         return{
             wish: '全部部门',
-            departments:[],
             order: -1,
             page: 1,
             forms:[{
@@ -501,7 +523,6 @@ var List = React.createClass({
             }]
         }
     },
-
     componentDidMount: function(){
         $.ajax({
             url: "/form",
@@ -565,7 +586,210 @@ var List = React.createClass({
             }.bind(this)
         });
     },
+    selectHandler: function(value, i){
+        //当选择现在已经选择的内容时 不采取动作 （如果不returnfalse的话会产生bug
+        if(value==this.state.wish){
+            return false;
+        }
 
+        this.setState({"wish":value});
+        this.setState({page:1});
+
+        $.ajax({
+            url: "/form",
+            contentType: 'application/json',
+            type: 'GET',
+            data: {
+                eventID: this.props.eventID,
+                order: this.state.order,
+                page: this.state.page,
+                wish: (value=='全部部门')?null:value
+            },
+            success: function(data) {
+                console.log(data);
+                switch(data.code){
+                    case 0:
+                        if(this.isMounted()){
+                            this.setState({forms: data.body.forms});
+                        }
+                        break;
+                    default:
+                        //alert(this.props.eventID);
+                        console.log(data.msg);
+                        break;
+                }
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error("ajax请求发起失败");
+            }.bind(this)
+        });
+    },
+    orderChange: function(){
+        var order=-(this.state.order);
+        this.setState({"order":order});
+        $.ajax({
+            url: "/form",
+            contentType: 'application/json',
+            type: 'GET',
+            data: {
+                eventID: this.props.eventID,
+                order: order,
+                page: this.state.page,
+                wish: (this.state.wish=='全部部门')?null:this.state.wish
+            },
+            success: function(data) {
+                console.log(data);
+                switch(data.code){
+                    case 0:
+                        if(this.isMounted()){
+                            this.setState({forms: data.body.forms});
+                        }
+                        break;
+                    default:
+                        //alert(this.props.eventID);
+                        console.log(data.msg);
+                        break;
+                }
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error("ajax请求发起失败");
+            }.bind(this)
+        });
+    },
+    firstPage: function(){
+        this.setState({page:1});
+        $.ajax({
+            url: "/form",
+            contentType: 'application/json',
+            type: 'GET',
+            data: {
+                eventID: this.props.eventID,
+                order: this.state.order,
+                page: 1,
+                wish: (this.state.wish=='全部部门')?null:this.state.wish
+            },
+            success: function(data) {
+                console.log(data);
+                switch(data.code){
+                    case 0:
+                        if(this.isMounted()){
+                            this.setState({forms: data.body.forms});
+                        }
+                        break;
+                    default:
+                        //alert(this.props.eventID);
+                        console.log(data.msg);
+                        break;
+                }
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error("ajax请求发起失败");
+            }.bind(this)
+        });
+    },
+    lastPage: function(){
+        var page = this.state.page;
+        if(page>1)
+        {
+            page--;
+        }
+        else{
+            //若已是第一页 无动作
+            return false;
+        }
+
+        this.setState({page:page});
+        $.ajax({
+            url: "/form",
+            contentType: 'application/json',
+            type: 'GET',
+            data: {
+                eventID: this.props.eventID,
+                order: this.state.order,
+                page: page,
+                wish: (this.state.wish=='全部部门')?null:this.state.wish
+            },
+            success: function(data) {
+                console.log(data);
+                switch(data.code){
+                    case 0:
+                        if(this.isMounted()){
+                            this.setState({forms: data.body.forms});
+                        }
+                        break;
+                    default:
+                        //alert(this.props.eventID);
+                        console.log(data.msg);
+                        break;
+                }
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error("ajax请求发起失败");
+            }.bind(this)
+        });
+    },
+    nextPage: function(){
+        var page = this.state.page;
+        if(page>0)
+        {
+            page++;
+        }
+        else{
+            //若已是最后一页 无动作
+            return false;
+        }
+
+        this.setState({page:page});
+        $.ajax({
+            url: "/form",
+            contentType: 'application/json',
+            type: 'GET',
+            data: {
+                eventID: this.props.eventID,
+                order: this.state.order,
+                page: page,
+                wish: (this.state.wish=='全部部门')?null:this.state.wish
+            },
+            success: function(data) {
+                console.log(data);
+                switch(data.code){
+                    case 0:
+                        if(this.isMounted()){
+                            this.setState({forms: data.body.forms});
+                        }
+                        break;
+                    default:
+                        //alert(this.props.eventID);
+                        console.log(data.msg);
+                        break;
+                }
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error("ajax请求发起失败");
+            }.bind(this)
+        });
+    },
+    //删除报名表 发起删除请求 并在前端直接删除
+    delete: function(id, i){
+        $.ajax({
+            url: "/form/delete",
+            contentType: 'application/json',
+            type: 'POST',
+            data: JSON.stringify({
+                id: id
+            }),
+            success: function(data) {
+                console.log(data);
+                this.setState(state => {
+                    state.forms.splice(i, 1);
+                    return {forms: state.forms};
+                });
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error("ajax请求发起失败");
+            }.bind(this)
+        });
+    },
     render: function(){
         var titleStyle1 = {
             textAlign: 'left'
@@ -590,9 +814,6 @@ var List = React.createClass({
             textAlign:'center',
             marginLeft:'10px'
         };
-        var selectStyle = {
-            marginRight: '50px'
-        };
         var deleteStyle={
             textAlign: 'Right'
         };
@@ -610,7 +831,7 @@ var List = React.createClass({
                             return data
                         }}</td>
                     <td>{form.date.substring(0,10)}</td>
-                    <td style={deleteStyle}><a className="a19" href="#">删除</a></td>
+                    <td style={deleteStyle}><a className="a19" onClick={function(){this.delete(form._id, i)}.bind(this)}>删除</a></td>
                 </tr>
             )
         }.bind(this));
@@ -618,14 +839,12 @@ var List = React.createClass({
             <div className="dank-c7 text-center">
                 <div style={titleStyle1}><big style={eventIDStyle}>报名表序号 {this.props.eventID}</big></div>
                 <div style={titleStyle2}>
-                    <a className="btn dank-a14" href="#"><b>导入报名表</b></a>
-                    <a className="btn dank-a14" href="#"><b>导出报名表</b></a>
+                    <big className="dank-a14" ><b>导入报名表</b></big>
+                    <big className="dank-a14" ><b>导出报名表</b></big>
                 </div>
-                <div style={titleStyle3} className="form-inline">
-                    <select className="form-control" style={selectStyle}>
-                        <option>全部部门</option>
-                    </select>
-                    <a className="btn dank-a14" href="#"><b>时间<i className="fa fa-chevron-up i3" aria-hidden="true"/></b></a>
+                <div style={titleStyle3} className="form-inline" id="form-manage-option">
+                    <Dropdown data={this.props.departments.concat(['全部部门'])} handleChecked={this.selectHandler} name={'department'} default={"全部部门"} resetWhenChanged={null}/>
+                    <big className="dank-a14" onClick={this.orderChange}><b>时间{(this.state.order>0)?<i className="fa fa-chevron-down i3" aria-hidden="true"/>:<i className="fa fa-chevron-up i3" aria-hidden="true"/>}</b></big>
                 </div>
                 <b><table className="table dank-t5">
                         <tbody>
@@ -633,12 +852,12 @@ var List = React.createClass({
                         </tbody>
                     </table></b>
                     <div><b>
-                        <a className="a20" href="#">首页</a>
-                        <a className="a20" href="#">上一页</a>
-                        <a className="a20" href="#">下一页</a>
-                        <a className="a20" href="#">尾页</a>
+                        <a className="a20" onClick={this.firstPage}>首页</a>
+                        <a className="a20" onClick={this.lastPage}>上一页</a>
+                        <a className="a20" onClick={this.nextPage}>下一页</a>
                     </b></div>
             </div>
         )
+        /*先删除了<a className="a20" onClick={this.lastPage}>尾页</a>*/
     }
 });

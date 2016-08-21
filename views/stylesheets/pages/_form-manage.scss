@@ -9,10 +9,11 @@
 
 .event {
     background-color: #FFFFFF;
-    height: 818px;
+    height: 877px;
     margin: 50px auto; 
     padding: 0;
-    border-radius: 8px;   
+    border-radius: 8px;
+    overflow: auto;
 }
 
 .dank-d4 {
@@ -37,4 +38,20 @@
     -webkit-transition: .2s ease-in-out;
     -moz-transition: .2s ease-in-out;
     transition: .2s ease-in-out;
+}
+
+#form-manage-option .dropdown{
+    width: 250px;
+    display: inline-table;
+    margin: 10px;
+
+}
+
+#form-manage-option .dp-title{
+    padding: 10px 15px;
+    height: 40px;
+    font-size: 16px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
 }

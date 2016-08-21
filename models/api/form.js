@@ -98,7 +98,8 @@ exports.getForm = (req, res, next) => {
 	}
 	//初始query
 	query = Form.find({
-			eventID: eventID
+			eventID: eventID,
+			delete: false
 		})
 		//deal with wish
 	if (wish) {
@@ -152,4 +153,29 @@ exports.getForm = (req, res, next) => {
 				body: {}
 			})
 		})
+}
+
+//删除报名表
+exports.delete = (req, res, next) =>{
+	Form.update({
+		_id : req.body.id
+	}, {
+		$set: {
+			delete: true
+		}
+	}, function(err) {
+		if (err) {
+			res.json({
+				code: -1,
+				msg: '数据库更新时出错 ' + err,
+				body: {}
+			});
+		} else {
+			res.json({
+				code: 0,
+				msg: 'ok',
+				body: {}
+			});
+		}
+	})
 }

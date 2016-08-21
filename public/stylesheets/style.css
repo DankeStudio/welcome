@@ -645,6 +645,27 @@ body {
   color: #FFFFFF;
   background-color: #F36256;
   font-size: 18px;
+  display: inline-block;
+  padding: 6px 12px;
+  font-weight: 400;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+.dank-a14 :hover{
+  color: #355163;
+  transition: 0.2s ease-in-out;
 }
 
 .b1{
@@ -714,7 +735,7 @@ body {
 .dank-c7{
   background-color: #FFFFFF;
   width: 95%;
-  height: 508px;
+  height: 570px;
   margin: 10px auto 50px auto;
   padding: 17px;
   border-radius: 5px;
@@ -728,6 +749,7 @@ body {
   width: 107px;
   height: 43px;
   line-height: 43px;
+  margin-right: 20px;
 }
 
 .dank-temp-table:hover{

@@ -147,3 +147,45 @@ input[type='date'] {
         display: inline;
     }
 }
+
+.date-picker {
+    display: none;
+    &.active {
+        display: block;
+    }
+    i {
+        position: absolute;
+        z-index: 200;
+        left: 100%;
+        transform: translate(-50%, -50%);
+        color: #fff;
+        background: $main-theme-dark;
+        border-radius: 50%;
+        padding: 10px 12px;
+        font-weight: normal;
+        box-shadow: 0 0 5px #666;
+        cursor: pointer;
+    }
+}
+.multiple-date-picker {
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    width: 600px;
+    z-index: 100;
+    background: #fff;
+    box-shadow: 0 0 10px #666;
+    transform: translateX(-50%);
+}
+
+.picker-day {
+    &:not(.picker-off):not(.picker-empty):hover {
+        background-color: $main-theme-pink;
+        color: #fff;
+        cursor: pointer;
+    }
+    &.picker-selected, &.picker-selected:hover {
+        background-color: $main-theme-pink;
+        color: #fff;
+    }
+}

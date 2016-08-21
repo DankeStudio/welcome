@@ -1,5 +1,6 @@
 var React = require('react');
 var Dropdown = require('../dropdown');
+var MultipleDatePicker = require('../multipleDatePicker.jsx');
 
 module.exports = React.createClass({
     getInitialState: function (){
@@ -116,11 +117,11 @@ module.exports = React.createClass({
                             tmp.arrangement[i].startTime = new Date(Date.parse(tmp.arrangement[i].startTime));
                             var day = tmp.arrangement[i].startTime;
                             if(days.findIndex((element) => 
-                                element.getMonth() == day.getMonth() && element.getDate() == day.getDate()) == -1)
-                                days.push(day);
+                                element.day.getMonth() == day.getMonth() && element.day.getDate() == day.getDate()) == -1)
+                                days.push({day: day, notSelectable: true, selected: true});
                         }
                         this.setState({interview: tmp, days: days, infoComplete: true});
-                        if (days.length) this.setState({selectedDate: days[0]});
+                        if (days.length) this.setState({selectedDate: days[0].day});
                         break;
                     default:
                         console.log(data.msg);
@@ -132,10 +133,52 @@ module.exports = React.createClass({
             }.bind(this)
         });
     },
-    exports: function() {
-        alert('coming soon...');
+    exports: function () {
+        if (!this.state.infoComplete) {
+            alert('请先选择面试活动');
+            return;
+        }
+        var interview = this.state.interview;
+        var title = this.state.selectedEvent.name + this.state.selectedDep + '第'+this.state.round + '轮面试安排';
+        var data = '面试事项,面试部门,面试轮次\r\n';
+        data += this.state.selectedEvent.name+','+interview.department+','+interview.round+'\r\n\r\n\r\n';
+        for (let i=0; i<this.state.days.length; i++){
+            data += '日期,场次,开始时间,结束时间,地点,面试人数\r\n';
+            interview.arrangement.map((arg, j) => {
+                if (arg.startTime.getMonth() == this.state.days[i].day.getMonth() &&
+                    arg.startTime.getDate() == this.state.days[i].day.getDate()) {
+                    var iverdata = '', num=0;
+                    interview.interviewer.forEach((iv) => {
+                        if (iv.arrangementID == arg._id)
+                            iverdata+=(iv.name+','+iv.sex+','+iv.telnumber+','+this.state.selectedDep+','+iv.state+'\r\n'), num++;
+                    });
+                    let endTime = new Date(arg.startTime.getTime()+60*1000*(arg.duration*arg.total+arg.interval*(arg.total-1)));
+                    data += ((this.state.days[i].day.getMonth()+1)+'月'+this.state.days[i].day.getDate()+'日,第'+(j+1)+'场,"'+
+                             arg.startTime.getHours()+':'+arg.startTime.getMinutes()+'","'+endTime.getHours()+':'+endTime.getMinutes()+'",'+
+                             arg.place+','+num+'\r\n');
+                    data += '姓名,性别,联系方式,面试部门,本轮面试状态\r\n';
+                    data += iverdata+'\r\n\r\n';
+            }})
+        } 
+        var link = document.createElement("a");    
+        link.id="download";
+        document.body.appendChild(link);
+        var blob = new Blob(["\ufeff",data], { type: 'text/csv' }); 
+        var csvUrl = window.URL.createObjectURL(blob);
+        var filename = title+'.csv';
+        $("#download")
+        .attr({
+            'download': filename,
+            'href': csvUrl
+        }); 
+	    $('#download')[0].click();
+        document.body.removeChild(link);
     },
     update: function() {
+        if (!this.state.infoComplete) {
+            alert('请先选择面试活动');
+            return;
+        }
         $.ajax({
             url: '/interview/interviewer/update',
             contentType: 'application/json',
@@ -153,7 +196,7 @@ module.exports = React.createClass({
         });
     },
     search: function(e) {
-        if (!e.target.value) {
+        if (!e.target.value || !this.state.infoComplete) {
             this.setState({search: false});
             return;
         }
@@ -176,18 +219,16 @@ module.exports = React.createClass({
     changeDay: function(date) {
         this.setState({selectedDate: date});
     },
-    addDay: function(e) {
-        var str = e.target.value;
-        var date = new Date();
-        date.setMonth(str.split('-')[1]-1);
-        date.setDate(str.split('-')[2]);
+    addDay: function(date) {
         var days = this.state.days;
         if(days.findIndex((element) => 
-           element.getMonth() == date.getMonth() && element.getDate() == date.getDate()) == -1)
-            days.push(date);
+           element.day.getMonth() == date.getMonth() && element.day.getDate() == date.getDate()) == -1)
+            days.push({day: date, notSelectable: true, selected: true});
+        days.sort((a,b)=> a.day-b.day);
         this.setState({days: days,
                        selectedDate: date,
-                       addDay: false});
+                       dateSelected: true});
+        return true;
     },
     addArg: function() {
         alert('coming soon...');
@@ -197,7 +238,7 @@ module.exports = React.createClass({
                data.getDate() == this.state.selectedDate.getDate()) ? ' active' : '');
     },
     handleClick: function() {
-        this.setState({addDay: true});
+        this.setState({addDay: !this.state.addDay});
     },
     handleIverChange: function(interviewer) {
         var index = this.state.interview.interviewer.findIndex((element) => interviewer._id == element._id);
@@ -221,15 +262,18 @@ module.exports = React.createClass({
                     <div className="panel-body">
                         <div className="container-fluid" id="interview-status">
                             <div className="date-fun">
-                                {days.map((day, i) =>
-                                    <div className={"interview-date"+this.isActive(day)}
-                                         title={(day.getMonth()+1)+'月'+day.getDate()+'日'}
-                                         onClick={this.changeDay.bind(null, day)} key={i}>
-                                        {(day.getMonth()+1)+'月'+day.getDate()+'日'}
+                                {days.map((e, i) =>
+                                    <div className={"interview-date"+this.isActive(e.day)}
+                                         title={(e.day.getMonth()+1)+'月'+e.day.getDate()+'日'}
+                                         onClick={this.changeDay.bind(null, e.day)} key={i}>
+                                        {(e.day.getMonth()+1)+'月'+e.day.getDate()+'日'}
                                     </div>
                                 )}
                                 <div className="interview-date" id="add-date" onClick={this.handleClick}>添加日期</div>
-                                <input type="date" className={this.state.addDay ? 'active':''} required onChange={this.addDay}/>
+                                <div className={'date-picker' + (this.state.addDay ? ' active':'')}>
+                                    <MultipleDatePicker closePicker={this.handleClick} callbackContext={this}
+                                                        highlightDays={this.state.days} dayClick={this.addDay}/>
+                                </div>
                             </div>
                             <div className="row">
                                 {interview.arrangement.map((arg, i) => {
@@ -245,7 +289,7 @@ module.exports = React.createClass({
                                 }})}
                                 <div id="add-interview" onClick={this.addArg}>
                                     <i className="fa fa-plus"></i>
-                                    添加本日面试场次
+                                    增加本日面试场次
                                 </div>
                             </div>
                         </div>

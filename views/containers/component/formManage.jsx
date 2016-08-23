@@ -80,6 +80,30 @@ var Content = React.createClass({
 });
 
 var Event = React.createClass({
+    eventDelete: function(){
+        var eventID = this.props.eventID
+        $.ajax({
+            url: "/event/delete",
+            contentType: 'application/json',
+            type: 'POST',
+            data: JSON.stringify({
+                eventID: eventID
+            }),
+            success: function(data) {
+                switch(data.code){
+                    case 0:
+                        location.reload();
+                        break;
+                    default:
+                        alert(data.msg);
+                        break;
+                }
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error("ajax请求发起失败");
+            }.bind(this)
+        });
+    },
 
     render: function(){
         var overflow = {
@@ -113,6 +137,8 @@ var Event = React.createClass({
                             </tr>
                             </tbody>
                         </table>
+                        {(eventItem.eventID==this.props.eventID)?<big className="dank-event-delete" onClick={this.eventDelete}>删除</big>:null }
+                        {(eventItem.eventID==this.props.eventID)?<big className="dank-event-form" onClick={function(){window.open("#/form/"+this.props.eventID)}.bind(this) }>查看报名页面</big>:null }
                     </div>
                 </div>
             )

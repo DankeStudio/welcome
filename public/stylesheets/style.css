@@ -616,6 +616,30 @@ body {
   border:1px solid #ffffff;
 }
 
+.dank-event-delete{
+  font-size: 18px;
+  float: right;
+  color: #ffffff;
+  margin: -10px 0px 10px 0;
+}
+
+.dank-event-delete:hover{
+  color: #203140;
+  cursor: pointer;
+}
+
+.dank-event-form{
+  font-size: 18px;
+  float: right;
+  color: #ffffff;
+  margin: -10px 10px 10px 0;
+}
+
+.dank-event-form:hover{
+  color: #203140;
+  cursor: pointer;
+}
+
 /*补充temp.css的内容*/
 .dank-library-file-input{
   width: 65px;

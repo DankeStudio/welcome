@@ -285,8 +285,7 @@ exports.getAllCount = (req, res, next) => {
 		};
 	var eventID = req.query.eventID;
 	Event.findOne({
-			eventID: eventID,
-			delete: false
+			eventID: eventID
 		})
 		.then((event) => {
 			if (event) {
@@ -295,7 +294,8 @@ exports.getAllCount = (req, res, next) => {
 					department.counts[i] = 0;
 				}
 				return Form.find({
-					eventID: eventID
+					eventID: eventID,
+					delete: false
 				})
 			} else {
 				throw {

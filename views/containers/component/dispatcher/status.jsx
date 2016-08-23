@@ -51,56 +51,57 @@ module.exports = React.createClass({
             return false;
         this.setState({selectedEvent: event,
                        selectedDep: '',
-                       infoComplete: false});
-        $.ajax({
-            url: "/form/id?eventID="+event.eventID,
-            contentType: 'application/json',
-            type: 'GET',
-            success: function(data) {
-                switch(data.code){
-                    case 0:
-                        this.setState({departments: ['全部部门'].concat(data.body.event.formschema.wish.option)});
-                        break;
-                    default:
-                        console.log(data.msg);
-                        break;
-                }
-            }.bind(this),
-            error: function(xhr, status, err) {
-                console.error("ajax请求发起失败");
-            }.bind(this)
-        });
+                       infoComplete: false}, function() {
+                           $.ajax({
+                                url: "/form/id?eventID="+event.eventID,
+                                contentType: 'application/json',
+                                type: 'GET',
+                                success: function(data) {
+                                    switch(data.code){
+                                        case 0:
+                                            this.setState({departments: ['全部部门'].concat(data.body.event.formschema.wish.option)});
+                                            break;
+                                        default:
+                                            console.log(data.msg);
+                                            break;
+                                    }
+                                }.bind(this),
+                                error: function(xhr, status, err) {
+                                    console.error("ajax请求发起失败");
+                                }.bind(this)
+                            });
+                       });
     },
     departChecked: function(department, i) {
         if (department == this.state.selectedDep)
             return false;
         this.setState({selectedDep: department,
                        round: 0,
-                       infoComplete: false});
-        var num = 1;
-        $.ajax({
-            url: "/interview?eventID="+this.state.selectedEvent.eventID+'&department='+department+'&new=1',
-            contentType: 'application/json',
-            type: 'GET',
-            success: function(data) {
-                switch(data.code){
-                    case 0:
-                        num = data.body.interviews[0].round;
-                        var tmp = [];
-                        for (var i=1; i<=num; i++)
-                            tmp.push('第'+i+'轮面试');
-                        this.setState({rounds: tmp});
-                        break;
-                    default:
-                        console.log(data.msg);
-                        break;
-                }
-            }.bind(this),
-            error: function(xhr, status, err) {
-                console.error("ajax请求发起失败");
-            }.bind(this)
-        });
-        
+                       infoComplete: false}, function() {
+                           var num = 1;
+                            $.ajax({
+                                url: "/interview?eventID="+this.state.selectedEvent.eventID+'&department='+department+'&new=1',
+                                contentType: 'application/json',
+                                type: 'GET',
+                                success: function(data) {
+                                    switch(data.code){
+                                        case 0:
+                                            num = data.body.interviews[0].round;
+                                            var tmp = [];
+                                            for (var i=1; i<=num; i++)
+                                                tmp.push('第'+i+'轮面试');
+                                            this.setState({rounds: tmp});
+                                            break;
+                                        default:
+                                            console.log(data.msg);
+                                            break;
+                                    }
+                                }.bind(this),
+                                error: function(xhr, status, err) {
+                                    console.error("ajax请求发起失败");
+                                }.bind(this)
+                            });
+                       });        
     },
     roundChecked: function(round, i) {
         this.setState({round: i+1});

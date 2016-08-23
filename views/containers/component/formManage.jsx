@@ -5,6 +5,12 @@ var React = require('react');
 var Component = React.Component;
 var Dropdown = require('./dropdown');
 
+//全局变量
+//存放chartjs生成的图表 防止重绘
+var myChart1;
+var myChart2;
+var myChart3;
+
 module.exports = React.createClass({
     render: function(){
         return(
@@ -214,7 +220,9 @@ var Form = React.createClass({
 });
 
 var Graph1 = React.createClass({
-   getInitialState: function() {
+
+
+    getInitialState: function() {
      return{
          data:[]
      }
@@ -223,7 +231,7 @@ var Graph1 = React.createClass({
     print: function(data){
         //console.log(data);
        var ctx = document.getElementById("myChart3");
-       var myChart3 = new Chart(ctx, {
+       myChart3 = new Chart(ctx, {
            type: 'line',
            data: {
                labels: data.labels,
@@ -314,6 +322,9 @@ var Graph1 = React.createClass({
                 switch(data.code){
                     case 0:
                         if(this.isMounted()){
+                            if(myChart3){
+                                myChart3.destroy();
+                            }
                             this.print(data.body.data);
                         }
                         break;
@@ -349,7 +360,7 @@ var Graph2 = React.createClass({
     print1 : function(data){
         var value1 = data.counts[2];
         var ctx = document.getElementById("myChart1");
-        var myChart1 = new Chart(ctx, {
+        myChart1 = new Chart(ctx, {
             type: 'doughnut',
             data: {
                 labels: ["男", "女"],
@@ -388,7 +399,7 @@ var Graph2 = React.createClass({
 
     print2 : function(data){
         var ctx = document.getElementById("myChart2");
-        var myChart2 = new Chart(ctx, {
+        myChart2 = new Chart(ctx, {
             type: 'doughnut',
             data: {
                 labels: data.labels,
@@ -440,7 +451,14 @@ var Graph2 = React.createClass({
                 switch(data.code){
                     case 0:
                         if(this.isMounted()){
+                            if(myChart1){
+                                myChart1.destroy();
+                            }
                             this.print1(data.body.gender);
+
+                            if(myChart2){
+                                myChart2.destroy();
+                            }
                             this.print2(data.body.department);
                         }
                         break;

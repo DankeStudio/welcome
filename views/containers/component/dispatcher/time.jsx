@@ -45,47 +45,49 @@ module.exports = React.createClass({
             return false;
         this.setState({selectedEvent: event,
                        selectedDep: '',
-                       infoComplete: false});
-        $.ajax({
-            url: "/form/id?eventID="+event.eventID,
-            contentType: 'application/json',
-            type: 'GET',
-            success: function(data) {
-                switch(data.code){
-                    case 0:
-                        this.setState({departments: ['全部部门'].concat(data.body.event.formschema.wish.option)});
-                        break;
-                    default:
-                        console.log(data.msg);
-                        break;
-                }
-            }.bind(this),
-            error: function(xhr, status, err) {
-                console.error("ajax请求发起失败");
-            }.bind(this)
-        });
+                       infoComplete: false}, function() {
+                           $.ajax({
+                                url: "/form/id?eventID="+event.eventID,
+                                contentType: 'application/json',
+                                type: 'GET',
+                                success: function(data) {
+                                    switch(data.code){
+                                        case 0:
+                                            this.setState({departments: ['全部部门'].concat(data.body.event.formschema.wish.option)});
+                                            break;
+                                        default:
+                                            console.log(data.msg);
+                                            break;
+                                    }
+                                }.bind(this),
+                                error: function(xhr, status, err) {
+                                    console.error("ajax请求发起失败");
+                                }.bind(this)
+                            });
+                       });
     },
     departChecked: function(department, i) {
-        this.setState({selectedDep: department});
-        department = department == '全部部门' ? this.state.departments[1] : department;
-        $.ajax({
-            url: "/interview?eventID="+this.state.selectedEvent.eventID+'&department='+this.state.selectedDep+'&new=1',
-            contentType: 'application/json',
-            type: 'GET',
-            success: function(data) {
-                switch(data.code){
-                    case 0:
-                        this.setState({round: data.body.interviews[0].round+1, infoComplete: true});
-                        break;
-                    default:
-                        console.log(data.msg);
-                        break;
-                }
-            }.bind(this),
-            error: function(xhr, status, err) {
-                console.error("ajax请求发起失败");
-            }.bind(this)
-        });
+        this.setState({selectedDep: department}, function() {
+            department = department == '全部部门' ? '' : department;
+            $.ajax({
+                url: "/interview?eventID="+this.state.selectedEvent.eventID+'&department='+this.state.selectedDep+'&new=1',
+                contentType: 'application/json',
+                type: 'GET',
+                success: function(data) {
+                    switch(data.code){
+                        case 0:
+                            this.setState({round: data.body.interviews[0].round+1, infoComplete: true});
+                            break;
+                        default:
+                            console.log(data.msg);
+                            break;
+                    }
+                }.bind(this),
+                error: function(xhr, status, err) {
+                    console.error("ajax请求发起失败");
+                }.bind(this)
+            });
+        });  
     },
     handlePost: function() {
         this.setState({infoComplete: false, reset: !this.state.reset, selectedEvent: {}, round: 0}); 

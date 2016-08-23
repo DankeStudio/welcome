@@ -1,5 +1,6 @@
 var React = require('react');
 var Dropdown = require('../dropdown');
+var MultipleDatePicker = require('../multipleDatePicker.jsx');
 
 module.exports = React.createClass({
     getInitialState: function (){
@@ -125,25 +126,17 @@ module.exports = React.createClass({
 
 var Interviews = React.createClass({
     getInitialState: function() {
+        var after7 = new Date(new Date().getTime() + 7*24*60*60*1000);
         return {
             event: this.props.event,
             department: this.props.department,
             round: this.props.round,
-            selectedDate: new Date(),
-            days: [],
+            selectedDate: after7,
+            days: [{day: after7, notSelectable: true, selected: true}],
             arrangements: [],
-            initial: [],
-            initialDays: [],
             addDay: false,
             dateSelected: true
         }
-    },
-    componentDidMount: function(){
-        var after7 = new Date(new Date().getTime() + 7*24*60*60*1000);
-        this.setState({
-            selectedDate: after7,
-            days: [after7]
-        })
     },
     changeDay: function(date) {
         this.setState({selectedDate: date, dateSelected: true});
@@ -154,22 +147,18 @@ var Interviews = React.createClass({
                 data.getDate() == this.state.selectedDate.getDate()) ? ' active' : '');
         else return '';
     },
-    addDay: function(e) {
-        var str = e.target.value;
-        var date = new Date();
-        date.setMonth(str.split('-')[1]-1);
-        date.setDate(str.split('-')[2]);
+    addDay: function(date) {
         var days = this.state.days;
         if(days.findIndex((element) => 
-           element.getMonth() == date.getMonth() && element.getDate() == date.getDate()) == -1)
-            days.push(date);
+           element.day.getMonth() == date.getMonth() && element.day.getDate() == date.getDate()) == -1)
+            days.push({day: date, notSelectable: true, selected: true});
+        days.sort((a,b)=> a.day-b.day);
         this.setState({days: days,
                        selectedDate: date,
-                       addDay: false,
                        dateSelected: true});
+        return true;
     },
     addCard: function() {
-        console.log(this.state);
         if (!this.state.dateSelected) {
             alert("请先选择日期");
             return;
@@ -193,7 +182,7 @@ var Interviews = React.createClass({
     },
     deleteDate: function(i, e) {
         var days = this.state.days;
-        var day = days[i];
+        var day = days[i].day;
         days.splice(i, 1);
         var args = this.state.arrangements;
         args.forEach((arg, i) => {
@@ -201,35 +190,33 @@ var Interviews = React.createClass({
                 args.splice(i, 1);
         });
         args = args || [];
-        this.setState({dateSelected: false, days: days, arrangements: args},
-            function(){
-                console.log(this.state.dateSelected);
-            });
+        this.setState({dateSelected: false, days: days, arrangements: args});
     },
     postArgs: function() {
-        console.log(this.state.event);
-        console.log(this.state.department);
-        console.log(this.state.round);
         $.post('/interview/create',{
             eventID: this.state.event.eventID,
             round: this.state.round,
             department: this.state.department
         }, (data) => {
-            console.log(data);
-            console.log(this.state.arrangements);
             var ivID = data.body.interview._id;
-            var argData = JSON.stringify({arrangement: this.state.arrangements, interviewID: ivID});
-            console.log(argData);
             $.ajax({
                 url: "/interview/arrangement/create",
                 contentType: 'application/json',
                 type: 'POST',
-                data: argData,
+                data: JSON.stringify({arrangements: this.state.arrangements, interviewID: ivID}),
                 success: (data) => {
                     console.log(data);
-                    if(data.code == 0)
+                    if(data.code == 0) {
                         alert(this.state.event.name+this.state.department+'部门第'+this.state.round+'轮面试场次安排成功');
-                    this.props.handlePost();
+                        this.props.handlePost();
+                    }
+                    else {
+                        alert(data.msg+'，生成安排失败');
+                        $.post('/interview/delete', {
+                            eventID: this.state.event.eventID,
+                            round: this.state.round,
+                            department: this.state.department});
+                    }
                 },
                 error: function(xhr, status, err) {
                     console.error("ajax请求发起失败");
@@ -238,7 +225,7 @@ var Interviews = React.createClass({
         });
     },
     resetCard: function() {
-        this.setState({arrangements: this.state.initial, days: this.state.initialDays});
+        this.setState({arrangements: [], days: [], dateSelected: false});
     },
     handleChange: function(name, i, e) {
         var change = this.state.arrangements;
@@ -254,21 +241,24 @@ var Interviews = React.createClass({
         this.setState({arrangements: change});
     },
     handleClick: function() {
-        this.setState({addDay: true});
+        this.setState({addDay: !this.state.addDay});
     },
     render: function() {
         return (
             <div className="container-fluid" id="interview-info">
                 <div className="date-fun">
                     {this.state.days.map((data, i) =>
-                        <div className={"interview-date"+this.isActive(data)} 
-                             title={(data.getMonth()+1)+'月'+data.getDate()+'日'} key={i}>
-                            <p onClick={this.changeDay.bind(null, data)}>{(data.getMonth()+1)+'月'+data.getDate()+'日'}</p>
+                        <div className={"interview-date"+this.isActive(data.day)} 
+                             title={(data.day.getMonth()+1)+'月'+data.day.getDate()+'日'} key={i}>
+                            <p onClick={this.changeDay.bind(null, data.day)}>{(data.day.getMonth()+1)+'月'+data.day.getDate()+'日'}</p>
                             <i className="fa fa-fw fa-close" onClick={this.deleteDate.bind(null, i)}></i>
                         </div>
                     )}
                     <div className="interview-date" id="add-date" onClick={this.handleClick}>添加日期</div>
-                    <input type="date" className={this.state.addDay ? 'active':''} required onChange={this.addDay}/>
+                    <div className={'date-picker' + (this.state.addDay ? ' active':'')}>
+                        <MultipleDatePicker closePicker={this.handleClick} callbackContext={this}
+                                        highlightDays={this.state.days} dayClick={this.addDay}/>
+                    </div>
                 </div>
 
                 <Cards items={this.state.arrangements} selectedDate={this.state.selectedDate} 
@@ -276,6 +266,7 @@ var Interviews = React.createClass({
 
                 <button className="btn" id="gen-btn" onClick={this.postArgs}>生成</button>
                 <button className="btn" id="cancle-btn" onClick={this.resetCard}>重置</button>
+                <div className={'cover' + (this.state.addDay ? 'active':'')}></div>
             </div>
         )
     }
@@ -322,9 +313,9 @@ var Cards = React.createClass({
                             </label>
                             <label>
                                 面试将结束于
-                                <input type="text" disabled value={endTime.getMinutes()}/>
+                                <input type="text" disabled value={endTime.toTimeString().split(':')[1]}/>
                                 <p>:</p>
-                                <input type="text" disabled value={endTime.getHours()}/>
+                                <input type="text" disabled value={endTime.toTimeString().split(':')[0]}/>
                             </label>
                         </div>
                     </div>

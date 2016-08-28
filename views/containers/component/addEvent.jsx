@@ -259,17 +259,17 @@ var Baseinfo = React.createClass({
             marginLeft:'30px',
             marginBottom:'30px'
         };
-        var titleStyle={
+        /*var titleStyle={
             display:'block',
             textAlign: 'center',
             fontSize:'30px',
             color:'#FFFFFF',
             margin:'20px',
             fontWeight: 'bold'
-        };
+        };*/
         return(
             <div style={bordStyle}>
-                <h1 style={titleStyle}><b>个人信息</b></h1>
+                <h1 className="h1a"><b>个人信息</b></h1>
                 <div className="d8">
                     <b><table className="center-block dank-form-table"><tbody>
                     <tr className="">

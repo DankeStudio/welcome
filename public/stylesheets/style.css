@@ -544,6 +544,12 @@ body {
   font-size: 20px;
 }
 
+.dank-library-component:hover{
+  background-color: #6b8291;
+  cursor: pointer;
+}
+
+
 .dank-library-component-forbidden{
   line-height: 50px;
   margin: 20px auto;
@@ -592,6 +598,10 @@ body {
   color: #FFFFFF;
 }
 
+.dank-schema-option:hover{
+  cursor: pointer;
+}
+
 .dank-schema-form-group-inline{
   margin-right: 40px;
 }
@@ -613,8 +623,22 @@ body {
 }
 
 .dank-schema-component{
-  border:1px solid #ffffff;
+  border:2px solid #ffffff;
+  border-radius: 5px;
 }
+
+.dank-schema-component-hover{
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border: 2px solid transparent;
+}
+
+.dank-schema-component-hover:hover{
+  cursor: pointer;
+  border: 2px solid #FFFFFF;
+  border-radius: 5px;
+}
+
 
 .dank-event-delete{
   font-size: 18px;

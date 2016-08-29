@@ -46,7 +46,7 @@ exports.submit = (req, res, next) => {
 							interviewer: {
 								telnumber: _form.baseinfo.telnumber,
 								name: _form.baseinfo.name,
-								state: '未通过'
+								state: '通过'
 							}
 						}
 					}));

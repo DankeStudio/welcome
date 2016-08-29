@@ -157,6 +157,8 @@ exports.getEvent = (req, res, next) => {
 			} else {
 				return Event.find({
 					orgID: org._id
+				}).sort({
+					date: -1
 				});
 			}
 		})

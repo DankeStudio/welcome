@@ -239,6 +239,7 @@ exports.getRecentCount = (req, res, next) => {
 	//console.log(dates);
 	Form.find({
 			eventID: eventID,
+			delete: false
 		})
 		.then((forms) => {
 			//console.log(forms);
@@ -295,7 +296,8 @@ exports.getAllCount = (req, res, next) => {
 					department.counts[i] = 0;
 				}
 				return Form.find({
-					eventID: eventID
+					eventID: eventID,
+					delete: false
 				})
 			} else {
 				throw {

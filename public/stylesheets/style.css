@@ -544,6 +544,12 @@ body {
   font-size: 20px;
 }
 
+.dank-library-component:hover{
+  background-color: #6b8291;
+  cursor: pointer;
+}
+
+
 .dank-library-component-forbidden{
   line-height: 50px;
   margin: 20px auto;
@@ -592,6 +598,10 @@ body {
   color: #FFFFFF;
 }
 
+.dank-schema-option:hover{
+  cursor: pointer;
+}
+
 .dank-schema-form-group-inline{
   margin-right: 40px;
 }
@@ -613,7 +623,45 @@ body {
 }
 
 .dank-schema-component{
-  border:1px solid #ffffff;
+  border:2px solid #ffffff;
+  border-radius: 5px;
+}
+
+.dank-schema-component-hover{
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border: 2px solid transparent;
+}
+
+.dank-schema-component-hover:hover{
+  cursor: pointer;
+  border: 2px solid #FFFFFF;
+  border-radius: 5px;
+}
+
+
+.dank-event-delete{
+  font-size: 18px;
+  float: right;
+  color: #ffffff;
+  margin: -10px 0px 10px 0;
+}
+
+.dank-event-delete:hover{
+  color: #203140;
+  cursor: pointer;
+}
+
+.dank-event-form{
+  font-size: 18px;
+  float: right;
+  color: #ffffff;
+  margin: -10px 10px 10px 0;
+}
+
+.dank-event-form:hover{
+  color: #203140;
+  cursor: pointer;
 }
 
 /*补充temp.css的内容*/
@@ -645,6 +693,27 @@ body {
   color: #FFFFFF;
   background-color: #F36256;
   font-size: 18px;
+  display: inline-block;
+  padding: 6px 12px;
+  font-weight: 400;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+.dank-a14 :hover{
+  color: #355163;
+  transition: 0.2s ease-in-out;
 }
 
 .b1{
@@ -714,7 +783,7 @@ body {
 .dank-c7{
   background-color: #FFFFFF;
   width: 95%;
-  height: 508px;
+  height: 570px;
   margin: 10px auto 50px auto;
   padding: 17px;
   border-radius: 5px;
@@ -728,6 +797,7 @@ body {
   width: 107px;
   height: 43px;
   line-height: 43px;
+  margin-right: 20px;
 }
 
 .dank-temp-table:hover{

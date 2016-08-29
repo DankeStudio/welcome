@@ -51,32 +51,55 @@
 }
 
 .interview-date {
-    float: left;
-    padding-top: 9px;
+    position: relative;
+    padding: 9px 28px 9px 15px;
     border-radius: 8px;
-    width: 120px;
+    width: 140px;
+    max-width: 140px;
+    min-width: 20px;
     height: 45px;
     background-color: #93ccd4;
     color: #fff;
-    text-align: center;
     font-size: 20px;
     font-weight: bold;
     z-index: 1;
     cursor: pointer;
     transition: 0.2s ease-in;
-
     &.active {
         background-color: $main-theme-pink;
         transition: 0.2s ease-in;
+    }
+    p {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+    i {
+        position:absolute;
+        display: inline-block;
+        color: #fff;
+        padding:3px;
+        font-size: 14px;
+        z-index: 10;
+        top:13px;
+        right: 8px;
+        border-radius: 50%;
+        &:hover {
+            background-color: $main-theme-dark;
+        }
     }
 }
 
 #add-date {
     margin-left: 0;
-    left: 120px;
+    padding: 9px;
+    width: 120px;
+    text-align: center;
     background-color: #fc9999;
     color: #345062;
     z-index: 0;
+    min-width: 120px;
 }
 
 #add-interview-card {
@@ -111,13 +134,58 @@
 
 .date-fun {
     position: absolute;
+    display: flex;
     top: -20px;
     left: 0;
+    width: 100%;
 }
 
 input[type='date'] {
     display: none;
+    min-width: 240px;
     &.active {
         display: inline;
+    }
+}
+
+.date-picker {
+    display: none;
+    &.active {
+        display: block;
+    }
+    i {
+        position: absolute;
+        z-index: 200;
+        left: 100%;
+        transform: translate(-50%, -50%);
+        color: #fff;
+        background: $main-theme-dark;
+        border-radius: 50%;
+        padding: 10px 12px;
+        font-weight: normal;
+        box-shadow: 0 0 5px #666;
+        cursor: pointer;
+    }
+}
+.multiple-date-picker {
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    width: 600px;
+    z-index: 100;
+    background: #fff;
+    box-shadow: 0 0 10px #666;
+    transform: translateX(-50%);
+}
+
+.picker-day {
+    &:not(.picker-off):not(.picker-empty):hover {
+        background-color: $main-theme-pink;
+        color: #fff;
+        cursor: pointer;
+    }
+    &.picker-selected, &.picker-selected:hover {
+        background-color: $main-theme-pink;
+        color: #fff;
     }
 }

@@ -170,6 +170,11 @@ a.a19{
 	color: #F36256;
 	text-decoration: none;
 }
+a.a19:hover{
+	color: #203140;
+	cursor: pointer;
+	text-decoration: none;
+}
 a.a20{
 	color: #9E9E9E;
 	text-decoration: none;
@@ -178,6 +183,7 @@ a.a20{
 a.a20:hover{
 	color: #345062;
 	text-decoration: none;
+	cursor: pointer;
 	margin: auto 10px;
 }
 a.a21{
@@ -413,6 +419,7 @@ div.d10{
 	width: 120px;
 	height: 180px;
 	margin: auto;
+	text-align: center;
 }
 div.d11{
 	margin: 200px auto auto -10px;

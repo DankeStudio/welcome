@@ -115,6 +115,11 @@ var Content = React.createClass({
 
     },
 
+    componentDidMount: function(){
+        //标题默认光标选中
+        this.refs.name.select();
+    },
+
     render: function(){
         var backgroundStyle = {
             top: '60px',
@@ -254,17 +259,17 @@ var Baseinfo = React.createClass({
             marginLeft:'30px',
             marginBottom:'30px'
         };
-        var titleStyle={
+        /*var titleStyle={
             display:'block',
             textAlign: 'center',
             fontSize:'30px',
             color:'#FFFFFF',
             margin:'20px',
             fontWeight: 'bold'
-        };
+        };*/
         return(
             <div style={bordStyle}>
-                <h1 style={titleStyle}><b>个人信息</b></h1>
+                <h1 className="h1a"><b>个人信息</b></h1>
                 <div className="d8">
                     <b><table className="center-block dank-form-table"><tbody>
                     <tr className="">
@@ -478,8 +483,6 @@ var Person = React.createClass({
                                 </div>
                             </div>
                             <div className="dank-schema-option-group">
-                                <a className="dank-schema-option">上移</a>
-                                <a className="dank-schema-option">下移</a>
                                 <a className="dank-schema-option"
                                    onClick={function(){this.deleteComponent('skills')}.bind(this)}>删除</a>
                                 <a className="dank-schema-option"
@@ -488,8 +491,8 @@ var Person = React.createClass({
                         </div>
                     </div>
                     :
-                    <div className="d24" onClick={function(){this.setState({skillsEdit: true})}.bind(this)}>
-                        <div className="text-left d25">
+                    <div className="d24 " onClick={function(){this.setState({skillsEdit: true})}.bind(this)}>
+                        <div className="text-left d25 dank-schema-component-hover">
                             <h1 className="h1f dank-form-h2"><b>{this.state.skills.title}</b></h1>
                             {skillNodes}
                             {(this.state.skills.free) ?
@@ -524,7 +527,7 @@ var Person = React.createClass({
                         </div>
                         :
                         <div className="d24" onClick={function(){this.setState({introductionEdit: true})}.bind(this)}>
-                            <div className="text-left d25">
+                            <div className="text-left d25 dank-schema-component-hover">
                                 <h1 className="h1f dank-form-h2"><b>{this.state.introduction.title}</b></h1>
                                 <div>
                                     <b><textarea name="introduction.content" className="text-left tt1"/></b>
@@ -686,7 +689,7 @@ var Wish = React.createClass({
                         </div>
                         :
                         <div className="d24" onClick={function(){this.setState({wishEdit: true})}.bind(this)}>
-                            <div className="text-left d25">
+                            <div className="text-left d25 dank-schema-component-hover">
                                 <h1 className="h1f dank-form-h2"><b>{this.state.wish.title}</b></h1>
                                 {wishNodes}
                                 {(this.state.wish.free) ?
@@ -947,7 +950,7 @@ var Others = React.createClass({
                                     </div>
                                     :
                                     <div className="d24" onClick={function(){this.editState(i)}.bind(this)}>
-                                        <div className="text-left d25">
+                                        <div className="text-left d25 dank-schema-component-hover">
                                             <h1 className="h1f dank-form-h2"><b>{other.title}</b></h1>
                                             <div>
                                                 <b><input type="text" className="dank-form-single-text"/></b>
@@ -984,7 +987,7 @@ var Others = React.createClass({
                                     </div>
                                     :
                                     <div className="d24" onClick={function(){this.editState(i)}.bind(this)}>
-                                        <div className="text-left d25">
+                                        <div className="text-left d25 dank-schema-component-hover">
                                             <h1 className="h1f dank-form-h2"><b>{other.title}</b></h1>
                                             <div>
                                                 <b><textarea name="introduction.content" className="text-left tt1"/></b>
@@ -1048,7 +1051,7 @@ var Others = React.createClass({
                                     </div>
                                     :
                                     <div className="d24" onClick={function(){this.editState(i)}.bind(this)}>
-                                        <div className="text-left d25">
+                                        <div className="text-left d25 dank-schema-component-hover">
                                             <h1 className="h1f dank-form-h2"><b>{other.title}</b></h1>
                                             {
                                                 other.option.map(function(option){
@@ -1107,7 +1110,7 @@ var Others = React.createClass({
                                     </div>
                                     :
                                     <div className="d24" onClick={function(){this.editState(i)}.bind(this)}>
-                                        <div className="text-left d25">
+                                        <div className="text-left d25 dank-schema-component-hover">
                                             <h1 className="h1f dank-form-h2"><b>{other.title}</b></h1>
                                             {
                                                 other.option.map(function(option){

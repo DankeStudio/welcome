@@ -1,49 +1,120 @@
 var React = require('react');
+var Dropdown = require('../dropdown');
 
 module.exports = React.createClass({
     getInitialState: function() {
         return {
             add: false,
-            round: 0,
             depart: '全部部门',
-            pass: true
+            pass: true,
+            events: [],
+            eventsNames: [],
+            selectedEvent: {},
+            departments: [],
+            selectedDep: '',
+            rounds: [],
+            round: 0
         };
     },
     componentDidMount: function(){
-        $(".dropdown").click(function(){
-            var body = $(this).children('.dp-body');
-            var collapse = $(this).children('.dp-title').children('i');
-            var item = $(body).children('label');
-            if(collapse.css('transform')=='matrix(1.4, 0, 0, 1.4, 0, 0)') {
-                if(item) body.css('height', item.outerHeight()*item.length+'px');
-                collapse.css('transform', 'rotate(180deg) scale(1.4)');
+        $.get("/event", (data) => {
+            if(data.code == 0) {
+                this.setState({events: data.body.events});
+                var eventsNames = [];
+                for (var i=0; i<this.state.events.length; i++)
+                    eventsNames.push(this.state.events[i].name);
+                this.setState({eventsNames: eventsNames});
             }
-            else {
-                if(item) body.css('height', '0px');
-                collapse.css('transform', 'rotate(0deg) scale(1.4)');
-            }
-        });
-        $('#interview-status .panel-heading').click(function(){
-            $(this).next().slideToggle(300);
         })
     },
-    componentDidUpdate: function(){
-        $(".dropdown").click(function(){
-            var body = $(this).children('.dp-body');
-            var collapse = $(this).children('.dp-title').children('i');
-            var item = $(body).children('label');
-            if(collapse.css('transform')=='matrix(1.4, 0, 0, 1.4, 0, 0)') {
-                if(item) body.css('height', item.outerHeight()*item.length+'px');
-                collapse.css('transform', 'rotate(180deg) scale(1.4)');
-            }
-            else {
-                if(item) body.css('height', '0px');
-                collapse.css('transform', 'rotate(0deg) scale(1.4)');
-            }
+    eventChecked: function(eventName, i) {
+        var event = this.state.events[i];
+        if (event.eventID == this.state.selectedEvent.eventID)
+            return false;
+        this.setState({selectedEvent: event,
+                       selectedDep: '',
+                       infoComplete: false});
+        $.ajax({
+            url: "/form/id?eventID="+event.eventID,
+            contentType: 'application/json',
+            type: 'GET',
+            success: function(data) {
+                switch(data.code){
+                    case 0:
+                        this.setState({departments: data.body.event.formschema.wish.option});
+                        break;
+                    default:
+                        console.log(data.msg);
+                        break;
+                }
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error("ajax请求发起失败");
+            }.bind(this)
         });
-        $('#interview-status .panel-heading').click(function(){
-            $(this).next().slideToggle(300);
-        })
+    },
+    departChecked: function(department, i) {
+        if (department == this.state.selectedDep)
+            return false;
+        this.setState({selectedDep: department,
+                       round: 0,
+                       infoComplete: false});
+        var num = 1;
+        $.ajax({
+            url: "/interview?eventID="+this.state.selectedEvent.eventID+'&department='+department+'&new=1',
+            contentType: 'application/json',
+            type: 'GET',
+            success: function(data) {
+                switch(data.code){
+                    case 0:
+                        num = data.body.interviews[0].round;
+                        var tmp = [];
+                        for (var i=1; i<=num; i++)
+                            tmp.push('第'+i+'轮面试');
+                        this.setState({rounds: tmp});
+                        break;
+                    default:
+                        console.log(data.msg);
+                        break;
+                }
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error("ajax请求发起失败");
+            }.bind(this)
+        });
+        
+    },
+    roundChecked: function(round, i) {
+        this.setState({round: i+1});
+        $.ajax({
+            url: "/interview?eventID="+this.state.selectedEvent.eventID+'&department='+this.state.selectedDep+'&round='+(i+1),
+            contentType: 'application/json',
+            type: 'GET',
+            success: function(data) {
+                switch(data.code){
+                    case 0:
+                        var tmp = data.body.interviews[0];
+                        var days = [];
+                        for (var i=0; i<tmp.arrangement.length; i++) {
+                            tmp.arrangement[i].startTime = new Date(Date.parse(tmp.arrangement[i].startTime));
+                            var day = tmp.arrangement[i].startTime;
+                            if(days.findIndex((element) => 
+                                element.getMonth() == day.getMonth() && element.getDate() == day.getDate()) == -1)
+                                days.push(day);
+                        }
+                        console.log(days);
+                        this.setState({interview: tmp, days: days, infoComplete: true});
+                        if (days.length) this.setState({selectedDate: days[0]});
+                        break;
+                    default:
+                        console.log(data.msg);
+                        break;
+                }
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error("ajax请求发起失败");
+            }.bind(this)
+        });
     },
     addMessage: function() {
         this.setState({add: true});
@@ -90,10 +161,35 @@ module.exports = React.createClass({
 var SendedMessage = React.createClass({
     getInitialState: function() {
         return {
-            message: "balabala"
+            events: [],
+            eventsNames: [],
+            selectedEvent: {},
+            departments: [],
+            selectedDep: '',
+            rounds: [],
+            round: 0,
+            message: ''
         }
     },
     componentDidMount: function() {
+        $.ajax({
+            url: "/message",
+            contentType: 'application/json',
+            type: 'GET',
+            success: function(data) {
+                switch(data.code){
+                    case 0:
+                        this.setState({messages: data.body.messages});
+                        break;
+                    default:
+                        console.log(data.msg);
+                        break;
+                }
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error("ajax请求发起失败");
+            }.bind(this)
+        });
         //获取message
         //this.props.param.eventID,param.depart, param.round
     },
@@ -101,103 +197,18 @@ var SendedMessage = React.createClass({
         return (
             <div className="row" id="sended-message">
                 <div className="col-md-3">
-                    <EventDropdown data={[]} />
-                    <RoundDropdown data={[]} />
-                    <DepartDropdown data={[]} />
+                    <Dropdown data={this.state.eventsNames} handleChecked={this.eventChecked} 
+                              name={'event'} default={"选择面试活动"} resetWhenChanged={null} />
+                    <Dropdown data={this.state.departments} handleChecked={this.departChecked} 
+                              name={'depart'} default={"选择面试部门"} resetWhenChanged={this.state.selectedEvent} />
+                    <Dropdown data={this.state.rounds} handleChecked={this.roundChecked} 
+                              name={'round'} default={"选择面试轮次"} 
+                              resetWhenChanged={this.state.selectedDep + this.state.selectedEvent} />
                 </div>
                 <div className="col-md-6">
                     <p>{this.state.message}</p>
                 </div>
                 <div className="col-md-3">
-                </div>
-            </div>
-        )
-    }
-});
-
-var EventDropdown = React.createClass({
-    getInitialState: function (){
-        return {selectedItem: "选择面试活动"}
-    },
-    handleChecked: function(eventID, e) {
-        this.setState({selectedItem: e.currentTarget.value});
-        //this.props.eventChecked(eventID);
-    },
-    render: function () {
-        return ( 
-            <div className="dropdown">
-                <div className="dp-title">
-                    {this.state.selectedItem}
-                    <i className="fa fa-caret-down"></i>
-                </div>
-                <div className="dp-body">
-                    {this.props.data.map((event) => 
-                        <label key={event.eventID}>
-                            <input type="radio" name="event" value={event.name}
-                                checked={this.state.selectedItem === event.name} 
-                                onChange={this.handleChecked.bind(null, event.eventID)}/>
-                                {event.name}
-                        </label>
-                    )}
-                </div>
-            </div>
-        )
-    }
-});
-
-var RoundDropdown = React.createClass({
-    getInitialState: function (){
-        return {selectedItem: "选择面试轮次"}
-    },
-    handleChecked: function(e) {
-        this.setState({selectedItem: e.currentTarget.value});
-    },
-    render: function () {
-        return ( 
-            <div className="dropdown">
-                <div className="dp-title">
-                    {this.state.selectedItem}
-                    <i className="fa fa-caret-down"></i>
-                </div>
-                <div className="dp-body">
-                    {this.props.data.map((event) => 
-                        <label key={event.eventID}>
-                            <input type="radio" name="event" value={event.name}
-                                checked={this.state.selectedItem === event.name} 
-                                onChange={this.handleChecked.bind(null, event.eventID)}/>
-                                {event.name}
-                        </label>
-                    )}
-                </div>
-            </div>
-        )
-    }
-});
-
-var DepartDropdown = React.createClass({
-    getInitialState: function() {
-        return {selectedItem: "选择面试部门"}
-    },
-    handleChecked: function(e) {
-        this.setState({selectedItem: e.currentTarget.value});
-        //this.props.departChecked(e.currentTarget.value);
-    },
-    render: function() {
-        return (
-            <div className="dropdown">
-                <div className="dp-title">
-                    {this.state.selectedItem}
-                    <i className="fa fa-caret-down"></i>
-                </div>
-                <div className="dp-body">
-                    {this.props.data.map((department) =>
-                        <label onClick={this.handleChecked}>
-                            <input type="radio" name="department" value={department} 
-                                   checked={this.state.selectedItem === department}
-                                   onChange={this.handleChecked.bind(null)} />
-                            {department}
-                        </label>
-                    )}
                 </div>
             </div>
         )
@@ -269,7 +280,14 @@ var ReplyMessage = React.createClass({
 var NewMessageInfoSelect = React.createClass({
     getInitialState: function() {
         return {
-            target: 'pass'
+            target: 'pass',
+            events: [],
+            eventsNames: [],
+            selectedEvent: {},
+            departments: [],
+            selectedDep: '',
+            rounds: [],
+            round: 0
         }
     },
     isActive: function(value) {
@@ -283,12 +301,13 @@ var NewMessageInfoSelect = React.createClass({
         return (
             <div className="row" id="message-info-select">
                 <div className="col-md-4">
-                    <EventDropdown data={[]} />
+                    <Dropdown data={this.state.eventsNames} handleChecked={this.eventChecked} 
+                              name={'event'} default={"选择面试活动"} resetWhenChanged={this.state.reset}/>
                 </div>
                 <div className="col-md-8">
                     群发对象：
-                    <DepartDropdown data={[]} />
-                    <RoundDropdown data={[]} />
+                    <Dropdown data={[]} />
+                    <Dropdown data={[]} />
                     <button className={'btn'+this.isActive('pass')} 
                             onClick={this.changeTarget} value="pass">通过者</button>
                     <button className={'btn'+this.isActive('fail')} 
@@ -341,7 +360,27 @@ var NewMessageEdit = React.createClass({
         })
     },
     send: function() {
-        //post what and to where?
+        $.ajax({
+            url: "/message/create",
+            contentType: 'application/json',
+            type: 'POST',
+            data: JSON.stringify({
+                message: {
+                    orgID: '',
+                    department: this.state.depart,
+                    date: new Date(),
+                    telnumber: ['17764519167'],
+                    text: this.state.preset,
+                    cost: 0.5
+                }
+            }),
+            success: function(data) {
+                console.log(data);
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error("ajax请求发起失败");
+            }.bind(this)
+        });
     },
     render: function() {
         return (

@@ -46,7 +46,7 @@ exports.submit = (req, res, next) => {
 							interviewer: {
 								telnumber: _form.baseinfo.telnumber,
 								name: _form.baseinfo.name,
-								state: '未通过'
+								state: '通过'
 							}
 						}
 					}));
@@ -202,26 +202,61 @@ exports.output = (req, res, next) => {
 }
 
 //删除报名表
-exports.delete = (req, res, next) =>{
-	Form.update({
-		_id : req.body.id
-	}, {
-		$set: {
-			delete: true
-		}
-	}, function(err) {
-		if (err) {
-			res.json({
-				code: -1,
-				msg: '数据库更新时出错 ' + err,
-				body: {}
-			});
-		} else {
+exports.delete = (req, res, next) => {
+	var formRet;
+	Form.findOneAndUpdate({
+			_id: req.body.id
+		}, {
+			$set: {
+				delete: true
+			}
+		})
+		//删除报名表对应的面试信息
+		.then((form) => {
+			var orgID = req.session.org._id;
+			var eventID = form.eventID;
+			var telnumber = form.baseinfo.telnumber;
+			console.log(telnumber);	
+			formRet = form;
+			if (form) {
+				return Interview.update({
+					orgID: orgID,
+					eventID: eventID
+				}, {
+					$pull: {
+						interviewer: {
+							telnumber: telnumber
+						}
+					}
+				}, {
+					multi: true
+				});
+			} else {
+				throw {
+					code: -1,
+					msg: '报名表不存在',
+					body: {}
+				}
+			}
+		})
+		.then(() => {
 			res.json({
 				code: 0,
 				msg: 'ok',
-				body: {}
+				body: {
+					form: formRet
+				}
 			});
-		}
-	})
+		})
+		.catch((err) => {	
+			if (err.code < 0) {
+				res.json(err);
+			} else {
+				res.json({
+					code: 1,
+					msg: '数据库更新时出错 ' + err,
+					body: {}
+				});
+			}
+		})
 }

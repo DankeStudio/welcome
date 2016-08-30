@@ -436,7 +436,7 @@ exports.interviewerDelete = (req, res, next) => {
 			orgID: orgID
 		}, {
 			$pull: {
-				interview: {
+				interviewer: {
 					telnumber: telnumber
 				}
 			}

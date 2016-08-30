@@ -24,18 +24,18 @@ exports.create = (req, res, next) => {
 			//按照部门创建面试
 			.then((event) => {
 				//console.log(event);
-				var promises = [];
+				var docs = [];
 				var option = event.formschema.wish.option;
 				eventRet = event;
 				for (department of option) {
-					promises.push(Interview.create({
+					docs.push({
 						orgID: orgID,
 						eventID: event.eventID,
 						department: department,
 						round: 0
-					}));
+					});
 				}
-				return Promise.all(promises);
+				return Interview.insertMany(docs);
 			})
 			.then((interviews) => {
 				res.json({
@@ -157,6 +157,8 @@ exports.getEvent = (req, res, next) => {
 			} else {
 				return Event.find({
 					orgID: org._id
+				}).sort({
+					date: -1
 				});
 			}
 		})

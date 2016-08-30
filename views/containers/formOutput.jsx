@@ -6,7 +6,8 @@ var Output = React.createClass({
         return{
             eventID:this.props.params.eventID,
             wish: this.props.params.eventID.wish,
-            forms:[]
+            forms:[],
+            getData: false
         }
     },
     componentDidMount: function(){
@@ -23,7 +24,7 @@ var Output = React.createClass({
                 switch(data.code){
                     case 0:
                         if(this.isMounted()){
-                            this.setState({forms: data.body.forms});
+                            this.setState({forms: data.body.forms, getData:true});
                         }
                         break;
                     default:
@@ -37,7 +38,11 @@ var Output = React.createClass({
             }.bind(this)
         });
     },
-
+    componentDidUpdate: function(){
+        if(this.state.getData){
+            window.print();
+        }
+    },
     render: function(){
         var forms = this.state.forms.map(function(form, i){
             return(
@@ -120,6 +125,7 @@ var Output = React.createClass({
                         null
                         :
                         <div>
+                            <div className="dank-output-title">志愿选择</div>
                             <div className="dank-output-label">{form.wish.title}</div>
                             <div className="dank-output-content">{new function(){
                                 var data = [];
@@ -145,12 +151,72 @@ var Output = React.createClass({
                             }
                         </div>
                     }
+                    {(form.others)?
+                        <div>
+                            <div className="dank-output-title">其他问题</div>
+                            {
+                                form.others.map(function(other, k){
+                                    switch (other.type){
+                                        case 'single-text':
+                                            return(
+                                                <div key={k}>
+                                                    <div className="dank-output-label">{other.title}</div>
+                                                    <div className="dank-output-content">{other.content}</div>
+                                                </div>
+                                            );
+                                        case 'multi-text':
+                                            return(
+                                                <div key={k}>
+                                                    <div className="dank-output-label">{other.title}</div>
+                                                    <div className="dank-output-content">{other.content}</div>
+                                                </div>
+                                            );
+                                        case 'single-choose':
+                                            return(
+                                                <div key={k}>
+                                                    <div className="dank-output-label">{other.title}</div>
+                                                    <div className="dank-output-content">{other.chosen}</div>
+                                                </div>
+                                            );
+                                        case 'multi-choose':
+                                            return(
+                                                <div key={k}>
+                                                    <div className="dank-output-label">{other.title}</div>
+                                                    <div className="dank-output-content">{new function(){
+                                                        var data = [];
+                                                        for(var chosen of other.chosen){
+                                                            data.push(chosen+'　　');
+                                                        }
+                                                        return data
+                                                    }}</div>
+                                                </div>
+                                            );
+                                        case 'file':
+                                            return(
+                                                <div key={k}>
+                                                    <div className="dank-output-label">{other.title}</div>
+                                                    <div className="dank-output-content">{other.url}</div>
+                                                </div>
+                                            );
+                                        default:
+                                            return null;
+                                    }
+                                }.bind(this))
+                            }
+                        </div>
+                        :
+                        null
+                    }
                 </div>
             )
         }.bind(this));
         return(
             <div>
-                <div onClick={function(){window.print()}} className="dank-button-print">打印</div>
+                <div className="dank-output-print">
+                    <div className="dank-output-text">报名表已导出并打印为pdf......</div>
+                    <div className="dank-output-text">若打印未开始 请手动调用浏览器打印网页功能 或 点击按钮</div>
+                    <div className="dank-output-button" onClick={function(){window.print()}}>打印或导出为pdf</div>
+                </div>
                 {forms}
             </div>
         )

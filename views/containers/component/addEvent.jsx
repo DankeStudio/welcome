@@ -86,15 +86,15 @@ var Content = React.createClass({
 
         if(this.refs.person)
         {
-            this.refs.person.componentForceUnmount(submit);
+            this.refs.person.componentForceUnmount(create);
         }
         if(this.refs.wish)
         {
-            this.refs.wish.componentForceUnmount(submit);
+            this.refs.wish.componentForceUnmount(create);
         }
         if(this.refs.others)
         {
-            this.refs.others.componentForceUnmount(submit);
+            this.refs.others.componentForceUnmount(create);
         }
 
     },

@@ -58,7 +58,7 @@ var Content = React.createClass({
             wish: {
                 delete:'',
                 title:'',
-                chosen:[]
+                chosen:['']
             },
             reason: [],
             others:[],

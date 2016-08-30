@@ -170,6 +170,42 @@ var Content = React.createClass({
                 console.error("ajax请求发起失败");
             }.bind(this)
         });
+        $.ajax({
+            url: "/user/profile",
+            contentType: 'application/json',
+            type: 'GET',
+            success: function(data) {
+                switch(data.code){
+                    case 0:
+                        if(this.isMounted()){
+                            var baseinfo = {
+                                username:data.body.user.username,
+                                address: data.body.user.baseinfo.address,
+                                birth: data.body.user.baseinfo.birth,
+                                email: data.body.user.baseinfo.email,
+                                name: data.body.user.baseinfo.name,
+                                nation: data.body.user.baseinfo.nation,
+                                origin: data.body.user.baseinfo.origin,
+                                politicalStatus: data.body.user.baseinfo.politicalStatus,
+                                qq: data.body.user.baseinfo.qq,
+                                schoolID: data.body.user.baseinfo.schoolID,
+                                sex: data.body.user.baseinfo.sex,
+                                telnumber: data.body.user.baseinfo.telnumber,
+                                telshort: data.body.user.baseinfo.telshort,
+                                major: data.body.user.baseinfo.major
+                            };
+                            this.setState({baseinfo:baseinfo});
+                        }
+                        break;
+                    default:
+                        console.log(data.msg);
+                        break;
+                }
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error("ajax请求发起失败");
+            }.bind(this)
+        });
     },
     dataRecall: function(item, data, callback){
         this.setState({[item]:data}, callback);
@@ -323,6 +359,23 @@ var Baseinfo = React.createClass({
         $("input[type='radio']").on('ifChecked', function(event){
             this.handleChange(event);
         }.bind(this));
+    },
+    componentWillReceiveProps: function(nextProps) {
+        this.setState({
+            name: nextProps.data.name,
+            sex: nextProps.data.sex,
+            origin:nextProps.data.origin,
+            nation:nextProps.data.nation,
+            schoolID:nextProps.data.schoolID,
+            politicalStatus:nextProps.data.politicalStatus,
+            telnumber:nextProps.data.telnumber,
+            telshort:nextProps.data.telshort,
+            email:nextProps.data.email,
+            qq:nextProps.data.qq,
+            major:nextProps.data.major,
+            birth:nextProps.data.birth,
+            address:nextProps.data.address
+        });
     },
 
     handleChange: function(event){

@@ -83,8 +83,8 @@ var Content = React.createClass({
                 <div className="qr-code-background" id="qrCodeBackground" onClick={function(){$("#qrCodeBackground, #qrCodeDiv").fadeOut();$("#qrCode").empty();}}></div>
                 <div className="qr-code-div" id="qrCodeDiv">
                     <div className="qr-code-text">扫描二维码或访问下述网址即可报名 </div>
-                    <div className="qr-code-text">PC端: www.zju-welcome.com/#/form/{this.state.nowEventID} </div>
-                    <div className="qr-code-text">移动端: www.zju-welcome.com/#/mobile/form/{this.state.nowEventID} </div>
+                    <div className="qr-code-text">PC端: www.zju-welcome.com:3000/#/form/{this.state.nowEventID} </div>
+                    <div className="qr-code-text">移动端: www.zju-welcome.com:3000/#/mobile/form/{this.state.nowEventID} </div>
                     <div id="qrCode" className="qr-code"></div>
                 </div>
             </div>
@@ -119,7 +119,7 @@ var Event = React.createClass({
     },
     share: function(){
         $('#qrCode').qrcode({
-            text:"http://www.zju-welcome.com/#/mobile/form/"+this.props.eventID,
+            text:"http://www.zju-welcome.com:3000/#/mobile/form/"+this.props.eventID,
             width: 255,
             height: 255
         });

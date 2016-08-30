@@ -561,7 +561,7 @@ var List = React.createClass({
                     title:'',
                     chosen:[]
                 },
-                reason: '',
+                reason: [],
                 remark:'',
                 others:[]
             }]
@@ -834,6 +834,10 @@ var List = React.createClass({
             }.bind(this)
         });
     },
+    //导出报名表
+    output: function () {
+        window.open("#/forms/output/" + this.props.eventID + "/" + this.state.wish);
+    },
     render: function(){
         var titleStyle1 = {
             textAlign: 'left'
@@ -884,7 +888,7 @@ var List = React.createClass({
                 <div style={titleStyle1}><big style={eventIDStyle}>报名表序号 {this.props.eventID}</big></div>
                 <div style={titleStyle2}>
                     <big className="dank-a14" ><b>导入报名表</b></big>
-                    <big className="dank-a14" ><b>导出报名表</b></big>
+                    <big className="dank-a14" onClick={this.output}><b>导出报名表</b></big>
                 </div>
                 <div style={titleStyle3} className="form-inline" id="form-manage-option">
                     <Dropdown data={this.props.departments.concat(['全部部门'])} handleChecked={this.selectHandler} name={'department'} default={"全部部门"} resetWhenChanged={null}/>

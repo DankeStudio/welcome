@@ -52,6 +52,10 @@ module.exports = require('express').Router()
     .get('/form',grantOrg)
     .get('/form',form.getForm)
 
+    //form output
+    .get('/form/output',grantOrg)
+    .get('/form/output',form.output)
+
     //delete form
     .post('/form/delete', grantOrg)
     .post('/form/delete', form.delete)

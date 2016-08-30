@@ -24,6 +24,7 @@ var info = require('./containers/component/info.jsx');
 var infoChange = require('./containers/component/infoChange.jsx');
 
 var back = require('./containers/back.jsx');
+var formOutput = require('./containers/formOutput.jsx');
 //var dispatcher;
 var time = require('./containers/component/dispatcher/time.jsx');
 var status = require('./containers/component/dispatcher/status.jsx');
@@ -77,5 +78,6 @@ render((
             <Route path="transhbin" />
         </Route>
         <Route path="/form/:id" component={form}/>
+        <Route path="/forms/output/:eventID/:wish" component={formOutput}/>
     </Router>
 ), document.getElementById('content'));

@@ -40,8 +40,8 @@ var Content = React.createClass({
             remark:'无'
         }
     },
-    dataRecall: function(item, data){
-        this.setState({[item]:data});
+    dataRecall: function(item, data, callback){
+        this.setState({[item]:data}, callback);
     },
     nextPage: function(){
         var nextPage = (this.state.page)%(this.state.totalPage) + 1;
@@ -53,46 +53,49 @@ var Content = React.createClass({
     },
 
     submit: function(){
+        var create = function(){
+            $.ajax({
+                url: "event/create",
+                contentType: 'application/json',
+                type: 'POST',
+                data: JSON.stringify({
+                    name: this.state.name,
+                    formschema:{
+                        skills: this.state.skills,
+                        introduction: this.state.introduction,
+                        wish: this.state.wish,
+                        others: this.state.others
+                    }
+                }),
+                success: function(data) {
+                    console.log(data);
+                    switch(data.code){
+                        case 0:
+                            window.location.href = '/#/back';
+                            break;
+                        default:
+                            console.log(data.msg);
+                            break;
+                    }
+                }.bind(this),
+                error: function(xhr, status, err) {
+                    console.error("ajax请求发起失败");
+                }.bind(this)
+            });
+        }.bind(this);
+
         if(this.refs.person)
         {
-            this.refs.person.componentWillUnmount();
+            this.refs.person.componentForceUnmount(submit);
         }
         if(this.refs.wish)
         {
-            this.refs.wish.componentWillUnmount();
+            this.refs.wish.componentForceUnmount(submit);
         }
         if(this.refs.others)
         {
-            this.refs.others.componentWillUnmount();
+            this.refs.others.componentForceUnmount(submit);
         }
-        $.ajax({
-            url: "event/create",
-            contentType: 'application/json',
-            type: 'POST',
-            data: JSON.stringify({
-                name: this.state.name,
-                formschema:{
-                    skills: this.state.skills,
-                    introduction: this.state.introduction,
-                    wish: this.state.wish,
-                    others: this.state.others
-                }
-            }),
-            success: function(data) {
-                console.log(data);
-                switch(data.code){
-                    case 0:
-                        window.location.href = '/#/back';
-                        break;
-                    default:
-                        console.log(data.msg);
-                        break;
-                }
-            }.bind(this),
-            error: function(xhr, status, err) {
-                console.error("ajax请求发起失败");
-            }.bind(this)
-        });
 
     },
 
@@ -351,6 +354,14 @@ var Person = React.createClass({
         }
     },
 
+    componentForceUnmount: function(callback){
+        var skills = this.state.skills;
+        var introduction = this.state.introduction;
+        this.props.dataRecall('skills', skills, function(){
+            this.props.dataRecall('introduction', introduction, callback);
+        }.bind(this));
+    },
+
     decoder: function(options){
         return options.join('#');
     },
@@ -564,6 +575,12 @@ var Wish = React.createClass({
             this.props.pageDelete(3);
         }
     },
+
+    componentForceUnmount: function(callback){
+        var wish = this.state.wish;
+        this.props.dataRecall('wish', wish, callback);
+    },
+
     decoder: function(options){
         return options.join('#');
     },
@@ -737,6 +754,9 @@ var Others = React.createClass({
     },
     componentWillUnmount: function(){
         this.props.dataRecall('others', this.state.others);
+    },
+    componentForceUnmount: function(callback){
+        this.props.dataRecall('others', this.state.others,callback);
     },
 
     decoder: function(options){

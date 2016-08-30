@@ -865,8 +865,9 @@ body {
 }
 
 .dank-can2{
-  width: 150px;
-  height: 150px;
+  width: 110px!important;
+  height: 146px!important;
+  zoom: 1.37;
   display: block;
   margin: 0 auto;
 }

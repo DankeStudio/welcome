@@ -451,14 +451,7 @@ var Graph2 = React.createClass({
                 switch(data.code){
                     case 0:
                         if(this.isMounted()){
-                            if(myChart1){
-                                myChart1.destroy();
-                            }
                             this.print1(data.body.gender);
-
-                            if(myChart2){
-                                myChart2.destroy();
-                            }
                             this.print2(data.body.department);
                         }
                         break;
@@ -487,7 +480,14 @@ var Graph2 = React.createClass({
                 switch(data.code){
                     case 0:
                         if(this.isMounted()){
+                            if(myChart1){
+                                myChart1.destroy();
+                            }
                             this.print1(data.body.gender);
+
+                            if(myChart2){
+                                myChart2.destroy();
+                            }
                             this.print2(data.body.department);
                         }
                         break;
@@ -511,7 +511,7 @@ var Graph2 = React.createClass({
                     <tr>
                         <td>
                             <canvas id="myChart1" width="150px" height= "200px" className="dank-can2"/>
-                    </td>
+                        </td>
                         <td>
                             <canvas id="myChart2"  width="150px" height= "200px" className="dank-can2"/>
                         </td>

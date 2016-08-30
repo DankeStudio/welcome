@@ -80,6 +80,13 @@ var Content = React.createClass({
                         {(this.state.nowEventID!='')?<Form eventID={this.state.nowEventID}/>:null}
                     </div>
                 </div>
+                <div className="qr-code-background" id="qrCodeBackground" onClick={function(){$("#qrCodeBackground, #qrCodeDiv").fadeOut();$("#qrCode").empty();}}></div>
+                <div className="qr-code-div" id="qrCodeDiv">
+                    <div className="qr-code-text">扫描二维码或访问下述网址即可报名 </div>
+                    <div className="qr-code-text">PC端: www.zju-welcome.com:3000/#/form/{this.state.nowEventID} </div>
+                    <div className="qr-code-text">移动端: www.zju-welcome.com:3000/#/mobile/form/{this.state.nowEventID} </div>
+                    <div id="qrCode" className="qr-code"></div>
+                </div>
             </div>
         )
     }
@@ -110,7 +117,14 @@ var Event = React.createClass({
             }.bind(this)
         });
     },
-
+    share: function(){
+        $('#qrCode').qrcode({
+            text:"www.zju-welcome.com:3000/#/mobile/form/"+this.props.eventID,
+            width: 255,
+            height: 255
+        });
+        $('#qrCodeDiv,#qrCodeBackground').fadeIn();
+    },
     render: function(){
         var overflow = {
             overflow : "hidden"
@@ -144,6 +158,7 @@ var Event = React.createClass({
                             </tbody>
                         </table>
                         {(eventItem.eventID==this.props.eventID)?<big className="dank-event-delete" onClick={this.eventDelete}>删除</big>:null }
+                        {(eventItem.eventID==this.props.eventID)?<big className="dank-event-share" onClick={this.share}>分享报名地址</big>:null }
                         {(eventItem.eventID==this.props.eventID)?<big className="dank-event-form" onClick={function(){window.open("#/form/"+this.props.eventID)}.bind(this) }>查看报名页面</big>:null }
                     </div>
                 </div>

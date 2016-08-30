@@ -119,7 +119,7 @@ var Event = React.createClass({
     },
     share: function(){
         $('#qrCode').qrcode({
-            text:"www.zju-welcome.com:3000/#/mobile/form/"+this.props.eventID,
+            text:"http://www.zju-welcome.com:3000/#/mobile/form/"+this.props.eventID,
             width: 255,
             height: 255
         });

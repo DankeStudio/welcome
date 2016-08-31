@@ -80,6 +80,13 @@ var Content = React.createClass({
                         {(this.state.nowEventID!='')?<Form eventID={this.state.nowEventID}/>:null}
                     </div>
                 </div>
+                <div className="qr-code-background" id="qrCodeBackground" onClick={function(){$("#qrCodeBackground, #qrCodeDiv").fadeOut();$("#qrCode").empty();}}></div>
+                <div className="qr-code-div" id="qrCodeDiv">
+                    <div className="qr-code-text">扫描二维码或访问下述网址即可报名 </div>
+                    <div className="qr-code-text">PC端: www.zju-welcome.com:3000/#/form/{this.state.nowEventID} </div>
+                    <div className="qr-code-text">移动端: www.zju-welcome.com:3000/#/mobile/form/{this.state.nowEventID} </div>
+                    <div id="qrCode" className="qr-code"></div>
+                </div>
             </div>
         )
     }
@@ -110,7 +117,14 @@ var Event = React.createClass({
             }.bind(this)
         });
     },
-
+    share: function(){
+        $('#qrCode').qrcode({
+            text:"http://www.zju-welcome.com:3000/#/mobile/form/"+this.props.eventID,
+            width: 255,
+            height: 255
+        });
+        $('#qrCodeDiv,#qrCodeBackground').fadeIn();
+    },
     render: function(){
         var overflow = {
             overflow : "hidden"
@@ -144,6 +158,7 @@ var Event = React.createClass({
                             </tbody>
                         </table>
                         {(eventItem.eventID==this.props.eventID)?<big className="dank-event-delete" onClick={this.eventDelete}>删除</big>:null }
+                        {(eventItem.eventID==this.props.eventID)?<big className="dank-event-share" onClick={this.share}>分享报名地址</big>:null }
                         {(eventItem.eventID==this.props.eventID)?<big className="dank-event-form" onClick={function(){window.open("#/form/"+this.props.eventID)}.bind(this) }>查看报名页面</big>:null }
                     </div>
                 </div>
@@ -451,14 +466,7 @@ var Graph2 = React.createClass({
                 switch(data.code){
                     case 0:
                         if(this.isMounted()){
-                            if(myChart1){
-                                myChart1.destroy();
-                            }
                             this.print1(data.body.gender);
-
-                            if(myChart2){
-                                myChart2.destroy();
-                            }
                             this.print2(data.body.department);
                         }
                         break;
@@ -487,7 +495,14 @@ var Graph2 = React.createClass({
                 switch(data.code){
                     case 0:
                         if(this.isMounted()){
+                            if(myChart1){
+                                myChart1.destroy();
+                            }
                             this.print1(data.body.gender);
+
+                            if(myChart2){
+                                myChart2.destroy();
+                            }
                             this.print2(data.body.department);
                         }
                         break;
@@ -511,7 +526,7 @@ var Graph2 = React.createClass({
                     <tr>
                         <td>
                             <canvas id="myChart1" width="150px" height= "200px" className="dank-can2"/>
-                    </td>
+                        </td>
                         <td>
                             <canvas id="myChart2"  width="150px" height= "200px" className="dank-can2"/>
                         </td>
@@ -561,7 +576,7 @@ var List = React.createClass({
                     title:'',
                     chosen:[]
                 },
-                reason: '',
+                reason: [],
                 remark:'',
                 others:[]
             }]
@@ -834,6 +849,10 @@ var List = React.createClass({
             }.bind(this)
         });
     },
+    //导出报名表
+    output: function () {
+        window.open("#/forms/output/" + this.props.eventID + "/" + this.state.wish);
+    },
     render: function(){
         var titleStyle1 = {
             textAlign: 'left'
@@ -884,7 +903,7 @@ var List = React.createClass({
                 <div style={titleStyle1}><big style={eventIDStyle}>报名表序号 {this.props.eventID}</big></div>
                 <div style={titleStyle2}>
                     <big className="dank-a14" ><b>导入报名表</b></big>
-                    <big className="dank-a14" ><b>导出报名表</b></big>
+                    <big className="dank-a14" onClick={this.output}><b>导出报名表</b></big>
                 </div>
                 <div style={titleStyle3} className="form-inline" id="form-manage-option">
                     <Dropdown data={this.props.departments.concat(['全部部门'])} handleChecked={this.selectHandler} name={'department'} default={"全部部门"} resetWhenChanged={null}/>

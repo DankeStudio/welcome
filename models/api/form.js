@@ -155,6 +155,52 @@ exports.getForm = (req, res, next) => {
 		})
 }
 
+//导出报名表 发送所有符合条件的报名表数据
+exports.output = (req, res, next) => {
+	var eventID = Number(req.query.eventID);
+	var wish = req.query.wish;
+	var query;
+	//check eventID
+	if (!eventID) {
+		return res.json({
+			code: -1,
+			msg: '需要参数eventID',
+			body: {}
+		})
+	}
+	//初始query
+	query = Form.find({
+		eventID: eventID,
+		delete: false
+	})
+	//deal with wish
+	if (wish) {
+		wish = [wish];
+		query = query.where({
+			'wish.chosen': {
+				$in: wish
+			}
+		})
+	}
+	query.then((forms) => {
+			res.json({
+				code: 0,
+				msg: 'ok',
+				body: {
+					forms: forms
+				}
+			})
+		})
+		.catch((err) => {
+			//console.log(err);
+			res.json({
+				code: -2,
+				msg: '数据库未知错误',
+				body: {}
+			})
+		})
+}
+
 //删除报名表
 exports.delete = (req, res, next) => {
 	var formRet;

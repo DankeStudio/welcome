@@ -914,13 +914,15 @@ b.b1{
 	font-family: 微软雅黑;
 }
 canvas.can1{
-	width: 300px;
-	height: 220px;
+	width: 220px!important;
+	height: 160px!important;
+	zoom:1.37;
 	display: block;
 }
 canvas.can2{
-	width: 150px;
-	height: 150px;
+	width: 110px!important;
+	height: 110px!important;
+	zoom: 1.37;
 	display: block;
 }
 option.o1{

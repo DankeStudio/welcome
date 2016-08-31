@@ -644,10 +644,22 @@ body {
   font-size: 18px;
   float: right;
   color: #ffffff;
-  margin: -10px 0px 10px 0;
+  margin: -10px 0 10px 0;
 }
 
 .dank-event-delete:hover{
+  color: #203140;
+  cursor: pointer;
+}
+
+.dank-event-share{
+  font-size: 18px;
+  float: right;
+  color: #ffffff;
+  margin: -10px 10px 10px 0;
+}
+
+.dank-event-share:hover{
   color: #203140;
   cursor: pointer;
 }
@@ -662,6 +674,152 @@ body {
 .dank-event-form:hover{
   color: #203140;
   cursor: pointer;
+}
+
+@media screen{
+  .dank-output-form{
+    display: none;
+  }
+  body{
+    background-color: rgba(218, 218, 218, 0.73);
+  }
+  .dank-output-print{
+    width: 50%;
+    height: 50%;
+    padding: 30px;
+    padding-top: 75px;
+    top: 25%;
+    left: 25%;
+    background-color: #FFFFFF;
+    border: solid 5px #355163;
+    border-radius: 30px;
+    box-shadow: 0 0 40px #333;
+    position: fixed;
+  }
+  .dank-output-button{
+    width: 290px;
+    height: 63px;
+    line-height: 63px;
+    border-radius: 14px;
+    box-shadow: 2px 2px 5px #93949b;
+    background-color: #f57b6d;
+    color: #FFFFFF;
+    text-align: center;
+    vertical-align: middle;
+    font-weight: bold;
+    left: 50%;
+    margin-left: -145px;
+    font-size: 25px;
+    position: absolute;
+    bottom: 50px;
+  }
+  .dank-output-button:hover{
+    cursor: pointer;
+    background-color: rgba(242, 121, 110, 0.82);
+  }
+  .dank-output-button:active{
+    box-shadow:inset 2px 2px 5px #93949b;
+    background-color: rgba(242, 121, 110, 0.82);
+  }
+  .dank-output-text{
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: rgba(32, 49, 64, 0.82);
+    line-height: 40px;
+  }
+}
+
+@media print{
+  .dank-output-print{
+    display: none;
+  }
+  .dank-output-form{
+    page-break-after: always;
+    width: 100%;
+  }
+  .dank-output-caption{
+    text-align: center;
+    font-weight: bold;
+    font-size: 24pt;
+  }
+  .dank-output-title{
+    margin-top: 10pt;
+    font-weight: bold;
+    font-size: 16pt;
+    border-bottom: #000000 solid 0.5pt;
+    page-break-after: avoid;
+  }
+  .dank-output-table{
+    margin-top: 5pt;
+    width: 100%;
+  }
+  .dank-output-table>tbody>tr{
+    height: 12pt;
+  }
+  .dank-output-baseinfo-label{
+    width: 10%;
+    font-weight: bold;
+    font-size: 12pt;
+  }
+  .dank-output-baseinfo-info{
+    width: 25%;
+    font-size: 10pt;
+  }
+  .dank-output-baseinfo-photo{
+    width: 30%;
+    text-align: center;
+    vertical-align: middle;
+  }
+  .dank-output-label{
+    margin-top: 8pt;
+    font-weight: bold;
+    font-size: 10pt;
+    page-break-after: avoid;
+  }
+  .dank-output-content{
+    font-size: 10pt;
+  }
+}
+
+.qr-code-background{
+  display: none;
+  width: 100%;
+  height: 100%;
+  background-color: #000000;
+  filter:alpha(opacity=50);
+  -moz-opacity:0.5;
+  opacity:0.5;
+  position: fixed;
+  top:0;
+  left: 0;
+}
+
+.qr-code-div{
+  display: none;
+  padding: 30px;
+  position: fixed;
+  width: 630px;
+  height: 450px;
+  top: 50%;
+  left: 50%;
+  margin-top: -225px;
+  margin-left: -315px;
+  background-color: #FFFFFF;
+  border: solid 5px #355163;
+  border-radius: 30px;
+  box-shadow: 0 0 40px #333;
+}
+
+.qr-code-text{
+  text-align: center;
+  font-size: 20px;
+  line-height: 30px;
+}
+
+.qr-code{
+  width: 255px;
+  height: 255px;
+  margin: 20px auto;
 }
 
 /*补充temp.css的内容*/
@@ -759,8 +917,9 @@ body {
 }
 
 .dank-can2{
-  width: 150px;
-  height: 150px;
+  width: 110px!important;
+  height: 146px!important;
+  zoom: 1.37;
   display: block;
   margin: 0 auto;
 }

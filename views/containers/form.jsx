@@ -58,7 +58,7 @@ var Content = React.createClass({
             wish: {
                 delete:'',
                 title:'',
-                chosen:[]
+                chosen:['']
             },
             reason: [],
             others:[],
@@ -170,9 +170,45 @@ var Content = React.createClass({
                 console.error("ajax请求发起失败");
             }.bind(this)
         });
+        $.ajax({
+            url: "/user/profile",
+            contentType: 'application/json',
+            type: 'GET',
+            success: function(data) {
+                switch(data.code){
+                    case 0:
+                        if(this.isMounted()){
+                            var baseinfo = {
+                                username:data.body.user.username,
+                                address: data.body.user.baseinfo.address,
+                                birth: data.body.user.baseinfo.birth,
+                                email: data.body.user.baseinfo.email,
+                                name: data.body.user.baseinfo.name,
+                                nation: data.body.user.baseinfo.nation,
+                                origin: data.body.user.baseinfo.origin,
+                                politicalStatus: data.body.user.baseinfo.politicalStatus,
+                                qq: data.body.user.baseinfo.qq,
+                                schoolID: data.body.user.baseinfo.schoolID,
+                                sex: data.body.user.baseinfo.sex,
+                                telnumber: data.body.user.baseinfo.telnumber,
+                                telshort: data.body.user.baseinfo.telshort,
+                                major: data.body.user.baseinfo.major
+                            };
+                            this.setState({baseinfo:baseinfo});
+                        }
+                        break;
+                    default:
+                        console.log(data.msg);
+                        break;
+                }
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error("ajax请求发起失败");
+            }.bind(this)
+        });
     },
-    dataRecall: function(item, data){
-        this.setState({[item]:data});
+    dataRecall: function(item, data, callback){
+        this.setState({[item]:data}, callback);
     },
     nextPage: function(){
         var nextPage = (this.state.page)%(this.state.totalPage) + 1;
@@ -184,53 +220,57 @@ var Content = React.createClass({
     },
 
     submit: function(){
+        var submit = function(){
+            $.ajax({
+                url: "form/submit",
+                contentType: 'application/json',
+                type: 'POST',
+                data: JSON.stringify({
+                    eventID: this.state.eventID,
+                    writetime: this.state.writetime,
+                    browserinfo: this.state.browserinfo,
+                    baseinfo: this.state.baseinfo,
+                    skills: this.state.skills,
+                    introduction: this.state.introduction,
+                    wish: this.state.wish,
+                    reason: this.state.reason,
+                    others: this.state.others,
+                    remark: this.state.remark
+                }),
+                success: function(data) {
+                    console.log(data);
+                    switch(data.code){
+                        case 0:
+                            window.location.href = '/#/person/info';
+                            break;
+                        default:
+                            console.log(data.msg);
+                            break;
+                    }
+                }.bind(this),
+                error: function(xhr, status, err) {
+                    console.error("ajax请求发起失败");
+                }.bind(this)
+            });
+        }.bind(this);
+
         if(this.refs.baseinfo)
         {
-            this.refs.baseinfo.componentWillUnmount();
+            this.refs.baseinfo.componentForceUnmount(submit);
         }
         if(this.refs.person)
         {
-            this.refs.person.componentWillUnmount();
+            this.refs.person.componentForceUnmount(submit);
         }
         if(this.refs.wish)
         {
-            this.refs.wish.componentWillUnmount();
+            this.refs.wish.componentForceUnmount(submit);
         }
         if(this.refs.others)
         {
-            this.refs.others.componentWillUnmount();
+            this.refs.others.componentForceUnmount(submit);
         }
-        $.ajax({
-            url: "form/submit",
-            contentType: 'application/json',
-            type: 'POST',
-            data: JSON.stringify({
-                eventID: this.state.eventID,
-                writetime: this.state.writetime,
-                browserinfo: this.state.browserinfo,
-                baseinfo: this.state.baseinfo,
-                skills: this.state.skills,
-                introduction: this.state.introduction,
-                wish: this.state.wish,
-                reason: this.state.reason,
-                others: this.state.others,
-                remark: this.state.remark
-            }),
-            success: function(data) {
-                console.log(data);
-                switch(data.code){
-                    case 0:
-                        window.location.href = '/#/person/info';
-                        break;
-                    default:
-                        console.log(data.msg);
-                        break;
-                }
-            }.bind(this),
-            error: function(xhr, status, err) {
-                console.error("ajax请求发起失败");
-            }.bind(this)
-        });
+
 
     },
     render: function(){
@@ -320,6 +360,23 @@ var Baseinfo = React.createClass({
             this.handleChange(event);
         }.bind(this));
     },
+    componentWillReceiveProps: function(nextProps) {
+        this.setState({
+            name: nextProps.data.name,
+            sex: nextProps.data.sex,
+            origin:nextProps.data.origin,
+            nation:nextProps.data.nation,
+            schoolID:nextProps.data.schoolID,
+            politicalStatus:nextProps.data.politicalStatus,
+            telnumber:nextProps.data.telnumber,
+            telshort:nextProps.data.telshort,
+            email:nextProps.data.email,
+            qq:nextProps.data.qq,
+            major:nextProps.data.major,
+            birth:nextProps.data.birth,
+            address:nextProps.data.address
+        });
+    },
 
     handleChange: function(event){
         this.setState({[event.target.getAttribute('name')]: event.target.value});
@@ -342,6 +399,25 @@ var Baseinfo = React.createClass({
             address:this.state.address
         };
         this.props.dataRecall('baseinfo', data);
+    },
+
+    componentForceUnmount: function(callback){
+        var data = {
+            name:this.state.name,
+            sex: this.state.sex,
+            origin:this.state.origin,
+            nation:this.state.nation,
+            schoolID:this.state.schoolID,
+            politicalStatus:this.state.politicalStatus,
+            telnumber:this.state.telnumber,
+            telshort:this.state.telshort,
+            email:this.state.email,
+            qq:this.state.qq,
+            major:this.state.major,
+            birth:this.state.birth,
+            address:this.state.address
+        };
+        this.props.dataRecall('baseinfo', data, callback);
     },
 
     render: function(){
@@ -502,6 +578,23 @@ var Person = React.createClass({
         this.props.dataRecall('introduction', introduction);
     },
 
+    componentForceUnmount: function(callback){
+        var skills = {
+            delete:this.state.skills.delete,
+            title:this.state.skills.title,
+            chosen: this.state.skills.chosen
+        };
+        var introduction = {
+            delete:this.state.introduction.delete,
+            title: this.state.introduction.title,
+            content: this.state.introduction.content
+        };
+        this.props.dataRecall('skills', skills, function(){
+            this.props.dataRecall('introduction', introduction, callback);
+        }.bind(this));
+
+    },
+
     render: function(){
         var bordStyle={
             display:'inline-block',
@@ -627,6 +720,19 @@ var Wish = React.createClass({
         var reason = this.state.reason;
         this.props.dataRecall('wish', wish);
         this.props.dataRecall('reason', reason);
+    },
+
+    componentForceUnmount: function(callback){
+        var wish = {
+            delete:this.state.wish.delete,
+            title:this.state.wish.title,
+            chosen: this.state.wish.chosen
+        };
+        var reason = this.state.reason;
+        this.props.dataRecall('wish', wish, function(){
+            this.props.dataRecall('reason', reason, callback);
+        }.bind(this));
+
     },
 
     render: function(){
@@ -801,6 +907,10 @@ var Others = React.createClass({
 
     componentWillUnmount: function(){
         this.props.dataRecall('others', this.state.others);
+    },
+
+    componentForceUnmount: function(callback){
+        this.props.dataRecall('others', this.state.others, callback);
     },
 
     render: function(){

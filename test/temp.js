@@ -280,13 +280,37 @@ $.ajax({
     type: 'POST',
     data: JSON.stringify({
         message: {
-            orgID: '57965122455f5a582ffa823a',
             department: '产品',
             date: new Date(),
-            telnumber: ['17764519167'],
+            receiver: [{
+                telnumber: '17764519167'
+            }],
             text: 'This is test message.',
             cost: 0.5
         }
+    }),
+    success: function(data) {
+        console.log(data);
+    }.bind(this),
+    error: function(xhr, status, err) {
+        console.error("ajax请求发起失败");
+    }.bind(this)
+});
+
+$.get('/message',(data)=>{
+    console.log(data);
+})
+
+$.ajax({
+    url: "/message/receiver/update",
+    contentType: 'application/json',
+    type: 'POST',
+    data: JSON.stringify({
+        receivers: [{
+            telnumber: '17764519167',
+            reply:'是'
+        }],
+        messageID:'57c6c080c5eb6d500c5909c7'
     }),
     success: function(data) {
         console.log(data);

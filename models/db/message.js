@@ -5,10 +5,17 @@ var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 var Schema = mongoose.Schema;
 module.exports = mongoose.model('message', new Schema({
-    orgID: {type:Schema.Types.ObjectId, require:'miss orgID'},
+    orgID: {
+        type: Schema.Types.ObjectId,
+        require: 'miss orgID'
+    },
     department: String,
     date: Date,
-    telnumber:[String],
+    receiver: [{
+        name: String,
+        telnumber: String,
+        reply: {type: String, enum: ['未回复', '是', '否'], default: '未回复'}
+    }],
     text: String,
-    cost:Number
+    cost: Number
 }));

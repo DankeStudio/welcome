@@ -129,3 +129,7 @@ module.exports = require('express').Router()
     //delete a message
     .post('/message/delete',grantOrg)
     .post('/message/delete',message.delete)
+
+    //update receiver reply
+    .post('/message/receiver/update',grantOrg)
+    .post('/message/receiver/update',message.updateReceiver)

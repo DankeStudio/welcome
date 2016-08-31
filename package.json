@@ -25,6 +25,7 @@
     "mongoose": "^4.4.5",
     "morgan": "~1.7.0",
     "node-sass": "^3.8.0",
+    "qiniu": "^6.1.11",
     "react": "15.2.1",
     "react-chartjs": "^0.8.0",
     "react-dom": "15.2.1",

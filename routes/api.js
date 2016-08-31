@@ -6,6 +6,7 @@ var interview = require('../models/api/interview');
 var message = require('../models/api/message');
 var auth = require('../models/support/auth');
 var filter = require('../models/support/filter');
+var qiniuFile = require('../models/api/qiniuFile');
 
 var grantUser = auth.grantUser;
 var grantOrg = auth.grantOrg;
@@ -133,3 +134,6 @@ module.exports = require('express').Router()
     //delete a message
     .post('/message/delete',grantOrg)
     .post('/message/delete',message.delete)
+
+    //qiniu storage
+    .get('/uptoken', qiniuFile.uptoken)

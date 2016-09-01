@@ -143,5 +143,8 @@ module.exports = require('express').Router()
     .post('/message/delete',grantOrg)
     .post('/message/delete',message.delete)
 
+    //update message receiver
+    .post('/message/receiver/update',message.updateReceiver)
+
     //qiniu storage
     .get('/uptoken', qiniuFile.uptoken)

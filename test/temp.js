@@ -306,11 +306,9 @@ $.ajax({
     contentType: 'application/json',
     type: 'POST',
     data: JSON.stringify({
-        receivers: [{
-            telnumber: '17764519167',
-            reply:'是'
-        }],
-        messageID:'57c6c080c5eb6d500c5909c7'
+        receiverID:'57c82301e0e2eec00839bf93',
+        messageID:'57c82301e0e2eec00839bf92',
+        reply:'是'
     }),
     success: function(data) {
         console.log(data);

@@ -3,11 +3,17 @@
  */
 
 var Message = require('../db/message');
+
 exports.create = (req, res, next) => {
 	var message = req.body.message;
 	message.orgID = req.session.org._id;
 	Message.create(message)
 		.then((message) => {
+			// 删除_id
+			for (var i = 0; i < message.receiver.length; i++) {
+				message.receiver[i]._id=null;
+			}
+
 			res.json({
 				code: 0,
 				msg: 'ok',
@@ -20,7 +26,7 @@ exports.create = (req, res, next) => {
 			if (err.code < 0) {
 				res.json(err);
 			} else {
-				//console.log(err);
+				console.log(err);
 				res.json({
 					code: 1,
 					msg: '数据库未知错误',
@@ -89,6 +95,13 @@ exports.get = (req, res, next) => {
 		});
 	}
 	query.then((messages) => {
+			// 删除_id
+			for (i in messages) {
+				for (j in messages[i].receiver) {
+					messages[i].receiver[j]._id=null;
+				}
+			}
+
 			res.json({
 				code: 0,
 				msg: 'ok',
@@ -112,24 +125,31 @@ exports.get = (req, res, next) => {
 }
 
 exports.updateReceiver = (req, res, next) => {
-	var orgID = req.session.org._id;
 	var messageID = req.body.messageID;
-	var receivers = req.body.receivers;
+	var receiverID = req.body.receiverID;
+	var reply = req.body.reply;
 	Message.findOne({
-			orgID: orgID,
-			_id: messageID
+			_id: messageID,
 		})
 		.then((message) => {
-			var oldReceivers = message.receiver;
+			var flag = false;
 			if (message) {
-				for (receiver of receivers) {
-					for (index in oldReceivers) {
-						if (receiver.telnumber === oldReceivers[index].telnumber && receiver.reply) {
-							oldReceivers[index].reply = receiver.reply;
-						}
+				for (var i = 0; i < message.receiver.length; i++) {
+					if (message.receiver[i]._id == receiverID) {
+						message.receiver[i].reply = reply;
+						flag = true;
+						break;
 					}
 				}
-				return message.save();
+				if (flag) {
+					return message.save();
+				} else {
+					throw {
+						code: -2,
+						msg: '接受者不存在',
+						body: {}
+					}
+				}
 			} else {
 				throw {
 					code: -1,
@@ -139,6 +159,11 @@ exports.updateReceiver = (req, res, next) => {
 			}
 		})
 		.then((message) => {
+			// 删除_id
+			for (var i = 0; i < message.receiver.length; i++) {
+				message.receiver[i]._id=null;
+			}
+
 			res.json({
 				code: 0,
 				msg: 'ok',

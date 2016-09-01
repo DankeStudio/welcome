@@ -123,6 +123,14 @@ module.exports = require('express').Router()
     .post('/interview/interviewer/delete',grantOrg)
     .post('/interview/interviewer/delete',interview.interviewerDelete)
 
+    //interview-all mode on
+    .post('/interview/all/on',grantOrg)
+    .post('/interview/all/on',interview.allModeOn)
+
+    //interview-all mode off
+    .post('/interview/all/off',grantOrg)
+    .post('/interview/all/off',interview.allModeOff)
+
     //get messages using orgID
     .get('/message',grantOrg)
     .get('/message',message.get)
@@ -134,6 +142,9 @@ module.exports = require('express').Router()
     //delete a message
     .post('/message/delete',grantOrg)
     .post('/message/delete',message.delete)
+
+    //update message receiver
+    .post('/message/receiver/update',message.updateReceiver)
 
     //qiniu storage
     .get('/uptoken', qiniuFile.uptoken)

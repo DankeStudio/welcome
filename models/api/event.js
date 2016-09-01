@@ -11,7 +11,6 @@ exports.create = (req, res, next) => {
 	var event = req.body.event;
 	var orgID = event.orgID = req.session.org._id;
 	var eventRet;
-	//console.log(event);
 	if (!event || !event.eventID) {
 		res.json({
 			code: -1,
@@ -27,6 +26,10 @@ exports.create = (req, res, next) => {
 				var docs = [];
 				var option = event.formschema.wish.option;
 				eventRet = event;
+				//增加 全部部门 条目
+				if (option.indexOf('全部部门') < 0) {
+					option.push('全部部门');
+				}
 				for (department of option) {
 					docs.push({
 						orgID: orgID,

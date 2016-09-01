@@ -2,6 +2,7 @@
  * Created by admin on 2016/7/31.
  */
 var Interview = require('../db/interview');
+var Event = require('../db/event');
 var Form = require('../db/form');
 
 //使用orgID判断调用者合法性
@@ -18,13 +19,54 @@ exports.create = (req, res, next) => {
 			body: {}
 		})
 	}
-	// 如果不是表刷，继承通过上一次面试的面试者
+
 	if (round > 0) {
-		Interview.findOne({
+		// 模式判断
+		Event.findOne({
 				orgID: orgID,
-				eventID: eventID,
-				department: department,
-				round: round - 1
+				eventID: eventID
+			})
+			.then((event) => {
+				if (event) {
+					if (department === '全部部门') {
+						if (!event.allMode) {
+							throw {
+								code: -4,
+								msg: '全部部门面试模式未开启',
+								body: {}
+							}
+						}
+					} else {
+						if (event.allMode) {
+							throw {
+								code: -5,
+								msg: '全部部门面试模式已开启，无法进行部门面试',
+								body: {}
+							}
+						} else {
+							//检查是否更新maxRound
+							if (event.maxRound < round) {
+								event.maxRound = round;
+							}
+						}
+					}
+					return event.save();
+				} else {
+					throw {
+						code: -6,
+						msg: '事件不存在',
+						body: {}
+					};
+				}
+			})
+			// 继承通过上一次面试的面试者
+			.then((event) => {
+				return Interview.findOne({
+					orgID: orgID,
+					eventID: eventID,
+					department: department,
+					round: round - 1
+				})
 			})
 			.then((interview) => {
 				var interviewers = [];
@@ -74,7 +116,6 @@ exports.create = (req, res, next) => {
 					});
 				}
 			});
-
 	} else {
 		res.json({
 			code: -3,
@@ -270,7 +311,7 @@ exports.createArrangement = (req, res, next) => {
 						i++;
 					}
 					// 如果全部面试者都已安排完成，跳出循环
-					if(!i){
+					if (!i) {
 						break;
 					}
 				}
@@ -404,7 +445,8 @@ exports.interviewerUpdate = (req, res, next) => {
 				code: 0,
 				msg: 'ok',
 				body: interview
-			})
+			});
+
 		})
 		.catch((err) => {
 			if (err.code < 0) {
@@ -449,11 +491,152 @@ exports.interviewerDelete = (req, res, next) => {
 			})
 		})
 		.catch((err) => {
+			if (err.code < 0) {
+				res.json(err);
+			} else {
+				//console.log(err);
+				res.json({
+					code: 1,
+					msg: '数据库未知错误',
+					body: {}
+				})
+			}
+		})
+}
+
+exports.allModeOn = (req, res, next) => {
+	var orgID = req.session.org._id;
+	var eventID = Number(req.body.eventID);
+	Event.findOne({
+			orgID: orgID,
+			eventID: eventID
+		})
+		.then((event) => {
+			if (event) {
+				if (event.maxRound) {
+					throw {
+						code: -1,
+						msg: '存在不为0轮的部门面试，模式无法开启',
+						body: {}
+					}
+				} else {
+					event.allMode = true;
+					return event.save()
+				}
+			} else {
+				throw {
+					code: -2,
+					msg: '事件不存在',
+					body: {}
+				}
+			}
+		})
+		.then((event) => {
 			res.json({
-				code: 1,
-				msg: '数据库未知错误',
-				body: {}
+				code: 0,
+				msg: 'ok',
+				body: {
+					event: event
+				}
+			});
+		})
+		.catch((err) => {
+			if (err.code < 0) {
+				res.json(err);
+			} else {
+				//console.log(err);
+				res.json({
+					code: 1,
+					msg: '数据库未知错误',
+					body: {}
+				})
+			}
+		})
+}
+
+exports.allModeOff = (req, res, next) => {
+	var orgID = req.session.org._id;
+	var eventID = Number(req.body.eventID);
+	var interviewers;
+	Event.findOne({
+			orgID: orgID,
+			eventID: eventID
+		})
+		.then((event) => {
+			if (event) {
+				if (event.allMode) {
+					event.allMode = false;
+					return event.save();
+				} else {
+					throw {
+						code: -1,
+						msg: '模式未开启，操作无效',
+						body: {}
+					}
+				}
+			} else {
+				throw {
+					code: -2,
+					msg: '事件不存在',
+					body: {}
+				}
+			}
+		})
+		.then((event) => {
+			return Interview.find({
+				orgID: orgID,
+				eventID: eventID,
+				department: '全部部门'
+			}).sort({
+				round: -1
+			}).limit(1);
+		})
+		.then((interviews) => {
+			interviewers = interviews[0].interviewer;
+			return Interview.find({
+				orgID: orgID,
+				eventID: eventID,
+				round: 0,
+				department: {
+					$ne: '全部部门'
+				}
 			})
 		})
-
+		// 更新部门面试情况
+		.then((interviews) => {
+			var promises = [];
+			for (i in interviews) {
+				oldInterviewers = interviews[i].interviewer;
+				for (j in interviewers) {
+					for (index in oldInterviewers) {
+						if (interviewers[j].telnumber === oldInterviewers[index].telnumber) {
+							oldInterviewers[index].state = interviewers[j].state;
+						}
+					}
+				}
+				promises.push(interviews[i].save());
+			}
+			return Promise.all(promises);
+		})
+		.then((interviews) => {
+			res.json({
+				code:0,
+				msg:'ok',
+				body:{
+					interviews:interviews
+				}
+			})
+		})
+		.catch((err) => {
+			if (err.code < 0) {
+				res.json(err);
+			} else {
+				//console.log(err);
+				res.json({
+					code: 1,
+					msg: '数据库未知错误',
+					body: {}
+				})
+			}
+		})
 }

@@ -193,7 +193,8 @@ var Content = React.createClass({
                                 sex: data.body.user.baseinfo.sex,
                                 telnumber: data.body.user.baseinfo.telnumber,
                                 telshort: data.body.user.baseinfo.telshort,
-                                major: data.body.user.baseinfo.major
+                                major: data.body.user.baseinfo.major,
+                                img:'img/photo.png'
                             };
                             this.setState({baseinfo:baseinfo});
                         }
@@ -410,7 +411,8 @@ var Baseinfo = React.createClass({
             qq:nextProps.data.qq,
             major:nextProps.data.major,
             birth:nextProps.data.birth,
-            address:nextProps.data.address
+            address:nextProps.data.address,
+            img:nextProps.data.img
         });
     },
 
@@ -432,7 +434,8 @@ var Baseinfo = React.createClass({
             qq:this.state.qq,
             major:this.state.major,
             birth:this.state.birth,
-            address:this.state.address
+            address:this.state.address,
+            img:this.state.img
         };
         this.props.dataRecall('baseinfo', data);
     },
@@ -451,7 +454,8 @@ var Baseinfo = React.createClass({
             qq:this.state.qq,
             major:this.state.major,
             birth:this.state.birth,
-            address:this.state.address
+            address:this.state.address,
+            img:this.state.img
         };
         this.props.dataRecall('baseinfo', data, callback);
     },

@@ -191,6 +191,10 @@ a.a21{
 	color: #FFFFFF;
 	text-decoration: none;
 }
+a.a21:hover{
+	color: rgba(53, 81, 99, 0.82);
+	cursor: pointer;
+}
 a.a22{
 	font-size: 19px;
 	color: #FFFFFF;
@@ -599,9 +603,10 @@ img.i2{
 	width: 85%;
 }
 img.i6{
-	width: 100px;
-	height: 100px;
+	max-width: 100px;
+	max-height: 100px;
 	margin: 20px auto 15px auto;
+	display: block;
 }
 img.i7{
 	width: 30px;

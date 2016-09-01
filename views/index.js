@@ -11,6 +11,8 @@ var Link = require('react-router').Link;
 var hashHistory = require('react-router').hashHistory;
 var IndexRedirect = require('react-router').IndexRedirect;
 
+import index from './containers/index.jsx';
+
 var sign = require('./containers/signin.jsx');
 var signinBox = require('./containers/component/signinBox.jsx');
 var signupBox = require('./containers/component/signupBox.jsx');
@@ -34,20 +36,11 @@ var formManager = require('./containers/component/formManage.jsx');
 var addEvent = require('./containers/component/addEvent.jsx');
 
 var form = require('./containers/form.jsx');
-
-var Root = React.createClass({
-   render: function(){
-       return(
-           <div>
-
-           </div>
-       )
-   }
-});
+var mform = require('./containers/mform.jsx');
 
 render((
     <Router history={hashHistory}>
-        <Route path="/" component={Root}/>
+        <Route path="/" component={index} />
         <Route path="/sign" component={sign}>
             <IndexRedirect to="/sign/in" />
             <Route path="in" component={signinBox} />
@@ -79,5 +72,6 @@ render((
         </Route>
         <Route path="/form/:id" component={form}/>
         <Route path="/forms/output/:eventID/:wish" component={formOutput}/>
+        <Route path="/mobile/form/:id" component={mform}/>
     </Router>
 ), document.getElementById('content'));

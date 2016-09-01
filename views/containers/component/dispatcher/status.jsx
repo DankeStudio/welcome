@@ -211,7 +211,7 @@ module.exports = React.createClass({
         for (let i=0; i<targets.arrangement.length; i++)
             for (let j=0; j<result.length; j++)
                 if (targets.arrangement[i]._id == result[j].arrangementID)
-                    args.push(targets.arrangement[i]), days.push(targets.arrangement[i].startTime);
+                    args.push(targets.arrangement[i]), days.push({day:targets.arrangement[i].startTime, notSelectable: true, selected: true});
         this.setState({
             searchResult: {days: days, arrangement: args, interviewer: result},
             search: true

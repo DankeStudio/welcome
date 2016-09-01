@@ -6,6 +6,13 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
+var qiniu = require("qiniu");
+
+//qiniu store config
+qiniu.conf.ACCESS_KEY = 'gohvHrDfcSFbZw1goJ1XxbWQVRDPpPoi_ucHpByn';
+qiniu.conf.SECRET_KEY = '6QoI3V9WMh5FLqCMk1ijmcUiFunZPnTzLKU73IkS';
+uptoken = new qiniu.rs.PutPolicy('files');//'files' is bucket name
+
 
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/welcome');

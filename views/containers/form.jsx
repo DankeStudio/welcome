@@ -43,7 +43,8 @@ var Content = React.createClass({
                 qq:'',
                 major:'',
                 birth:'',
-                address:''
+                address:'',
+                img:'img/photo.png'
             },
             skills: {
                 delete:'',
@@ -351,7 +352,9 @@ var Baseinfo = React.createClass({
             qq:this.props.data.qq,
             major:this.props.data.major,
             birth:this.props.data.birth,
-            address:this.props.data.address
+            address:this.props.data.address,
+            img:this.props.data.img,
+            updating: false
         }
     },
     componentDidMount: function(){
@@ -359,6 +362,39 @@ var Baseinfo = React.createClass({
         $("input[type='radio']").on('ifChecked', function(event){
             this.handleChange(event);
         }.bind(this));
+
+        //七牛文件上传
+        var uploader = Qiniu.uploader({
+            runtimes: 'html5,flash,html4',
+            browse_button: 'photo',
+            uptoken_url: '/uptoken',
+            domain: 'http://ocsdd1fl7.bkt.clouddn.com/',   //bucket 域名，下载资源时用到，**必需**
+            get_new_uptoken: false,  //设置上传文件的时候是否每次都重新获取新的token
+            max_file_size: '10mb',           //最大文件体积限制
+            flash_swf_url: 'js/plupload/Moxie.swf',  //引入flash,相对路径
+            max_retries: 3,                   //上传失败最大重试次数
+            dragdrop: true,                   //开启可拖曳上传
+            chunk_size: '4mb',                //分块上传时，每片的体积
+            auto_start: true,                 //选择文件后自动上传，若关闭需要自己绑定事件触发上传
+            unique_names: true,              //自动生成key
+            init: {
+                'BeforeUpload': function(up, file) {
+                    this.setState({updating:true});
+                }.bind(this),
+                'FileUploaded': function(up, file, info) {
+                    var domain = up.getOption('domain');
+                    var res = $.parseJSON(info);
+                    var sourceLink = domain + res.key;
+                    this.setState({'img':sourceLink});
+                    this.setState({updating:false});
+                }.bind(this),
+                'Error': function(up, err, errTip) {
+                    //上传出错时,处理相关的事情
+                    this.setState({updating:false});
+                    alert('上传出错，请重试');
+                }.bind(this)
+            }
+        });
     },
     componentWillReceiveProps: function(nextProps) {
         this.setState({
@@ -486,8 +522,8 @@ var Baseinfo = React.createClass({
                 </div>
                 <div className="d9">
                     <div className="d10">
-                        <img src="img/photo.png" className="i6"/>
-                        <a className="a21"><b>上传照片</b></a>
+                        <img src={this.state.img} className="i6"/>
+                        <a className="a21" id="photo"><b>上传照片</b></a>
                     </div>
                 </div>
             </div>

@@ -1,0 +1,202 @@
+#index-content {
+    position: relative;
+    top: 60px;
+    padding-bottom: 100px;
+    background-color: $main-theme-pink;
+    overflow-x: hidden;
+}
+
+#gallery {
+    position: relative;
+    height: 450px;
+    width: 100%;
+    overflow: hidden;
+    @media screen and (max-width: 800px) {
+        height: 280px;
+    }
+}
+
+.ga-control {
+    position: absolute;
+    height: 100%;
+    width: 100px;
+    top: 0px;
+    text-align: center;
+    color: #fff;
+    font-size: 60px;
+    transition: 0.2s ease-in;
+    cursor: pointer;
+    i {
+        position: relative;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+    &#next {
+        right: 0;
+        i {
+            transform: translate(50%, -50%);
+        }
+    }
+    &:hover {
+        background-color: rgba(100, 100, 100, 0.2);
+        transition: 0.3s ease-in;
+    }
+}
+
+#ga-index {
+    position: absolute;
+    display: inline-block;
+    left: 50%;
+    bottom: 25px;
+    transform: translateX(-50%);
+    span {
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+        border: 3px solid #fff;
+        margin-right: 20px;
+        cursor: pointer;
+        transition: 0.2s ease-in-out;
+        &:hover, &.active {
+            background-color: #fff; 
+            transition: 0.2s ease-in-out;
+        }
+    }
+}
+
+.ga-item {
+    display: inline-block;
+    overflow: hidden;
+    img {
+       height: 100%;
+    }
+}
+
+#event-list {
+    width: 70%;
+    margin: 50px auto;
+    margin-bottom: 0;
+    padding: 15px 30px;
+    background-color: #fff;
+    color: $main-theme-dark;
+    border-radius: 10px;
+    .event-info {
+        position: relative;
+        margin-bottom: 20px;
+        border-bottom: 1px solid $main-theme-dark;
+        .org-avatar {
+            display: inline-block;
+            width: 90px;
+            height: 90px;
+            border: 1px solid;
+            margin: 0 20px;
+        }
+        .org-info {
+            display: inline-block;
+            position: absolute;
+            width: 100%;
+            ol {
+               padding: 0;
+               margin: 5px;
+               li {
+                   margin-right: 15px;
+               }
+            }
+        }
+        h1 {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .date {
+            display: inline-block;
+            font-size: 22px;
+            &.begin {
+                font-size: 20px;
+                margin-left: 100px;
+                @media screen and (max-width: 800px) {
+                    position: absolute;
+                    right: 130px;
+                    bottom: 0;
+                }
+            }            
+        }
+    }
+    @media screen and (max-width: 800px) {
+        width: 95%;
+    }
+}
+
+#nav-bottom {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding: 15px 20px;
+    color: #fff;
+    background-color: $main-theme-dark;
+    font-size: 24px;
+    >div {
+        display: inline-block;
+        width: 50%;
+        text-align: center;
+        &:first-child {
+            border-right: 1px solid #fff;
+        }
+    } 
+    a {
+        color: #fff;
+        text-decoration: none;
+    }
+    i {
+        margin-right: 10px;
+    }
+    @media screen and (max-width: 800px) {
+        display: block;
+    }
+}
+
+.mobile {
+    display: none;
+    color: #fff;
+    font-size: 24px;
+    @media screen and (max-width: 800px) {
+        display: inline-block;
+    }
+}
+
+i.mobile {
+    position: absolute;
+    right: 20px;
+    font-size: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/*
+ * to be modified
+ */
+.dank-header > div{
+    @media screen and (max-width: 800px) {
+        display: none;
+    }
+}
+
+.dank-header > div:first-child {
+    @media screen and (max-width: 800px) {
+        display: inline-block;
+    }
+    big {
+        @media screen and (max-width: 800px) {
+            background-color: $main-theme-dark!important;
+            width: 160px!important;
+        }
+    }
+}
+
+.index-link {
+    line-height: 60px;
+    margin-left: 20px;
+    &:hover {
+        color: #fff;
+    }
+}

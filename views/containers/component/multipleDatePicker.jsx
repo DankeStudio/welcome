@@ -14,11 +14,11 @@
 
 module.exports = React.createClass({
 	getInitialState: function() {
-		var t = []; this.props.highlightDays.forEach((e)=>t.push(e));
 		return {
 			month:  this.props.month || new Date(),
-			highlightDays: t,
-			weekDaysOff: this.props.weekDaysOff || []
+			highlightDays: this.props.highlightDays.slice() || [],
+			weekDaysOff: this.props.weekDaysOff || [],
+			close: false
 		}
 	},
 	daySelectionChanged: function(day, selected){
@@ -38,8 +38,15 @@ module.exports = React.createClass({
 		}
 		this.setState({highlightDays: hD});
 	},
+	componentWillReceiveProps: function(nextProps) {
+		if (this.state.close)
+			this.setState({
+				month:  nextProps.month || new Date(),
+				highlightDays: nextProps.highlightDays.slice() || [],
+				weekDaysOff: nextProps.weekDaysOff || [],
+			});
+	},
 	getDaysOfWeek: function () {
-        /*To display days of week names in moment.lang*/
         var momentDaysOfWeek = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
             days = [];
 
@@ -106,6 +113,10 @@ module.exports = React.createClass({
 			this.setState({month: tmp});
     	}
     },
+	closePicker: function() {
+		this.setState({close: true});
+		this.props.closePicker();
+	},
 	render: function(){
 		let lastDayOfPreviousMonth = new Date(this.state.month); 
 		lastDayOfPreviousMonth.setDate(0);
@@ -117,7 +128,7 @@ module.exports = React.createClass({
 
 		return (
 			<div className="multiple-date-picker">
-			    <i className='fa fa-close' onClick={this.props.closePicker}></i>
+			    <i className='fa fa-close' onClick={this.closePicker}></i>
 	            <div className="picker-top-row">
 		            <div className="text-center picker-navigate picker-navigate-left-arrow" onClick={this.goToPreviousMonth}>&lt;</div>
 		            <div className="text-center picker-month">{(1900+this.state.month.getYear())+' '+nameOfMonths[this.state.month.getMonth()]}</div>

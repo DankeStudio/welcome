@@ -736,6 +736,7 @@ body {
   .dank-output-form{
     page-break-after: always;
     width: 100%;
+    word-break: break-word;
   }
   .dank-output-caption{
     text-align: center;

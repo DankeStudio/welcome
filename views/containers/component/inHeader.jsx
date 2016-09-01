@@ -85,6 +85,8 @@ module.exports = React.createClass({
                     <a className="dank-a" href="/#/person/info" style={rightItemPosition}>个人资料</a>|
                     <a className="dank-a" onClick={this.logout} style={rightItemPosition}>注销</a>
                 </div>
+                <a href="/" className="mobile index-link">首页</a>
+                <i className="mobile fa fa-user"><a href="/#/person/info"></a></i>
            </div>
        )
    }

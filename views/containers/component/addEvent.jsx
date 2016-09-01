@@ -811,12 +811,6 @@ var Others = React.createClass({
                     title: '请在此处输入标题'
                 };
                 break;
-            case 'image' :
-                element = {
-                    type: 'image',
-                    title: '请在此处输入标题'
-                };
-                break;
             default:
                 element = {};
         }
@@ -854,6 +848,10 @@ var Others = React.createClass({
                 var option =this.encoder($('#othersOption'+index).val());
                 others[index].title = title;
                 others[index].option = option;
+                break;
+            case 'file':
+                var title = $('#othersTitle'+index).val();
+                others[index].title = title;
                 break;
         }
         this.setState({others:others});
@@ -1149,7 +1147,41 @@ var Others = React.createClass({
                     );
                     break;
                 case 'file' :
-                    return null;
+                    return (
+                        <div key={i}>
+                            {
+                                (this.state.othersEdit[i])?
+                                    <div className="d24">
+                                        <div className="d25 dank-schema-component">
+                                            <div>
+                                                <h1 className="dank-schema-label">标题</h1>
+                                                <div>
+                                                    <input className="dank-schema-input" id={"othersTitle"+i} type="text"
+                                                           defaultValue={other.title}/>
+                                                </div>
+                                            </div>
+                                            <div className="dank-schema-option-group">
+                                                <a className="dank-schema-option" onClick={function(){this.moveBefore('file', i)}.bind(this)}>上移</a>
+                                                <a className="dank-schema-option" onClick={function(){this.moveBack('file', i)}.bind(this)}>下移</a>
+                                                <a className="dank-schema-option" onClick={function(){this.deleteComponent(i)}.bind(this)}>删除</a>
+                                                <a className="dank-schema-option"
+                                                   onClick={function(){this.save('file', i)}.bind(this)}>完成</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    :
+                                    <div className="d24" onClick={function(){this.editState(i)}.bind(this)}>
+                                        <div className="text-left d25 dank-schema-component-hover">
+                                            <h1 className="h1f dank-form-h2"><b>{other.title}</b></h1>
+                                            <div>
+                                                <div className="dank-form-file-text"  ref={"file"+i}></div>
+                                                <div type="button" className="dank-form-file-button" id={"file"+i} >上传</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                            }
+                        </div>
+                    );
                     break;
                 case 'image' :
                     return null;

@@ -35,6 +35,11 @@ exports.submit = (req, res, next) => {
 					body: {}
 				};
 			} else {
+				// 增加 全部部门 条目
+				if (departments.indexOf('全部部门') < 0) {
+					departments.push('全部部门');
+				}
+				console.log(departments);
 				// 添加面试者至0轮面试
 				for (department of departments) {
 					promises.push(Interview.findOneAndUpdate({
@@ -50,21 +55,29 @@ exports.submit = (req, res, next) => {
 							}
 						}
 					}));
-					return Promise.all(promises);
 				}
+				return Promise.all(promises);
 			}
 		})
 		.then((interviews) => {
-			res.json({
-				code: 0,
-				msg: '提交报名表成功!',
-				body: {
-					update: interviews.length
-				}
-			});
+			if (interviews.length!=1||interviews[0]!=null) {
+				res.json({
+					code: 0,
+					msg: '提交报名表成功!',
+					body: {
+						update: interviews.length
+					}
+				});
+			} else {
+				throw {
+					code: -2,
+					msg: '没有符合条件的事件',
+					body: {}
+				};
+			}
 		})
 		.catch((err) => {
-			//console.log(err);
+			console.log(err);
 			if (err.code < 0) {
 				res.json(err);
 			} else {
@@ -170,10 +183,10 @@ exports.output = (req, res, next) => {
 	}
 	//初始query
 	query = Form.find({
-		eventID: eventID,
-		delete: false
-	})
-	//deal with wish
+			eventID: eventID,
+			delete: false
+		})
+		//deal with wish
 	if (wish) {
 		wish = [wish];
 		query = query.where({
@@ -216,7 +229,7 @@ exports.delete = (req, res, next) => {
 			var orgID = req.session.org._id;
 			var eventID = form.eventID;
 			var telnumber = form.baseinfo.telnumber;
-			console.log(telnumber);	
+			console.log(telnumber);
 			formRet = form;
 			if (form) {
 				return Interview.update({
@@ -248,7 +261,7 @@ exports.delete = (req, res, next) => {
 				}
 			});
 		})
-		.catch((err) => {	
+		.catch((err) => {
 			if (err.code < 0) {
 				res.json(err);
 			} else {

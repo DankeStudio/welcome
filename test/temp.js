@@ -319,3 +319,18 @@ $.ajax({
         console.error("ajax请求发起失败");
     }.bind(this)
 });
+
+$.ajax({
+    url: "/interview/all/on",
+    contentType: 'application/json',
+    type: 'POST',
+    data: JSON.stringify({
+        eventID:1
+    }),
+    success: function(data) {
+        console.log(data);
+    }.bind(this),
+    error: function(xhr, status, err) {
+        console.error("ajax请求发起失败");
+    }.bind(this)
+});

@@ -122,6 +122,14 @@ module.exports = require('express').Router()
     .post('/interview/interviewer/delete',grantOrg)
     .post('/interview/interviewer/delete',interview.interviewerDelete)
 
+    //interview-all mode on
+    .post('/interview/all/on',grantOrg)
+    .post('/interview/all/on',interview.allModeOn)
+
+    //interview-all mode off
+    .post('/interview/all/off',grantOrg)
+    .post('/interview/all/off',interview.allModeOff)
+
     //get messages using orgID
     .get('/message',grantOrg)
     .get('/message',message.get)

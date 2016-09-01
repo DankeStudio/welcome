@@ -25,19 +25,16 @@ module.exports = {
         };
     },
     eventFilter: (req,res,next) => {
-        if(!req.body.name){
+        if(!req.body.event.name){
             req.body.event = false;
+            next();
         }
         else{
             //生成modelIDs
             modelIDs.findOneAndUpdate({ name: 'forms' }, { $inc: { ids: 1 } }, {new: true, upsert: true}, function(err,doc){
                 var eventID = doc.ids;
-                var formschema = formSchemaFilter(req.body.formschema);
-                req.body.event = {
-                    eventID: eventID,
-                    name: req.body.name,
-                    formschema: formschema
-                };
+                req.body.event.formschema = formSchemaFilter(req.body.event.formschema);
+                req.body.event.eventID = eventID;
                 next();
             });
         }

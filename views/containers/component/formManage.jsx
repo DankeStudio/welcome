@@ -47,7 +47,7 @@ var Content = React.createClass({
                 switch(data.code){
                     case 0:
                         if(this.isMounted()){
-                            var events = this.bottomUp(data.body.events);
+                            var events = data.body.events;
                             this.setState({events:events});
                             if(this.state.initial){
                                 this.setState({nowEventID:events[0].eventID, initial:0});

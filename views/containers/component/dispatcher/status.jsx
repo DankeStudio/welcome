@@ -189,7 +189,12 @@ module.exports = React.createClass({
                 interviewID: this.state.interview._id
             }),
             success: function(data) {
-                
+                if (data.code == 0) {
+                    alert('更新成功!');
+                    console.log(data.body);
+                }
+                else
+                    alert('更新失败：'+data.msg);
             }.bind(this),
             error: function(xhr, status, err) {
                 console.error("ajax请求发起失败");
@@ -206,8 +211,10 @@ module.exports = React.createClass({
             result = [], days = [], args = [];
         for (let i=0; i<targets.interviewer.length; i++)
             for (let attr in targets.interviewer[i])
-                if (targets.interviewer[i][attr].match(keyword)) 
+                if (attr != 'arrangementID' && targets.interviewer[i][attr].match(keyword)) {
                     result.push(targets.interviewer[i]);
+                    break;
+                }
         for (let i=0; i<targets.arrangement.length; i++)
             for (let j=0; j<result.length; j++)
                 if (targets.arrangement[i]._id == result[j].arrangementID)
@@ -246,15 +253,13 @@ module.exports = React.createClass({
         var tmp = this.state.interview;
         tmp.interviewer[index] = interviewer;
         this.setState({interview: tmp});
-        console.log('change iver ok');
     },
     handleDelete: function(interviewer) {
         var index = this.state.interview.interviewer.findIndex((element) => interviewer.telnumber == element.telnumber);
         var tmp = this.state.interview;
         if(index > -1)
             tmp.interviewer.splice(index, 1);
-        this.setState({interview: tmp});
-        console.log(this.state.interview);
+            this.setState({interview: tmp});
     },
     render: function(){
         let interview = this.state.search ? this.state.searchResult : this.state.interview;
@@ -312,7 +317,7 @@ module.exports = React.createClass({
                             <div className="col-md-2">
                                 <Dropdown data={this.state.rounds} handleChecked={this.roundChecked} 
                                                name={'round'} default={"选择面试轮次"} 
-                                               resetWhenChanged={this.state.selectedDep + this.state.selectedEvent} />
+                                               resetWhenChanged={this.state.selectedDep} />
                             </div>
                             <div className="col-md-2">
                                 <button className="btn" onClick={this.exports}>面试安排信息导出</button>
@@ -361,7 +366,12 @@ var ArgStatus = React.createClass({
             interviewID: this.state.interview._id,
             telnumber: interviewer.telnumber
         }, (data)=> {
-            this.props.handleDelete(interviewer);
+            if (data.code == 0) {
+                alert('删除成功！');
+                this.props.handleDelete(interviewer);
+            }
+            else
+                alert('删除失败：'+data.msg);
         });
     },
     changeState: function(interviewer, e) {
@@ -405,8 +415,10 @@ var ArgStatus = React.createClass({
                             </div>
                             <div className="col-md-2">
                                 <div className="check-state">
-                                    {'第'+this.state.interview.round+'轮面试'}
-                                    <input type="checkbox" id="ivstate" name="check" onChange={this.changeState.bind(null, interviewer)}/>
+                                    {'通过第'+this.state.interview.round+'轮'}
+                                    <input type="checkbox" id="ivstate" name="check" 
+                                           checked={interviewer.state == '通过'}
+                                           onChange={this.changeState.bind(null, interviewer)}/>
                                     <label htmlFor="ivstate"></label>
                                 </div>
                             </div>

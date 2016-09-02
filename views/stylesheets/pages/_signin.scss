@@ -1,0 +1,16 @@
+#news {
+    @media screen and (max-width: 600px) {
+        display: none;
+    }
+}
+
+#signin {
+    @media screen and (max-width: 600px) {
+        width: 100%;
+    }
+}
+
+#orgs-msg {
+    position: absolute;
+    color: $main-theme-dark;
+}

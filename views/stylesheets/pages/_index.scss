@@ -164,18 +164,24 @@
     }
 }
 
-i.mobile {
+i.mobile, #sign-func{
     position: absolute;
     right: 20px;
-    font-size: 24px;
     top: 50%;
     transform: translateY(-50%);
+}
+
+#sign-func {
+    a {
+        color: #fff;
+        margin: 0 10px;
+    }
 }
 
 /*
  * to be modified
  */
-.dank-header > div{
+.pc {
     @media screen and (max-width: 800px) {
         display: none;
     }

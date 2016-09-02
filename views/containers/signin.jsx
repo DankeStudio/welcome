@@ -25,10 +25,10 @@ module.exports = React.createClass({
                             <tbody>
                             <tr>
                                 <td className="vertical-middle-child">
-                                    <div className="col-xs-7 col-md-7">
+                                    <div className="col-xs-7 col-md-7" id="news">
                                         <News/>
                                     </div>
-                                    <div className="col-xs-5 col-md-5">
+                                    <div className="col-xs-5 col-md-5" id="signin">
                                         <Box children={this.props.children}/>
                                     </div>
                                 </td>
@@ -69,6 +69,7 @@ var Box = React.createClass({
                 <div className="dank-box-1 center-block" style={objectStyle}>
                     {this.props.children}
                 </div>
+                <div className="mobile" id="orgs-msg">社团账号登录请访问PC端网页</div>
             </div>
         )
     }

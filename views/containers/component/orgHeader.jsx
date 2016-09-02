@@ -13,7 +13,12 @@ module.exports = React.createClass({
             contentType: 'application/json',
             type: 'GET',
             success: function(data) {
-                this.setState({name : data.body.org.name});
+                if(data.body.org){
+                    this.setState({name : data.body.org.name});
+                }
+                else{
+                    window.location.href = '#/orgsign/in';
+                }
             }.bind(this),
             error: function(xhr, status, err) {
                 console.error("ajax请求发起失败");

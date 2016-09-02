@@ -30,12 +30,20 @@ module.exports = React.createClass({
                 if (data.body.user)
                     name = (data.body.user.baseinfo && data.body.user.baseinfo.name)?data.body.user.baseinfo.name:data.body.user.username;
                 else
+                {
                     name = '';
+                    var array = ['#/person/info', '#/person/info'];
+                    var hash = window.location.hash;
+                    var path = hash.substr(0, hash.indexOf('?'));
+                    if($.inArray(path, array)>-1){//处于未登录该跳转的页面
+                        window.location.href = '#/sign/in';
+                    }
+                }
                 this.setState({name : name});
             }.bind(this),
             error: function(xhr, status, err) {
                 console.error("ajax请求发起失败");
-                alert(data.msg);
+                console.log(data.msg);
             }.bind(this)
         });
     },

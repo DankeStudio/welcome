@@ -55,7 +55,7 @@ var Content = React.createClass({
                         }
                         break;
                     default:
-                        alert(data.msg);
+                        console.log(data.msg);
                         break;
                 }
             }.bind(this),
@@ -108,7 +108,7 @@ var Event = React.createClass({
                         location.reload();
                         break;
                     default:
-                        alert(data.msg);
+                        console.log(data.msg);
                         break;
                 }
             }.bind(this),

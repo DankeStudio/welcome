@@ -71,7 +71,7 @@ var InfoBox = React.createClass({
                         }
                         break;
                     default:
-                        alert(data.msg);
+                        console.log(data.msg);
                         break;
                 }
             }.bind(this),

@@ -345,7 +345,8 @@ var Content = React.createClass({
                         <div className="cssload-shaft9"></div>
                         <div className="cssload-shaft10"></div>
                     </div>
-                    <div className="loading-text">上传中...</div>
+                    <div className="loading-text" id="loadingPercentage"></div>
+                    <div className="loading-text" id="loadingSpeed"></div>
                     <div className="loading-button" id="cancel">取消上传</div>
                 </div>
 
@@ -403,6 +404,10 @@ var Baseinfo = React.createClass({
                         $(document).off('click', '#cancel');
                     }.bind(this));
 
+                },
+                'UploadProgress': function(up, file) {
+                    $('#loadingPercentage').text('已上传 '+file.percent+'%');
+                    $('#loadingSpeed').text(file.speed/1000+'kb/s');
                 },
                 'FileUploaded': function(up, file, info) {
                     var domain = up.getOption('domain');
@@ -913,6 +918,10 @@ var Others = React.createClass({
                                 $(document).off('click', '#cancel');
                             }.bind(this));
                         },
+                        'UploadProgress': function(up, file) {
+                            $('#loadingPercentage').text('已上传 '+file.percent+'%');
+                            $('#loadingSpeed').text(file.speed/1000+'kb/s');
+                        },
                         'FileUploaded': function(up, file, info) {
                             var domain = up.getOption('domain');
                             var i = up.getOption('index');
@@ -920,7 +929,7 @@ var Others = React.createClass({
                             others[i].url = domain + res.key;
                             this.setState({others:others});
                             var target = this.refs['file'+i];
-                            $(target).append(file.name);
+                            $(target).text(file.name);
 
                             //上传提示消失 相关事件解绑
                             $('#loading').fadeOut();

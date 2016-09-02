@@ -26,7 +26,11 @@ module.exports = React.createClass({
             contentType: 'application/json',
             type: 'GET',
             success: function(data) {
-                var name = (data.body.user.baseinfo && data.body.user.baseinfo.name)?data.body.user.baseinfo.name:data.body.user.username;
+                let name;
+                if (data.body.user)
+                    name = (data.body.user.baseinfo && data.body.user.baseinfo.name)?data.body.user.baseinfo.name:data.body.user.username;
+                else
+                    name = '';
                 this.setState({name : name});
             }.bind(this),
             error: function(xhr, status, err) {
@@ -70,23 +74,33 @@ module.exports = React.createClass({
            marginLeft: "40px",
            marginRight: "40px"
        };
+       var userNav = (
+           <div id="sign-func">
+               <a href="#/sign/up">注册</a>
+               <a href="#/sign/in">登录</a>
+           </div>
+       );
+       if (this.state.name != '')
+           userNav = (
+               <div style={rightPosition} className="pc">
+                   <small className="dank-small" style={rightItemPosition}>Hi,{this.state.name}</small>
+                   <a className="dank-a" onClick={null} style={rightItemPosition}>我的报名</a>|
+                   <a className="dank-a" href="/#/person/info" style={rightItemPosition}>个人资料</a>|
+                   <a className="dank-a" onClick={this.logout} style={rightItemPosition}>注销</a>
+                   <i className="mobile fa fa-user"><a href="/#/person/info"></a></i>
+               </div>
+           )
        return(
            <div className="dank-header">
                 <div style={leftPosition}>
                     <big style={titleStyle} >WELCOME</big>
                 </div>
-                <div style={leftPosition2}>
+                <div style={leftPosition2} className="pc">
                     <a className="dank-button-header" style={leftItemPosition} onClick={null}>首页</a>
                     <a className="dank-button-header" style={leftItemPosition} onClick={null}>社团目录</a>
                 </div>
-                <div style={rightPosition}>
-                    <small className="dank-small" style={rightItemPosition}>Hi,{this.state.name}</small>
-                    <a className="dank-a" onClick={null} style={rightItemPosition}>我的报名</a>|
-                    <a className="dank-a" href="/#/person/info" style={rightItemPosition}>个人资料</a>|
-                    <a className="dank-a" onClick={this.logout} style={rightItemPosition}>注销</a>
-                </div>
                 <a href="/" className="mobile index-link">首页</a>
-                <i className="mobile fa fa-user"><a href="/#/person/info"></a></i>
+                {userNav}
            </div>
        )
    }

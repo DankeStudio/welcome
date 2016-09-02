@@ -78,6 +78,18 @@ var Content = React.createClass({
         );
     },
     submit: function(){
+        var required = ['name', 'telnumber', 'major', 'birth', 'address', 'schoolID'];
+        var name = ['姓名', '电话号码', '专业/大类', '出生日期', '寝室地址', '学号'];
+        for(let i=0; i<required.length; i++) {
+            if (this.state.baseInfo[required[i]] == '') {
+                alert(name[i]+'未填写!');
+                return;
+            }
+        }
+        if (this.state.wish.chosen.length == 0) {
+            alert('志愿未选择!');
+            return;        
+        }
         var browserinfo = '';
         var skills = this.state.person.skills;
         skills.chosen = [skills.other].concat(skills.chosen);
@@ -212,13 +224,13 @@ var Baseinfo = React.createClass({
                     <table className="center-block dank-form-table">
                     <tbody>
                         <tr className="">
-                            <td className="form-group">姓　　名</td>
+                            <td className="form-group">姓　　名*</td>
                             <td><input  type="text" name="name" value={this.props.data.name} 
                                         onChange={this.props.handleChange.bind(null, title, -1)} 
-                                        className="dank-form-input"/></td>
+                                        className="dank-form-input" required/></td>
                         </tr>
                         <tr>
-                            <td>性　　别</td>
+                            <td>性　　别*</td>
                             <td>
                                 <label className="dank-checkbox-inline">
                                     <label>
@@ -235,24 +247,12 @@ var Baseinfo = React.createClass({
                             </td>
                         </tr>
                         <tr className="">
-                            <td>籍　　贯</td>
-                            <td><input value={this.props.data.origin} onChange={this.props.handleChange.bind(null, title, -1)} name="origin" className="dank-form-input" type="text"/></td>
-                        </tr>
-                        <tr>
-                            <td>民　　族</td>
-                            <td><input value={this.props.data.nation} onChange={this.props.handleChange.bind(null, title, -1)} name="nation" className="dank-form-input" type="text"/></td>
-                        </tr>
-                        <tr className="">
                             <td>学　　号</td>
                             <td><input value={this.props.data.schoolID} onChange={this.props.handleChange.bind(null, title, -1)} name="schoolID" className="dank-form-input" type="text"/></td>
                         </tr>
-                        <tr>
-                            <td>政治面貌</td>
-                            <td><input value={this.props.data.politicalStatus} onChange={this.props.handleChange.bind(null, title, -1)} name="politicalStatus" className="dank-form-input" type="text"/></td>
-                        </tr>
                         <tr className="">
-                            <td>手机长号</td>
-                            <td><input value={this.props.data.telnumber} onChange={this.props.handleChange.bind(null, title, -1)} name="telnumber" className="dank-form-input" type="text"/></td>
+                            <td>手机长号*</td>
+                            <td><input value={this.props.data.telnumber} onChange={this.props.handleChange.bind(null, title, -1)} name="telnumber" className="dank-form-input" type="text" required/></td>
                         </tr>
                         <tr>
                             <td>手机短号</td>
@@ -267,16 +267,16 @@ var Baseinfo = React.createClass({
                             <td><input value={this.props.data.qq} onChange={this.props.handleChange.bind(null, title, -1)} name="qq" className="dank-form-input" type="text"/></td>
                         </tr>
                         <tr className="">
-                            <td>专　　业</td>
-                            <td><input value={this.props.data.major} onChange={this.props.handleChange.bind(null, title, -1)} name="major" className="dank-form-input" type="text"/></td>
+                            <td>专 业/大 类*</td>
+                            <td><input value={this.props.data.major} onChange={this.props.handleChange.bind(null, title, -1)} name="major" className="dank-form-input" type="text" required/></td>
                         </tr>
                         <tr>
-                            <td>出生日期</td>
-                            <td><input value={this.props.data.birth} onChange={this.props.handleChange.bind(null, title, -1)} name="birth" className="dank-form-input" type="text"/></td>
+                            <td>出生日期*</td>
+                            <td><input value={this.props.data.birth} onChange={this.props.handleChange.bind(null, title, -1)} name="birth" className="dank-form-input" type="text" required/></td>
                         </tr>
                         <tr className="">
-                            <td>寝室地址</td><td><input value={this.props.data.address} onChange={this.props.handleChange.bind(null, title, -1)} name="address" className="dank-form-input" type="text"/></td>
-                            <td></td>
+                            <td>寝室地址*</td>
+                            <td><input value={this.props.data.address} onChange={this.props.handleChange.bind(null, title, -1)} name="address" className="dank-form-input" type="text" required/></td>
                         </tr>
                     </tbody>
                     </table>
@@ -375,10 +375,10 @@ var Wish = React.createClass({
 
         return(
             <div style={bordStyle}>
-                <h1 className="h1a"><b>志愿选择</b></h1>
+                <h1 className="h1a"><b>报名志愿</b></h1>
                 {(this.props.schema.delete)?null:<div className="d24">
                     <div className="text-left d25">
-                        <h1 className="h1f dank-form-h2"><b>{this.props.schema.title}</b></h1>
+                        <h1 className="h1f dank-form-h2"><b>{this.props.schema.title}*</b></h1>
                         {wishNodes}
                     </div>
                 </div>}

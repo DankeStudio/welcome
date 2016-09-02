@@ -57,7 +57,6 @@ module.exports = React.createClass({
         if (department == this.state.selectedDep)
             return false;
         this.setState({selectedDep: department,
-                       round: 0,
                        infoComplete: false});
         var num = 1;
         $.ajax({
@@ -82,7 +81,6 @@ module.exports = React.createClass({
                 console.error("ajax请求发起失败");
             }.bind(this)
         });
-        
     },
     roundChecked: function(round, i) {
         this.setState({round: i+1});
@@ -93,18 +91,7 @@ module.exports = React.createClass({
             success: function(data) {
                 switch(data.code){
                     case 0:
-                        var tmp = data.body.interviews[0];
-                        var days = [];
-                        for (var i=0; i<tmp.arrangement.length; i++) {
-                            tmp.arrangement[i].startTime = new Date(Date.parse(tmp.arrangement[i].startTime));
-                            var day = tmp.arrangement[i].startTime;
-                            if(days.findIndex((element) => 
-                                element.getMonth() == day.getMonth() && element.getDate() == day.getDate()) == -1)
-                                days.push(day);
-                        }
-                        console.log(days);
-                        this.setState({interview: tmp, days: days, infoComplete: true});
-                        if (days.length) this.setState({selectedDate: days[0]});
+                        this.setState({interview: data.body.interviews[0], infoComplete: true});
                         break;
                     default:
                         console.log(data.msg);
@@ -255,10 +242,10 @@ var ReplyMessage = React.createClass({
                     <div id="reply-table">
                         {this.state.reply.map((reply, i) =>
                             <div className="row" key={i}>
-                                <div className="col-md-1">{reply.name}Frank</div>
-                                <div className="col-md-1">{reply.sex}男</div>
-                                <div className="col-md-2">{reply.telnumber}12344567788909</div>
-                                <div className="col-md-2">{reply.departmen}产品部门</div>
+                                <div className="col-md-1">{reply.name}</div>
+                                <div className="col-md-1">{reply.sex}</div>
+                                <div className="col-md-2">{reply.telnumber}</div>
+                                <div className="col-md-2">{reply.departmen}</div>
                                 <div className="col-md-2">{reply.order}</div>
                                 <div className="col-md-2">{reply.state}</div>
                                 <div className="col-md-2"><button className="btn">修改场次</button></div>

@@ -104,11 +104,27 @@ module.exports = React.createClass({
                     <big style={titleStyle} >WELCOME</big>
                 </div>
                 <div style={leftPosition2} className="pc">
-                    <a className="dank-button-header" style={leftItemPosition} onClick={null}>首页</a>
-                    <a className="dank-button-header" style={leftItemPosition} onClick={null}>社团目录</a>
+                    <a className="dank-button-header" href="/" style={leftItemPosition}>首页</a>
                 </div>
                 <a href="/" className="mobile index-link">首页</a>
                 {userNav}
+                {(this.state.name != '')?
+                    null
+                    :
+                    <div className="dank-invite-login-frame" id="invite">
+                        <div className="dank-invite-login-text">
+                            嘿小子，为啥不登录啊<br/>
+                            登陆后可以自动填写基本资料<br/>
+                            登陆后可以从教务网同步个人资料<br/>
+                            登陆后可以嘿嘿嘿<br/>
+                        </div>
+                        <div className="dank-invite-login-button-group">
+                            <div className="dank-invite-login-button" onClick={function(){window.location.href="#/sign/in"}}>登陆</div>
+                            <div className="dank-invite-login-button" onClick={function(){window.location.href="#/sign/up"}}>注册</div>
+                            <div className="dank-invite-login-button" onClick={function(){$('#invite').fadeOut();}}>拒绝</div>
+                        </div>
+                    </div>
+                }
            </div>
        )
    }

@@ -80,7 +80,7 @@ module.exports = React.createClass({
                     <big style={titleStyle} >WELCOME</big>
                 </div>
                 <div style={leftPosition2}>
-                    <a className="dank-button-header" style={leftItemPosition} href="#/sign/in">首页</a>
+                    <a className="dank-button-header" style={leftItemPosition} href="/">首页</a>
                     <a className="dank-button-header" style={leftItemPosition} onClick={null}>社团目录</a>
                 </div>
                 <div style={rightPosition}>

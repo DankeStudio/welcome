@@ -14,6 +14,23 @@ module.exports = React.createClass({
             verticalAlign: "middle"
         };
 
+        var leftPosition2 = {
+            float: "left",
+            marginTop: "11px"
+        };
+
+        var titleStyle = {
+            fontFamily: "BenderSolid",
+            fontSize: "36px",
+            color: "#ffffff",
+            background:"#f57a6c",
+            width:"215px",
+            height:"60px",
+            lineHeight:"60px",
+            display: "inline-block",
+            textAlign: "center"
+        };
+
         var rightPosition = {
             float: "right",
             lineHeight: "60px"
@@ -27,9 +44,10 @@ module.exports = React.createClass({
         return (
             <div className="dank-header">
                 <div style={leftPosition}>
-                    <img src="./img/logo.png" style={leftItemPosition} alt="logo" className="logo"/>
-                    <a className="dank-button-header" style={leftItemPosition} onClick={null}>首页</a>
-                    <a className="dank-button-header" style={leftItemPosition} onClick={null}>社团目录</a>
+                    <big style={titleStyle} >WELCOME</big>
+                </div>
+                <div style={leftPosition2} className="pc">
+                    <a className="dank-button-header" href="/" style={leftItemPosition}>首页</a>
                 </div>
                 <div style={rightPosition}>
                     <a href="#/orgsign/in" className="dank-a" style={rightItemPosition}>社团入口</a>

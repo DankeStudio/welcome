@@ -59,12 +59,14 @@ var Content = React.createClass({
                 contentType: 'application/json',
                 type: 'POST',
                 data: JSON.stringify({
-                    name: this.state.name,
-                    formschema:{
-                        skills: this.state.skills,
-                        introduction: this.state.introduction,
-                        wish: this.state.wish,
-                        others: this.state.others
+                    event:{
+                        name: this.state.name,
+                        formschema:{
+                            skills: this.state.skills,
+                            introduction: this.state.introduction,
+                            wish: this.state.wish,
+                            others: this.state.others
+                        }
                     }
                 }),
                 success: function(data) {

@@ -85,15 +85,19 @@
         height: 90px;
         width: 100%;
         margin-bottom: 20px;
-        border-bottom: 1px solid $main-theme-dark;
+        box-shadow: 3px 3px 5px;
+        &:hover{
+            background-color: rgba(218, 218, 218, 0.51);
+            cursor: pointer;
+            box-shadow: 5px 5px 5px;
+        }
         .org-avatar {
             display: inline-block;
             text-align: center;
             font-size: 65px;
-            background-color: #fc9999;
+            background-color: #f77a69;
             width: 90px;
             height: 90px;
-            border: 1px solid;
             margin: 0 20px;
             p {
                 position: relative;

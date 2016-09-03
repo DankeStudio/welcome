@@ -27,12 +27,20 @@ export default class extends Component {
         });
     }
     render() {
-        return (
+        /*return (
             <div id="index-content">
                 <Header />
                 <Gallery items={this.state.gallery}/>
                 <EventsList items={this.state.events}/>
                 <FunBar />
+                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            </div>
+        )*/
+        return (
+            <div id="index-content">
+                <Header />
+                <Gallery items={this.state.gallery}/>
+                <EventsList items={this.state.events}/>
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
             </div>
         )
@@ -158,10 +166,10 @@ class EventsList extends Component {
         let items = this.state.items.map((item, i) => {
             let date = new Date(item.date);
             return (
-                <div key={i} className="event-info">
+                <div key={i} className="event-info" onClick={function(){window.location.href=item.link}}>
                     <div className="org-avatar"><p>{item.eventID}</p></div>
                     <div className="org-info">
-                        <a href={item.link}><h1>{item.name}</h1></a>
+                        <a><h1>{item.name}</h1></a>
                         <ol>
                             {item.wishes.map((wish, i) => (
                                 <li key={i}>{wish}</li>

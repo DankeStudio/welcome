@@ -38,6 +38,7 @@ module.exports = React.createClass({
                     if($.inArray(path, array)>-1){//处于未登录该跳转的页面
                         window.location.href = '#/sign/in';
                     }
+                    $('#invite').show();
                 }
                 this.setState({name : name});
             }.bind(this),

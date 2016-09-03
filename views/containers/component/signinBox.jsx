@@ -151,7 +151,7 @@ var FormBox = React.createClass({
                     <label htmlFor="password">密码</label>
                     <small className="err-hidden" ref="passwordErr1">请输入密码</small>
                     <small className="err-hidden" ref="passwordErr2">密码错误</small>
-                    <input type="password" placeholder="密码 - 默认出生日期 如20160901"  ref="password" onBlur={this.passwordCheck}/>
+                    <input type="password" placeholder="密码 - 默认学号"  ref="password" onBlur={this.passwordCheck}/>
                 </div>
                 <div className="dank-form-group">
                     <label className="checkbox-inline" className="remember-me" >

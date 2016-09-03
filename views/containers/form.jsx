@@ -621,6 +621,15 @@ var Person = React.createClass({
 
     checked: function(event){
         var chosen = this.state.skills.chosen;
+
+        //检验是否超过可选数量
+        var max = this.props.schema.skills.max;
+        if(max!='' && chosen.length>max)//超过可选数量 取消选择
+        {
+            event.target.iCheck('uncheck');
+            return null;
+        }
+
         chosen.push(event.target.value);
         this.setState({skills:{
             delete:this.state.skills.delete,
@@ -632,6 +641,11 @@ var Person = React.createClass({
     unchecked: function(event){
         var value = event.target.value;
         var chosen = this.state.skills.chosen;
+
+        if(chosen.indexOf(value)==-1){
+            return null;
+        }
+
         chosen.splice(chosen.indexOf(value),1);
         this.setState({skills:{
             delete:this.state.skills.delete,
@@ -721,7 +735,9 @@ var Person = React.createClass({
                 <h1 className="h1a"><b>个人介绍</b></h1>
                 {(this.props.schema.skills.delete)?null:<div className="d24">
                     <div className="text-left d25">
-                        <h1 className="h1f dank-form-h2"><b>{this.props.schema.skills.title}</b></h1>
+                        <h1 className="h1f dank-form-h2"><b>
+                            {this.props.schema.skills.title + (this.props.schema.wish.max)?('　最多选择'+this.props.schema.wish.max + '项'):''}
+                        </b></h1>
                         {skillNodes}
                         {(this.props.schema.skills.free)?
                         <div className="dank-form-group-inline">
@@ -779,6 +795,15 @@ var Wish = React.createClass({
 
     checked: function(event){
         var chosen = this.state.wish.chosen;
+
+        //检验是否超过可选数量
+        var max = this.props.schema.wish.max;
+        if(max!='' && chosen.length>max)//超过可选数量 取消选择
+        {
+            event.target.iCheck('uncheck');
+            return null;
+        }
+
         chosen.push(event.target.value);
         this.setState({wish:{
             delete:this.state.wish.delete,
@@ -790,6 +815,11 @@ var Wish = React.createClass({
     unchecked: function(event){
         var value = event.target.value;
         var chosen = this.state.wish.chosen;
+
+        if(chosen.indexOf(value)==-1){//若不存在于数组中
+            return null;
+        }
+
         chosen.splice(chosen.indexOf(value),1);
         this.setState({wish:{
             delete:this.state.wish.delete,
@@ -880,7 +910,9 @@ var Wish = React.createClass({
                 <h1 className="h1a"><b>志愿选择</b></h1>
                 {(this.props.schema.wish.delete)?null:<div className="d24">
                     <div className="text-left d25">
-                        <h1 className="h1f dank-form-h2"><b>{this.props.schema.wish.title}</b></h1>
+                        <h1 className="h1f dank-form-h2"><b>
+                            {this.props.schema.wish.title + (this.props.schema.wish.max)?('　最多选择'+this.props.schema.wish.max + '项'):''}
+                        </b></h1>
                         {wishNodes}
                     </div>
                 </div>}
@@ -1011,11 +1043,21 @@ var Others = React.createClass({
                 var chosen = old.chosen;
                 if(checkState == 1)//checked
                 {
+                    //检验是否超过可选数量
+                    var max = this.props.schema.others[index].max;
+                    if(max!='' && chosen.length>max)//超过可选数量 取消选择
+                    {
+                        event.target.iCheck('uncheck');
+                        return null;
+                    }
+
                     chosen.push(object.value);
                 }
                 else if(checkState == 0)//unchecked
                 {
-                    chosen.splice(chosen.indexOf(object.value),1);
+                    if(chosen.indexOf(object.value)!=-1){
+                        chosen.splice(chosen.indexOf(object.value),1);
+                    }
                 }
                 else if(checkState == -1)//check other
                 {
@@ -1118,7 +1160,7 @@ var Others = React.createClass({
                 case 'multi-choose' :
                     return (
                         <div className="text-left d25" key={i}>
-                            <h1 className="h1f dank-form-h2"><b>{other.title}</b></h1>
+                            <h1 className="h1f dank-form-h2"><b>{other.title+(other.max)?('　最多可选'+other.max+'项'):''}</b></h1>
                             {
                                 other.option.map(function(option){
                                     option = "" + option;

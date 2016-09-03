@@ -78,6 +78,9 @@ module.exports = require('express').Router()
     .get('/event',grantOrg)
     .get('/event',event.getEvent)
 
+    //get recent events
+    .get('/event/recent',event.getRecentEvent)
+
     //create an event
     .post('/event/create',grantOrg)
     .post('/event/create',eventFilter)

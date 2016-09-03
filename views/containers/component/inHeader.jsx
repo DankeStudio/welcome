@@ -88,15 +88,17 @@ module.exports = React.createClass({
                <a href="#/sign/in">登录</a>
            </div>
        );
-       if (this.state.name != '')
+       var userNavMobile = null;
+       if (this.state.name != '') {
            userNav = (
                <div style={rightPosition} className="pc">
                    <small className="dank-small" style={rightItemPosition}>Hi,{this.state.name}</small>
                    <a className="dank-a" href="/#/person/info" style={rightItemPosition}>个人资料</a>|
                    <a className="dank-a" onClick={this.logout} style={rightItemPosition}>注销</a>
-                   <i className="mobile fa fa-user"><a href="/#/person/info"></a></i>
                </div>
            )
+          userNavMobile = <a href="/#/person/info"><i className="mobile fa fa-user"></i></a>
+       }
        return(
            <div className="dank-header">
                 <div style={leftPosition}>
@@ -107,6 +109,7 @@ module.exports = React.createClass({
                 </div>
                 <a href="/" className="mobile index-link">首页</a>
                 {userNav}
+                {userNavMobile}
                 {(this.state.name != '')?
                     null
                     :

@@ -197,7 +197,7 @@ exports.getEvent = (req, res, next) => {
 
 exports.getRecentEvent = (req, res, next) => {
 	Event.aggregate([
-     	{$limit:5},
+     	//{$limit:5},
      	{$sort:{date:-1}}
 	])
 	.then((events) => {

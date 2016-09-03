@@ -506,7 +506,9 @@ var Person = React.createClass({
                     :
                     <div className="d24 " onClick={function(){this.setState({skillsEdit: true})}.bind(this)}>
                         <div className="text-left d25 dank-schema-component-hover">
-                            <h1 className="h1f dank-form-h2"><b>{this.state.skills.title}</b></h1>
+                            <h1 className="h1f dank-form-h2"><b>
+                                {this.state.skills.title + ((this.state.skills.max)?('　最多选择'+this.state.skills.max + '项'):'')}
+                            </b></h1>
                             {skillNodes}
                             {(this.state.skills.free) ?
                                 <div className="dank-form-group-inline">
@@ -709,7 +711,9 @@ var Wish = React.createClass({
                         :
                         <div className="d24" onClick={function(){this.setState({wishEdit: true})}.bind(this)}>
                             <div className="text-left d25 dank-schema-component-hover">
-                                <h1 className="h1f dank-form-h2"><b>{this.state.wish.title}</b></h1>
+                                <h1 className="h1f dank-form-h2"><b>
+                                    {this.state.wish.title + ((this.state.wish.max)?('　最多选择'+this.state.wish.max + '项'):'')}
+                                </b></h1>
                                 {wishNodes}
                                 {(this.state.wish.free) ?
                                     <div className="dank-form-group-inline">
@@ -738,7 +742,7 @@ var Others = React.createClass({
     getInitialState: function(){
         var othersEdit = [];
         for(var i=0; i<this.props.others.length; i++){
-            othersEdit.push('false');
+            othersEdit.push(false);
         }
         return {
             others:this.props.others,
@@ -1072,7 +1076,7 @@ var Others = React.createClass({
                                     :
                                     <div className="d24" onClick={function(){this.editState(i)}.bind(this)}>
                                         <div className="text-left d25 dank-schema-component-hover">
-                                            <h1 className="h1f dank-form-h2"><b>{other.title}</b></h1>
+                                            <h1 className="h1f dank-form-h2"><b>{other.title + ((other.max)?('　最多选择'+other.max + '项'):'')}</b></h1>
                                             {
                                                 other.option.map(function(option){
                                                     return(

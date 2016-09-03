@@ -736,7 +736,7 @@ var Person = React.createClass({
                 {(this.props.schema.skills.delete)?null:<div className="d24">
                     <div className="text-left d25">
                         <h1 className="h1f dank-form-h2"><b>
-                            {this.props.schema.skills.title + (this.props.schema.wish.max)?('　最多选择'+this.props.schema.skills.max + '项'):''}
+                            {this.props.schema.skills.title + ((this.props.schema.skills.max)?('　最多选择'+this.props.schema.skills.max + '项'):'')}
                         </b></h1>
                         {skillNodes}
                         {(this.props.schema.skills.free)?
@@ -911,7 +911,7 @@ var Wish = React.createClass({
                 {(this.props.schema.wish.delete)?null:<div className="d24">
                     <div className="text-left d25">
                         <h1 className="h1f dank-form-h2"><b>
-                            {this.props.schema.wish.title + (this.props.schema.wish.max)?('　最多选择'+this.props.schema.wish.max + '项'):''}
+                            {this.props.schema.wish.title + ((this.props.schema.wish.max)?('　最多选择'+this.props.schema.wish.max + '项'):'')}
                         </b></h1>
                         {wishNodes}
                     </div>
@@ -1160,7 +1160,7 @@ var Others = React.createClass({
                 case 'multi-choose' :
                     return (
                         <div className="text-left d25" key={i}>
-                            <h1 className="h1f dank-form-h2"><b>{other.title+(other.max)?('　最多可选'+other.max+'项'):''}</b></h1>
+                            <h1 className="h1f dank-form-h2"><b>{other.title+((other.max)?('　最多可选'+other.max+'项'):'')}</b></h1>
                             {
                                 other.option.map(function(option){
                                     option = "" + option;

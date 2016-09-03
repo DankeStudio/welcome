@@ -748,9 +748,9 @@ tr.tr3{
 	line-height:50px;
 	height: 50px;
 }
-textarea.tt1{
+.tt1{
 	width: 100%;
-	height: 108px;
+	min-height: 108px;
 	font-size: 18px;
 	color: #FFFFFF;
 	background-color: transparent;
@@ -760,6 +760,7 @@ textarea.tt1{
 	border-radius: 5px;
 	outline: medium;
 	margin: 10px auto auto auto;
+	padding: 10px;
 }
 textarea.tt2{
 	width: 100%;

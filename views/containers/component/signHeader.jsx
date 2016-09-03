@@ -47,7 +47,6 @@ module.exports = React.createClass({
                     <big style={titleStyle} >WELCOME</big>
                 </div>
                 <div style={leftPosition2} className="pc">
-                    <img src="./img/logo.png" style={leftItemPosition} alt="logo" className="logo"/>
                     <a className="dank-button-header" href="/"style={leftItemPosition} onClick={null}>首页</a>
                 </div>
                 <div style={rightPosition} className="pc">

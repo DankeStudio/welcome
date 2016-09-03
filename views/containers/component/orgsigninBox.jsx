@@ -150,14 +150,14 @@ var FormBox = React.createClass({
                     <small className="err-hidden" ref="passwordErr2">用户名或密码有误</small>
                     <input type="password" placeholder="请输入密码"  ref="password" onBlur={this.passwordCheck}/>
                 </div>
-                <div className="dank-form-group">
-                    <label className="checkbox-inline" className="remember-me" >
-                        <input type="checkbox" id="inlineCheckbox1" value="option1" className="checkbox"/> 记住我
-                    </label>
-                    <a href="#" className="forget-password">忘记密码</a>
-                </div>
                 <div onClick={this.handleSubmit} className="dank-button" style={buttonStyle}>登陆</div>
             </div>
         )
+        /*<div className="dank-form-group">
+         <label className="checkbox-inline" className="remember-me" >
+         <input type="checkbox" id="inlineCheckbox1" value="option1" className="checkbox"/> 记住我
+         </label>
+         <a href="#" className="forget-password">忘记密码</a>
+         </div>*/
     }
 });

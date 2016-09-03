@@ -22,7 +22,7 @@ module.exports = React.createClass({
                 <Header/>
                 <div className="container-fluid">
                     <div className="row" style={objectStyle}>
-                        <tabel className="vertical-middle-parent">
+                        <table className="vertical-middle-parent">
                             <tbody>
                             <tr>
                                 <td className="vertical-middle-child">
@@ -32,7 +32,7 @@ module.exports = React.createClass({
                                 </td>
                             </tr>
                             </tbody>
-                        </tabel>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -64,7 +64,7 @@ var Box = React.createClass({
         };
         return (
             <div>
-                <div className="dank-h1">Welcome</div>
+                <div className="dank-h1">Welcome 个人用户</div>
                 <div className="dank-box-1 center-block" style={objectStyle}>
                     {this.props.children}
                     <div className="mobile" id="orgs-msg">社团账号登录请访问PC端网页</div>

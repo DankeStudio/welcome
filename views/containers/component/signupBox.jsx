@@ -169,7 +169,7 @@ var FormBox = React.createClass({
                     <small className="err-hidden" ref="passwordConfirmErr2">密码不一致</small>
                     <input type="password" placeholder="请再次输入密码"  ref="passwordConfirm" onBlur={this.passwordConfirmCheck}/>
                 </div>
-                <button onClick={this.handleSubmit} className="dank-button btn-block" style={buttonStyle}>注册</button>
+                <div onClick={this.handleSubmit} className="dank-button" style={buttonStyle}>注册</div>
             </div>
         )
     }

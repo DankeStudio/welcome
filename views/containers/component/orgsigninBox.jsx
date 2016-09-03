@@ -156,7 +156,7 @@ var FormBox = React.createClass({
                     </label>
                     <a href="#" className="forget-password">忘记密码</a>
                 </div>
-                <button onClick={this.handleSubmit} className="dank-button btn-block" style={buttonStyle}>登陆</button>
+                <div onClick={this.handleSubmit} className="dank-button" style={buttonStyle}>登陆</div>
             </div>
         )
     }

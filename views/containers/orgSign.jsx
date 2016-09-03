@@ -14,7 +14,8 @@ module.exports = React.createClass({
             top: "60px",
             bottom: "0px",
             position: "absolute",
-            width: "100%"
+            width: "100%",
+            overflow: 'auto'
         };
         return(
             <div style={containerStyle}>

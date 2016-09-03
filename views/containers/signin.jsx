@@ -14,7 +14,8 @@ module.exports = React.createClass({
             top: "60px",
             bottom: "0px",
             position: "absolute",
-            width: "100%"
+            width: "100%",
+            overflow: 'auto'
         };
         return(
             <div style={containerStyle}>
@@ -25,10 +26,7 @@ module.exports = React.createClass({
                             <tbody>
                             <tr>
                                 <td className="vertical-middle-child">
-                                    <div className="col-xs-7 col-md-7" id="news">
-                                        <News/>
-                                    </div>
-                                    <div className="col-xs-5 col-md-5" id="signin">
+                                    <div className="col-xs-12 col-md-12" id="signin">
                                         <Box children={this.props.children}/>
                                     </div>
                                 </td>

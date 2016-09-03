@@ -295,13 +295,22 @@ body {
 
 .dank-button {
   background: #f57b6d;
-  border:1px solid #979797;
   border-radius:8px;
   width:154px;
   height:53px;
+  line-height: 53px;
   font-size:30px;
   color:#555a63;
   margin:40px auto;
+  text-align: center;
+  transition:background-color 0.2s linear
+}
+.dank-button:hover{
+  cursor: pointer;
+  background: #ff978b;
+}
+.dank-button:active{
+  background: #e65f50;
 }
 
 .dank-slider{

@@ -18,7 +18,10 @@ var Signupbox = React.createClass({
             step: 1,
             name:'',
             tel:'',
-            bossname:''
+            bossname:'',
+            username:'',
+            password:'',
+            passwordConfirm:''
         }
     },
     stepChange: function(i){
@@ -56,8 +59,8 @@ var Signupbox = React.createClass({
                     <a href="#/orgsign/in" style={aStyle1} className="dank-tag-free">登陆</a>
                     <a href="#/orgsign/up" style={aStyle2} className="dank-tag-chosen">注册</a>
                 </div>
-                {(this.state.step==1)?<FormBox1 stepChange={this.stepChange} dataChange={function(json){this.setState(json)}.bind(this)}/>
-                    : <FormBox2 stepChange={this.stepChange} data={this.state}/>}
+                {(this.state.step==1)?<FormBox1 stepChange={this.stepChange} data={this.state} dataChange={function(json){this.setState(json)}.bind(this)}/>
+                    : <FormBox2 stepChange={this.stepChange} data={this.state} dataChange={function(json){this.setState(json)}.bind(this)}/>}
             </div>
         )
     }
@@ -140,20 +143,20 @@ var FormBox1 = React.createClass({
                 <div className="dank-form-group" >
                     <label htmlFor="name">社团名称</label>
                     <small className="err-hidden" ref="nameErr1">社团名称不能为空</small>
-                    <input type="text" name="name" placeholder="请输入社团名称" ref="name" onBlur={this.nameCheck}/>
+                    <input type="text" name="name" placeholder="请输入社团名称" ref="name" onBlur={this.nameCheck} defaultValue={this.props.data.name}/>
                 </div>
                 <div className="dank-form-group">
                     <label htmlFor="bossname">负责人姓名</label>
                     <small className="err-hidden" ref="bossnameErr1">负责人不能为空</small>
-                    <input type="text" name="bossname" placeholder="请输入负责人姓名"  ref="bossname" onBlur={this.bossnameCheck}/>
+                    <input type="text" name="bossname" placeholder="请输入负责人姓名"  ref="bossname" onBlur={this.bossnameCheck} defaultValue={this.props.data.bossname}/>
                 </div>
                 <div className="dank-form-group">
                     <label htmlFor="tel">联系方式</label>
                     <small className="err-hidden" ref="telErr1">联系方式不能为空</small>
                     <small className="err-hidden" ref="telErr2">请输入正确的手机号</small>
-                    <input type="text" name="tel" placeholder="请输入手机号"  ref="tel" onBlur={this.telCheck}/>
+                    <input type="text" name="tel" placeholder="请输入手机号"  ref="tel" onBlur={this.telCheck} defaultValue={this.props.data.tel}/>
                 </div>
-                <button className="dank-button btn-block" style={buttonStyle} onClick={this.next}>下一步</button>
+                <div className="dank-button" style={buttonStyle} onClick={this.next}>下一步</div>
             </div>
         )
     }
@@ -216,6 +219,12 @@ var FormBox2 = React.createClass({
     },
     last: function(){
         this.props.stepChange(1);
+
+        this.props.dataChange({
+            username:this.refs.username.value,
+            password:this.refs.password.value,
+            passwordConfirm:this.refs.passwordConfirm.value
+        });
     },
     handleSubmit: function(){
         var check1 = this.usernameCheck();
@@ -280,22 +289,25 @@ var FormBox2 = React.createClass({
                     <small className="err-hidden" ref="usernameErr1">用户名不能为空</small>
                     <small className="err-hidden" ref="usernameErr2">请输入正确的邮箱</small>
                     <small className="err-hidden" ref="usernameErr3">用户名已存在</small>
-                    <input type="text" name="username" placeholder="请输入邮箱" ref="username" onBlur={this.usernameCheck}/>
+                    <input type="text" name="username" placeholder="请输入邮箱" ref="username"
+                           onBlur={this.usernameCheck} defaultValue={this.props.data.username}/>
                 </div>
                 <div className="dank-form-group">
                     <label htmlFor="password">密码</label>
                     <small className="err-hidden" ref="passwordErr1">密码不能为空</small>
-                    <input type="password" name="password" placeholder="请输入密码"  ref="password" onBlur={this.passwordCheck}/>
+                    <input type="password" name="password" placeholder="请输入密码"  ref="password"
+                           onBlur={this.passwordCheck} defaultValue={this.props.data.password}/>
                 </div>
                 <div className="dank-form-group">
                     <label htmlFor="password">重复密码</label>
                     <small className="err-hidden" ref="passwordConfirmErr1">请再次输入密码</small>
                     <small className="err-hidden" ref="passwordConfirmErr2">密码不一致</small>
-                    <input type="password" placeholder="请再次输入密码"  ref="passwordConfirm" onBlur={this.passwordConfirmCheck}/>
+                    <input type="password" placeholder="请再次输入密码"  ref="passwordConfirm"
+                           onBlur={this.passwordConfirmCheck} defaultValue={this.props.data.passwordConfirm}/>
                 </div>
                 <div className="block-center text-center">
-                    <button className="dank-button" style={buttonStyle} onClick={this.last}>上一步</button>
-                    <button className="dank-button" style={buttonStyle} onClick={this.handleSubmit}>注册</button>
+                    <div className="dank-button" style={buttonStyle} onClick={this.last}>上一步</div>
+                    <div className="dank-button" style={buttonStyle} onClick={this.handleSubmit}>注册</div>
                 </div>
             </div>
         )

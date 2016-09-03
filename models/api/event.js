@@ -195,6 +195,42 @@ exports.getEvent = (req, res, next) => {
 		})
 }
 
+exports.getRecentEvent = (req, res, next) => {
+	Event.aggregate([
+     	{$limit:5},
+     	{$sort:{date:-1}}
+	])
+	.then((events) => {
+		var results = [];
+		for (event of events) {
+			results.push({
+				eventID: event.eventID,
+				name: event.name,
+				wishes: event.formschema.wish.option,
+				date: event.date.getTime()
+			})
+		}
+		res.json({
+			code: 0,
+			msg: 'ok',
+			body: {
+				events: results
+			}
+		})
+	})
+	.catch((err) => {
+		if (err.code < 0) {
+			res.json(err);
+		} else {
+			res.json({
+				code: 1,
+				msg: '数据库未知错误',
+				body: {}
+			});
+		}
+	})
+}
+
 exports.getEventByID = (req, res, next) => {
 	var eventID = req.query.eventID;
 	//console.log(eventID);

@@ -2,38 +2,36 @@ import { Component } from 'react';
 import Header from './component/inHeader.jsx';
 
 export default class extends Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state = {
-            gallery: [],
+            gallery: [
+                {link: '', img: 'https://files.catbox.moe/1n7s8c.png'},
+                {link: '', img: 'https://files.catbox.moe/tmq86w.png'},
+                {link: '', img: 'https://files.catbox.moe/x5u1as.png'}
+            ],
             events: []
         }
     }
     componentDidMount() {
-        /*
-        $.get('/event', (data) => {
-            let events = data.body.events;
-            events.forEach((event) => {
-                event.link = '#/form/'+event.eventID;
-            })
-            if (data.code == 0)
+        $.get('/event/recent', (data) => {
+            if (data.code == 0) {
+                let events = data.body.events;
+                events.forEach((event) => {
+                    event.link = '#/form/'+event.eventID;
+                })
                 this.setState({events: events});
+            }
+            else
+                alert('获取社团事项出错：' + data.msg);
         });
-        */
     }
     render() {
-        let gaItems = [{link: '', img: 'https://files.catbox.moe/1n7s8c.png'},{link: '', img: 'https://files.catbox.moe/tmq86w.png'},{link: '', img: 'https://files.catbox.moe/x5u1as.png'}],
-            eventItems = 
-                [{title: '蛋壳工作室纳新', wishes: ['产品','前端'], due: new Date(), date: new Date(), link: '#/form/1'},
-                {title: '蛋壳工作室纳新', wishes: ['产品','前端'], due: new Date(), date: new Date(), link: '#/form/1'},
-                {title: '蛋壳工作室纳新', wishes: ['产品','前端'], due: new Date(), date: new Date(), link: '#/form/1'},
-                {title: '蛋壳工作室纳新', wishes: ['产品','前端'], due: new Date(), date: new Date(), link: '#/form/1'},
-                {title: '蛋壳工作室纳新', wishes: ['产品','前端'], due: new Date(), date: new Date(), link: '#/form/1'}];
         return (
             <div id="index-content">
                 <Header />
-                <Gallery items={gaItems}/>
-                <EventsList items={eventItems}/>
+                <Gallery items={this.state.gallery}/>
+                <EventsList items={this.state.events}/>
                 <FunBar />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
             </div>
@@ -58,6 +56,11 @@ class Gallery extends Component {
             let intervalID = setInterval(this.go.bind(this), 2000);
             this.setState({intervalID: intervalID});
         }
+    }
+    componentWillUnmount() {
+        if (this.state.intervalID)
+            clearInterval(this.state.intervalID);
+        window.removeEventListener('resize', this._handleResize);
     }
     handleResize() {
         let documentWidth = $(document).width();
@@ -146,26 +149,39 @@ class EventsList extends Component {
             items: this.props.items
        };
     }
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            items: nextProps.items
+        })
+    }
     render() {
-        const items = this.state.items.map((item, i) => (
+        let items = this.state.items.map((item, i) => {
+            let date = new Date(item.date);
+            return (
                 <div key={i} className="event-info">
-                    <div className="org-avatar"><img src="" alt=""/></div>
+                    <div className="org-avatar"><p>{item.eventID}</p></div>
                     <div className="org-info">
-                        <a href={item.link}><h1>{item.title}</h1></a>
+                        <a href={item.link}><h1>{item.name}</h1></a>
                         <ol>
                             {item.wishes.map((wish, i) => (
                                 <li key={i}>{wish}</li>
                             ))}
                         </ol>
                         <div className="date">
-                            {item.due.getFullYear()+'-'+item.due.getMonth()+'-'+item.due.getDate()}截止
+                            {date.getFullYear()+'-'+date.getMonth()+'-'+date.getDate()}发布
                         </div>
                         <div className="date begin">
-                            {item.date.getFullYear()+'-'+item.date.getMonth()+'-'+item.date.getDate()}发布
                         </div>
                     </div>
                 </div>
-        ));
+            )
+        });
+        if (items.length<5)
+            for (let i=items.length; i<5; i++)
+                items.push(
+                    <div key={'append-'+i}className="event-info"></div>
+                );
+                
         return (
             <div id="event-list">
                 {items}
@@ -174,13 +190,11 @@ class EventsList extends Component {
     }
 }
 
-class FunBar extends Component {
-    render() {
-        return (
-            <div id="nav-bottom">
-                <div><a href="#"><i className="fa fa-calendar-o"></i>社团事项</a></div>
-                <div><a href="#"><i className="fa fa-file-text-o"></i>我的报名</a></div>
-            </div>
-        )
-    }
+function FunBar() {
+    return (
+        <div id="nav-bottom">
+            <div><a href="#"><i className="fa fa-calendar-o"></i>社团事项</a></div>
+            <div><a href="#"><i className="fa fa-file-text-o"></i>我的报名</a></div>
+        </div>
+    )
 }

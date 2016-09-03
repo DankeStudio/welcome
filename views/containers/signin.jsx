@@ -60,6 +60,7 @@ var News = React.createClass({
 var Box = React.createClass({
     render: function(){
         var objectStyle = {
+            position: "relative",
             width: "508px",
             height: "618px"
         };
@@ -68,8 +69,8 @@ var Box = React.createClass({
                 <div className="dank-h1">Welcome</div>
                 <div className="dank-box-1 center-block" style={objectStyle}>
                     {this.props.children}
+                    <div className="mobile" id="orgs-msg">社团账号登录请访问PC端网页</div>
                 </div>
-                <div className="mobile" id="orgs-msg">社团账号登录请访问PC端网页</div>
             </div>
         )
     }

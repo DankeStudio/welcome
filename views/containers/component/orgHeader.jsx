@@ -81,7 +81,6 @@ module.exports = React.createClass({
                 </div>
                 <div style={leftPosition2}>
                     <a className="dank-button-header" style={leftItemPosition} href="/">首页</a>
-                    <a className="dank-button-header" style={leftItemPosition} onClick={null}>社团目录</a>
                 </div>
                 <div style={rightPosition}>
                     <small className="dank-small" onClick={null} style={rightItemPosition}>辛苦了，{this.state.name}</small>

@@ -223,6 +223,14 @@ var Content = React.createClass({
 
     submit: function(){
         var submit = function(){
+            if(this.state.baseinfo.schoolID==''){
+                alert('学号不能为空');
+                return null;
+            }
+            if(this.state.baseinfo.telnumber==''){
+                alert('手机长号不能为空');
+                return null;
+            }
             $.ajax({
                 url: "form/submit",
                 contentType: 'application/json',

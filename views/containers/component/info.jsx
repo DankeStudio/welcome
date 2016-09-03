@@ -10,9 +10,6 @@ module.exports = React.createClass({
                     <div>
                         <big className="dank-slider-active"><i className="fa fa-user" aria-hidden="true"></i><b> 个人信息</b></big>
                     </div>
-                    <div>
-                        <a onClick={null}><i className="fa fa-file-text" aria-hidden="true"></i><b> 我的报名</b></a>
-                    </div>
                 </div>
                 <div className="dank-slider-right">
                     <InfoBox/>
@@ -108,18 +105,6 @@ var InfoBox = React.createClass({
                                                         <tr>
                                                             <td className="td-title">用户名</td>
                                                             <td className="td-content">{this.state.username}</td>
-                                                            <td className="td-title"></td>
-                                                            <td className="td-content"></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td className="td-title">微信号</td>
-                                                            <td className="td-content"><a href="#">未绑定</a></td>
-                                                            <td className="td-title"></td>
-                                                            <td className="td-content"></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td className="td-title">密码</td>
-                                                            <td className="td-content"><a href="#">修改</a></td>
                                                             <td className="td-title"></td>
                                                             <td className="td-content"></td>
                                                         </tr>

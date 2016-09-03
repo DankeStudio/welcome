@@ -92,7 +92,6 @@ module.exports = React.createClass({
            userNav = (
                <div style={rightPosition} className="pc">
                    <small className="dank-small" style={rightItemPosition}>Hi,{this.state.name}</small>
-                   <a className="dank-a" onClick={null} style={rightItemPosition}>我的报名</a>|
                    <a className="dank-a" href="/#/person/info" style={rightItemPosition}>个人资料</a>|
                    <a className="dank-a" onClick={this.logout} style={rightItemPosition}>注销</a>
                    <i className="mobile fa fa-user"><a href="/#/person/info"></a></i>

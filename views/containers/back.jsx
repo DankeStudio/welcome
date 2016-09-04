@@ -42,15 +42,14 @@ var Slider = React.createClass({
                         <Link to="/back/dispatcher/message" activeClassName="active"><li><i className="fa fa-angle-right"></i>消息发送</li></Link>
                     </ul>
                 </div>
-
-                <div>
-                    <Link to="/back/transhbin" activeClassName="dank-slider-active">
-                        <i className="fa fa-lg fa-fw fa-trash" aria-hidden="true"/>
-                        <b>回收站</b>
-                        <p>{' >'}</p>
-                    </Link>
-                </div>
             </div>
         )
+        /*<div>
+         <Link to="/back/transhbin" activeClassName="dank-slider-active">
+         <i className="fa fa-lg fa-fw fa-trash" aria-hidden="true"/>
+         <b>回收站</b>
+         <p>{' >'}</p>
+         </Link>
+         </div>*/
     }
 });

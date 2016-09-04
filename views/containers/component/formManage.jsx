@@ -902,7 +902,7 @@ var List = React.createClass({
             <div className="dank-c7 text-center">
                 <div style={titleStyle1}><big style={eventIDStyle}>报名表序号 {this.props.eventID}</big></div>
                 <div style={titleStyle2}>
-                    <big className="dank-a14" ><b>导入报名表</b></big>
+                    {(false)?<big className="dank-a14" ><b>导入报名表</b></big>:null}
                     <big className="dank-a14" onClick={this.output}><b>导出报名表</b></big>
                 </div>
                 <div style={titleStyle3} className="form-inline" id="form-manage-option">

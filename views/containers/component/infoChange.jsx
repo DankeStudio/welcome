@@ -122,6 +122,41 @@ var InfoBox = React.createClass({
         console.log(event.target);
         this.setState({[event.target.getAttribute('name')]: event.target.value});
     },
+    crawlerSubmit: function(){
+        var username = this.refs.crawlerUsername.value;
+        var password = this.refs.crawlerPassword.value;
+        if( !(username&&password) ){
+            $("#crawlerErr").show();
+            return null;
+        }
+        $.ajax({
+            url: "/user/syncprofile",
+            contentType: 'application/json',
+            type: 'POST',
+            data: JSON.stringify({
+                jwbpwd: username,
+                password: password
+            }),
+            success: function(data) {
+                switch(data.code){
+                    case -1://账号或密码错误
+                        $("#crawlerErr").show();
+                        break;
+                    case 0:
+                        $("#crawler").hide();
+                        $("#crawlerSuccess").show();
+                        break;
+                    default:
+                        console.log(data.msg);
+                        break;
+                }
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error("ajax请求发起失败");
+            }.bind(this)
+        });
+
+    },
     render : function(){
         /*console.log(this.state.data);
         var data = this.state.data;
@@ -137,7 +172,30 @@ var InfoBox = React.createClass({
                                     <div className="col-md-8 col-md-offset-1 text-left">
                                         <div className="btn-group btn-group-lg d3">
                                             <a className="btn dank-a5" onClick={this.submitHandler}><b className="b1">保存</b></a>
-                                            <a className="btn dank-a6" data-toggle="modal" data-target="#syncprofile"><b className="b1">从教务网导入</b></a>
+                                            <a className="btn dank-a6" onClick={function(){$("#crawler").fadeIn();}}><b className="b1">从教务网导入</b></a>
+                                            <div className="crawler" id="crawler">
+                                                <div className="crawler-title">请输入教务网账号信息</div>
+                                                <div className="crawler-icon" onClick={function(){$("#crawler").fadeOut()}}>
+                                                    <i className="fa fa-times"/>
+                                                </div>
+                                                <div className="crawler-error" id="crawlerErr">请输入正确的账号密码</div>
+                                                <div className="crawler-form">
+                                                    <div className="crawler-form-group">
+                                                        <label className="crawler-label">账号:</label>
+                                                        <input type="text" ref="crawlerUsername" className="crawler-input"/>
+                                                    </div>
+                                                    <div className="crawler-form-group">
+                                                        <label className="crawler-label">密码:</label>
+                                                        <input type="password" ref="crawlerPassword" className="crawler-input"/>
+                                                    </div>
+                                                </div>
+                                                <div className="crawler-button" onClick={this.crawlerSubmit}>提交</div>
+                                            </div>
+                                            <div className="crawler-success" id="crawlerSuccess">
+                                                <div className="crawler-success-icon"><i className="fa fa-check fa-2x"/></div>
+                                                <div className="crawler-success-text">导入成功</div>
+                                                <div className="crawler-button" onClick={function(){$("#crawlerSuccess").fadeOut();window.location.href="#/person/info"}}>返回</div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="col-md-1 col-md-offset-1 text-right">

@@ -120,7 +120,7 @@ var Content = React.createClass({
     },
     submit: function(){
         var required = ['name', 'telnumber', 'major', 'birth', 'address', 'schoolID'];
-        var name = ['姓名', '电话号码', '专业/大类', '出生日期', '寝室地址', '学号'];
+        var name = ['姓名', '电话号码', '专业/大类', '学号'];
         for(let i=0; i<required.length; i++) {
             if (this.state.baseInfo[required[i]] == '') {
                 alert(name[i]+'未填写!');
@@ -156,7 +156,7 @@ var Content = React.createClass({
                 switch(data.code){
                     case 0:
                         alert('提交成功');
-                        window.location.href = '/#/person/info';
+                        window.location.href = '/';
                         break;
                     default:
                         alert('提交失败: '+data.msg);
@@ -317,6 +317,16 @@ var Baseinfo = React.createClass({
                 }.bind(this)
             }
         });
+
+        //date time picker 初始化
+        $("#dtBox").DateTimePicker({
+            mode: "date",
+            dateFormat: "yyyy-MM-dd",
+            afterHide:function(element){
+                var value = $(element).val();
+                this.setState({birth:value});
+            }.bind(this)
+        });
     },
     render: function(){
         var bordStyle={
@@ -387,7 +397,7 @@ var Baseinfo = React.createClass({
                             <td><input value={this.props.data.qq} onChange={this.props.handleChange.bind(null, title, -1)} name="qq" className="dank-form-input" type="text"/></td>
                         </tr>
                         <tr className="">
-                            <td>专业/大类*</td>
+                            <td>专业大类*</td>
                             <td><input value={this.props.data.major} onChange={this.props.handleChange.bind(null, title, -1)} name="major" className="dank-form-input" type="text" required/></td>
                         </tr>
                         <tr>
@@ -396,11 +406,11 @@ var Baseinfo = React.createClass({
                         </tr>
                         <tr>
                             <td>出生日期*</td>
-                            <td><input value={this.props.data.birth} onChange={this.props.handleChange.bind(null, title, -1)} name="birth" className="dank-form-input" type="text" required/></td>
+                            <td><input value={this.props.data.birth} data-field="date" data-format="yyyy-MM-dd" onChange={this.props.handleChange.bind(null, title, -1)} name="birth" className="dank-form-input" type="text" readOnly/></td>
                         </tr>
                         <tr className="">
                             <td>寝室地址*</td>
-                            <td><input value={this.props.data.address} onChange={this.props.handleChange.bind(null, title, -1)} name="address" className="dank-form-input" type="text" required/></td>
+                            <td><input value={this.props.data.address} onChange={this.props.handleChange.bind(null, title, -1)} name="address" className="dank-form-input" type="text"/></td>
                         </tr>
                         <tr>
                             <td>照　　片</td>
@@ -412,6 +422,7 @@ var Baseinfo = React.createClass({
                     </tbody>
                     </table>
                 </div>
+                <div id="dtBox"></div>
             </div>
         )
     }

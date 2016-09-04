@@ -30,7 +30,8 @@ var Content = React.createClass({
                 qq:'',
                 major:'',
                 birth:'',
-                address:''
+                address:'',
+                img:'img/photo.png'
             },
             wish: {
                 chosen:[],
@@ -43,7 +44,7 @@ var Content = React.createClass({
                 },
                 introduction: {
                     content: ''
-                },
+                }
             },
             others:[],
             remark:''
@@ -135,6 +136,9 @@ var Content = React.createClass({
             newState[title][e.target.getAttribute('name')][i] = e.target.value;
         this.setState({data: newState});
     },
+    dataPipe: function(json){
+        this.setState(json);
+    },
     render: function(){
         var backgroundStyle = {
             top: '60px',
@@ -167,12 +171,12 @@ var Content = React.createClass({
         if (this.state.event.eventID) {
             forms = (
              <div className="center-block" style={bordStyle}>
-                 <Baseinfo data={this.state.baseInfo} handleChange={this.handleChange}/>
+                 <Baseinfo data={this.state.baseInfo} handleChange={this.handleChange}  dataPipe={this.dataPipe}/>
                  <Wish schema={this.state.event.formschema.wish} data={this.state.wish} handleChange={this.handleChange}/>
                  <Person schema={{ introduction: this.state.event.formschema.introduction, 
                                    skills: this.state.event.formschema.skills}} 
                          data={this.state.person} handleChange={this.handleChange}/>
-                 <Others schema={this.state.event.formschema.others} data={this.state.others} handleChange={this.handleChange}/>
+                 <Others schema={this.state.event.formschema.others} data={this.state.others} handleChange={this.handleChange}  dataPipe={this.dataPipe}/>
                  <div style={buttonGroupStyle}>
                      <a className="dank-button-2" onClick={this.submit}>提交</a>
                  </div>
@@ -191,6 +195,23 @@ var Content = React.createClass({
                            {forms}
                         </div>
                     </div>
+                    <div id="loading">
+                        <div className="cssload-container">
+                            <div className="cssload-shaft1"></div>
+                            <div className="cssload-shaft2"></div>
+                            <div className="cssload-shaft3"></div>
+                            <div className="cssload-shaft4"></div>
+                            <div className="cssload-shaft5"></div>
+                            <div className="cssload-shaft6"></div>
+                            <div className="cssload-shaft7"></div>
+                            <div className="cssload-shaft8"></div>
+                            <div className="cssload-shaft9"></div>
+                            <div className="cssload-shaft10"></div>
+                        </div>
+                        <div className="loading-text" id="loadingPercentage"></div>
+                        <div className="loading-text" id="loadingSpeed"></div>
+                        <div className="loading-button" id="cancel">取消上传</div>
+                    </div>
                 </div>
             </div>
         )
@@ -198,6 +219,65 @@ var Content = React.createClass({
 });
 
 var Baseinfo = React.createClass({
+    componentDidMount: function(){
+      //七牛初始化
+        Qiniu.uploader({
+            runtimes: 'html5,flash,html4',
+            browse_button: 'img',
+            uptoken_url: '/uptoken',
+            domain: 'http://ocsdd1fl7.bkt.clouddn.com/',   //bucket 域名，下载资源时用到，**必需**
+            get_new_uptoken: false,  //设置上传文件的时候是否每次都重新获取新的token
+            max_file_size: '20mb',           //最大文件体积限制
+            flash_swf_url: 'js/plupload/Moxie.swf',  //引入flash,相对路径
+            max_retries: 3,                   //上传失败最大重试次数
+            dragdrop: true,                   //开启可拖曳上传
+            chunk_size: '4mb',                //分块上传时，每片的体积
+            auto_start: true,                 //选择文件后自动上传，若关闭需要自己绑定事件触发上传
+            unique_names: true,              //自动生成key
+            multi_selection: false,         //一次只允许一个文件上传
+            init: {
+                'BeforeUpload': function(up, file) {
+                    $('#loading').fadeIn();
+                    $(document).on('click', '#cancel', function(){
+                        this.stop();
+                        $('#loading').fadeOut();
+                        $(document).off('click', '#cancel');
+                    }.bind(this));
+                },
+                'UploadProgress': function(up, file) {
+                    $('#loadingPercentage').text('已上传 '+file.percent+'%');
+                    $('#loadingSpeed').text(file.speed/1000+'kb/s');
+                },
+                'FileUploaded': function(up, file, info) {
+                    var domain = up.getOption('domain');
+                    var res = $.parseJSON(info);
+                    this.props.dataPipe({img:domain + res.key});
+                    var target = this.refs['img'];
+                    $(target).text(file.name);
+
+                    //上传提示消失 相关事件解绑
+                    $('#loading').fadeOut();
+                    $(document).off('click', '#cancel');
+                }.bind(this),
+                'Error': function(up, err, errTip) {
+
+                    //上传提示消失 相关事件解绑
+                    $('#loading').fadeOut();
+                    $(document).off('click', '#cancel');
+
+                    //上传出错时,处理相关的事情
+                    if(err.code== -600){//文件大小过大
+                        var limit = up.getOption('max_file_size');
+                        alert('上传文件大小不得超过'+limit);
+                    }
+                    else {
+                        alert('上传出错，请重试\n'+errTip);
+                    }
+
+                }.bind(this)
+            }
+        });
+    },
     render: function(){
         var bordStyle={
             display:'inline-block',
@@ -247,7 +327,7 @@ var Baseinfo = React.createClass({
                             </td>
                         </tr>
                         <tr className="">
-                            <td>学　　号</td>
+                            <td>学　　号*</td>
                             <td><input value={this.props.data.schoolID} onChange={this.props.handleChange.bind(null, title, -1)} name="schoolID" className="dank-form-input" type="text"/></td>
                         </tr>
                         <tr className="">
@@ -278,13 +358,15 @@ var Baseinfo = React.createClass({
                             <td>寝室地址*</td>
                             <td><input value={this.props.data.address} onChange={this.props.handleChange.bind(null, title, -1)} name="address" className="dank-form-input" type="text" required/></td>
                         </tr>
+                        <tr>
+                            <td>照　　片</td>
+                            <td>
+                                <div className="dank-form-file-text" ref="img">{(this.props.data.img=='img/photo.png')?this.props.data.img:null}</div>
+                                <div type="button" className="dank-form-file-button" id="img">上传</div>
+                            </td>
+                        </tr>
                     </tbody>
                     </table>
-                </div>
-                <div className="d9">
-                    <div className="d10">
-                        <img src="img/photo.png" className="i6"/>
-                    </div>
                 </div>
             </div>
         )
@@ -474,6 +556,73 @@ var Person = React.createClass({
 });
 
 var Others = React.createClass({
+    componentDidMount: function(){
+        var others = this.props.data;
+        for(var i=0; i<others.length; i++){
+            var other = others[i];
+            if(other.type=='file'){
+                Qiniu.uploader({
+                    index: i,
+                    runtimes: 'html5,flash,html4',
+                    browse_button: 'file'+i,
+                    uptoken_url: '/uptoken',
+                    domain: 'http://ocsdd1fl7.bkt.clouddn.com/',   //bucket 域名，下载资源时用到，**必需**
+                    get_new_uptoken: false,  //设置上传文件的时候是否每次都重新获取新的token
+                    max_file_size: '100mb',           //最大文件体积限制
+                    flash_swf_url: 'js/plupload/Moxie.swf',  //引入flash,相对路径
+                    max_retries: 3,                   //上传失败最大重试次数
+                    dragdrop: true,                   //开启可拖曳上传
+                    chunk_size: '4mb',                //分块上传时，每片的体积
+                    auto_start: true,                 //选择文件后自动上传，若关闭需要自己绑定事件触发上传
+                    unique_names: true,              //自动生成key
+                    multi_selection: false,         //一次只允许一个文件上传
+                    init: {
+                        'BeforeUpload': function(up, file) {
+                            $('#loading').fadeIn();
+                            $(document).on('click', '#cancel', function(){
+                                this.stop();
+                                $('#loading').fadeOut();
+                                $(document).off('click', '#cancel');
+                            }.bind(this));
+                        },
+                        'UploadProgress': function(up, file) {
+                            $('#loadingPercentage').text('已上传 '+file.percent+'%');
+                            $('#loadingSpeed').text(file.speed/1000+'kb/s');
+                        },
+                        'FileUploaded': function(up, file, info) {
+                            var domain = up.getOption('domain');
+                            var i = up.getOption('index');
+                            var res = $.parseJSON(info);
+                            others[i].url = domain + res.key;
+                            this.props.dataPipe({others:others});
+                            var target = this.refs['file'+i];
+                            $(target).text(file.name);
+
+                            //上传提示消失 相关事件解绑
+                            $('#loading').fadeOut();
+                            $(document).off('click', '#cancel');
+                        }.bind(this),
+                        'Error': function(up, err, errTip) {
+
+                            //上传提示消失 相关事件解绑
+                            $('#loading').fadeOut();
+                            $(document).off('click', '#cancel');
+
+                            //上传出错时,处理相关的事情
+                            if(err.code== -600){//文件大小过大
+                                var limit = up.getOption('max_file_size');
+                                alert('上传文件大小不得超过'+limit);
+                            }
+                            else {
+                                alert('上传出错，请重试\n'+errTip);
+                            }
+
+                        }.bind(this)
+                    }
+                });
+            }
+        }
+    },
     handleChange: function(title) {
         var tmp = this.props.schema;
         tmp.push(e.target.value);
@@ -586,9 +735,16 @@ var Others = React.createClass({
                         </div>
                     );
                 case 'file' :
-                    return null;
-                case 'image' :
-                    return null;
+                    return (
+                        <div className="text-left d25" key={i}>
+                            <h1 className="h1f dank-form-h2"><b>{other.title}</b></h1>
+                            <div>
+                                <div className="dank-form-file-text"  ref={"file"+i}></div>
+                                <div type="button" className="dank-form-file-button" id={"file"+i} >上传</div>
+                            </div>
+                        </div>
+                    );
+                    break;
                 default:
                     return null;
             }

@@ -605,13 +605,13 @@ body {
   height: 30px;
   float: left;
   line-height: 30px;
+  overflow: hidden;
 }
 .dank-form-file-button{
   width: 15%;
   text-align: center;
   border: #FFFFFF solid 1px;
   border-radius: 0 5px 5px 0;
-  margin-right:10px;
   background-color: #FFFFFF;
   color: #203140;
   display: inline-block;

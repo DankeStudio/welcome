@@ -195,7 +195,7 @@ var Content = React.createClass({
                                 telnumber: data.body.user.baseinfo.telnumber,
                                 telshort: data.body.user.baseinfo.telshort,
                                 major: data.body.user.baseinfo.major,
-                                img:data.body.user.baseinfo.grade.img,
+                                img:data.body.user.baseinfo.img,
                                 grade: data.body.user.baseinfo.grade
                             };
                             this.setState({baseinfo:baseinfo});

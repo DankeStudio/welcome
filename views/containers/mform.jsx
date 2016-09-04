@@ -324,7 +324,9 @@ var Baseinfo = React.createClass({
             dateFormat: "yyyy-MM-dd",
             afterHide:function(element){
                 var value = $(element).val();
-                this.props.dataPipe({birth:value});
+                var baseinfo = this.props.data;
+                baseinfo.birth = value;
+                this.props.dataPipe({baseInfo:baseinfo});
             }.bind(this)
         });
     },

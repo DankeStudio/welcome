@@ -644,7 +644,7 @@ var Person = React.createClass({
         var max = this.props.schema.skills.max;
         if(max!=null && max!='' && chosen.length>max)//超过可选数量 取消选择
         {
-            event.target.iCheck('uncheck');
+            setTimeout(function(){$(event.target).iCheck('uncheck');},1);
             return null;
         }
 
@@ -818,7 +818,7 @@ var Wish = React.createClass({
         var max = this.props.schema.wish.max;
         if(max!=null && max!='' && chosen.length>max)//超过可选数量 取消选择
         {
-            event.target.iCheck('uncheck');
+            setTimeout(function(){$(event.target).iCheck('uncheck');},1);
             return null;
         }
 
@@ -1065,7 +1065,7 @@ var Others = React.createClass({
                     var max = this.props.schema.others[index].max;
                     if(max!='' && chosen.length>max)//超过可选数量 取消选择
                     {
-                        event.target.iCheck('uncheck');
+                        setTimeout(function(){$(event.target).iCheck('uncheck');},1);
                         return null;
                     }
 

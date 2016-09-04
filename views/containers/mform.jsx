@@ -78,6 +78,45 @@ var Content = React.createClass({
                 }
             }.bind(this)
         );
+        //自动填写基本信息
+        $.ajax({
+            url: "/user/profile",
+            contentType: 'application/json',
+            type: 'GET',
+            success: function(data) {
+                switch(data.code){
+                    case 0:
+                        if(this.isMounted()){
+                            var baseinfo = {
+                                username:data.body.user.username,
+                                address: data.body.user.baseinfo.address,
+                                birth: data.body.user.baseinfo.birth,
+                                email: data.body.user.baseinfo.email,
+                                name: data.body.user.baseinfo.name,
+                                nation: data.body.user.baseinfo.nation,
+                                origin: data.body.user.baseinfo.origin,
+                                politicalStatus: data.body.user.baseinfo.politicalStatus,
+                                qq: data.body.user.baseinfo.qq,
+                                schoolID: data.body.user.baseinfo.schoolID,
+                                sex: data.body.user.baseinfo.sex,
+                                telnumber: data.body.user.baseinfo.telnumber,
+                                telshort: data.body.user.baseinfo.telshort,
+                                major: data.body.user.baseinfo.major,
+                                img:data.body.user.baseinfo.img,
+                                grade: data.body.user.baseinfo.grade
+                            };
+                            this.setState({baseInfo:baseinfo});
+                        }
+                        break;
+                    default:
+                        console.log(data.msg);
+                        break;
+                }
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error("ajax请求发起失败");
+            }.bind(this)
+        });
     },
     submit: function(){
         var required = ['name', 'telnumber', 'major', 'birth', 'address', 'schoolID'];
@@ -348,7 +387,7 @@ var Baseinfo = React.createClass({
                             <td><input value={this.props.data.qq} onChange={this.props.handleChange.bind(null, title, -1)} name="qq" className="dank-form-input" type="text"/></td>
                         </tr>
                         <tr className="">
-                            <td>专 业/大 类*</td>
+                            <td>专业/大类*</td>
                             <td><input value={this.props.data.major} onChange={this.props.handleChange.bind(null, title, -1)} name="major" className="dank-form-input" type="text" required/></td>
                         </tr>
                         <tr>
@@ -382,8 +421,12 @@ var Wish = React.createClass({
     handleChange: function(title, i, e) {
         var tmp = this.props.data;
         if (e.target.checked) {
-            tmp.chosen.push(e.target.value);
-            tmp.reason.concat(['']);
+            //判断是否达到数量上限
+            var max = this.props.schema.max;
+            if(max==null || max=='' || tmp.chosen.length<max){
+                tmp.chosen.push(e.target.value);
+                tmp.reason.concat(['']);
+            }
         }
         else {
             let index = tmp.chosen.indexOf(e.target.value);
@@ -478,8 +521,13 @@ var Wish = React.createClass({
 var Person = React.createClass({
     handleChange: function(title, i, e) {
         var tmp = this.props.data[e.target.getAttribute('name')][i].slice();
-        if (e.target.checked)
-            tmp.push(e.target.value);
+        if (e.target.checked){
+            //判断是否达到数量上限
+            var max = this.props.schema.skills.max;
+            if(max==null || max=='' || tmp.length<max){
+                tmp.push(e.target.value);
+            }
+        }
         else
             tmp.splice(tmp.indexOf(e.target.value),1);
         let name = e.target.getAttribute('name');

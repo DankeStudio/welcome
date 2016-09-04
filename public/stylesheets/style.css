@@ -606,6 +606,7 @@ body {
   float: left;
   line-height: 30px;
   overflow: hidden;
+  word-break: break-all;
 }
 .dank-form-file-button{
   width: 15%;

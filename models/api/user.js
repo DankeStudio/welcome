@@ -1,4 +1,5 @@
 var User = require('../db/user');
+var jwbCrawler = require("../crawler/jwbCrawler.js");
 
 exports.login = (req, res, next) => {
     var username = req.body.username;

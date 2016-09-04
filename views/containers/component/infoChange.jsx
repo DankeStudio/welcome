@@ -157,6 +157,12 @@ var InfoBox = React.createClass({
                                                             <td className="td-title"></td>
                                                             <td className="td-content"></td>
                                                         </tr>
+                                                        <tr>
+                                                            <td className="td-title">密码</td>
+                                                            <td className="td-content">{this.state.password}</td>
+                                                            <td className="td-title"></td>
+                                                            <td className="td-content"></td>
+                                                        </tr>
                                                         </tbody>
                                                     </table>
                                                 </div>

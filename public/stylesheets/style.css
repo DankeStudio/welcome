@@ -951,6 +951,135 @@ body {
   box-shadow: 0 0 10px #ffffff;
 }
 
+.crawler{
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  background: #ffffff;
+  box-shadow: 1px 2px 5px 0px rgba(0,0,0,0.50);
+  border-radius: 8px;
+  width: 400px;
+  height: 270px;
+  margin-left: -200px;
+  margin-top: -135px;
+  padding: 10px 20px;
+  z-index: 1;
+}
+.crawler-title{
+  font-size: 24px;
+  color: #345062;
+  letter-spacing: 3.42px;
+  text-align: left;
+  float: left;
+  display: inline-block;
+  height: 34px;
+  line-height: 34px;
+}
+.crawler-icon{
+  display: inline-block;
+  margin-left: 61px;
+  margin-right: -20px;
+  width: 34px;
+  height: 34px;
+  line-height: 34px;
+  transition: all 0.2s linear;
+  border-radius: 17px;
+  color: #355163;
+  text-align: center;
+}
+.crawler-icon:hover{
+  color: #ffffff;
+  background-color: #f77a69;
+  cursor: pointer;
+}
+.crawler-error{
+  display: none;
+  float: right;
+  margin-top: 20px;
+  font-size: 12px;
+  color: #f57a6c;
+  letter-spacing: 1.71px;
+  text-align: left;
+}
+.crawler-form{
+  margin-top: 55px;
+}
+.crawler-form-group{
+  margin-bottom: 20px;
+}
+.crawler-label{
+  float: left;
+  font-size: 20px;
+  color: #345062;
+  letter-spacing: 2.85px;
+  text-align: left;
+  width: 20%;
+}
+.crawler-input{
+  border:1px solid #345062;
+  border-radius:8px;
+  width:80%;
+  height:30px;
+  font-size:20px;
+  color:#345062;
+  letter-spacing:2.85px;
+  text-align:left;
+  padding: 5px 10px;
+}
+.crawler-button{
+  background: #f57a6c;
+  border-radius: 8px;
+  width: 141px;
+  height: 40px;
+  font-size: 20px;
+  color: #ffffff;
+  letter-spacing: 2.85px;
+  margin: 30px auto;
+  text-align: center;
+  line-height: 40px;
+  transition: all 0.2s;
+}
+.crawler-button:hover{
+  background-color: #ff978b;
+  cursor: pointer;
+}
+
+.crawler-success{
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  background: #ffffff;
+  box-shadow: 1px 2px 5px 0px rgba(0,0,0,0.50);
+  border-radius: 8px;
+  width: 400px;
+  height: 270px;
+  margin-left: -200px;
+  margin-top: -135px;
+  padding: 10px 20px;
+  z-index: 1;
+}
+
+.crawler-success-icon{
+  width: 80px;
+  height:80px;
+  border-radius: 40px;
+  border: #345062 solid 5px;
+  margin: 40px auto 10px auto;
+  color: #345062;
+  text-align: center;
+  line-height: 80px;
+}
+.crawler-success-text{
+  font-size:24px;
+  color:#345062;
+  letter-spacing:3.42px;
+  text-align:center;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
 /*补充temp.css的内容*/
 .dank-library-file-input{
   width: 65px;

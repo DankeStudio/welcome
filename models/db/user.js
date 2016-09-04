@@ -31,8 +31,10 @@ module.exports = mongoose.model('user', new Schema({
         email : String,
         qq : String,
         major : String,
-        birth : Date,
-        address : String
+        birth : String,
+        address : String,
+        img: String,
+        grade: String
     },
     formID: [Schema.Types.ObjectId]
 }));

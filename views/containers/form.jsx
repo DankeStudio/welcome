@@ -44,7 +44,8 @@ var Content = React.createClass({
                 major:'',
                 birth:'',
                 address:'',
-                img:'img/photo.png'
+                img:'',
+                grade:''
             },
             skills: {
                 delete:'',
@@ -194,7 +195,8 @@ var Content = React.createClass({
                                 telnumber: data.body.user.baseinfo.telnumber,
                                 telshort: data.body.user.baseinfo.telshort,
                                 major: data.body.user.baseinfo.major,
-                                img:'img/photo.png'
+                                img:data.body.user.baseinfo.grade.img,
+                                grade: data.body.user.baseinfo.grade
                             };
                             this.setState({baseinfo:baseinfo});
                         }
@@ -380,7 +382,8 @@ var Baseinfo = React.createClass({
             major:this.props.data.major,
             birth:this.props.data.birth,
             address:this.props.data.address,
-            img:this.props.data.img
+            img:this.props.data.img,
+            grade:this.props.data.grade
         }
     },
     componentDidMount: function(){
@@ -443,6 +446,16 @@ var Baseinfo = React.createClass({
                 }.bind(this)
             }
         });
+
+        //date time picker 初始化
+        $("#dtBox").DateTimePicker({
+            mode: "date",
+            dateFormat: "yyyy-MM-dd",
+            afterHide:function(element){
+                var value = $(element).val();
+                this.setState({birth:value});
+            }.bind(this)
+        });
     },
     componentWillReceiveProps: function(nextProps) {
         this.setState({
@@ -459,7 +472,8 @@ var Baseinfo = React.createClass({
             major:nextProps.data.major,
             birth:nextProps.data.birth,
             address:nextProps.data.address,
-            img:nextProps.data.img
+            img:nextProps.data.img,
+            grade:nextProps.data.grade
         });
     },
 
@@ -482,7 +496,8 @@ var Baseinfo = React.createClass({
             major:this.state.major,
             birth:this.state.birth,
             address:this.state.address,
-            img:this.state.img
+            img:this.state.img,
+            grade:this.state.grade
         };
         this.props.dataRecall('baseinfo', data);
     },
@@ -502,7 +517,8 @@ var Baseinfo = React.createClass({
             major:this.state.major,
             birth:this.state.birth,
             address:this.state.address,
-            img:this.state.img
+            img:this.state.img,
+            grade:this.state.grade
         };
         this.props.dataRecall('baseinfo', data, callback);
     },
@@ -559,24 +575,26 @@ var Baseinfo = React.createClass({
                         <td>ＱＱ号码</td><td><input value={this.state.qq} onChange={this.handleChange} name="qq" className="dank-form-input" type="text"/></td>
                     </tr>
                     <tr className="">
-                        <td>专　　业</td><td><input value={this.state.major} onChange={this.handleChange} name="major" className="dank-form-input" type="text"/>
+                        <td>专业大类</td><td><input value={this.state.major} onChange={this.handleChange} name="major" className="dank-form-input" type="text"/>
                         </td>
-                        <td>出生日期</td><td><input value={this.state.birth} onChange={this.handleChange} name="birth" className="dank-form-input" type="text"/>
-                        </td>
+                        <td>年　　级</td><td><input value={this.state.grade} onChange={this.handleChange} name="grade" className="dank-form-input" type="text"/>
+                    </td>
                     </tr>
                     <tr className="">
                         <td>寝室地址</td><td><input value={this.state.address} onChange={this.handleChange} name="address" className="dank-form-input" type="text"/></td>
-                        <td></td>
+                        <td>出生日期</td><td><input value={this.state.birth}  data-field="date" data-format="yyyy-MM-dd" name="birth" className="dank-form-input" type="text" readOnly/>
+                    </td>
                     </tr>
                     </tbody>
                     </table></b>
                 </div>
                 <div className="d9">
                     <div className="d10">
-                        <img src={this.state.img} className="i6"/>
+                        <img src={(this.state.img)?this.state.img:'img/photo.png'} className="i6"/>
                         <a className="a21" id="photo"><b>上传照片</b></a>
                     </div>
                 </div>
+                <div id="dtBox"></div>
             </div>
         )
     }
@@ -624,7 +642,7 @@ var Person = React.createClass({
 
         //检验是否超过可选数量
         var max = this.props.schema.skills.max;
-        if(max!='' && chosen.length>max)//超过可选数量 取消选择
+        if(max!=null && max!='' && chosen.length>max)//超过可选数量 取消选择
         {
             event.target.iCheck('uncheck');
             return null;
@@ -798,7 +816,7 @@ var Wish = React.createClass({
 
         //检验是否超过可选数量
         var max = this.props.schema.wish.max;
-        if(max!='' && chosen.length>max)//超过可选数量 取消选择
+        if(max!=null && max!='' && chosen.length>max)//超过可选数量 取消选择
         {
             event.target.iCheck('uncheck');
             return null;

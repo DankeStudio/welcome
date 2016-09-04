@@ -23,7 +23,9 @@ module.exports = mongoose.model('form', new Schema({
         qq : String,
         major : String,
         birth : Date,
-        address : String
+        address : String,
+        img: String,
+        grade: String
     },
     skills: {
         delete: Boolean,

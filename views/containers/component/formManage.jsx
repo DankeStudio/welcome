@@ -651,7 +651,7 @@ var List = React.createClass({
             return false;
         }
 
-        this.setState({"wish":value});
+        this.setState({wish:value});
         this.setState({page:1});
 
         $.ajax({
@@ -906,7 +906,7 @@ var List = React.createClass({
                     <big className="dank-a14" onClick={this.output}><b>导出报名表</b></big>
                 </div>
                 <div style={titleStyle3} className="form-inline" id="form-manage-option">
-                    <Dropdown data={this.props.departments.concat(['全部部门'])} handleChecked={this.selectHandler} name={'department'} default={"全部部门"} resetWhenChanged={null}/>
+                    <Dropdown data={this.props.departments.concat(['全部部门'])} handleChecked={this.selectHandler} name={'department'} default={this.state.wish} resetWhenChanged={null}/>
                     <big className="dank-a14" onClick={this.orderChange}><b>时间{(this.state.order>0)?<i className="fa fa-chevron-down i3" aria-hidden="true"/>:<i className="fa fa-chevron-up i3" aria-hidden="true"/>}</b></big>
                 </div>
                 <b><table className="table dank-t5">

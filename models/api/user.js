@@ -142,7 +142,7 @@ exports.getProfile = (req, res, next) => {
 //修改个人信息
 exports.updateProfile = (req, res, next) => {
     var username = req.session.user.username;
-    var props = ["name", "sex", "origin", "nation", "schoolID", "politicalStatus", "telnumber", "telshort", "email", "qq", "major", "birth", "address"];
+    var props = ["name", "sex", "origin", "nation", "schoolID", "politicalStatus", "telnumber", "telshort", "email", "qq", "major", "birth", "address", "img", "grade"];
     var baseinfo = {};
     for (prop of props) {
         if (req.body[prop] != undefined) {

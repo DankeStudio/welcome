@@ -36,7 +36,9 @@ var InfoBox = React.createClass({
             sex: "",
             telnumber: "",
             telshort: "",
-            major:""
+            major:"",
+            grade:"",
+            img:""
         }
     },
     componentDidMount: function(){
@@ -63,7 +65,9 @@ var InfoBox = React.createClass({
                                 sex: data.body.user.baseinfo.sex,
                                 telnumber: data.body.user.baseinfo.telnumber,
                                 telshort: data.body.user.baseinfo.telshort,
-                                major: data.body.user.baseinfo.major
+                                major: data.body.user.baseinfo.major,
+                                grade: data.body.user.baseinfo.grade,
+                                img:data.body.user.baseinfo.img
                             });
                         }
                         break;
@@ -213,14 +217,14 @@ var InfoBox = React.createClass({
                                                         <tr>
                                                             <td className="td-title">专业</td>
                                                             <td className="td-content">{this.state.major}</td>
-                                                            <td className="td-title">寝室地址</td>
-                                                            <td className="td-content">{this.state.address}</td>
+                                                            <td className="td-title">年级</td>
+                                                            <td className="td-content">{this.state.grade}</td>
                                                         </tr>
                                                         <tr>
                                                             <td className="td-title">生日</td>
                                                             <td className="td-content">{this.state.birth}</td>
-                                                            <td className="td-title"></td>
-                                                            <td className="td-content"></td>
+                                                            <td className="td-title">寝室地址</td>
+                                                            <td className="td-content">{this.state.address}</td>
                                                         </tr>
                                                         </tbody>
                                                     </table>
@@ -231,10 +235,7 @@ var InfoBox = React.createClass({
                                     <div className="col-md-3 text-center c4">
                                         <div className="container-fluid">
                                             <div className="row">
-                                                <img src="img/male.png" className="i2"/>
-                                            </div>
-                                            <div className="row">
-                                                <a className="a7" href="#"><b>修改头像</b></a>
+                                                <img src={(this.state.img)?this.state.img:"img/male.png"} className="i2"/>
                                             </div>
                                         </div>
                                     </div>

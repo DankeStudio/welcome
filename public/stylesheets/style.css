@@ -632,6 +632,7 @@ body {
   text-align: center;
   color: #FFFFFF;
   font-size: 20px;
+  transition: all 0.2s;
 }
 
 .dank-library-component:hover{
@@ -721,6 +722,7 @@ body {
   padding-top: 10px;
   padding-bottom: 10px;
   border: 2px solid transparent;
+  transition: all 0.3s;
 }
 
 .dank-schema-component-hover:hover{
@@ -802,6 +804,7 @@ body {
     font-size: 25px;
     position: absolute;
     bottom: 50px;
+    transition: all 0.3s;
   }
   .dank-output-button:hover{
     cursor: pointer;
@@ -840,6 +843,12 @@ body {
     border-bottom: #000000 solid 0.5pt;
     page-break-after: avoid;
   }
+  .dank-output-frame{
+    width:100%;
+  }
+  .dank-output-table{
+    width: 70%;
+  }
   .dank-output-table{
     margin-top: 5pt;
     width: 100%;
@@ -848,18 +857,23 @@ body {
     height: 12pt;
   }
   .dank-output-baseinfo-label{
-    width: 10%;
+    width: 15%;
     font-weight: bold;
     font-size: 12pt;
   }
   .dank-output-baseinfo-info{
-    width: 25%;
+    width: 35%;
     font-size: 10pt;
   }
   .dank-output-baseinfo-photo{
     width: 30%;
+    height: 84pt;/*7 * 12pt*/
     text-align: center;
     vertical-align: middle;
+  }
+  .dank-output-baseinfo-photo>img{
+    max-width: 100%;
+    max-height: 100%;
   }
   .dank-output-label{
     margin-top: 8pt;

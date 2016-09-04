@@ -49,48 +49,60 @@ var Output = React.createClass({
                 <div className="dank-output-form" key={i}>
                     <div className="dank-output-caption">报名表 NO.{i+1}</div>
                     <div className="dank-output-title">基本信息</div>
-                    <table className="dank-output-table">
+                    <table className="dank-output-frame">
                         <tbody>
                         <tr>
-                            <td className="dank-output-baseinfo-label">姓　　名</td>
-                            <td className="dank-output-baseinfo-info">{form.baseinfo.name}</td>
-                            <td className="dank-output-baseinfo-label">性　　别</td>
-                            <td className="dank-output-baseinfo-info">{form.baseinfo.sex}</td>
-                            <td className="dank-output-baseinfo-photo" rowSpan="7">img</td>
-                        </tr>
-                        <tr>
-                            <td className="dank-output-baseinfo-label">籍　　贯</td>
-                            <td className="dank-output-baseinfo-info">{form.baseinfo.origin}</td>
-                            <td className="dank-output-baseinfo-label">民　　族</td>
-                            <td className="dank-output-baseinfo-info">{form.baseinfo.nation}</td>
-                        </tr>
-                        <tr>
-                            <td className="dank-output-baseinfo-label">学　　号</td>
-                            <td className="dank-output-baseinfo-info">{form.baseinfo.schoolID}</td>
-                            <td className="dank-output-baseinfo-label">政治面貌</td>
-                            <td className="dank-output-baseinfo-info">{form.baseinfo.politicalStatus}</td>
-                        </tr>
-                        <tr>
-                            <td className="dank-output-baseinfo-label">手机长号</td>
-                            <td className="dank-output-baseinfo-info">{form.baseinfo.telnumber}</td>
-                            <td className="dank-output-baseinfo-label">手机短号</td>
-                            <td className="dank-output-baseinfo-info">{form.baseinfo.telshort}</td>
-                        </tr>
-                        <tr>
-                            <td className="dank-output-baseinfo-label">邮　　箱</td>
-                            <td className="dank-output-baseinfo-info">{form.baseinfo.email}</td>
-                            <td className="dank-output-baseinfo-label">ＱＱ号码</td>
-                            <td className="dank-output-baseinfo-info">{form.baseinfo.qq}</td>
-                        </tr>
-                        <tr>
-                            <td className="dank-output-baseinfo-label">专　　业</td>
-                            <td className="dank-output-baseinfo-info">{form.baseinfo.major}</td>
-                            <td className="dank-output-baseinfo-label">出生日期</td>
-                            <td className="dank-output-baseinfo-info">{form.baseinfo.birth}</td>
-                        </tr>
-                        <tr>
-                            <td className="dank-output-baseinfo-label">寝室地址</td>
-                            <td className="dank-output-baseinfo-info">{form.baseinfo.address}</td>
+                            <td className="dank-output-table-parent">
+                                <table className="dank-output-table">
+                                    <tbody>
+                                    <tr>
+                                        <td className="dank-output-baseinfo-label">姓　　名</td>
+                                        <td className="dank-output-baseinfo-info">{form.baseinfo.name}</td>
+                                        <td className="dank-output-baseinfo-label">性　　别</td>
+                                        <td className="dank-output-baseinfo-info">{form.baseinfo.sex}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="dank-output-baseinfo-label">籍　　贯</td>
+                                        <td className="dank-output-baseinfo-info">{form.baseinfo.origin}</td>
+                                        <td className="dank-output-baseinfo-label">民　　族</td>
+                                        <td className="dank-output-baseinfo-info">{form.baseinfo.nation}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="dank-output-baseinfo-label">学　　号</td>
+                                        <td className="dank-output-baseinfo-info">{form.baseinfo.schoolID}</td>
+                                        <td className="dank-output-baseinfo-label">政治面貌</td>
+                                        <td className="dank-output-baseinfo-info">{form.baseinfo.politicalStatus}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="dank-output-baseinfo-label">手机长号</td>
+                                        <td className="dank-output-baseinfo-info">{form.baseinfo.telnumber}</td>
+                                        <td className="dank-output-baseinfo-label">手机短号</td>
+                                        <td className="dank-output-baseinfo-info">{form.baseinfo.telshort}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="dank-output-baseinfo-label">邮　　箱</td>
+                                        <td className="dank-output-baseinfo-info">{form.baseinfo.email}</td>
+                                        <td className="dank-output-baseinfo-label">ＱＱ号码</td>
+                                        <td className="dank-output-baseinfo-info">{form.baseinfo.qq}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="dank-output-baseinfo-label">专　　业</td>
+                                        <td className="dank-output-baseinfo-info">{form.baseinfo.major}</td>
+                                        <td className="dank-output-baseinfo-label">年　　级</td>
+                                        <td className="dank-output-baseinfo-info">{form.baseinfo.grade}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="dank-output-baseinfo-label">寝室地址</td>
+                                        <td className="dank-output-baseinfo-info">{form.baseinfo.address}</td>
+                                        <td className="dank-output-baseinfo-label">出生日期</td>
+                                        <td className="dank-output-baseinfo-info">{form.baseinfo.birth}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td className="dank-output-baseinfo-photo">
+                                <img src={form.baseinfo.img} alt="照片"/>
+                            </td>
                         </tr>
                         </tbody>
                     </table>

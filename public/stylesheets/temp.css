@@ -84,6 +84,11 @@ a.a7{
 	font-size: 18px;
 	text-decoration: none;
 }
+a.a7:hover{
+	color: #203140;
+	cursor: pointer;
+	text-decoration: none;
+}
 a.a8{
 	color: #434751;
 	font-size: 20px;

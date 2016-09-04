@@ -95,6 +95,7 @@ module.exports = React.createClass({
                <div style={rightPosition} className="pc">
                    <small className="dank-small" style={rightItemPosition}>Hi,{this.state.name}</small>
                    <a className="dank-a" href="/#/person/info" style={rightItemPosition}>个人资料</a>|
+                   <a className="dank-a" href="/#/orgsign/in" style={rightItemPosition}>社团登陆</a>|
                    <a className="dank-a" onClick={this.logout} style={rightItemPosition}>注销</a>
                </div>
            )

@@ -20,7 +20,7 @@ var Content = React.createClass({
             skills: {
                 delete:false,
                 title:'技能',
-                max:null,
+                max:'',
                 option:['ppt', '视频', '主持', '摄影', 'ps'],
                 free: true
             },
@@ -86,6 +86,9 @@ var Content = React.createClass({
             });
         }.bind(this);
 
+        if(this.refs.baseinfo){
+            create();
+        }
         if(this.refs.person)
         {
             this.refs.person.componentForceUnmount(create);

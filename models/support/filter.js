@@ -56,7 +56,9 @@ var baseinfoFilter = function(baseinfo){
             qq: null,
             major: null,
             birth: null,
-            address: null
+            address: null,
+            img: null,
+            grade: null
         };
     }else{
         return {
@@ -72,7 +74,9 @@ var baseinfoFilter = function(baseinfo){
             qq: baseinfo.qq,
             major: baseinfo.major,
             birth: baseinfo.birth,
-            address: baseinfo.address
+            address: baseinfo.address,
+            img: baseinfo.img,
+            grade: baseinfo.grade
         };
     }
 };

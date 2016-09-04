@@ -31,7 +31,8 @@ var Content = React.createClass({
                 major:'',
                 birth:'',
                 address:'',
-                img:'img/photo.png'
+                img:'',
+                grade: ''
             },
             wish: {
                 chosen:[],
@@ -351,6 +352,10 @@ var Baseinfo = React.createClass({
                             <td><input value={this.props.data.major} onChange={this.props.handleChange.bind(null, title, -1)} name="major" className="dank-form-input" type="text" required/></td>
                         </tr>
                         <tr>
+                            <td>年　　级</td>
+                            <td><input value={this.props.data.grade} onChange={this.props.handleChange.bind(null, title, -1)} name="grade" className="dank-form-input" type="text" required/></td>
+                        </tr>
+                        <tr>
                             <td>出生日期*</td>
                             <td><input value={this.props.data.birth} onChange={this.props.handleChange.bind(null, title, -1)} name="birth" className="dank-form-input" type="text" required/></td>
                         </tr>
@@ -361,7 +366,7 @@ var Baseinfo = React.createClass({
                         <tr>
                             <td>照　　片</td>
                             <td>
-                                <div className="dank-form-file-text" ref="img">{(this.props.data.img=='img/photo.png')?this.props.data.img:null}</div>
+                                <div className="dank-form-file-text" ref="img">{this.props.data.img}</div>
                                 <div type="button" className="dank-form-file-button" id="img">上传</div>
                             </td>
                         </tr>

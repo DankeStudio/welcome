@@ -37,7 +37,9 @@ var InfoBox = React.createClass({
             sex: "",
             telnumber: "",
             telshort: "",
-            major:""
+            major:"",
+            grade:"",
+            img:''
         }
     },
     componentDidMount: function(){
@@ -67,7 +69,9 @@ var InfoBox = React.createClass({
                                 sex: data.body.user.baseinfo.sex,
                                 telnumber: data.body.user.baseinfo.telnumber,
                                 telshort: data.body.user.baseinfo.telshort,
-                                major: data.body.user.baseinfo.major
+                                major: data.body.user.baseinfo.major,
+                                grade:data.body.user.baseinfo.grade,
+                                img:data.body.user.baseinfo.img
                             });
                             console.log(this.state.data);
                         }
@@ -82,6 +86,71 @@ var InfoBox = React.createClass({
                 console.error("ajax请求发起失败");
             }.bind(this)
         });
+
+        //七牛文件上传
+        var uploader = Qiniu.uploader({
+            runtimes: 'html5,flash,html4',
+            browse_button: 'photo',
+            uptoken_url: '/uptoken',
+            domain: 'http://ocsdd1fl7.bkt.clouddn.com/',   //bucket 域名，下载资源时用到，**必需**
+            get_new_uptoken: false,  //设置上传文件的时候是否每次都重新获取新的token
+            max_file_size: '10mb',           //最大文件体积限制
+            flash_swf_url: 'js/plupload/Moxie.swf',  //引入flash,相对路径
+            max_retries: 3,                   //上传失败最大重试次数
+            dragdrop: true,                   //开启可拖曳上传
+            chunk_size: '4mb',                //分块上传时，每片的体积
+            auto_start: true,                 //选择文件后自动上传，若关闭需要自己绑定事件触发上传
+            unique_names: true,              //自动生成key
+            init: {
+                'BeforeUpload': function(up, file) {
+                    $('#loading').fadeIn();
+                    $(document).on('click', '#cancel', function(){
+                        this.stop();
+                        $('#loading').fadeOut();
+                        $(document).off('click', '#cancel');
+                    }.bind(this));
+
+                },
+                'UploadProgress': function(up, file) {
+                    $('#loadingPercentage').text('已上传 '+file.percent+'%');
+                    $('#loadingSpeed').text(file.speed/1000+'kb/s');
+                },
+                'FileUploaded': function(up, file, info) {
+                    var domain = up.getOption('domain');
+                    var res = $.parseJSON(info);
+                    var sourceLink = domain + res.key;
+                    this.setState({'img':sourceLink});
+
+                    //上传提示消失 相关事件解绑
+                    $('#loading').fadeOut();
+                    $(document).off('click', '#cancel');
+                }.bind(this),
+                'Error': function(up, err, errTip) {
+                    //上传提示消失 相关事件解绑
+                    $('#loading').fadeOut();
+                    $(document).off('click', '#cancel');
+
+                    //上传出错时,处理相关的事情
+                    if(err.code== -600){//文件大小过大
+                        var limit = up.getOption('max_file_size');
+                        alert('上传文件大小不得超过'+limit);
+                    }
+                    else {
+                        alert('上传出错，请重试\n'+errTip);
+                    }
+                }.bind(this)
+            }
+        });
+
+        //date time picker 初始化
+        $("#dtBox").DateTimePicker({
+            mode: "date",
+            dateFormat: "yyyy-MM-dd",
+            afterHide:function(element){
+                var value = $(element).val();
+                this.setState({birth:value});
+            }.bind(this)
+        });
     },
     submitHandler: function(){
         $.ajax({
@@ -89,18 +158,20 @@ var InfoBox = React.createClass({
             contentType: 'application/json',
             type: 'POST',
             data: JSON.stringify({
-                address: this.refs.address.value,
-                birth: this.refs.birth.value,
-                email: this.refs.email.value,
-                name: this.refs.name.value,
-                nation: this.refs.nation.value,
-                origin: this.refs.origin.value,
-                politicalStatus: this.refs.politicalStatus.value,
-                qq: this.refs.qq.value,
-                schoolID: this.refs.schoolID.value,
-                sex: this.refs.sex.value,
-                telnumber: this.refs.telnumber.value,
-                telshort: this.refs.telshort.value
+                address: this.state.address,
+                birth: this.state.birth,
+                email: this.state.email,
+                name: this.state.name,
+                nation: this.state.nation,
+                origin: this.state.origin,
+                politicalStatus: this.state.politicalStatus,
+                qq: this.state.qq,
+                schoolID: this.state.schoolID,
+                sex: this.state.sex,
+                telnumber: this.state.telnumber,
+                telshort: this.state.telshort,
+                grade:this.state.grade,
+                img:this.state.img
             }),
             success: function(data) {
                 console.log(data);
@@ -119,7 +190,7 @@ var InfoBox = React.createClass({
         });
     },
     handleChange: function(event) {
-        console.log(event.target);
+        //console.log(event.target);
         this.setState({[event.target.getAttribute('name')]: event.target.value});
     },
     crawlerSubmit: function(){
@@ -262,14 +333,16 @@ var InfoBox = React.createClass({
                                                         <tr>
                                                             <td className="td-title">专业</td>
                                                             <td className="td-content"><input type="text" ref="major" name="major" className="dank-input" value={this.state.major?this.state.major:''} onChange={this.handleChange}/></td>
-                                                            <td className="td-title">寝室地址</td>
-                                                            <td className="td-content"><input type="text" ref="address" name="address" className="dank-input" value={this.state.address?this.state.address:''} onChange={this.handleChange}/></td>
+                                                            <td className="td-title">年级</td>
+                                                            <td className="td-content"><input type="text" ref="grade" name="grade" className="dank-input" value={this.state.grade?this.state.grade:''} onChange={this.handleChange}/></td>
                                                         </tr>
                                                         <tr>
                                                             <td className="td-title">生日</td>
-                                                            <td className="td-content"><input type="text" ref="birth" name="birth" className="dank-input" value={this.state.birth?this.state.birth:''} onChange={this.handleChange}/></td>
-                                                            <td className="td-title"></td>
-                                                            <td className="td-content"></td>
+                                                            <td className="td-content">
+                                                                <input type="text" ref="birth" name="birth" className="dank-input" data-field="date" data-format="yyyy-MM-dd" value={this.state.birth?this.state.birth:''} onChange={this.handleChange} readOnly/>
+                                                                </td>
+                                                            <td className="td-title">寝室地址</td>
+                                                            <td className="td-content"><input type="text" ref="address" name="address" className="dank-input" value={this.state.address?this.state.address:''} onChange={this.handleChange}/></td>
                                                         </tr>
                                                         </tbody>
                                                     </table>
@@ -280,13 +353,31 @@ var InfoBox = React.createClass({
                                     <div className="col-md-3 text-center c4">
                                         <div className="container-fluid">
                                             <div className="row">
-                                                <img src="img/male.png" className="i2"/>
+                                                <img src={(this.state.img)?this.state.img:"img/male.png"} className="i2"/>
                                             </div>
                                             <div className="row">
-                                                <a className="a7" href="#"><b>修改头像</b></a>
+                                                <a className="a7" id="photo"><b>修改头像</b></a>
+                                            </div>
+                                            <div id="loading">
+                                                <div className="cssload-container">
+                                                    <div className="cssload-shaft1"></div>
+                                                    <div className="cssload-shaft2"></div>
+                                                    <div className="cssload-shaft3"></div>
+                                                    <div className="cssload-shaft4"></div>
+                                                    <div className="cssload-shaft5"></div>
+                                                    <div className="cssload-shaft6"></div>
+                                                    <div className="cssload-shaft7"></div>
+                                                    <div className="cssload-shaft8"></div>
+                                                    <div className="cssload-shaft9"></div>
+                                                    <div className="cssload-shaft10"></div>
+                                                </div>
+                                                <div className="loading-text" id="loadingPercentage"></div>
+                                                <div className="loading-text" id="loadingSpeed"></div>
+                                                <div className="loading-button" id="cancel">取消上传</div>
                                             </div>
                                         </div>
                                     </div>
+                                    <div id="dtBox"></div>
                                 </div>
                             </div>
                         </div>

@@ -36,7 +36,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //建立session，并将session存入mongodb
 app.use(session({
     secret: 'SECRET_KEY',
-    cookie:{maxAge: null},//过期时间
+    cookie:{maxAge: 365 * 24 * 60 * 60},//过期时间
     key: 'SessionID',
     resave: true,
     saveUninitialized: true,

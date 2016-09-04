@@ -120,7 +120,8 @@ module.exports = React.createClass({
                             嘿小子，为啥不登录啊<br/>
                             登陆后可以自动填写基本资料<br/>
                             登陆后可以从教务网同步个人资料<br/>
-                            登陆后可以嘿嘿嘿<br/>
+                            提交一次报名表自动注册账号哦<br/>
+                            xu~~~账号是手机号 密码是学号<br/>
                         </div>
                         <div className="dank-invite-login-button-group">
                             <div className="dank-invite-login-button" onClick={function(){window.location.href="#/sign/in"}}>登陆</div>

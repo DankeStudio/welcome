@@ -38,7 +38,15 @@ module.exports = React.createClass({
                     if($.inArray(path, array)>-1){//处于未登录该跳转的页面
                         window.location.href = '#/sign/in';
                     }
-                    $('#invite').show();
+                    var array2 = ['#/mobile/form'];
+                    var path = hash.substr(0, hash.lastIndexOf('/'));
+                    console.log(path);
+                    if($.inArray(path, array2)>-1){//处于不显示提示信息的页面
+
+                    }
+                    else{
+                        $('#invite').show();
+                    }
                 }
                 this.setState({name : name});
             }.bind(this),

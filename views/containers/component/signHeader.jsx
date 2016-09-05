@@ -46,7 +46,7 @@ module.exports = React.createClass({
                 <div style={leftPosition}>
                     <big style={titleStyle} >WELCOME</big>
                 </div>
-                <div style={leftPosition2} className="pc">
+                <div style={leftPosition2}>
                     <a className="dank-button-header" href="/"style={leftItemPosition} onClick={null}>首页</a>
                 </div>
                 <div style={rightPosition} className="pc">

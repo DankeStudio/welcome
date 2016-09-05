@@ -129,7 +129,8 @@ var Content = React.createClass({
     },
 
     componentDidMount: function(){
-
+        if($(document).width()<800)
+            window.location.href='#/mobile/form/'+this.props.eventID;
         $.ajax({
             url: "/form/id",
             contentType: 'application/json',

@@ -115,7 +115,12 @@ var FormBox = React.createClass({
                         this.refs.passwordErr2.className="err-display";
                         break;
                     case 0:
-                        window.location.href = '/#/person/info';
+                        if(document.body.clientWidth>800){
+                            window.location.href = '/#/person/info';
+                        }
+                        else{
+                            history.back();
+                        }
                         break;
                     default:
                         alert("未知错误");

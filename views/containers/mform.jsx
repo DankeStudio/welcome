@@ -489,12 +489,14 @@ var Wish = React.createClass({
         };
         var title = 'wish';
         var wishNodes = this.props.schema.option.map(function(wish, i){
+            let chosen = this.props.data.chosen.indexOf(wish);
             return(
                 <div className="dank-checkbox-inOneLine" key={wish}>
                     <label> 
                         <input type="checkbox" value={wish} name='chosen'
-                               checked={this.props.data.chosen.indexOf(wish)>=0}
-                               onChange={this.handleChange.bind(null, title, i)}/>
+                               checked={chosen>=0}
+                               onChange={this.handleChange.bind(null, title, i)}
+                               disabled={this.props.data.chosen.length >= this.props.schema.max && chosen < 0} />
                         {wish} 
                     </label>
                 </div>
@@ -518,7 +520,7 @@ var Wish = React.createClass({
 
         return(
             <div style={bordStyle}>
-                <h1 className="h1a"><b>报名志愿</b></h1>
+                <h1 className="h1a"><b>报名志愿{this.props.schema.max <= 0 ? '':'（至多选'+this.props.schema.max+'个）'}</b></h1>
                 {(this.props.schema.delete)?null:<div className="d24">
                     <div className="text-left d25">
                         <h1 className="h1f dank-form-h2"><b>{this.props.schema.title}*</b></h1>

@@ -62,7 +62,7 @@ var Content = React.createClass({
                                 type: otherSchema[i].type,
                                 title: otherSchema[i].title,
                                 content: '',
-                                chosen: otherSchema.type == 'multi-choose' ? [''] : '',
+                                chosen: otherSchema[i].type == 'multi-choose' ? [''] : '',
                                 url: ''
                             }
                             tmp.push(e);
@@ -70,6 +70,8 @@ var Content = React.createClass({
                         this.setState({
                             event:data.body.event,
                             others: tmp
+                        }, ()=>{
+                            console.log(this.state.others)
                         });
                         break;
                     default:
@@ -174,7 +176,7 @@ var Content = React.createClass({
             newState[title][e.target.getAttribute('name')] = e.target.value;
         else
             newState[title][e.target.getAttribute('name')][i] = e.target.value;
-        this.setState({data: newState});
+        this.setState({newState});
     },
     dataPipe: function(json){
         this.setState(json);
@@ -691,11 +693,18 @@ var Others = React.createClass({
             }
         }
     },
-    handleChange: function(title) {
-        var tmp = this.props.schema;
+    handleChange: function(title, attri, e) {
+        let index = e.target.getAttribute('name');
+        let tmp = this.props.data[index][attri];
         tmp.push(e.target.value);
-        e.target.value = tmp;
-        this.props.handleChange(title, -1, e);
+        this.props.handleChange(title, 'chosen', {
+            target: {
+                getAttribute: function() {
+                    return index;
+                },
+                value: tmp
+            }
+        });
     },
     render: function(){
         var bordStyle={

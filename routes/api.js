@@ -66,8 +66,8 @@ module.exports = require('express').Router()
     .get('/form/id', event.getEventByID)
 
     //form submit
-    .post('/form/submit', cors)
-    .post('/form/submit', form.submit)
+    .options('/form/submit', cors)
+    .post('/form/submit', cors, form.submit)
 
     //form design
     .post('/form/design', grantOrg)
@@ -150,5 +150,5 @@ module.exports = require('express').Router()
     .post('/message/receiver/update',message.updateReceiver)
 
     //qiniu storage
-    .get('/uptoken', cors)
-    .get('/uptoken', qiniuFile.uptoken)
+    .options('/uptoken', cors)
+    .get('/uptoken', cors, qiniuFile.uptoken)

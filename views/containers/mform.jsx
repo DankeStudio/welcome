@@ -496,7 +496,7 @@ var Wish = React.createClass({
                         <input type="checkbox" value={wish} name='chosen'
                                checked={chosen>=0}
                                onChange={this.handleChange.bind(null, title, i)}
-                               disabled={this.props.data.chosen.length >= this.props.schema.max && chosen < 0} />
+                               disabled={this.props.schema.max && this.props.data.chosen.length >= this.props.schema.max && chosen < 0} />
                         {wish} 
                     </label>
                 </div>
@@ -758,12 +758,14 @@ var Others = React.createClass({
                             {
                                 other.option.map(function(option){
                                     option = "" + option;
+                                    let chosen = this.props.data[i].chosen.indexOf(option);
                                     return(
                                         <div className="dank-checkbox-inOneLine" key={option}>
                                             <label>
                                                 <input type="checkbox" name={i} value={option} 
-                                                       checked={this.props.data[i].chosen.indexOf(option)>=0}
-                                                       onChange={this.handleChange.bind(null, title, 'chosen')}/>
+                                                       checked={chosen>=0}
+                                                       onChange={this.handleChange.bind(null, title, 'chosen')}
+                                                       disabled={this.props.schema[i].max && this.props.data[i].chosen.length >= this.props.schema[i].max && chosen < 0}/>
                                                 {option} 
                                             </label>
                                         </div>

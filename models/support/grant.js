@@ -33,7 +33,7 @@ module.exports = {
         //res.header("Access-Control-Allow-Origin", "http://localhost");
         res.header("Access-Control-Allow-Origin", "http://ina.zhelishi.cn");
         //res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "Content-Type");
+        res.header("Access-Control-Allow-Headers", "Content-Type,If-Modified-Since");
         res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
         res.header("X-Powered-By",' 3.2.1');
         next();

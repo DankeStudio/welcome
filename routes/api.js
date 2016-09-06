@@ -4,12 +4,13 @@ var org = require('../models/api/org');
 var event = require('../models/api/event');
 var interview = require('../models/api/interview');
 var message = require('../models/api/message');
-var auth = require('../models/support/auth');
+var grant = require('../models/support/grant');
 var filter = require('../models/support/filter');
 var qiniuFile = require('../models/api/qiniuFile');
 
-var grantUser = auth.grantUser;
-var grantOrg = auth.grantOrg;
+var grantUser = grant.grantUser;
+var grantOrg = grant.grantOrg;
+var cors = grant.cors;
 var eventFilter = filter.eventFilter;
 
 module.exports = require('express').Router()
@@ -65,6 +66,7 @@ module.exports = require('express').Router()
     .get('/form/id', event.getEventByID)
 
     //form submit
+    .post('/form/submit', cors)
     .post('/form/submit', form.submit)
 
     //form design
@@ -148,4 +150,5 @@ module.exports = require('express').Router()
     .post('/message/receiver/update',message.updateReceiver)
 
     //qiniu storage
+    .get('/uptoken', cors)
     .get('/uptoken', qiniuFile.uptoken)

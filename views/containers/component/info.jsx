@@ -187,42 +187,56 @@ var InfoBox = React.createClass({
                                                         <tr>
                                                             <td className="td-title">姓名</td>
                                                             <td className="td-content">{this.state.name}</td>
+                                                        </tr>
+                                                        <tr>
                                                             <td className="td-title">性别</td>
                                                             <td className="td-content">{this.state.sex}</td>
                                                         </tr>
                                                         <tr>
                                                             <td className="td-title">籍贯</td>
                                                             <td className="td-content">{this.state.origin}</td>
+                                                        </tr>
+                                                        <tr>
                                                             <td className="td-title">民族</td>
                                                             <td className="td-content">{this.state.nation}</td>
                                                         </tr>
                                                         <tr>
                                                             <td className="td-title">学号</td>
                                                             <td className="td-content">{this.state.schoolID}</td>
+                                                        </tr>
+                                                        <tr>
                                                             <td className="td-title">政治面貌</td>
                                                             <td className="td-content">{this.state.politicalStatus}</td>
                                                         </tr>
                                                         <tr>
                                                             <td className="td-title">手机长号</td>
                                                             <td className="td-content">{this.state.telnumber}</td>
+                                                        </tr>
+                                                        <tr>
                                                             <td className="td-title">手机短号</td>
                                                             <td className="td-content">{this.state.telshort}</td>
                                                         </tr>
                                                         <tr>
                                                             <td className="td-title">邮箱</td>
                                                             <td className="td-content">{this.state.email}</td>
+                                                        </tr>
+                                                        <tr>
                                                             <td className="td-title">QQ</td>
                                                             <td className="td-content">{this.state.qq}</td>
                                                         </tr>
                                                         <tr>
                                                             <td className="td-title">专业</td>
                                                             <td className="td-content">{this.state.major}</td>
+                                                        </tr>
+                                                        <tr>
                                                             <td className="td-title">年级</td>
                                                             <td className="td-content">{this.state.grade}</td>
                                                         </tr>
                                                         <tr>
                                                             <td className="td-title">生日</td>
                                                             <td className="td-content">{this.state.birth}</td>
+                                                        </tr>
+                                                        <tr>
                                                             <td className="td-title">寝室地址</td>
                                                             <td className="td-content">{this.state.address}</td>
                                                         </tr>

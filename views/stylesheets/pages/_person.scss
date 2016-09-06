@@ -1,3 +1,8 @@
+.dank-t1>tbody>tr {
+    display: inline-block;
+    width: 50%;
+}
+
 @media screen and (max-width: 800px) {
     .dank-slider {
         display: none;
@@ -7,5 +12,8 @@
     }
     .dank-d2 {
         margin: 70px 0;
+    }
+    .dank-t1>tbody>tr {
+        width: 100%;
     }
 }

@@ -303,36 +303,48 @@ var InfoBox = React.createClass({
                                                         <tr>
                                                             <td className="td-title">姓名</td>
                                                             <td className="td-content"><input type="text" ref="name" name="name" className="dank-input" value={this.state.name?this.state.name:''} onChange={this.handleChange}/></td>
+                                                        </tr>
+                                                        <tr>
                                                             <td className="td-title">性别</td>
                                                             <td className="td-content"><input type="text" ref="sex" name="sex" className="dank-input" value={this.state.sex?this.state.sex:''} onChange={this.handleChange}/></td>
                                                         </tr>
                                                         <tr>
                                                             <td className="td-title">籍贯</td>
                                                             <td className="td-content"><input type="text" ref="origin" name="origin" className="dank-input" value={this.state.origin?this.state.origin:''} onChange={this.handleChange}/></td>
+                                                        </tr>
+                                                        <tr>
                                                             <td className="td-title">民族</td>
                                                             <td className="td-content"><input type="text" ref="nation" name="nation" className="dank-input" value={this.state.nation?this.state.nation:''} onChange={this.handleChange}/></td>
                                                         </tr>
                                                         <tr>
                                                             <td className="td-title">学号</td>
                                                             <td className="td-content"><input type="text" ref="schoolID" name="schoolID" className="dank-input" value={this.state.schoolID?this.state.schoolID:''} onChange={this.handleChange}/></td>
+                                                        </tr>
+                                                        <tr>
                                                             <td className="td-title">政治面貌</td>
                                                             <td className="td-content"><input type="text" ref="politicalStatus" name="politicalStatus" className="dank-input" value={this.state.politicalStatus?this.state.politicalStatus:''} onChange={this.handleChange}/></td>
                                                         </tr>
                                                         <tr>
                                                             <td className="td-title">手机长号</td>
                                                             <td className="td-content"><input type="text" ref="telnumber" name="telnumber" className="dank-input" value={this.state.telnumber?this.state.telnumber:''} onChange={this.handleChange}/></td>
+                                                        </tr>
+                                                        <tr>
                                                             <td className="td-title">手机短号</td>
                                                             <td className="td-content"><input type="text" ref="telshort" name="telshort" className="dank-input" value={this.state.telshort?this.state.telshort:''} onChange={this.handleChange}/></td>
                                                         </tr>
                                                         <tr>
                                                             <td className="td-title">邮箱</td>
                                                             <td className="td-content"><input type="text" ref="email" name="email" className="dank-input" value={this.state.email?this.state.email:''} onChange={this.handleChange}/></td>
+                                                        </tr>
+                                                        <tr>
                                                             <td className="td-title">QQ</td>
                                                             <td className="td-content"><input type="text" ref="qq" name="qq" className="dank-input" value={this.state.qq?this.state.qq:''} onChange={this.handleChange}/></td>
                                                         </tr>
                                                         <tr>
                                                             <td className="td-title">专业</td>
                                                             <td className="td-content"><input type="text" ref="major" name="major" className="dank-input" value={this.state.major?this.state.major:''} onChange={this.handleChange}/></td>
+                                                        </tr>
+                                                        <tr>
                                                             <td className="td-title">年级</td>
                                                             <td className="td-content"><input type="text" ref="grade" name="grade" className="dank-input" value={this.state.grade?this.state.grade:''} onChange={this.handleChange}/></td>
                                                         </tr>
@@ -341,6 +353,8 @@ var InfoBox = React.createClass({
                                                             <td className="td-content">
                                                                 <input type="text" ref="birth" name="birth" className="dank-input" data-field="date" data-format="yyyy-MM-dd" value={this.state.birth?this.state.birth:''} onChange={this.handleChange} readOnly/>
                                                                 </td>
+                                                        </tr>
+                                                        <tr>
                                                             <td className="td-title">寝室地址</td>
                                                             <td className="td-content"><input type="text" ref="address" name="address" className="dank-input" value={this.state.address?this.state.address:''} onChange={this.handleChange}/></td>
                                                         </tr>

@@ -70,8 +70,6 @@ var Content = React.createClass({
                         this.setState({
                             event:data.body.event,
                             others: tmp
-                        }, ()=>{
-                            console.log(this.state.others)
                         });
                         break;
                     default:
@@ -693,10 +691,16 @@ var Others = React.createClass({
             }
         }
     },
-    handleChange: function(title, attri, e) {
-        let index = e.target.getAttribute('name');
-        let tmp = this.props.data[index][attri];
-        tmp.push(e.target.value);
+    handleChange: function(title, zero, e) {
+        let index = e.target.getAttribute('name'),
+            tmp = this.props.data[index]['chosen'].slice(),
+            i = tmp.indexOf(e.target.value);
+        if (zero == 0)
+            tmp[0] = e.target.value;
+        else if (i<0)
+            tmp.push(e.target.value);
+        else if (i>0)
+            tmp.splice(i, 1);
         this.props.handleChange(title, 'chosen', {
             target: {
                 getAttribute: function() {
@@ -767,14 +771,15 @@ var Others = React.createClass({
                             {
                                 other.option.map(function(option){
                                     option = "" + option;
-                                    let chosen = this.props.data[i].chosen.indexOf(option);
+                                    let chosen = this.props.data[i].chosen;
+                                    let len = chosen[0] == '' ? chosen.length-1 : chosen.length;
                                     return(
                                         <div className="dank-checkbox-inOneLine" key={option}>
                                             <label>
                                                 <input type="checkbox" name={i} value={option} 
-                                                       checked={chosen>=0}
-                                                       onChange={this.handleChange.bind(null, title, 'chosen')}
-                                                       disabled={this.props.schema[i].max && this.props.data[i].chosen.length >= this.props.schema[i].max && chosen < 0}/>
+                                                       checked={chosen.indexOf(option)>=0}
+                                                       onChange={this.handleChange.bind(null, title, -1)}
+                                                       disabled={other.max && len >= other.max && chosen.indexOf(option) < 0}/>
                                                 {option} 
                                             </label>
                                         </div>
@@ -783,10 +788,14 @@ var Others = React.createClass({
                             }
                             {
                                 (other.free)?
-                                <div className="dank-form-group-inline">
+                                <div className={'dank-form-group-inline' + 
+                                                (other.max && this.props.data[i].chosen[0] == '' && this.props.data[i].chosen.length-1 >= other.max 
+                                                ? ' disable' : '') }>
                                     <label className="dank-label dank-select-label">其他</label>
-                                    <input type="text" name={i} value={this.props.data[i].chosen[0]} 
-                                           onBlur={null} className="dank-form-input dank-select-input"/>
+                                    <input type="text" name={i} value={this.props.data[i].chosen[0]}
+                                           onChange = {this.handleChange.bind(null, title, 0)}
+                                           onBlur={null} className="dank-form-input dank-select-input"
+                                           disabled={other.max && this.props.data[i].chosen[0] == '' && this.props.data[i].chosen.length-1 >= other.max}/>
                                 </div>
                                 :null
                             }
@@ -823,7 +832,6 @@ var Others = React.createClass({
                             </div>
                         </div>
                     );
-                    break;
                 default:
                     return null;
             }

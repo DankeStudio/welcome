@@ -61,4 +61,7 @@
     .dank-select-input{
         width: 130px;
     }
+    .dank-form-group-inline.disable * {
+        color: rgba(0, 0, 0, 0.3);
+    }
 }

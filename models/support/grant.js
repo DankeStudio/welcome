@@ -30,8 +30,8 @@ module.exports = {
     },
     //跨域请求 cors
     cors: function(req, res, next){
-        res.header("Access-Control-Allow-Origin", "http://114.215.144.43:80");
         //res.header("Access-Control-Allow-Origin", "http://localhost");
+        res.header("Access-Control-Allow-Origin", "http://ina.zhelishi.cn");
         //res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "Content-Type");
         res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");

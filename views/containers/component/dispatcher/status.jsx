@@ -57,14 +57,13 @@ module.exports = React.createClass({
                                 contentType: 'application/json',
                                 type: 'GET',
                                 success: function(data) {
-                                    switch(data.code){
-                                        case 0:
-                                            this.setState({departments: ['全部部门'].concat(data.body.event.formschema.wish.option)});
-                                            break;
-                                        default:
-                                            console.log(data.msg);
-                                            break;
-                                    }
+                                    if (data.code == 0)
+                                        if (data.body.event.allMode)
+                                            this.setState({departments: ['全部部门']});
+                                        else
+                                            this.setState({departments: data.body.event.formschema.wish.option});
+                                    else
+                                        alert('获取面试部门出错'+data.msg);
                                 }.bind(this),
                                 error: function(xhr, status, err) {
                                     console.error("ajax请求发起失败");

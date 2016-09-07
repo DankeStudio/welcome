@@ -12,7 +12,8 @@ module.exports = React.createClass({
             departments: [],
             selectedDep: '',
             round: 0,
-            reset: false
+            reset: false,
+            allMode: false
         }
     },
     componentDidMount: function(){
@@ -53,7 +54,8 @@ module.exports = React.createClass({
                                 success: function(data) {
                                     switch(data.code){
                                         case 0:
-                                            this.setState({departments: ['全部部门'].concat(data.body.event.formschema.wish.option)});
+                                            this.setState({departments: ['全部部门'].concat(data.body.event.formschema.wish.option),
+                                                           allMode: data.body.event.allMode});
                                             break;
                                         default:
                                             console.log(data.msg);
@@ -67,20 +69,31 @@ module.exports = React.createClass({
                        });
     },
     departChecked: function(department, i) {
+        if (department != '全部部门' && this.state.allMode) {
+            let confirmRes = confirm("当前如果进行其他部门的面试安排，先前全部面试的面试通过者将会导入此轮并且不可修改，确认？");
+            if (!confirmRes) {
+                return;   
+            }
+        }
+        else if (department == '全部部门') {
+            if (this.state.allMode) {
+                alert('对全部部门面试进行安排仅适用于第一轮，之后轮次请选择其他部门分别进行安排')
+                return;
+            }
+            this.setState({selectedDep: department, round: 1, infoComplete: true});
+            return;
+        }
         this.setState({selectedDep: department}, function() {
-            department = department == '全部部门' ? '' : department;
             $.ajax({
                 url: "/interview?eventID="+this.state.selectedEvent.eventID+'&department='+this.state.selectedDep+'&new=1',
                 contentType: 'application/json',
                 type: 'GET',
                 success: function(data) {
-                    switch(data.code){
-                        case 0:
-                            this.setState({round: data.body.interviews[0].round+1, infoComplete: true});
-                            break;
-                        default:
-                            console.log(data.msg);
-                            break;
+                    if (data.code == 0)
+                        this.setState({round: data.body.interviews[0].round+1, infoComplete: true});
+                    else {
+                        alert('无法获取当前部门面试轮次：'+data.msg);
+                        return;
                     }
                 }.bind(this),
                 error: function(xhr, status, err) {
@@ -90,12 +103,16 @@ module.exports = React.createClass({
         });  
     },
     handlePost: function() {
-        this.setState({infoComplete: false, reset: !this.state.reset, selectedEvent: {}, round: 0}); 
+        this.setState({infoComplete: false, reset: !this.state.reset, selectedDep: '', round: 0}); 
+    },
+    updateAllMode(val){ 
+        this.setState({allMode: val});
     },
     render: function(){
         var section1 = this.state.infoComplete == false ? null : 
                        <Interviews event={this.state.selectedEvent} department={this.state.selectedDep} 
-                                   round={this.state.round} handlePost={this.handlePost} />;
+                                   round={this.state.round} handlePost={this.handlePost} allMode={this.state.allMode}
+                                   updateAllMode={this.updateAllMode}/>;
         return(
             <div className="container-fluid">
                 <div className="panel" id="interview-select-panel">
@@ -106,11 +123,11 @@ module.exports = React.createClass({
                         <div className="row">
                             <div className="col-md-4">
                                 <Dropdown data={this.state.eventsNames} handleChecked={this.eventChecked} 
-                                               name={'event'} default={"选择面试活动"} resetWhenChanged={this.state.reset}/>
+                                               name={'event'} default={"选择面试活动"} resetWhenChanged={null}/>
                             </div>
                             <div className="col-md-4">
                                 <Dropdown data={this.state.departments} handleChecked={this.departChecked} name={'depart'} 
-                                                default={'请选择面试部门'} resetWhenChanged={this.state.selectedEvent}/>
+                                                default={'请选择面试部门'} resetWhenChanged={[this.state.selectedEvent, this.state.reset]}/>
                             </div>
                             <div className="col-md-4">
                                 <a className="thumbnail">
@@ -139,6 +156,13 @@ var Interviews = React.createClass({
             addDay: false,
             dateSelected: true
         }
+    },
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            event: nextProps.event,
+            department: nextProps.department,
+            round: nextProps.round
+        });
     },
     changeDay: function(date) {
         this.setState({selectedDate: date, dateSelected: true});
@@ -194,12 +218,65 @@ var Interviews = React.createClass({
         args = args || [];
         this.setState({dateSelected: false, days: days, arrangements: args});
     },
-    postArgs: function() {
+    postPrepare: function() {
+        if (this.state.department == '全部部门') {
+            $.ajax({
+                url: "/interview/all/on",
+                contentType: 'application/json',
+                type: 'POST',
+                data: JSON.stringify({
+                    eventID:this.state.event.eventID
+                }),
+                success: (data) => {
+                    if (data.code != 0) {
+                        alert('无法对【全部部门】进行安排：'+data.msg);
+                        return;
+                    }
+                    this.props.updateAllMode(true);
+                    this.post();
+                },
+                error: function(xhr, status, err) {
+                    console.error("ajax请求发起失败");
+                    return;
+                }.bind(this)
+            });
+        }
+        else if (this.props.allMode) {
+            $.ajax({
+                url: "/interview/all/off",
+                contentType: 'application/json',
+                type: 'POST',
+                data: JSON.stringify({
+                    eventID:this.state.event.eventID
+                }),
+                success: (data) => {
+                    if (data.code != 0) {
+                        alert('无法终止【全部部门】的面试：'+data.msg);
+                        return;
+                    }
+                    this.props.updateAllMode(false);
+                    this.post();
+                },
+                error: function(xhr, status, err) {
+                    console.error("ajax请求发起失败");
+                    return;
+                }.bind(this)
+            });
+        }
+        else {
+            this.post();
+        }
+    },
+    post: function() {
         $.post('/interview/create',{
             eventID: this.state.event.eventID,
             round: this.state.round,
             department: this.state.department
         }, (data) => {
+            if (data.code != 0) {
+                alert('无法创建新一轮面试：'+data.msg);
+                return;
+            }
             var ivID = data.body.interview._id;
             $.ajax({
                 url: "/interview/arrangement/create",
@@ -266,7 +343,7 @@ var Interviews = React.createClass({
                 <Cards items={this.state.arrangements} selectedDate={this.state.selectedDate} 
                        addCard={this.addCard} handleDelete={this.deleteArg} handleChange={this.handleChange} />
 
-                <button className="btn" id="gen-btn" onClick={this.postArgs}>生成</button>
+                <button className="btn" id="gen-btn" onClick={this.postPrepare}>生成</button>
                 <button className="btn" id="cancle-btn" onClick={this.resetCard}>重置</button>
                 <div className={'cover' + (this.state.addDay ? 'active':'')}></div>
             </div>

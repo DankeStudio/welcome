@@ -176,9 +176,10 @@ exports.updateProfile = (req, res, next) => {
 
 //同步教网信息
 exports.syncProfile = (req, res, next) => {
-    var username = req.body.username;
+    var jwbusr = req.body.jwbusr;
     var jwbpwd = req.body.jwbpwd;
-    jwbCrawler(username, jwbpwd)
+    var username = req.session.user.username;
+    jwbCrawler(jwbusr, jwbpwd)
         .then((info) => {
             //console.log(info);
             if (info.schoolID === '') {
@@ -204,17 +205,16 @@ exports.syncProfile = (req, res, next) => {
                         address: info.address
                     }
                 };
-                return User.update({
+                return User.findOneAndUpdate({
                     username: username
                 }, {
                     $set: user
                 });
             }
         })
-        .then((result) => {
-            //console.log(result);
+        .then((user) => {
             // throw error if user is not found in the database
-            if (!result.n) {
+            if (!user) {
                 throw {
                     code: -2,
                     msg: '本地不存在该用户',
@@ -224,7 +224,9 @@ exports.syncProfile = (req, res, next) => {
                 res.json({
                     code: 0,
                     msg: 'ok',
-                    body: {}
+                    body: {
+                        user:user
+                    }
                 });
             }
         })
@@ -233,7 +235,7 @@ exports.syncProfile = (req, res, next) => {
                 res.json(err);
             } else {
                 res.json({
-                    code: -3,
+                    code: 1,
                     msg: '数据库未知错误',
                     body: {}
                 });

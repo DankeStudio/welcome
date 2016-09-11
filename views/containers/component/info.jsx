@@ -93,8 +93,8 @@ var InfoBox = React.createClass({
             contentType: 'application/json',
             type: 'POST',
             data: JSON.stringify({
-                jwbpwd: username,
-                password: password
+                jwbusr: username,
+                jwbpwd: password
             }),
             success: function(data) {
                 switch(data.code){

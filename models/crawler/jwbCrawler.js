@@ -112,14 +112,14 @@ module.exports = (username, password) => {
 				class: $('#xzb').text(),
 				department: $('#xi').text(),
 				highSchool: $('#byzx').text(),
-				dorm: $('#ssh').text(),
+				address: $('#ssh').text(),
 				origin: $('#Span_jg').text(),
 				region: $('#Lab_lydq').text(),
 				email: $('#dzyxdz').text(),
 				telnumber: $('#lxdh').text(),
 				idcard: $('#Lab_sfzh').text(),
 				idcard_gat: $('#gatm').text(),
-				address: $('#jtdz').text()
+				homeAddress: $('#jtdz').text()
 			}
 		})
 }

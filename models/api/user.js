@@ -189,22 +189,15 @@ exports.syncProfile = (req, res, next) => {
                     body: {}
                 }
             } else {
+                var props = ["name","sex","origin","nation","schoolID","politicalStatus","telnumber","email","qq","major","birth","address"];
                 var user = {
-                    baseinfo: {
-                        name: info.name,
-                        sex: info.sex,
-                        origin: info.origin,
-                        nation: info.nation,
-                        schoolID: info.schoolID,
-                        politicalStatus: info.politicalStatus,
-                        telnumber: info.telnumber,
-                        email: info.email,
-                        qq: info.qq,
-                        major: info.major,
-                        birth: info.birth,
-                        address: info.address
-                    }
+                    baseinfo: {}
                 };
+                for (prop of props){
+                    if (info[prop]){
+                        user.baseinfo[prop]=info[prop];
+                    }
+                }
                 return User.findOneAndUpdate({
                     username: username
                 }, {

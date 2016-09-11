@@ -86,7 +86,6 @@
         width: 100%;
         margin-bottom: 20px;
         box-shadow: 3px 3px 5px;
-        overflow: hidden;
         &:hover{
             background-color: rgba(218, 218, 218, 0.51);
             cursor: pointer;
@@ -94,12 +93,12 @@
         }
         .org-avatar {
             display: inline-block;
+            position: absolute;
             text-align: center;
             font-size: 65px;
             background-color: #f77a69;
             width: 90px;
             height: 90px;
-            margin: 0 20px;
             p {
                 position: relative;
                 top: 50%;
@@ -108,8 +107,7 @@
         }
         .org-info {
             display: inline-block;
-            position: absolute;
-            width: 100%;
+            margin-left: 100px;
             ol {
                padding: 0;
                margin: 5px;
@@ -125,6 +123,7 @@
         .date {
             display: inline-block;
             font-size: 22px;
+            margin-left: 5px;
             &.begin {
                 font-size: 20px;
                 margin-left: 100px;

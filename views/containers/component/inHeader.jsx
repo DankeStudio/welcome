@@ -75,7 +75,7 @@ module.exports = React.createClass({
            fontSize: "36px",
            color: "#ffffff",
            background:"#f57a6c",
-           width:"215px",
+           minWidth:"215px",
            minHeight:"60px",
            lineHeight:"60px",
            display: "inline-block",

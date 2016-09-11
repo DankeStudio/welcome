@@ -25,6 +25,7 @@ body {
 }
 
 .dank-invite-login-frame{
+  overflow: auto;
   display: none;
   position: fixed;
   width: 474px;
@@ -60,6 +61,12 @@ body {
   border-radius: 5px;
   margin: 10px 20px;
   transition:background-color 0.3s linear
+}
+@media screen and (max-width:800px){
+  .dank-invite-login-button{
+    display: block;
+    width: 60%;
+  }
 }
 
 .dank-invite-login-button:hover{

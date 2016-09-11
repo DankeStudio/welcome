@@ -201,18 +201,6 @@ i.mobile, #sign-func{
     }
 }
 
-.dank-header > div:first-child {
-    @media screen and (max-width: 800px) {
-        display: inline-block;
-    }
-    big {
-        @media screen and (max-width: 800px) {
-            background-color: $main-theme-dark!important;
-            width: 160px!important;
-        }
-    }
-}
-
 .index-link {
     line-height: 60px;
     margin-left: 20px;

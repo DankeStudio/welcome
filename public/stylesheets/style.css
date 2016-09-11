@@ -16,7 +16,7 @@ body {
 .dank-header{
   background:#345062;
   box-shadow:0 2px 4px 0 rgba(29,29,29,0.50);
-  height:60px;
+  min-height:60px;
   position: fixed;
   top:0;
   left:0;

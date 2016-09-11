@@ -76,7 +76,7 @@ module.exports = React.createClass({
            color: "#ffffff",
            background:"#f57a6c",
            width:"215px",
-           height:"60px",
+           minHeight:"60px",
            lineHeight:"60px",
            display: "inline-block",
            textAlign: "center"

@@ -179,33 +179,25 @@ exports.syncProfile = (req, res, next) => {
     var jwbusr = req.body.jwbusr;
     var jwbpwd = req.body.jwbpwd;
     var username = req.session.user.username;
+    var _info;
     jwbCrawler(jwbusr, jwbpwd)
         .then((info) => {
             //console.log(info);
+            _info = info;
             if (info.schoolID === '') {
                 throw {
                     code: -1,
-                    msg: '学号或密码错误',
+                    msg: '教务网学号或密码错误',
                     body: {}
                 }
             } else {
-                var props = ["name","sex","origin","nation","schoolID","politicalStatus","telnumber","email","qq","major","birth","address"];
-                var user = {
-                    baseinfo: {}
-                };
-                for (prop of props){
-                    if (info[prop]){
-                        user.baseinfo[prop]=info[prop];
-                    }
-                }
-                return User.findOneAndUpdate({
+                return User.findOne({
                     username: username
-                }, {
-                    $set: user
                 });
             }
         })
         .then((user) => {
+            var info = _info;
             // throw error if user is not found in the database
             if (!user) {
                 throw {
@@ -214,16 +206,26 @@ exports.syncProfile = (req, res, next) => {
                     body: {}
                 };
             } else {
-                res.json({
-                    code: 0,
-                    msg: 'ok',
-                    body: {
-                        user:user
+                var props = ["name", "sex", "origin", "nation", "schoolID", "politicalStatus", "telnumber", "email", "qq", "major", "birth", "address"];
+                for (prop of props) {
+                    if (info[prop]) {
+                        user.baseinfo[prop] = info[prop];
                     }
-                });
+                }
+                return user.save();
             }
         })
+        .then((user) => {
+            res.json({
+                code: 0,
+                msg: 'ok',
+                body: {
+                    user: user
+                }
+            });
+        })
         .catch((err) => {
+            console.log(err);
             if (err.code < 0) {
                 res.json(err);
             } else {
@@ -241,8 +243,8 @@ exports.logout = (req, res, next) => {
     req.session.user = null;
     res.json({
         code: 0,
-        msg:'ok',
-        body:{}
+        msg: 'ok',
+        body: {}
     });
 }
 

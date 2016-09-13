@@ -472,7 +472,7 @@ div.d16{
 	line-height: 3.650000rem;
 	margin: 1.460000rem auto;
 	border-style: solid;
-	border-width: 0.073rem;
+	border-width: 0.1rem;
 	border-color: #FFFFFF;
 }
 div.d17{
@@ -761,7 +761,7 @@ tr.tr3{
 	background-color: transparent;
 	border-style: solid;
 	border-color: #FFFFFF;
-	border-width: 0.073rem;
+	border-width: 0.1rem;
 	border-radius: 0.365000rem;
 	outline: medium;
 	margin: 0.73rem auto auto auto;
@@ -775,7 +775,7 @@ textarea.tt2{
 	background-color: transparent;
 	border-style: solid;
 	border-color: #FFFFFF;
-	border-width: 0.073rem;
+	border-width: 0.1rem;
 	outline: medium;
 	margin:auto;
 	border-bottom-left-radius: 0.365000rem;
@@ -789,7 +789,7 @@ textarea.tt3{
 	background-color: transparent;
 	border-style: solid;
 	border-color: #434751;
-	border-width: 0.073rem;
+	border-width: 0.1rem;
 	border-radius: 0.365000rem;
 	outline: medium;
 	margin: 0.73rem auto auto auto;
@@ -802,7 +802,7 @@ textarea.tt4{
 	background-color: transparent;
 	border-style: solid;
 	border-color: #434751;
-	border-width: 0.073rem;
+	border-width: 0.1rem;
 	outline: medium;
 	margin:auto;
 	border-bottom-left-radius: 0.365000rem;
@@ -896,7 +896,7 @@ p.p1{
 	color: #434751;
 	border-style: solid;
 	border-color: #434751;
-	border-width: 0.073rem;
+	border-width: 0.1rem;
 	border-radius: 0.365000rem;
 	margin: 0.73rem auto auto auto;
 }
@@ -907,7 +907,7 @@ p.p2{
 	color: #434751;
 	border-style: solid;
 	border-color: #434751;
-	border-width:0.073rem;
+	border-width:0.1rem;
 	outline: medium;
 	margin:auto;
 	border-bottom-left-radius: 0.365000rem;
@@ -916,7 +916,7 @@ p.p2{
 p.p3{
 	width: 90%;
 	border-style: solid;
-	border-width: 0.073rem;
+	border-width: 0.1rem;
 	border-color: #434751;
 	border-radius: 0.365000rem;
 	margin: auto;
@@ -942,7 +942,7 @@ select.s1{
 	outline:medium;
 	width: 90%;
 	border-style: solid;
-	border-width: 0.073rem;
+	border-width: 0.1rem;
 	border-color: #FFFFFF;
 	border-radius: 0.365000rem;
 	margin: auto;

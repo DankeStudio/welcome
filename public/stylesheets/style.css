@@ -201,8 +201,8 @@ body {
 
 .dank-form-group>input {
   background:#ffffff;
-  border:0.073rem solid #979797;
-  box-shadow:inset 0rem 0.073rem 0.219000rem 0rem rgba(0,0,0,0.50);
+  border:0.1rem solid #979797;
+  box-shadow:inset 0rem 0.1rem 0.219000rem 0rem rgba(0,0,0,0.50);
   border-radius:0.219000rem;
   margin-top:0.365000rem;
   margin-bottom:0.365000rem;
@@ -284,7 +284,7 @@ body {
 .checkbox{
   background:#ffffff;
   border:0.073000rem solid #979797;
-  box-shadow:inset 0rem 0.073rem 0.219000rem 0rem rgba(0,0,0,0.50);
+  box-shadow:inset 0rem 0.1rem 0.219000rem 0rem rgba(0,0,0,0.50);
   border-radius:0.146000rem;
   width:1.022000rem;
   height:1.022000rem;
@@ -548,7 +548,7 @@ body {
   border-style:solid;
   border-top-width:0rem;
   border-right-width:0rem;
-  border-bottom-width:0.073rem;
+  border-bottom-width:0.1rem;
   border-left-width:0rem;
   color:#FFFFFF;
   outline:medium;
@@ -586,7 +586,7 @@ body {
   border-style:solid;
   border-top-width:0rem;
   border-right-width:0rem;
-  border-bottom-width:0.073rem;
+  border-bottom-width:0.1rem;
   border-left-width:0rem;
   color:#FFFFFF;
   outline:medium;
@@ -595,7 +595,7 @@ body {
 
 .dank-form-file-text{
   width: 80%;
-  border: #FFFFFF solid 0.073rem;
+  border: #FFFFFF solid 0.1rem;
   border-radius: 0.365000rem 0 0 0.365000rem;
   padding-left: 0.365000rem;
   padding-right: 0.365000rem;
@@ -628,7 +628,7 @@ body {
 .dank-library-component{
   line-height: 3.650000rem;
   margin: 1.460000rem auto;
-  border:0.073rem solid #ffffff;
+  border:0.1rem solid #ffffff;
   width:17.812000rem;
   height:3.650000rem;
   text-align: center;
@@ -646,7 +646,7 @@ body {
 .dank-library-component-forbidden{
   line-height: 3.650000rem;
   margin: 1.460000rem auto;
-  border:0.073rem solid #dadada;
+  border:0.1rem solid #dadada;
   width:17.812000rem;
   height:3.650000rem;
   text-align: center;
@@ -666,7 +666,7 @@ body {
   border-style:solid;
   border-top-width:0rem;
   border-right-width:0rem;
-  border-bottom-width:0.073rem;
+  border-bottom-width:0.1rem;
   border-left-width:0rem;
   color:#FFFFFF;
   outline:medium;
@@ -1139,7 +1139,7 @@ body {
   -ms-user-select: none;
   user-select: none;
   background-image: none;
-  border: 0.073rem solid transparent;
+  border: 0.1rem solid transparent;
   border-radius: 0.292000rem;
 }
 

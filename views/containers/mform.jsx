@@ -54,7 +54,7 @@ var Content = React.createClass({
     componentDidMount: function(){
         $.get('/form/id?eventID='+this.props.eventID, function(data) {
                 switch(data.code){
-                    case 0: 
+                    case 0:
                         let otherSchema = data.body.event.formschema.others,
                             tmp = this.state.others;
                         for(let i=0; i<otherSchema.length;i++) {
@@ -129,7 +129,7 @@ var Content = React.createClass({
         }
         if (this.state.wish.chosen.length == 0) {
             alert('志愿未选择!');
-            return;        
+            return;
         }
         var browserinfo = '';
         var skills = this.state.person.skills;
@@ -213,8 +213,8 @@ var Content = React.createClass({
              <div className="center-block" style={bordStyle}>
                  <Baseinfo data={this.state.baseInfo} handleChange={this.handleChange}  dataPipe={this.dataPipe}/>
                  <Wish schema={this.state.event.formschema.wish} data={this.state.wish} handleChange={this.handleChange}/>
-                 <Person schema={{ introduction: this.state.event.formschema.introduction, 
-                                   skills: this.state.event.formschema.skills}} 
+                 <Person schema={{ introduction: this.state.event.formschema.introduction,
+                                   skills: this.state.event.formschema.skills}}
                          data={this.state.person} handleChange={this.handleChange}/>
                  <Others schema={this.state.event.formschema.others} data={this.state.others} handleChange={this.handleChange}  dataPipe={this.dataPipe}/>
                  <div style={buttonGroupStyle}>
@@ -357,8 +357,8 @@ var Baseinfo = React.createClass({
                     <tbody>
                         <tr className="">
                             <td className="form-group">姓　　名*</td>
-                            <td><input  type="text" name="name" value={this.props.data.name} 
-                                        onChange={this.props.handleChange.bind(null, title, -1)} 
+                            <td><input  type="text" name="name" value={this.props.data.name}
+                                        onChange={this.props.handleChange.bind(null, title, -1)}
                                         className="dank-form-input" required/></td>
                         </tr>
                         <tr>
@@ -367,7 +367,7 @@ var Baseinfo = React.createClass({
                                 <label className="dank-checkbox-inline">
                                     <label>
                                         <input type="radio" name="sex" value="男"
-                                               checked={!this.props.data.sex || this.props.data.sex == '男'} 
+                                               checked={!this.props.data.sex || this.props.data.sex == '男'}
                                                onChange={this.props.handleChange.bind(null, title, -1)}/><b> 男</b>
                                     </label>
                                     <label>
@@ -460,7 +460,7 @@ var Wish = React.createClass({
                     return 'reason';
                 },
                 value: tmp.reason
-            }    
+            }
         });
     },
     render: function(){
@@ -492,12 +492,12 @@ var Wish = React.createClass({
             let chosen = this.props.data.chosen.indexOf(wish);
             return(
                 <div className="dank-checkbox-inOneLine" key={wish}>
-                    <label> 
+                    <label>
                         <input type="checkbox" value={wish} name='chosen'
                                checked={chosen>=0}
                                onChange={this.handleChange.bind(null, title, i)}
                                disabled={this.props.schema.max && this.props.data.chosen.length >= this.props.schema.max && chosen < 0} />
-                        {wish} 
+                        {wish}
                     </label>
                 </div>
             )
@@ -510,7 +510,7 @@ var Wish = React.createClass({
                             <h1 className="h1f dank-form-h2"><b>希望进入第{i+1}志愿 {chosen} 的原因是</b></h1>
                             <div>
                                 <b><textarea value={this.props.data.reason[i]} name='reason'
-                                             onChange={this.props.handleChange.bind(null, title, i)} 
+                                             onChange={this.props.handleChange.bind(null, title, i)}
                                              className="text-left tt1"/></b>
                             </div>
                         </div>
@@ -583,11 +583,11 @@ var Person = React.createClass({
         var skillNodes = this.props.schema.skills.option.map(function(skill){
             return(
                 <div className="dank-checkbox-inOneLine" key={skill}>
-                    <label> 
-                        <input type="checkbox" value={skill} name='skills' 
+                    <label>
+                        <input type="checkbox" value={skill} name='skills'
                             checked={this.props.data.skills.chosen.indexOf(skill)>=0}
                             onChange={this.handleChange.bind(null, title, 'chosen')}/>
-                        {skill} 
+                        {skill}
                     </label>
                 </div>
             )
@@ -613,7 +613,7 @@ var Person = React.createClass({
                     <div className="text-left d25">
                         <h1 className="h1f dank-form-h2"><b>{this.props.schema.introduction.title}</b></h1>
                         <div>
-                            <b><textarea name="introduction" value={this.props.data.introduction.content} 
+                            <b><textarea name="introduction" value={this.props.data.introduction.content}
                                          onChange={this.props.handleChange.bind(null, title, 'content')} className="text-left tt1"/></b>
                         </div>
                     </div>

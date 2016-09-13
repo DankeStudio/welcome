@@ -9,36 +9,36 @@ module.exports = React.createClass({
         };
 
         var leftItemPosition = {
-            marginLeft: "40px",
-            marginRight: "40px",
+            marginLeft: "2.92rem",
+            marginRight: "2.92rem",
             verticalAlign: "middle"
         };
 
         var leftPosition2 = {
             float: "left",
-            marginTop: "11px"
+            marginTop: "0.803rem"
         };
 
         var titleStyle = {
             fontFamily: "BenderSolid",
-            fontSize: "36px",
+            fontSize: "2.628rem",
             color: "#ffffff",
             background:"#f57a6c",
-            width:"215px",
-            height:"60px",
-            lineHeight:"60px",
+            width:"15.695rem",
+            height:"4.38rem",
+            lineHeight:"4.38rem",
             display: "inline-block",
             textAlign: "center"
         };
 
         var rightPosition = {
             float: "right",
-            lineHeight: "60px"
+            lineHeight: "4.38rem"
         };
 
         var rightItemPosition = {
-            marginLeft: "40px",
-            marginRight: "40px"
+            marginLeft: "2.92rem",
+            marginRight: "2.92rem"
         };
 
         return (

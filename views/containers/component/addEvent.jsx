@@ -130,37 +130,37 @@ var Content = React.createClass({
 
     render: function(){
         var backgroundStyle = {
-            top: '60px',
-            bottom:'0px',
-            left: '215px',
-            right: '292px',
+            top: '4.38rem',
+            bottom:'0',
+            left: '15.695rem',
+            right: '21.316rem',
             position: 'fixed',
             overflow:'auto',
             background:'#f77968'
         };
         var timeLineStyle = {
-            marginTop: '110px'
+            marginTop: '8.03rem'
         };
         var bordStyle={
-            width:'1000px'
+            width:'73rem'
         };
         var titleStyle = {
             textAlign:'center',
-            fontSize:'30px',
+            fontSize:'2.19rem',
             color:'#ffffff',
-            marginTop:'28px',
-            marginBottom:'28px'
+            marginTop:'2.044rem',
+            marginBottom:'2.044rem'
         };
         var buttonGroupStyle = {
             float:'right',
-            marginTop:'160px'
+            marginTop:'11.68rem'
         };
         var libraryStyle={
             position: 'fixed',
             right:'0',
             bottom:'0',
-            top:'60px',
-            width:'292px'
+            top:'4.38rem',
+            width:'21.316rem'
         };
         return (
             <div>
@@ -259,22 +259,14 @@ var Baseinfo = React.createClass({
     render: function(){
         var bordStyle={
             display:'inline-block',
-            padding:'20px',
-            border:'5px solid #ffffff',
-            borderRadius:'8px',
-            width:'758px',
-            height:'618px',
-            marginLeft:'30px',
-            marginBottom:'30px'
+            padding:'1.46rem',
+            border:'0.365rem solid #ffffff',
+            borderRadius:'0.584rem',
+            width:'55.334rem',
+            height:'45.114rem',
+            marginLeft:'2.19rem',
+            marginBottom:'2.19rem'
         };
-        /*var titleStyle={
-            display:'block',
-            textAlign: 'center',
-            fontSize:'30px',
-            color:'#FFFFFF',
-            margin:'20px',
-            fontWeight: 'bold'
-        };*/
         return(
             <div style={bordStyle}>
                 <h1 className="h1a"><b>个人信息</b></h1>
@@ -426,27 +418,25 @@ var Person = React.createClass({
     render: function(){
         var bordStyle={
             display:'inline-block',
-            padding:'20px',
-            border:'5px solid #ffffff',
-            borderRadius:'8px',
-            width:'758px',
-            height:'auto',
-            minHeight:'618px',
-            _height:'618px',
-            marginLeft:'30px',
-            marginBottom:'30px'
+            padding:'1.46rem',
+            border:'0.365rem solid #ffffff',
+            borderRadius:'0.584rem',
+            width:'55.334rem',
+            minHeight:'45.114rem',
+            marginLeft:'2.19rem',
+            marginBottom:'2.19rem'
         };
         var titleStyle={
             display:'block',
             textAlign: 'center',
-            fontSize:'30px',
+            fontSize:'2.19rem',
             color:'#FFFFFF',
-            margin:'10px',
+            margin:'0.73rem',
             fontWeight: 'bold'
         };
         var checkboxStyle = {
             color:'#FFFFFF',
-            marginBottom: '20px'
+            marginBottom: '1.46rem'
 
         };
         var skillNodes = this.state.skills.option.map(function(skill){
@@ -630,27 +620,25 @@ var Wish = React.createClass({
     render: function(){
         var bordStyle={
             display:'inline-block',
-            padding:'20px',
-            border:'5px solid #ffffff',
-            borderRadius:'8px',
-            width:'758px',
-            height:'auto',
-            minHeight:'618px',
-            _height:'618px',
-            marginLeft:'30px',
-            marginBottom:'30px'
+            padding:'1.46rem',
+            border:'0.365rem solid #ffffff',
+            borderRadius:'0.584rem',
+            width:'55.334rem',
+            minHeight:'45.114rem',
+            marginLeft:'2.19rem',
+            marginBottom:'2.19rem'
         };
         var titleStyle={
             display:'block',
             textAlign: 'center',
-            fontSize:'30px',
+            fontSize:'2.19rem',
             color:'#FFFFFF',
-            margin:'10px',
+            margin:'0.73rem',
             fontWeight: 'bold'
         };
         var checkboxStyle = {
             color:'#FFFFFF',
-            marginBottom: '20px'
+            marginBottom: '1.46rem'
 
         };
         var wishNodes = this.state.wish.option.map(function(wish){
@@ -928,27 +916,26 @@ var Others = React.createClass({
     render: function(){
         var bordStyle={
             display:'inline-block',
-            padding:'20px',
-            border:'5px solid #ffffff',
-            borderRadius:'8px',
-            width:'758px',
-            height:'auto',
-            minHeight:'618px',
-            _height:'618px',
-            marginLeft:'30px',
-            marginBottom:'30px'
+            padding:'1.46rem',
+            border:'0.365rem solid #ffffff',
+            borderRadius:'0.584rem',
+            width:'55.334rem',
+            minHeight:'45.114rem',
+            marginLeft:'2.19rem',
+            marginBottom:'2.19rem'
         };
         var titleStyle={
             display:'block',
             textAlign: 'center',
-            fontSize:'30px',
+            fontSize:'2.19rem',
             color:'#FFFFFF',
-            margin:'10px',
+            margin:'0.73rem',
             fontWeight: 'bold'
         };
         var checkboxStyle = {
             color:'#FFFFFF',
-            marginBottom: '20px'
+            marginBottom: '1.46rem'
+
         };
         var otherNodes = this.state.others.map(function(other, i){
             switch(other.type){

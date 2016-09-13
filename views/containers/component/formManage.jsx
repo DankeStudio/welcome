@@ -866,16 +866,16 @@ var List = React.createClass({
             float:'right'
         };
         var eventIDStyle={
-            border:'2px solid #000000',
-            borderRadius:'8px',
-            width:'144px',
-            fontSize:'18px',
+            border:'0.146rem solid #000000',
+            borderRadius:'0.584rem',
+            width:'10.512rem',
+            fontSize:'1.314rem',
             color: '#444852',
-            height: '40px',
-            lineHeight: '40px',
+            height: '2.92rem',
+            lineHeight: '2.92rem',
             display:'block',
             textAlign:'center',
-            marginLeft:'10px'
+            marginLeft:'0.73rem'
         };
         var deleteStyle={
             textAlign: 'Right'

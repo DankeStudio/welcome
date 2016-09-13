@@ -62,34 +62,34 @@ module.exports = React.createClass({
        };
        var leftPosition2 = {
            float: "left",
-           marginTop: "11px"
+           marginTop: "0.73rem"
        };
        var leftItemPosition = {
-           marginLeft: "40px",
-           marginRight: "40px",
+           marginLeft: "2.92rem",
+           marginRight: "2.92rem",
            verticalAlign: "middle"
        };
 
        var titleStyle = {
            fontFamily: "BenderSolid",
-           fontSize: "36px",
+           fontSize: "2.68rem",
            color: "#ffffff",
            background:"#f57a6c",
-           minWidth:"215px",
-           minHeight:"60px",
-           lineHeight:"60px",
+           minWidth:"15.695rem",
+           minHeight:"4.38rem",
+           lineHeight:"4.38rem",
            display: "inline-block",
            textAlign: "center"
        };
 
        var rightPosition = {
            float: "right",
-           lineHeight: "60px"
+           lineHeight: "4.38rem"
        };
 
        var rightItemPosition = {
-           marginLeft: "40px",
-           marginRight: "40px"
+           marginLeft: "2.92rem",
+           marginRight: "2.92rem"
        };
        var userNav = (
            <div id="sign-func">

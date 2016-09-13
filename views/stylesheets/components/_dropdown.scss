@@ -1,18 +1,18 @@
 .dropdown {
     position: relative;
     display: inline-block;
-    margin-bottom: 20px; 
+    margin-bottom: 1.46rem;
     color: #fff;
-    border-radius: 4px;
+    border-radius: 0.292rem;
     font-weight: normal;
 
     .dp-title {
-        padding: 20px 30px;
+        padding: 1.46rem 2.19rem;
         height: 100%;
         background-color: #345062;
-        border-radius: 4px 4px 0 0;
-        font-size: 18px;
-        letter-spacing: 2px;
+        border-radius: 0.292rem 0.292rem 0 0;
+        font-size: 1.314rem;
+        letter-spacing: 0.146rem;
         cursor: pointer;
 
         i {
@@ -34,10 +34,10 @@
     }
 
     label {
-        margin: 0px;
-        padding: 15px 30px;
-        border-top: 1px solid #d8d8d8;
-        border-left: 4px solid #f57a6c;
+        margin: 0;
+        padding: 1.095rem 2.19rem;
+        border-top: 0.073rem solid #d8d8d8;
+        border-left: 0.292rem solid #f57a6c;
         width: 100%;
         color: #fff;
         font-weight: normal;

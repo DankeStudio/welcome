@@ -5,7 +5,7 @@ module.exports = React.createClass({
     render: function() {
         return (
             <div className="m-form">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                <meta name="viewport" content="width=device-width" />
                 <Header/>
                 <Content eventID={this.props.params.id}/>
             </div>
@@ -181,26 +181,26 @@ var Content = React.createClass({
     },
     render: function(){
         var backgroundStyle = {
-            top: '60px',
-            bottom:'0px',
-            left: '0px',
-            right: '0px',
+            top: '4.38rem',
+            bottom:'0',
+            left: '0',
+            right: '0',
             position: 'fixed',
             overflow:'auto',
             background:'#f77968'
         };
         var timeLineStyle = {
-            marginTop: '110px'
+            marginTop: '8.03rem'
         };
         var bordStyle={
-            width: '100%'
+            width:'100%'
         };
         var titleStyle = {
             textAlign:'center',
-            fontSize:'30px',
+            fontSize:'2.19rem',
             color:'#ffffff',
-            marginTop:'28px',
-            marginBottom:'28px'
+            marginTop:'2.044rem',
+            marginBottom:'2.044rem'
         };
         var buttonGroupStyle = {
             display: 'inline-block',
@@ -333,19 +333,19 @@ var Baseinfo = React.createClass({
     render: function(){
         var bordStyle={
             display:'inline-block',
-            padding:'20px',
-            border:'5px solid #ffffff',
-            borderRadius:'8px',
+            padding:'1.46rem',
+            border:'0.365rem solid #ffffff',
+            borderRadius:'0.584rem',
             width:'100%',
-            minHeight:'618px',
-            marginBottom:'30px'
+            minHeight:'45.114rem',
+            marginBottom:'2.19rem'
         };
         var titleStyle={
             display:'block',
             textAlign: 'center',
-            fontSize:'30px',
+            fontSize:'2.19rem',
             color:'#FFFFFF',
-            margin:'20px',
+            margin:'1.46rem',
             fontWeight: 'bold'
         };
         var title = 'baseInfo';
@@ -466,25 +466,25 @@ var Wish = React.createClass({
     render: function(){
         var bordStyle={
             display:'inline-block',
-            padding:'20px',
-            border:'5px solid #ffffff',
-            borderRadius:'8px',
+            padding:'1.46rem',
+            border:'0.365rem solid #ffffff',
+            borderRadius:'0.584rem',
             width:'100%',
-            minHeight:'618px',
-            _height:'618px',
-            marginBottom:'30px'
+            minHeight:'45.114rem',
+            _height:'45.114rem',
+            marginBottom:'2.19rem'
         };
         var titleStyle={
             display:'block',
             textAlign: 'center',
-            fontSize:'30px',
+            fontSize:'2.19rem',
             color:'#FFFFFF',
-            margin:'10px',
+            margin:'0.73rem',
             fontWeight: 'bold'
         };
         var checkboxStyle = {
             color:'#FFFFFF',
-            marginBottom: '20px'
+            marginBottom: '1.46rem'
 
         };
         var title = 'wish';
@@ -558,25 +558,25 @@ var Person = React.createClass({
     render: function(){
         var bordStyle={
             display:'inline-block',
-            padding:'20px',
-            border:'5px solid #ffffff',
-            borderRadius:'8px',
+            padding:'1.46rem',
+            border:'0.365rem solid #ffffff',
+            borderRadius:'0.584rem',
             width:'100%',
-            minHeight:'618px',
-            _height:'618px',
-            marginBottom:'30px'
+            minHeight:'45.114rem',
+            _height:'45.114rem',
+            marginBottom:'2.19rem'
         };
         var titleStyle={
             display:'block',
             textAlign: 'center',
-            fontSize:'30px',
+            fontSize:'2.19rem',
             color:'#FFFFFF',
-            margin:'10px',
+            margin:'0.73rem',
             fontWeight: 'bold'
         };
         var checkboxStyle = {
             color:'#FFFFFF',
-            marginBottom: '20px'
+            marginBottom: '1.46rem'
 
         };
         var title = 'person';
@@ -713,25 +713,25 @@ var Others = React.createClass({
     render: function(){
         var bordStyle={
             display:'inline-block',
-            padding:'20px',
-            border:'5px solid #ffffff',
-            borderRadius:'8px',
+            padding:'1.46rem',
+            border:'0.365rem solid #ffffff',
+            borderRadius:'0.584rem',
             width:'100%',
-            minHeight:'618px',
-            _height:'618px',
-            marginBottom:'30px'
+            minHeight:'45.114rem',
+            _height:'45.114rem',
+            marginBottom:'2.19rem'
         };
         var titleStyle={
             display:'block',
             textAlign: 'center',
-            fontSize:'30px',
+            fontSize:'2.19rem',
             color:'#FFFFFF',
-            margin:'10px',
+            margin:'0.73rem',
             fontWeight: 'bold'
         };
         var checkboxStyle = {
             color:'#FFFFFF',
-            marginBottom: '20px'
+            marginBottom: '1.46rem'
 
         };
         var title = 'others';

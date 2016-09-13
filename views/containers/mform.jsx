@@ -394,10 +394,6 @@ var Baseinfo = React.createClass({
                             <td>邮　　箱</td>
                             <td><input value={this.props.data.email} onChange={this.props.handleChange.bind(null, title, -1)} name="email" className="dank-form-input" type="text"/></td>
                         </tr>
-                        <tr>
-                            <td>ＱＱ号码</td>
-                            <td><input value={this.props.data.qq} onChange={this.props.handleChange.bind(null, title, -1)} name="qq" className="dank-form-input" type="text"/></td>
-                        </tr>
                         <tr className="">
                             <td>专业大类*</td>
                             <td><input value={this.props.data.major} onChange={this.props.handleChange.bind(null, title, -1)} name="major" className="dank-form-input" type="text" required/></td>

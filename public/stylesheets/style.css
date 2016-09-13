@@ -594,7 +594,7 @@ body {
 }
 
 .dank-form-file-text{
-  width: 80%;
+  width: 75%;
   border: #FFFFFF solid 0.1rem;
   border-radius: 0.365000rem 0 0 0.365000rem;
   padding-left: 0.365000rem;
@@ -610,7 +610,7 @@ body {
   word-break: break-all;
 }
 .dank-form-file-button{
-  width: 15%;
+  width: 20%;
   text-align: center;
   border: #FFFFFF solid 0.073000rem;
   border-radius: 0 0.365000rem 0.365000rem 0;
@@ -620,7 +620,7 @@ body {
   height: 2.190000rem;
   font-weight: bold;
 }
-.dank-form-file-button:hover{
+#img:hover{
   cursor: pointer;
   color: rgba(53, 81, 99, 0.82);
 }

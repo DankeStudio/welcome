@@ -32,10 +32,6 @@
         color: rgba(0, 0, 0, 0.3);
     }
 
-    .dank-checkbox-inOneLine{
-        width: 50%;
-        margin-right: 0!important;
-    }
     .dank-checkbox-inline {
         width: 100%;
         label {
@@ -56,11 +52,11 @@
         display: table;
     }
     .dank-form-table>tbody>tr>td:nth-child(1){
-        width: 23%;
+        width: 25%;
         font-size: 1.4rem;
     }
     .dank-form-table>tbody>tr>td:nth-child(2){
-        width: 77%;
+        width: 75%;
     }
     .dank-select-input{
         width: 9.49rem;

@@ -412,9 +412,9 @@ var Baseinfo = React.createClass({
                         </tr>
                         <tr>
                             <td>照　　片</td>
-                            <td>
+                            <td  id="img">
                                 <div className="dank-form-file-text" ref="img">{this.props.data.img}</div>
-                                <div type="button" className="dank-form-file-button" id="img">上传</div>
+                                <div type="button" className="dank-form-file-button">上传</div>
                             </td>
                         </tr>
                     </tbody>

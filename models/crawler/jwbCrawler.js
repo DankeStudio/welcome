@@ -119,7 +119,8 @@ module.exports = (username, password) => {
 				telnumber: $('#lxdh').text(),
 				idcard: $('#Lab_sfzh').text(),
 				idcard_gat: $('#gatm').text(),
-				homeAddress: $('#jtdz').text()
+				homeAddress: $('#jtdz').text(),
+				img: $('#xszp').attr('src')
 			}
 		})
 }

@@ -353,7 +353,7 @@ var Baseinfo = React.createClass({
             <div style={bordStyle}>
                 <h1 style={titleStyle}><b>个人信息</b></h1>
                 <div className="d8">
-                    <table className="center-block dank-form-table">
+                    <table className="dank-form-table">
                     <tbody>
                         <tr className="">
                             <td className="form-group">姓　　名*</td>

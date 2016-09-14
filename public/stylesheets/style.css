@@ -163,7 +163,7 @@ body {
 }
 
 .dank-a {
-  font-size:14.6rem;
+  font-size:1.46rem;
   color:#ffffff;
 }
 .dank-a:focus {
@@ -189,7 +189,7 @@ body {
 }
 
 .dank-form-group{
-  margin:1.095000rem 0,73rem;
+  margin:1.095000rem 0.73rem;
 }
 
 .dank-form-group>label {

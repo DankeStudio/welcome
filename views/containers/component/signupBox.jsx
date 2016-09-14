@@ -141,7 +141,7 @@ var FormBox = React.createClass({
     render: function(){
         var formStyle = {
             width: "30.222rem",
-            height: "30.66rem",
+            height: "34rem",
             padding: "2.92rem",
             paddingTop:"1.46rem"
         };

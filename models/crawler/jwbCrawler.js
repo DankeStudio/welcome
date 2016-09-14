@@ -120,7 +120,7 @@ module.exports = (username, password) => {
 				idcard: $('#Lab_sfzh').text(),
 				idcard_gat: $('#gatm').text(),
 				homeAddress: $('#jtdz').text(),
-				img: $('#xszp').attr('src')
+				img: 'http://jwbinfosys.zju.edu.cn/'+$('#xszp').attr('src')
 			}
 		})
 }

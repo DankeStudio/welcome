@@ -16,6 +16,8 @@ import index from './containers/index.jsx';
 var sign = require('./containers/signin.jsx');
 var signinBox = require('./containers/component/signinBox.jsx');
 var signupBox = require('./containers/component/signupBox.jsx');
+var mobileSignin = require('./containers/mobileSignin.jsx');
+var mobileSignup = require('./containers/mobileSignup.jsx');
 
 var orgSign = require('./containers/orgSign.jsx');
 var orgSigninBox = require('./containers/component/orgsigninBox.jsx');
@@ -73,5 +75,7 @@ render((
         <Route path="/form/:id" component={form}/>
         <Route path="/forms/output/:eventID/:wish" component={formOutput}/>
         <Route path="/mobile/form/:id" component={mform}/>
+        <Route path="/mobile/signin" component={mobileSignin}/>
+        <Route path="/mobile/signup" component={mobileSignup}/>
     </Router>
 ), document.getElementById('content'));

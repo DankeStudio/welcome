@@ -93,8 +93,8 @@ module.exports = React.createClass({
        };
        var userNav = (
            <div id="sign-func">
-               <a href="#/sign/up">注册</a>
-               <a href="#/sign/in">登录</a>
+               <a onClick={function(){window.location.href=((document.body.clientWidth>800)?"#/sign/up":"#/mobile/signup")}}>注册</a>
+               <a onClick={function(){window.location.href=((document.body.clientWidth>800)?"#/sign/in":"#/mobile/signin")}}>登录</a>
            </div>
        );
        var userNavMobile = null;
@@ -112,12 +112,11 @@ module.exports = React.createClass({
        return(
            <div className="dank-header">
                 <div style={leftPosition}>
-                    <big style={titleStyle} >WELCOME</big>
+                    <big style={titleStyle} onClick={function(){window.location.href="/"}}>WELCOME</big>
                 </div>
                 <div style={leftPosition2} className="pc">
                     <a className="dank-button-header" href="/" style={leftItemPosition}>首页</a>
                 </div>
-                <a href="/" className="mobile index-link">首页</a>
                 {userNav}
                 {userNavMobile}
                 {(this.state.name != '')?
@@ -132,8 +131,8 @@ module.exports = React.createClass({
                             xu~~~账号是手机号 密码是学号<br/>
                         </div>
                         <div className="dank-invite-login-button-group">
-                            <div className="dank-invite-login-button" onClick={function(){window.location.href="#/sign/in"}}>登陆</div>
-                            <div className="dank-invite-login-button" onClick={function(){window.location.href="#/sign/up"}}>注册</div>
+                            <div className="dank-invite-login-button" onClick={function(){window.location.href=((document.body.clientWidth>800)?"#/sign/in":"#/mobile/signin")}}>登陆</div>
+                            <div className="dank-invite-login-button" onClick={function(){window.location.href=((document.body.clientWidth>800)?"#/sign/up":"#/mobile/signup")}}>注册</div>
                             <div className="dank-invite-login-button" onClick={function(){$('#invite').fadeOut();}}>拒绝</div>
                         </div>
                     </div>

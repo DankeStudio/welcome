@@ -1,5 +1,6 @@
 var React = require('react');
 var Component = React.Component;
+var Link = require('react-router').Link;
 
 module.exports = React.createClass({
     render: function() {
@@ -24,7 +25,7 @@ module.exports = React.createClass({
             fontSize: "2.628rem",
             color: "#ffffff",
             background:"#f57a6c",
-            width:"15.695rem",
+            minWidth:"15.695rem",
             height:"4.38rem",
             lineHeight:"4.38rem",
             display: "inline-block",
@@ -44,10 +45,10 @@ module.exports = React.createClass({
         return (
             <div className="dank-header">
                 <div style={leftPosition}>
-                    <big style={titleStyle} >WELCOME</big>
+                    <big style={titleStyle} onClick={function(){window.location.href="/"}}>WELCOME</big>
                 </div>
-                <div style={leftPosition2}>
-                    <a className="dank-button-header" href="/"style={leftItemPosition} onClick={null}>首页</a>
+                <div style={leftPosition2} className="pc">
+                    <a className="dank-button-header" href="/" style={leftItemPosition}>首页</a>
                 </div>
                 <div style={rightPosition} className="pc">
                     <a href="#/orgsign/in" className="dank-a" style={rightItemPosition}>社团入口</a>

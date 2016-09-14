@@ -1,5 +1,6 @@
 var User = require('../db/user');
 var jwbCrawler = require("../crawler/jwbCrawler.js");
+var props = ["name", "sex", "origin", "nation", "schoolID", "politicalStatus", "telnumber", "telshort", "email", "qq", "major", "birth", "address", "img", "grade"];
 
 exports.login = (req, res, next) => {
     var username = req.body.username;
@@ -142,36 +143,52 @@ exports.getProfile = (req, res, next) => {
 //修改个人信息
 exports.updateProfile = (req, res, next) => {
     var username = req.session.user.username;
-    var props = ["name", "sex", "origin", "nation", "schoolID", "politicalStatus", "telnumber", "telshort", "email", "qq", "major", "birth", "address", "img", "grade"];
     var baseinfo = {};
     for (prop of props) {
-        if (req.body[prop] != undefined) {
+        if (req.body[prop]) {
             baseinfo[prop] = req.body[prop];
-        } else {
-            baseinfo[prop] = null;
         }
     }
-    User.update({
-        username: username
-    }, {
-        $set: {
-            baseinfo: baseinfo
-        }
-    }, function(err) {
-        if (err) {
-            res.json({
-                code: -1,
-                msg: '数据库更新时出错 ' + err,
-                body: {}
-            });
-        } else {
+    User.findOne({
+            username: username
+        })
+        .then((user) => {
+            if (!user) {
+                throw {
+                    code: -2,
+                    msg: '本地不存在该用户',
+                    body: {}
+                };
+            } else {
+                for (prop of props) {
+                    if (req.body[prop]) {
+                        user.baseinfo[prop] = req.body[prop];
+                    }
+                }
+                return user.save();
+            }
+        })
+        .then((user) => {
             res.json({
                 code: 0,
                 msg: 'ok',
-                body: {}
+                body: {
+                    user: user
+                }
             });
-        }
-    })
+        })
+        .catch((err) => {
+            console.log(err);
+            if (err.code < 0) {
+                res.json(err);
+            } else {
+                res.json({
+                    code: 1,
+                    msg: '数据库未知错误',
+                    body: {}
+                });
+            }
+        })
 }
 
 //同步教网信息
@@ -206,7 +223,7 @@ exports.syncProfile = (req, res, next) => {
                     body: {}
                 };
             } else {
-                var props = ["name", "sex", "origin", "nation", "schoolID", "politicalStatus", "telnumber", "email", "qq", "major", "birth", "address","img"];
+                var props = ["name", "sex", "origin", "nation", "schoolID", "politicalStatus", "telnumber", "email", "qq", "major", "birth", "address", "img"];
                 for (prop of props) {
                     if (info[prop]) {
                         user.baseinfo[prop] = info[prop];

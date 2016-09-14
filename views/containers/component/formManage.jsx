@@ -362,7 +362,7 @@ var Graph1 = React.createClass({
                <table className="t2">
                    <tbody>
                    <tr><td>
-                       <canvas id="myChart3" width="300px" height="220px" className="can1"/>
+                       <canvas id="myChart3" width="270px" height="198px" className="can1"/>
                    </td></tr>
                    </tbody>
                </table>

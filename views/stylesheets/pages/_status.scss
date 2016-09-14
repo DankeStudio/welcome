@@ -2,10 +2,10 @@
 /* 待重构 */
 #interview-status {
     position: relative;
-    margin: 40px 0;
-    padding: 50px 30px;
-    border-radius: 8px;
-    min-height: 365px;
+    margin: 2.92rem 0;
+    padding: 3.65rem 2.19rem;
+    border-radius: 0.584rem;
+    min-height: 360.365rem;
     background-color: #345062;
 }
 
@@ -20,18 +20,18 @@
 }
 
 #interview-status .panel-heading {
-    padding: 15px 0;
-    border: 1px solid;
-    border-radius: 4px;
+    padding: 1.095rem 0;
+    border: 0.1rem solid;
+    border-radius: 0.292rem;
 }
 
 #interview-status .panel-body {
-    padding: 0 15px;
+    padding: 0 1.095rem;
 }
 
 #interview-status .panel-body .row {
-    padding: 15px 0;
-    border-top: 1px solid;
+    padding: 1.095rem 0;
+    border-top: 0.1rem solid;
 }
 
 #interview-status .panel-body .row:first-child, #interview-status .panel-body .row > div:first-child {
@@ -40,7 +40,7 @@
 
 #interview-status .panel-body .row > div {
     text-align: center;
-    border-left: 1px solid;
+    border-left: 0.1rem solid;
 }
 
 #add-interview {
@@ -50,27 +50,27 @@
 }
 
 #add-interview i {
-    margin-right: 5px;
-    padding: 2px 3px 0 3px;
-    border: 3px solid #fff;
-    border-radius: 4px;
+    margin-right: 0.365rem;
+    padding: 0.146rem 0.219rem 0 0.219rem;
+    border: 0.219rem solid #fff;
+    border-radius: 0.292rem;
 }
 
 #interview-status-panel > .panel-body {
-    padding: 15px 25px;
+    padding: 1.095rem 1.825rem;
 }
 
 #interview-status-panel > .panel-heading {
-    padding: 30px 25px 0 25px;
+    padding: 2.19rem 1.825rem 0 1.825rem;
 }
 
 #interview-status-panel > .panel-heading button{
     border: none;
     width: 100%;
-    height: 40px;
+    height: 2.92rem;
     background-color: #f57a6c;
     color: #fff;
-    font-size: 16px;
+    font-size: 1.168rem;
 }
 
 #interview-status-panel .dropdown {
@@ -78,17 +78,17 @@
 }
 
 #interview-status-panel .dp-title {
-    padding: 10px 15px;
-    height: 40px;
-    font-size: 16px;
+    padding: 0.73rem 1.095rem;
+    height: 2.92rem;
+    font-size: 1.168rem;
     overflow:hidden;
     text-overflow:ellipsis;
     white-space:nowrap;
 }
 
 #interview-status-panel .dp-body label {
-    padding: 10px;
-    font-size: 16px;
+    padding: 0.73rem;
+    font-size: 1.168rem;
 }
 
 #interview-status {
@@ -106,26 +106,26 @@
   display: inline-block;
   background: #fff;
   color: $main-theme-dark;
-  padding: 5px 18px;
+  padding: 0.365rem 1.314rem;
   width: 80%;
   text-align: left;
   label {
-    margin: 5px 0; 
-    border-left: 2px solid;
-    width: 40px;
-    height: 30px;
+    margin: 0.365rem 0; 
+    border-left: 0.146rem solid;
+    width: 2.92rem;
+    height: 2.19rem;
     cursor: pointer;
     position: absolute;
     top: 0;
     right: 0;
     &:after {
       content: '';
-      width: 28px;
-      height: 15px;
+      width: 2.044rem;
+      height: 1.095rem;
       position: absolute;
-      top: 2px;
-      left: 4px;
-      border: 3px solid;
+      top: 0.146rem;
+      left: 0.292rem;
+      border: 0.219rem solid;
       border-top: none;
       border-right: none;
       background: transparent;

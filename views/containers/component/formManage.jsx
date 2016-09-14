@@ -83,8 +83,8 @@ var Content = React.createClass({
                 <div className="qr-code-background" id="qrCodeBackground" onClick={function(){$("#qrCodeBackground, #qrCodeDiv").fadeOut();$("#qrCode").empty();}}></div>
                 <div className="qr-code-div" id="qrCodeDiv">
                     <div className="qr-code-text">扫描二维码或访问下述网址即可报名 </div>
-                    <div className="qr-code-text">PC端: www.zju-welcome.com:3000/#/form/{this.state.nowEventID} </div>
-                    <div className="qr-code-text">移动端: www.zju-welcome.com:3000/#/mobile/form/{this.state.nowEventID} </div>
+                    <div className="qr-code-text">PC端: www.zju-welcome.com/#/form/{this.state.nowEventID} </div>
+                    <div className="qr-code-text">移动端: www.zju-welcome.com/#/mobile/form/{this.state.nowEventID} </div>
                     <div id="qrCode" className="qr-code"></div>
                 </div>
             </div>
@@ -119,7 +119,7 @@ var Event = React.createClass({
     },
     share: function(){
         $('#qrCode').qrcode({
-            text:"http://www.zju-welcome.com:3000/#/mobile/form/"+this.props.eventID,
+            text:"http://www.zju-welcome.com/#/mobile/form/"+this.props.eventID,
             width: 255,
             height: 255
         });
@@ -362,7 +362,7 @@ var Graph1 = React.createClass({
                <table className="t2">
                    <tbody>
                    <tr><td>
-                       <canvas id="myChart3" width="300px" height="220px" className="can1"/>
+                       <canvas id="myChart3" width="270px" height="198px" className="can1"/>
                    </td></tr>
                    </tbody>
                </table>
@@ -866,16 +866,16 @@ var List = React.createClass({
             float:'right'
         };
         var eventIDStyle={
-            border:'2px solid #000000',
-            borderRadius:'8px',
-            width:'144px',
-            fontSize:'18px',
+            border:'0.146rem solid #000000',
+            borderRadius:'0.584rem',
+            width:'10.512rem',
+            fontSize:'1.314rem',
             color: '#444852',
-            height: '40px',
-            lineHeight: '40px',
+            height: '2.92rem',
+            lineHeight: '2.92rem',
             display:'block',
             textAlign:'center',
-            marginLeft:'10px'
+            marginLeft:'0.73rem'
         };
         var deleteStyle={
             textAlign: 'Right'

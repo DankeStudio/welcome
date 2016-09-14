@@ -17,8 +17,7 @@ export default class extends Component {
         $.get('/event/recent', (data) => {
             if (data.code == 0) {
                 let events = data.body.events;
-                let screen = document.body.clientWidth;;
-                console.log(screen);
+                let screen = document.body.clientWidth;
                 events.forEach((event) => {
                     event.link = ((screen>800)?'#/form/':"#/mobile/form/")+event.eventID;
                 })

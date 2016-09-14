@@ -5,7 +5,7 @@ module.exports = React.createClass({
     render: function() {
         return (
             <div className="m-form">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                <meta name="viewport" content="width=device-width" />
                 <Header/>
                 <Content eventID={this.props.params.id}/>
             </div>
@@ -54,7 +54,7 @@ var Content = React.createClass({
     componentDidMount: function(){
         $.get('/form/id?eventID='+this.props.eventID, function(data) {
                 switch(data.code){
-                    case 0: 
+                    case 0:
                         let otherSchema = data.body.event.formschema.others,
                             tmp = this.state.others;
                         for(let i=0; i<otherSchema.length;i++) {
@@ -129,7 +129,7 @@ var Content = React.createClass({
         }
         if (this.state.wish.chosen.length == 0) {
             alert('志愿未选择!');
-            return;        
+            return;
         }
         var browserinfo = '';
         var skills = this.state.person.skills;
@@ -181,26 +181,26 @@ var Content = React.createClass({
     },
     render: function(){
         var backgroundStyle = {
-            top: '60px',
-            bottom:'0px',
-            left: '0px',
-            right: '0px',
+            top: '4.38rem',
+            bottom:'0',
+            left: '0',
+            right: '0',
             position: 'fixed',
             overflow:'auto',
             background:'#f77968'
         };
         var timeLineStyle = {
-            marginTop: '110px'
+            marginTop: '8.03rem'
         };
         var bordStyle={
-            width: '100%'
+            width:'100%'
         };
         var titleStyle = {
             textAlign:'center',
-            fontSize:'30px',
+            fontSize:'2.19rem',
             color:'#ffffff',
-            marginTop:'28px',
-            marginBottom:'28px'
+            marginTop:'2.044rem',
+            marginBottom:'2.044rem'
         };
         var buttonGroupStyle = {
             display: 'inline-block',
@@ -213,8 +213,8 @@ var Content = React.createClass({
              <div className="center-block" style={bordStyle}>
                  <Baseinfo data={this.state.baseInfo} handleChange={this.handleChange}  dataPipe={this.dataPipe}/>
                  <Wish schema={this.state.event.formschema.wish} data={this.state.wish} handleChange={this.handleChange}/>
-                 <Person schema={{ introduction: this.state.event.formschema.introduction, 
-                                   skills: this.state.event.formschema.skills}} 
+                 <Person schema={{ introduction: this.state.event.formschema.introduction,
+                                   skills: this.state.event.formschema.skills}}
                          data={this.state.person} handleChange={this.handleChange}/>
                  <Others schema={this.state.event.formschema.others} data={this.state.others} handleChange={this.handleChange}  dataPipe={this.dataPipe}/>
                  <div style={buttonGroupStyle}>
@@ -333,19 +333,19 @@ var Baseinfo = React.createClass({
     render: function(){
         var bordStyle={
             display:'inline-block',
-            padding:'20px',
-            border:'5px solid #ffffff',
-            borderRadius:'8px',
+            padding:'1.46rem',
+            border:'0.365rem solid #ffffff',
+            borderRadius:'0.584rem',
             width:'100%',
-            minHeight:'618px',
-            marginBottom:'30px'
+            minHeight:'45.114rem',
+            marginBottom:'2.19rem'
         };
         var titleStyle={
             display:'block',
             textAlign: 'center',
-            fontSize:'30px',
+            fontSize:'2.19rem',
             color:'#FFFFFF',
-            margin:'20px',
+            margin:'1.46rem',
             fontWeight: 'bold'
         };
         var title = 'baseInfo';
@@ -353,12 +353,12 @@ var Baseinfo = React.createClass({
             <div style={bordStyle}>
                 <h1 style={titleStyle}><b>个人信息</b></h1>
                 <div className="d8">
-                    <table className="center-block dank-form-table">
+                    <table className="dank-form-table">
                     <tbody>
                         <tr className="">
                             <td className="form-group">姓　　名*</td>
-                            <td><input  type="text" name="name" value={this.props.data.name} 
-                                        onChange={this.props.handleChange.bind(null, title, -1)} 
+                            <td><input  type="text" name="name" value={this.props.data.name}
+                                        onChange={this.props.handleChange.bind(null, title, -1)}
                                         className="dank-form-input" required/></td>
                         </tr>
                         <tr>
@@ -367,7 +367,7 @@ var Baseinfo = React.createClass({
                                 <label className="dank-checkbox-inline">
                                     <label>
                                         <input type="radio" name="sex" value="男"
-                                               checked={!this.props.data.sex || this.props.data.sex == '男'} 
+                                               checked={!this.props.data.sex || this.props.data.sex == '男'}
                                                onChange={this.props.handleChange.bind(null, title, -1)}/><b> 男</b>
                                     </label>
                                     <label>
@@ -394,10 +394,6 @@ var Baseinfo = React.createClass({
                             <td>邮　　箱</td>
                             <td><input value={this.props.data.email} onChange={this.props.handleChange.bind(null, title, -1)} name="email" className="dank-form-input" type="text"/></td>
                         </tr>
-                        <tr>
-                            <td>ＱＱ号码</td>
-                            <td><input value={this.props.data.qq} onChange={this.props.handleChange.bind(null, title, -1)} name="qq" className="dank-form-input" type="text"/></td>
-                        </tr>
                         <tr className="">
                             <td>专业大类*</td>
                             <td><input value={this.props.data.major} onChange={this.props.handleChange.bind(null, title, -1)} name="major" className="dank-form-input" type="text" required/></td>
@@ -416,9 +412,9 @@ var Baseinfo = React.createClass({
                         </tr>
                         <tr>
                             <td>照　　片</td>
-                            <td>
+                            <td  id="img">
                                 <div className="dank-form-file-text" ref="img">{this.props.data.img}</div>
-                                <div type="button" className="dank-form-file-button" id="img">上传</div>
+                                <div type="button" className="dank-form-file-button">上传</div>
                             </td>
                         </tr>
                     </tbody>
@@ -460,31 +456,31 @@ var Wish = React.createClass({
                     return 'reason';
                 },
                 value: tmp.reason
-            }    
+            }
         });
     },
     render: function(){
         var bordStyle={
             display:'inline-block',
-            padding:'20px',
-            border:'5px solid #ffffff',
-            borderRadius:'8px',
+            padding:'1.46rem',
+            border:'0.365rem solid #ffffff',
+            borderRadius:'0.584rem',
             width:'100%',
-            minHeight:'618px',
-            _height:'618px',
-            marginBottom:'30px'
+            minHeight:'45.114rem',
+            _height:'45.114rem',
+            marginBottom:'2.19rem'
         };
         var titleStyle={
             display:'block',
             textAlign: 'center',
-            fontSize:'30px',
+            fontSize:'2.19rem',
             color:'#FFFFFF',
-            margin:'10px',
+            margin:'0.73rem',
             fontWeight: 'bold'
         };
         var checkboxStyle = {
             color:'#FFFFFF',
-            marginBottom: '20px'
+            marginBottom: '1.46rem'
 
         };
         var title = 'wish';
@@ -492,12 +488,12 @@ var Wish = React.createClass({
             let chosen = this.props.data.chosen.indexOf(wish);
             return(
                 <div className="dank-checkbox-inOneLine" key={wish}>
-                    <label> 
+                    <label>
                         <input type="checkbox" value={wish} name='chosen'
                                checked={chosen>=0}
                                onChange={this.handleChange.bind(null, title, i)}
                                disabled={this.props.schema.max && this.props.data.chosen.length >= this.props.schema.max && chosen < 0} />
-                        {wish} 
+                        {wish}
                     </label>
                 </div>
             )
@@ -510,7 +506,7 @@ var Wish = React.createClass({
                             <h1 className="h1f dank-form-h2"><b>希望进入第{i+1}志愿 {chosen} 的原因是</b></h1>
                             <div>
                                 <b><textarea value={this.props.data.reason[i]} name='reason'
-                                             onChange={this.props.handleChange.bind(null, title, i)} 
+                                             onChange={this.props.handleChange.bind(null, title, i)}
                                              className="text-left tt1"/></b>
                             </div>
                         </div>
@@ -558,36 +554,36 @@ var Person = React.createClass({
     render: function(){
         var bordStyle={
             display:'inline-block',
-            padding:'20px',
-            border:'5px solid #ffffff',
-            borderRadius:'8px',
+            padding:'1.46rem',
+            border:'0.365rem solid #ffffff',
+            borderRadius:'0.584rem',
             width:'100%',
-            minHeight:'618px',
-            _height:'618px',
-            marginBottom:'30px'
+            minHeight:'45.114rem',
+            _height:'45.114rem',
+            marginBottom:'2.19rem'
         };
         var titleStyle={
             display:'block',
             textAlign: 'center',
-            fontSize:'30px',
+            fontSize:'2.19rem',
             color:'#FFFFFF',
-            margin:'10px',
+            margin:'0.73rem',
             fontWeight: 'bold'
         };
         var checkboxStyle = {
             color:'#FFFFFF',
-            marginBottom: '20px'
+            marginBottom: '1.46rem'
 
         };
         var title = 'person';
         var skillNodes = this.props.schema.skills.option.map(function(skill){
             return(
                 <div className="dank-checkbox-inOneLine" key={skill}>
-                    <label> 
-                        <input type="checkbox" value={skill} name='skills' 
+                    <label>
+                        <input type="checkbox" value={skill} name='skills'
                             checked={this.props.data.skills.chosen.indexOf(skill)>=0}
                             onChange={this.handleChange.bind(null, title, 'chosen')}/>
-                        {skill} 
+                        {skill}
                     </label>
                 </div>
             )
@@ -613,7 +609,7 @@ var Person = React.createClass({
                     <div className="text-left d25">
                         <h1 className="h1f dank-form-h2"><b>{this.props.schema.introduction.title}</b></h1>
                         <div>
-                            <b><textarea name="introduction" value={this.props.data.introduction.content} 
+                            <b><textarea name="introduction" value={this.props.data.introduction.content}
                                          onChange={this.props.handleChange.bind(null, title, 'content')} className="text-left tt1"/></b>
                         </div>
                     </div>
@@ -713,25 +709,25 @@ var Others = React.createClass({
     render: function(){
         var bordStyle={
             display:'inline-block',
-            padding:'20px',
-            border:'5px solid #ffffff',
-            borderRadius:'8px',
+            padding:'1.46rem',
+            border:'0.365rem solid #ffffff',
+            borderRadius:'0.584rem',
             width:'100%',
-            minHeight:'618px',
-            _height:'618px',
-            marginBottom:'30px'
+            minHeight:'45.114rem',
+            _height:'45.114rem',
+            marginBottom:'2.19rem'
         };
         var titleStyle={
             display:'block',
             textAlign: 'center',
-            fontSize:'30px',
+            fontSize:'2.19rem',
             color:'#FFFFFF',
-            margin:'10px',
+            margin:'0.73rem',
             fontWeight: 'bold'
         };
         var checkboxStyle = {
             color:'#FFFFFF',
-            marginBottom: '20px'
+            marginBottom: '1.46rem'
 
         };
         var title = 'others';

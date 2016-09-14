@@ -7,29 +7,29 @@ var Component = React.Component;
 module.exports = React.createClass({
     render: function(){
         var topStyle ={
-            paddingTop: "50px"
+            paddingTop: "3.65rem"
         };
         var headStyle = {
-            margin: "0px auto 34px auto",
-            width: "414px",
-            height: "60px",
+            margin: "0 auto 2.482rem auto",
+            width: "30.222rem",
+            height: "4.38rem",
             textAlign: "center"
         };
         var aStyle1 ={
-            margin: "0px 55px 0px 44px",
-            borderRadius: "8px",
-            width: "108px",
-            height: "60px",
-            lineHeight: "60px",
-            fontSize: "30px"
+            margin: "0 4.015rem 0 3.212rem",
+            borderRadius: "0.584rem",
+            width: "7.884rem",
+            height: "4.38rem",
+            lineHeight: "4.38rem",
+            fontSize: "2.19rem"
         };
         var aStyle2 = {
-            margin: "0px 44px 0px 55px",
-            borderRadius: "8px",
-            width: "108px",
-            height: "60px",
-            lineHeight: "60px",
-            fontSize: "30px"
+            margin: "0 3.212rem 0 4.015rem",
+            borderRadius: "0.584rem",
+            width: "7.884rem",
+            height: "4.38rem",
+            lineHeight: "4.38rem",
+            fontSize: "2.19rem"
         };
         return (
             <div style={topStyle}>
@@ -135,12 +135,12 @@ var FormBox = React.createClass({
     },
     render: function(){
         var formStyle = {
-            width: "414px",
-            height: "420px",
-            padding: "40px"
+            width: "30.222rem",
+            height: "30.66rem",
+            padding: "2.92rem"
         };
         var buttonStyle = {
-            marginTop:"60px"
+            marginTop:"4.38rem"
         };
 
         return (

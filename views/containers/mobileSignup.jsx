@@ -1,49 +1,120 @@
-/**
- * Created by admin on 2016/7/24.
- */
 var React = require('react');
 var Component = React.Component;
 
 module.exports = React.createClass({
     render: function(){
-        var topStyle ={
-            paddingTop: "3.65rem"
+        var containerStyle = {
+            height: "100%",
+            padding: 0,
+            backgroundColor: "#f57a6c"
         };
-        var headStyle = {
-            margin: "0 auto 2.482rem auto",
-            width: "30.222rem",
-            height: "4.38rem",
-            textAlign: "center"
+        var objectStyle = {
+            top: "4.38rem",
+            bottom: "0",
+            position: "absolute",
+            width: "100%",
+            overflow: 'auto'
         };
-        var aStyle1 ={
-            margin: "0 4.015rem 0 3.212rem",
-            borderRadius: "0.584rem",
-            width: "7.884rem",
-            height: "4.38rem",
-            lineHeight: "4.38rem",
-            fontSize: "2.19rem"
-        };
-        var aStyle2 = {
-            margin: "0 3.212rem 0 4.015rem",
-            borderRadius: "0.584rem",
-            width: "7.884rem",
-            height: "4.38rem",
-            lineHeight: "4.38rem",
-            fontSize: "2.19rem"
-        };
-        return (
-            <div style={topStyle}>
-                <div style={headStyle} className="center-block">
-                    <a href="#/sign/in" style={aStyle1} className="dank-tag-free">登陆</a>
-                    <a href="#/sign/up" style={aStyle2} className="dank-tag-chosen">注册</a>
+        return(
+            <div style={containerStyle}>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                <Header/>
+                <div style={objectStyle}>
+                    <table className="vertical-middle-parent">
+                        <tbody>
+                        <tr>
+                            <td className="vertical-middle-child">
+                                <Box/>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <FormBox/>
             </div>
         )
     }
 });
 
-var FormBox = React.createClass({
+var Header=React.createClass({
+    render: function() {
+
+        var leftPosition = {
+            float: "left"
+        };
+
+        var leftItemPosition = {
+            marginLeft: "2.92rem",
+            marginRight: "2.92rem",
+            verticalAlign: "middle"
+        };
+
+        var leftPosition2 = {
+            float: "left",
+            marginTop: "0.803rem"
+        };
+
+        var titleStyle = {
+            fontFamily: "BenderSolid",
+            fontSize: "2.628rem",
+            color: "#ffffff",
+            background:"#f57a6c",
+            minWidth:"15.695rem",
+            height:"4.38rem",
+            lineHeight:"4.38rem",
+            display: "inline-block",
+            textAlign: "center"
+        };
+
+        var rightPosition = {
+            float: "right",
+            lineHeight: "4.38rem"
+        };
+
+        var rightItemPosition = {
+            marginLeft: "2.92rem",
+            marginRight: "2.92rem"
+        };
+
+        return (
+            <div className="dank-header">
+                <div style={leftPosition}>
+                    <big style={titleStyle} onClick={function(){window.location.href="/"}}>WELCOME</big>
+                </div>
+                <div style={leftPosition2} className="pc">
+                    <a className="dank-button-header" href="/" style={leftItemPosition}>首页</a>
+                </div>
+                <div style={rightPosition}>
+                    <a href="#/mobile/signin" className="dank-a" style={rightItemPosition}>登陆</a>
+                </div>
+            </div>
+        )
+    }
+});
+
+var Box = React.createClass({
+    render: function(){
+        var boxStyle={
+            paddingLeft:"1rem",
+            paddingRight:"1rem"
+        };
+        var msgStyle={
+            textAlign:"center",
+            color:"#ffffff",
+            fontSize:"1.5rem"
+        };
+        return (
+            <div style={boxStyle}>
+                <div className="dank-h1">SIGN UP</div>
+                <div>
+                    <Form/>
+                    <div style={msgStyle}>社团账号注册请访问PC端网页</div>
+                </div>
+            </div>
+        )
+    }
+});
+
+var Form = React.createClass({
     usernameCheck: function(){
         var element = this.refs.username;
         var test = /^\d{11,}$/;
@@ -140,9 +211,8 @@ var FormBox = React.createClass({
 
     render: function(){
         var formStyle = {
-            width: "30.222rem",
             height: "34rem",
-            padding: "2.92rem",
+            padding: "2.92rem 2rem",
             paddingTop:"1.46rem"
         };
         var buttonStyle = {

@@ -11,8 +11,8 @@ module.exports = React.createClass({
             backgroundColor: "#f57a6c"
         };
         var objectStyle = {
-            top: "60px",
-            bottom: "0px",
+            top: "4.38rem",
+            bottom: "0",
             position: "absolute",
             width: "100%",
             overflow: 'auto'
@@ -44,8 +44,8 @@ module.exports = React.createClass({
 var News = React.createClass({
     render: function(){
         var objectStyle = {
-            width: "734px",
-            height: "618px"
+            width: "53.582rem",
+            height: "45.114rem"
         };
         return (
             <div>
@@ -60,8 +60,8 @@ var Box = React.createClass({
     render: function(){
         var objectStyle = {
             position: "relative",
-            width: "508px",
-            height: "618px"
+            width: "37.084rem",
+            height: "45.114rem"
         };
         return (
             <div>

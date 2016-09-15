@@ -270,7 +270,7 @@ var InfoBox = React.createClass({
                                         </div>
                                     </div>
                                     <div className="col-md-1 col-md-offset-1 text-right">
-                                        <img src="img/label.png" className="dank-i1"/>
+                                        <img src="static/img/label.png" className="dank-i1"/>
                                     </div>
                                 </div>
                                 <div className="row">
@@ -367,7 +367,7 @@ var InfoBox = React.createClass({
                                     <div className="col-md-3 text-center c4">
                                         <div className="container-fluid">
                                             <div className="row">
-                                                <img src={(this.state.img)?this.state.img:"img/male.png"} className="i2"/>
+                                                <img src={(this.state.img)?this.state.img:"static/img/male.png"} className="i2"/>
                                             </div>
                                             <div className="row">
                                                 <a className="a7" id="photo"><b>修改头像</b></a>

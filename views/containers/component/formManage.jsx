@@ -120,8 +120,8 @@ var Event = React.createClass({
     share: function(){
         $('#qrCode').qrcode({
             text:"http://www.zju-welcome.com/#/mobile/form/"+this.props.eventID,
-            width: 255,
-            height: 255
+            width: 225,
+            height: 225
         });
         $('#qrCodeDiv,#qrCodeBackground').fadeIn();
     },

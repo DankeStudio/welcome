@@ -1,6 +1,6 @@
 var React = require('react');
 var Dropdown = require('../dropdown');
-var MultipleDatePicker = require('../multipleDatePicker.jsx');
+//var MultipleDatePicker = require('../multipleDatePicker.jsx');
 
 module.exports = React.createClass({
     getInitialState: function (){
@@ -18,7 +18,8 @@ module.exports = React.createClass({
             selectedDate: new Date(),
             searchResult: {},
             search: false,
-            addDay: false
+            addDay: false,
+            addArg: false
         }
     },
     componentDidMount: function(){
@@ -237,8 +238,25 @@ module.exports = React.createClass({
                        dateSelected: true});
         return true;
     },
-    addArg: function() {
-        alert('coming soon...');
+    addArg: function(newArg) {
+        let args = this.state.selectedEvent.arrangements.slice();
+        args.push(newArg);
+        let tmp = this.state.selectedEvent;
+        tmp.arrangements = args;
+        /*
+        .post('/interview/...',{}, () => {
+            this.setState({
+                selectedEvent: tmp
+            })
+        })
+        */
+        /*
+        <div id="add-interview" onClick={() => {this.setState({addArg: true})}}>
+            <i className="fa fa-plus"></i>
+            增加本日面试场次
+        </div>
+        {this.state.addArg ? <ArgCard /> : null}
+        */
     },
     isActive: function(data) {
         return ((data.getMonth() == this.state.selectedDate.getMonth() &&
@@ -246,6 +264,13 @@ module.exports = React.createClass({
     },
     handleClick: function() {
         this.setState({addDay: !this.state.addDay});
+        /*
+        <div className="interview-date" id="add-date" onClick={this.handleClick}>添加日期</div>
+            <div className={'date-picker' + (this.state.addDay ? ' active':'')}>
+                <MultipleDatePicker closePicker={this.handleClick} callbackContext={this}
+                                    highlightDays={this.state.days} dayClick={this.addDay}/>
+            </div>
+        */
     },
     handleIverChange: function(interviewer) {
         var index = this.state.interview.interviewer.findIndex((element) => interviewer._id == element._id);
@@ -274,11 +299,7 @@ module.exports = React.createClass({
                                         {(e.day.getMonth()+1)+'月'+e.day.getDate()+'日'}
                                     </div>
                                 )}
-                                <div className="interview-date" id="add-date" onClick={this.handleClick}>添加日期</div>
-                                <div className={'date-picker' + (this.state.addDay ? ' active':'')}>
-                                    <MultipleDatePicker closePicker={this.handleClick} callbackContext={this}
-                                                        highlightDays={this.state.days} dayClick={this.addDay}/>
-                                </div>
+                                
                             </div>
                             <div className="row">
                                 {interview.arrangement.map((arg, i) => {
@@ -292,11 +313,8 @@ module.exports = React.createClass({
                                             return <ArgStatus key={i} index={i} data={data} arg={arg} iv={this.state.interview}
                                                             handleChange={this.handleIverChange} handleDelete={this.handleDelete}/>
                                 }})}
-                                <div id="add-interview" onClick={this.addArg}>
-                                    <i className="fa fa-plus"></i>
-                                    增加本日面试场次
-                                </div>
-                            </div>
+                                
+                            </div> 
                         </div>
                     </div>
                     : null;
@@ -429,3 +447,84 @@ var ArgStatus = React.createClass({
         )
     }
 })
+/*
+var ArgCard = React.createClass({
+    getInitialState: function() {
+        return {
+            startTime: this.props.startTime,
+            place: '',
+            total: 0,
+            duration: 0,
+            interval: 0
+        }
+    },
+    handleChange: function(e) {
+        let name = e.target.getAttribute['name'];
+        if(name == 'minutes' || name=='hours') {
+            var startTime = this.state.startTime;
+            if (name=='minutes')
+                startTime.setMinutes(e.target.value)
+            else startTime.setHours(e.target.value);
+            name = 'startTime';
+            change = startTime;
+        }
+        else change = e.target.value;
+        this.setState(state => {
+            state[name] = change
+        });
+    },
+    submit: function() {
+        this.props.addArg({
+            startTime: this.state.startTime,
+            place: this.state.place,
+            total: this.state.total,
+            duration: this.state.duration,
+            interval: this.state.interval
+        })
+    },
+    render: function() {
+        var endTime = new Date(arg.startTime.getTime()+arg.duration*60000);
+        return (
+            <div className="interview-card">
+                <div className="card-heading">
+                    <p>{(this.state.startTime.getMonth()+1)+'月'+this.state.startTime.getDate()+'日'}面试场次</p>
+                    <i className="fa fa-times" onClick={this.props.handleDelete} value={i}></i>
+                </div>
+                <label>面试地点<input type="text" name="place" value={this.state.place} 
+                                    onChange={this.handleChange} /></label>
+                <label>此场点安排的场数为<input type="text" name="total" value={this.state.total} 
+                                            onChange={this.handleChange} />
+                </label>
+                <label>
+                    每场次面试时间为
+                    <p>分钟</p>
+                    <input type="text" name="duration" value={this.state.duration} 
+                        onChange={this.handleChange}/>
+                </label>
+                <label>
+                    每场次面试休息时间
+                    <p>分钟</p>
+                    <input type="text" value={this.state.interval} onChange={this.handleChange} />
+                </label>
+                <label>
+                    该场地面试开始于
+                    <input type="text" name="minutes" value={this.state.startTime.toTimeString().split(':')[1]} 
+                                    onChange={this.handleChange} />
+                    <p>:</p>
+                    <input type="text" name="hours" value={this.state.startTime.toTimeString().split(':')[0]}
+                                    onChange={this.handleChange} />
+                </label>
+                <label>
+                    面试将结束于
+                    <input type="text" disabled value={endTime.toTimeString().split(':')[1]}/>
+                    <p>:</p>
+                    <input type="text" disabled value={endTime.toTimeString().split(':')[0]}/>
+                </label>
+                <div className="submit">
+                    <button class="btn" onClick={this.submit}>提交</button>
+                </div>
+            </div>
+        )
+    }
+})
+*/

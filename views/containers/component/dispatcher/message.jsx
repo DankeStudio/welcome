@@ -13,7 +13,8 @@ module.exports = React.createClass({
             departments: [],
             selectedDep: '',
             rounds: [],
-            round: 0
+            round: 0,
+            infoComplete: false
         };
     },
     componentDidMount: function(){
@@ -24,6 +25,9 @@ module.exports = React.createClass({
                 for (var i=0; i<this.state.events.length; i++)
                     eventsNames.push(this.state.events[i].name);
                 this.setState({eventsNames: eventsNames});
+            }
+            else {
+                alert('获取纳新事项错误：'+data.msg);
             }
         })
     },
@@ -83,25 +87,7 @@ module.exports = React.createClass({
         });
     },
     roundChecked: function(round, i) {
-        this.setState({round: i+1});
-        $.ajax({
-            url: "/interview?eventID="+this.state.selectedEvent.eventID+'&department='+this.state.selectedDep+'&round='+(i+1),
-            contentType: 'application/json',
-            type: 'GET',
-            success: function(data) {
-                switch(data.code){
-                    case 0:
-                        this.setState({interview: data.body.interviews[0], infoComplete: true});
-                        break;
-                    default:
-                        console.log(data.msg);
-                        break;
-                }
-            }.bind(this),
-            error: function(xhr, status, err) {
-                console.error("ajax请求发起失败");
-            }.bind(this)
-        });
+        this.setState({round: i+1, infoComplete: true});
     },
     addMessage: function() {
         this.setState({add: true});
@@ -116,13 +102,42 @@ module.exports = React.createClass({
         var section1, section2, section3,
             class1, class2;
         if (this.state.add == false) {
-            section1 = <SendedMessage />, section2 = null, section3 = <ReplyMessage />;
+            section1 = <SendedMessage 
+                            eventsNames={this.state.eventsNames}
+                            departs={this.state.departments}
+                            rounds={this.state.rounds}
+                            message={this.state.message}
+                            eventChecked={this.eventChecked} 
+                            departChecked={this.departChecked}
+                            roundChecked={this.roundChecked}
+                            event={this.state.selectedEvent} 
+                            depart={this.state.selectedDep} 
+                        />,
+            section2 = null,
+            section3 = <ReplyMessage 
+                            event={this.state.selectedEvent} 
+                            depart={this.state.selectedDep} 
+                            round={this.state.round} 
+                        />;
             class1 = "", class2 = " active";
         }
         else {
-            section1 = <NewMessageInfoSelect changeTarget={this.changeTarget}/>, 
-            section2 = <NewMessageEdit round={this.state.round} 
-                       depart={this.state.depart} pass={this.state.pass}/>,
+            section1 = <NewMessageInfoSelect 
+                            changeTarget={this.changeTarget}
+                            eventsNames={this.state.eventsNames}
+                            departs={this.state.departments}
+                            rounds={this.state.rounds}
+                            eventChecked={this.eventChecked} 
+                            departChecked={this.departChecked}
+                            roundChecked={this.roundChecked}
+                        />, 
+            section2 = this.state.infoComplete ? 
+                        <NewMessageEdit 
+                            event={this.state.eventChecked} 
+                            depart={this.state.departChecked}
+                            round={this.state.round} 
+                            pass={this.state.pass}
+                        /> : null,
             section3 = null;
             class1 = " active", class2 = "";
         }
@@ -148,21 +163,26 @@ module.exports = React.createClass({
 var SendedMessage = React.createClass({
     getInitialState: function() {
         return {
-            events: [],
-            eventsNames: [],
-            selectedEvent: {},
-            departments: [],
-            selectedDep: '',
-            rounds: [],
-            round: 0,
+            eventsNames: this.props.eventsNames,
+            selectedEvent: this.props.event,
+            departments: this.props.departs,
+            selectedDep: this.props.depart,
+            rounds: this.props.rounds,
             message: ''
         }
     },
-    componentDidMount: function() {
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            eventsNames: nextProps.eventsNames,
+            departments: nextProps.departs,
+            rounds: nextProps.rounds
+        })
+    },
+    roundChecked: function(round, i) {
         $.ajax({
             url: "/message",
             contentType: 'application/json',
-            type: 'GET',
+            type: 'POST',
             success: function(data) {
                 switch(data.code){
                     case 0:
@@ -177,20 +197,20 @@ var SendedMessage = React.createClass({
                 console.error("ajax请求发起失败");
             }.bind(this)
         });
-        //获取message
+        this.props.roundChecked(round, i);
         //this.props.param.eventID,param.depart, param.round
     },
     render: function() {
         return (
             <div className="row" id="sended-message">
                 <div className="col-md-3">
-                    <Dropdown data={this.state.eventsNames} handleChecked={this.eventChecked} 
+                    <Dropdown data={this.state.eventsNames} handleChecked={this.props.eventChecked} 
                               name={'event'} default={"选择面试活动"} resetWhenChanged={null} />
-                    <Dropdown data={this.state.departments} handleChecked={this.departChecked} 
+                    <Dropdown data={this.state.departments} handleChecked={this.props.departChecked} 
                               name={'depart'} default={"选择面试部门"} resetWhenChanged={this.state.selectedEvent} />
                     <Dropdown data={this.state.rounds} handleChecked={this.roundChecked} 
                               name={'round'} default={"选择面试轮次"} 
-                              resetWhenChanged={this.state.selectedDep + this.state.selectedEvent} />
+                              resetWhenChanged={{a: this.state.selectedDep, b: this.state.selectedEvent}} />
                 </div>
                 <div className="col-md-6">
                     <p>{this.state.message}</p>
@@ -205,25 +225,56 @@ var SendedMessage = React.createClass({
 var ReplyMessage = React.createClass({
     getInitialState: function() {
         return {
-            reply: []
+            reply: [],
+            searchRes: [],
+            search: false
         }
     },
     componentDidMount: function() {
         //get reply messages
+        //this.props.eventID
         //this.setState({reply: reply});
     },
+    search: function(e) {
+        if (!e.target.value) {
+            this.setState({search: false});
+            return;
+        }
+        let keyword = new RegExp(e.target.value, 'gi'),
+            targets = this.state.reply,
+            result = [];
+        for (let i=0; i<targets.length; i++)
+            for (let attr in targets[i])
+                if (attr != '...' && targets.interviewer[i][attr].match(keyword)) {
+                    result.push(targets[i]);
+                    break;
+                }
+        this.setState({
+            searchResult: result,
+            search: true
+        });
+    },
+    sort:  function(type) {
+        /*
+        let tmp = this.state.reply.slice();
+        tmp.sort(()=>{
+
+        });
+        */
+    },
     render: function() {
+        let reply = this.state.search ? this.state.searchRes : this.state.reply;
         return (
             <div className="col-md-12">
                 <div className="content">
                     <h1>回复详情</h1>
                     <div id="reply-fun">
-                        <button className="btn order">
+                        <button className="btn order" onClick={this.sort.bind(null, 'arg')}>
                             面试场次
                             <i className="fa fa-lg fa-caret-up"></i>
                             <i className="fa fa-lg fa-caret-down"></i>
                         </button>
-                        <button className="btn order">
+                        <button className="btn order" onClick={this.sort.bind(null, 'status')}>
                             状态
                             <i className="fa fa-lg fa-caret-up"></i>
                             <i className="fa fa-lg fa-caret-down"></i>
@@ -240,7 +291,7 @@ var ReplyMessage = React.createClass({
                         </div>
                     </div>
                     <div id="reply-table">
-                        {this.state.reply.map((reply, i) =>
+                        {reply.map((reply, i) =>
                             <div className="row" key={i}>
                                 <div className="col-md-1">{reply.name}</div>
                                 <div className="col-md-1">{reply.sex}</div>
@@ -268,14 +319,17 @@ var NewMessageInfoSelect = React.createClass({
     getInitialState: function() {
         return {
             target: 'pass',
-            events: [],
-            eventsNames: [],
-            selectedEvent: {},
-            departments: [],
-            selectedDep: '',
-            rounds: [],
-            round: 0
+            eventsNames: this.props.eventsNames,
+            departments: this.props.departs,
+            rounds: this.props.rounds
         }
+    },
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            eventsNames: nextProps.eventsNames,
+            departments: nextProps.departs,
+            rounds: nextProps.rounds,
+        })
     },
     isActive: function(value) {
         return this.state.target == value ? ' active' : '';
@@ -288,13 +342,15 @@ var NewMessageInfoSelect = React.createClass({
         return (
             <div className="row" id="message-info-select">
                 <div className="col-md-4">
-                    <Dropdown data={this.state.eventsNames} handleChecked={this.eventChecked} 
+                    <Dropdown data={this.state.eventsNames} handleChecked={this.props.eventChecked} 
                               name={'event'} default={"选择面试活动"} resetWhenChanged={this.state.reset}/>
                 </div>
                 <div className="col-md-8">
                     群发对象：
-                    <Dropdown data={[]} />
-                    <Dropdown data={[]} />
+                    <Dropdown data={this.state.departments} handleChecked={this.props.departChecked} 
+                              name={'depart'} default={"选择面试部门"} resetWhenChanged={this.state.selectedEvent}/>
+                    <Dropdown data={this.state.rounds} handleChecked={this.props.roundChecked} 
+                              name={'round'} default={"选择面试轮次"} resetWhenChanged={this.state.selectedEvent}/>
                     <button className={'btn'+this.isActive('pass')} 
                             onClick={this.changeTarget} value="pass">通过者</button>
                     <button className={'btn'+this.isActive('fail')} 
@@ -313,9 +369,8 @@ var NewMessageEdit = React.createClass({
                     this.props.round+'轮面试，你的第'+(this.props.round+1)+'轮面试时间为【时间】，时长约【时长】分钟，'+
                     '地点为【地点】，请准时到达！\n联系人：'
                     : '蛋壳工作室 || 【姓名】同学，非常遗憾你没有通过【部门】的第'+this.props.round+'轮面试。',
-                    
             preview: '',
-            remain: 500
+            remain: 0
         }
     },
     componentDidMount: function() {

@@ -361,7 +361,7 @@ var Graph1 = React.createClass({
            <div className="c6 text-center">
                <table className="t2">
                    <tbody>
-                   <tr><td>
+                   <tr><td style={{height: '20.294000rem', width: '100%'}}>
                        <canvas id="myChart3" width="270px" height="198px" className="can1"/>
                    </td></tr>
                    </tbody>
@@ -524,10 +524,10 @@ var Graph2 = React.createClass({
                 <table className="dank-t3">
                     <tbody>
                     <tr>
-                        <td>
+                        <td style={{height: '20.294000rem'}}>
                             <canvas id="myChart1" width="150px" height= "200px" className="dank-can2"/>
                         </td>
-                        <td>
+                        <td style={{height: '20.294000rem'}}>
                             <canvas id="myChart2"  width="150px" height= "200px" className="dank-can2"/>
                         </td>
                     </tr>

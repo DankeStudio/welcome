@@ -1191,8 +1191,8 @@ body {
 }
 
 .dank-can2{
-  width: 150px!important;
-  height: 200px!important;
+  width: 100%!important;
+  height: 100%!important;
   display: block;
   margin: 0 auto;
 }
@@ -1209,7 +1209,6 @@ body {
   margin: 3.650000rem auto 1.460000rem auto;
   padding: 0;
   border-radius: 0.365000rem;
-  padding-top: 3.650000rem;
 }
 
 .dank-c7{

@@ -176,7 +176,7 @@ class EventsList extends Component {
                             ))}
                         </ol>
                         <div className="date">
-                            {date.getFullYear()+'-'+date.getMonth()+'-'+date.getDate()}发布
+                            {date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()}发布
                         </div>
                         <div className="date begin">
                         </div>

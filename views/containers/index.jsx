@@ -6,9 +6,8 @@ export default class extends Component {
         super();
         this.state = {
             gallery: [
-                {link: '', img: 'https://files.catbox.moe/1n7s8c.png'},
-                {link: '', img: 'https://files.catbox.moe/tmq86w.png'},
-                {link: '', img: 'https://files.catbox.moe/x5u1as.png'}
+                {link: '', img: 'http://static.zju-welcome.com/img/GfolBzh.png'},
+                {link: '', img: 'http://static.zju-welcome.com/img/AVWq9zk.png'}
             ],
             events: []
         }

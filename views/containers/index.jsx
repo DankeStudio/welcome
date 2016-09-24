@@ -7,7 +7,8 @@ export default class extends Component {
         this.state = {
             gallery: [
                 {link: '', img: 'http://static.zju-welcome.com/img/GfolBzh.png'},
-                {link: '', img: 'http://static.zju-welcome.com/img/AVWq9zk.png'}
+                {link: '', img: 'http://static.zju-welcome.com/img/AVWq9zk.png'},
+                {link: '#/form/1', img: 'http://static.zju-welcome.com/head.jpg'}
             ],
             events: []
         }

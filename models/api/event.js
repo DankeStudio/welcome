@@ -206,7 +206,7 @@ exports.getRecentEvent = (req, res, next) => {
 			results.push({
 				eventID: event.eventID,
 				name: event.name,
-				wishes: event.formschema.wish.option,
+				wishes: event.formschema.wish.delete ? [''] : event.formschema.wish.option,
 				date: event.date.getTime()
 			})
 		}

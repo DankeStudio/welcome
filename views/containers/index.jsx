@@ -167,22 +167,6 @@ class EventsList extends Component {
         let items = [];
         this.state.items.map((item, i) => {
             let date = new Date(item.date);
-            if (i == this.state.items.length-1)
-                items.push((
-                    <div className="event-info" onClick={function(){window.open('http://www.lagou.com/jobs/2150423.html?source=pl&i=pl-2')}}>
-                        <div className="org-avatar"><p>0</p></div>
-                        <div className="org-info">
-                            <a><h1>有数金服 实习生招聘</h1></a>
-                            <ol>
-                                <li>测试工程师（杭州）</li>
-                            </ol>
-                            <div className="date">
-                                2016-9-16发布
-                            </div>
-                            <div style={{position: 'absolute', top: '5px', right: '5px', fontSize: '10px'}}>帮学长打个广告</div>
-                        </div>
-                    </div>
-                ));
             items.push(
                 <div key={i} className="event-info" onClick={function(){window.location.href=item.link}}>
                     <div className="org-avatar"><p>{item.eventID}</p></div>
@@ -211,6 +195,19 @@ class EventsList extends Component {
         return (
             <div id="event-list">
                 {items}
+                <div className="event-info" onClick={function(){window.open('http://www.lagou.com/jobs/2150423.html?source=pl&i=pl-2')}}>
+                    <div className="org-avatar"><p>0</p></div>
+                    <div className="org-info">
+                        <a><h1>有数金服 实习生招聘</h1></a>
+                        <ol>
+                            <li>测试工程师（杭州）</li>
+                        </ol>
+                        <div className="date">
+                            2016-9-16发布
+                        </div>
+                        <div style={{position: 'absolute', top: '5px', right: '5px', fontSize: '10px'}}>帮学长打个广告</div>
+                    </div>
+                </div>
             </div>
         )
     }

@@ -254,6 +254,7 @@ var Content = React.createClass({
                     console.log(data);
                     switch(data.code){
                         case 0:
+                            alert('报名表提交成功~');
                             window.location.href = '/#/person/info';
                             break;
                         default:

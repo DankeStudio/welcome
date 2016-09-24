@@ -89,14 +89,8 @@ module.exports = React.createClass({
     roundChecked: function(round, i) {
         this.setState({round: i+1, infoComplete: true});
     },
-    addMessage: function() {
-        this.setState({add: true});
-    },
-    checkMessage: function() {
-        this.setState({add: false});
-    },
-    changeTarget: function(value) {
-        this.setState({pass: value});
+    changePanel: function(value) {
+        this.setState({add: value});
     },
     render: function(){
         var section1, section2, section3,
@@ -147,8 +141,8 @@ module.exports = React.createClass({
                     <div className="content">
                         <h1>群发消息</h1>
                         <div id="message-fun">
-                            <button className={"btn" + class1} onClick={this.addMessage}>新建群发消息</button>
-                            <button className={"btn" + class2} onClick={this.checkMessage}>已发送</button>
+                            <button className={"btn" + class1} onClick={this.changePanel(true)}>新建群发消息</button>
+                            <button className={"btn" + class2} onClick={this.changePanel(false)}>已发送</button>
                         </div>
                         {section1}
                         {section2}
@@ -180,9 +174,9 @@ var SendedMessage = React.createClass({
     },
     roundChecked: function(round, i) {
         $.ajax({
-            url: "/message",
+            url: "/message/get",
             contentType: 'application/json',
-            type: 'POST',
+            type: 'GET',
             success: function(data) {
                 switch(data.code){
                     case 0:
@@ -225,9 +219,10 @@ var SendedMessage = React.createClass({
 var ReplyMessage = React.createClass({
     getInitialState: function() {
         return {
-            reply: [],
+            reply: [[]],
             searchRes: [],
-            search: false
+            search: false,
+            page: 0
         }
     },
     componentDidMount: function() {
@@ -262,8 +257,13 @@ var ReplyMessage = React.createClass({
         });
         */
     },
+    go: function(to) {
+        this.setState({
+            page: to
+        })
+    },
     render: function() {
-        let reply = this.state.search ? this.state.searchRes : this.state.reply;
+        let reply = this.state.search ? this.state.searchRes : this.state.reply[this.state.page];
         return (
             <div className="col-md-12">
                 <div className="content">
@@ -303,12 +303,15 @@ var ReplyMessage = React.createClass({
                             </div>
                         )}
                     </div>
-                    <div className="page-nav">
-                        <a href="">首页</a>
-                        <a href="">上一页</a>
-                        <a href="">下一页</a>
-                        <a href="">尾页</a>
-                    </div>
+                    {this.state.reply.length > 1 ? 
+                        <div className="page-nav">
+                            <a href="" onClick={this.go.bind(null, 0)}>首页</a>
+                            <a href="" onClick={this.go.bind(null, 0)}>上一页</a>
+                            <a href="" onClick={this.go.bind(null, 0)}>下一页</a>
+                            <a href="" onClick={this.go.bind(null, 0)}>尾页</a>
+                        </div>
+                        : null
+                    }
                 </div>
             </div>
         )
@@ -402,6 +405,8 @@ var NewMessageEdit = React.createClass({
         })
     },
     send: function() {
+        alert('Comming soon~')
+        /*
         $.ajax({
             url: "/message/create",
             contentType: 'application/json',
@@ -423,6 +428,7 @@ var NewMessageEdit = React.createClass({
                 console.error("ajax请求发起失败");
             }.bind(this)
         });
+        */
     },
     render: function() {
         return (

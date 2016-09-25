@@ -69,11 +69,16 @@
     overflow: hidden;
     height: 400px;
     text-align: center;
-    img {
+    a {
         position: relative;
+        display: block;
+        width: 300%;
         height: 100%;
-        left: 50%;
-        transform: translateX(-50%);
+        right: 100%;
+    }
+    img {
+        height: 100%;
+        width: auto;
     }
 }
 
@@ -87,9 +92,11 @@
     border-radius: 0.73rem;
     .event-info {
         position: relative;
+        display: inline-block;
         min-height: 6.57rem;
         width: 100%;
         margin-bottom: 1.46rem;
+        color: $main-theme-dark;
         box-shadow: 0.219rem 0.219rem 0.365rem;
         &:hover{
             background-color: rgba(218, 218, 218, 0.51);

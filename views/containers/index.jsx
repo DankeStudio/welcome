@@ -165,8 +165,10 @@ class EventsList extends Component {
     }
     render() {
         //temp event 
-        const tmp = [{eventID: 0, name: '浙江大学学生乒乓球协会纳新', wishes: ['干事(http://www.hdb.com/party/jw5gu.html?h_share_uid=&hdb_from=WXShare)','会员(http://iiz0i110ae4.51bmb.com/event/iiz0i110ae4)'], link: '#', date: new Date(2016, 8, 24)},
-                     {eventID: 0, name: '浙江大学学生毽球协会', wishes: ['干事：https://jinshuju.net/f/nGOlEb', '会员：https://jinshuju.net/f/WjYHQL'], link: '#', date: new Date(2016, 8, 24)},
+        const tmp = [{eventID: 0, name: '浙江大学学生乒乓球协会干事纳新', wishes: ['干事'], link: 'http://www.hdb.com/party/jw5gu.html?h_share_uid=&hdb_from=WXShare', date: new Date(2016, 8, 24)},
+                     {eventID: 0, name: '浙江大学学生乒乓球协会会员纳新', wishes: ['会员'], link: 'http://iiz0i110ae4.51bmb.com/event/iiz0i110ae4', date: new Date(2016, 8, 24)},
+                     {eventID: 0, name: '浙江大学学生毽球协会干事纳新', wishes: ['干事'], link: '：https://jinshuju.net/f/nGOlEb', date: new Date(2016, 8, 24)},
+                     {eventID: 0, name: '浙江大学学生毽球协会会员纳新', wishes: ['会员'], link: 'https://jinshuju.net/f/WjYHQL', date: new Date(2016, 8, 24)},
                      {eventID: 0, name: '浙江大学学生轮滑协会', wishes: [''], link: 'https://jinshuju.net/f/fBKsl0', date: new Date(2016, 8, 24)},
                      {eventID: 0, name: '浙江大学学生羽毛球协会', wishes: [''], link: 'https://pan.baidu.com/s/1kU9ZTgr', date: new Date(2016, 8, 24)},
                      {eventID: 0, name: '浙江大学学生“鹰的部落”排球社', wishes: ['QQ群：176044515（浙江大学排球协会）加群请注明zjuer身份哦~'], link: '#', date: new Date(2016, 8, 24)},
@@ -192,10 +194,12 @@ class EventsList extends Component {
                      {eventID: 0, name: '浙江大学学生彩虹团队', wishes: [''], link: 'https://pan.baidu.com/s/1ohJqu', date: new Date(2016, 8, 24)},
                      {eventID: 0, name: '浙江大学学生企业俱乐部联合会', wishes: [''], link: 'https://www.sojump.hk/m/9696519.aspx', date: new Date(2016, 8, 24)},
                      {eventID: 0, name: '浙江大学学生旅游协会', wishes: [''], link: 'http://form.mikecrm.com/FYCrwd', date: new Date(2016, 8, 24)},
-                     {eventID: 0, name: '浙江大学学生无我茶社', wishes: ['干事:http://form.mikecrm.com/8cw1p0', '会员:http://form.mikecrm.com/i0zNI1'], link: '#', date: new Date(2016, 8, 24)},
+                     {eventID: 0, name: '浙江大学学生无我茶社干事纳新', wishes: ['干事'], link: 'http://form.mikecrm.com/8cw1p0', date: new Date(2016, 8, 24)},
+                     {eventID: 0, name: '浙江大学学生无我茶社会员纳新', wishes: ['会员'], link: 'http://form.mikecrm.com/i0zNI1', date: new Date(2016, 8, 24)},
                      {eventID: 0, name: '浙江大学学生Fantasy动漫社', wishes: [''], link: 'http://zjufantasy.com/joinus', date: new Date(2016, 8, 24)},
                      {eventID: 0, name: '浙江大学学生梵音剧社', wishes: [''], link: 'http://form.mikecrm.com/lbk7ct', date: new Date(2016, 8, 24)},
-                     {eventID: 0, name: '浙江大学学生吉他协会', wishes: ['干事:https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx4a3d370be88079d3&redirect_uri=http%3A%2F%2Fweixiao.qq.com%2Fweixin%2Fquiet_login%3Fmedia%3D35472%26ref_url%3Dhttp%3A%2F%2Fweixiao.qq.com%2Factivity%2Fapply%2F68227%3Fmedia_id%3Dgh_b01d19d7ae36&response_type=code&scope=snsapi_base&state=STATE&connect_redirect=1#wechat_redirect','会员:https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx4a3d370be88079d3&redirect_uri=http%3A%2F%2Fweixiao.qq.com%2Fweixin%2Fquiet_login%3Fmedia%3D35472%26ref_url%3Dhttp%3A%2F%2Fweixiao.qq.com%2Factivity%2Fapply%2F68191%3Fmedia_id%3Dgh_b01d19d7ae36&response_type=code&scope=snsapi_base&state=STATE&connect_redirect=1#wechat_redirect'], link: '#', date: new Date(2016, 8, 24)},
+                     {eventID: 0, name: '浙江大学学生吉他协会干事', wishes: ['干事'], link: 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx4a3d370be88079d3&redirect_uri=http%3A%2F%2Fweixiao.qq.com%2Fweixin%2Fquiet_login%3Fmedia%3D35472%26ref_url%3Dhttp%3A%2F%2Fweixiao.qq.com%2Factivity%2Fapply%2F68227%3Fmedia_id%3Dgh_b01d19d7ae36&response_type=code&scope=snsapi_base&state=STATE&connect_redirect=1#wechat_redirect', date: new Date(2016, 8, 24)},
+                     {eventID: 0, name: '浙江大学学生吉他协会会员', wishes: ['会员'], link: ':https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx4a3d370be88079d3&redirect_uri=http%3A%2F%2Fweixiao.qq.com%2Fweixin%2Fquiet_login%3Fmedia%3D35472%26ref_url%3Dhttp%3A%2F%2Fweixiao.qq.com%2Factivity%2Fapply%2F68191%3Fmedia_id%3Dgh_b01d19d7ae36&response_type=code&scope=snsapi_base&state=STATE&connect_redirect=1#wechat_redirect', date: new Date(2016, 8, 24)},
                      {eventID: 0, name: '浙江大学学生天文爱好者协会', wishes: ['提取码（127q）'], link: 'https://pan.baidu.com/s/1eRETH9w', date: new Date(2016, 8, 24)},
                      {eventID: 0, name: '浙江大学学生美食社', wishes: [''], link: 'http://wangboxin.com:8080/food/', date: new Date(2016, 8, 24)},
                      {eventID: 0, name: '浙江大学学生清韵钢琴社', wishes: [''], link: 'https://jinshuju.net/f/g8ZiNP', date: new Date(2016, 8, 24)},
@@ -218,7 +222,8 @@ class EventsList extends Component {
                      {eventID: 0, name: '浙江大学学生自由七音协会', wishes: [''], link: 'https://pan.baidu.com/s/1kVdLPI3', date: new Date(2016, 8, 24)},
                      {eventID: 0, name: '浙江大学学生昆曲研习社', wishes: [''], link: 'http://form.mikecrm.com/CsKies', date: new Date(2016, 8, 24)},
                      {eventID: 0, name: '浙江大学学生礼仪与形象管理协会', wishes: [''], link: 'http://form.mikecrm.com/9IwfIG', date: new Date(2016, 8, 24)},
-                     {eventID: 0, name: '浙江大学学生白鸦画社', wishes: ['干事:https://www.sojump.hk/m/9481829.aspx', '会员:https://www.sojump.hk/m/9481829.aspx'], link: '#', date: new Date(2016, 8, 24)},
+                     {eventID: 0, name: '浙江大学学生白鸦画社干事', wishes: ['干事'], link: 'https://www.sojump.hk/m/9481829.aspx', date: new Date(2016, 8, 24)},
+                     {eventID: 0, name: '浙江大学学生白鸦画社会员', wishes: ['会员'], link: 'https://www.sojump.hk/m/9481829.aspx', date: new Date(2016, 8, 24)},
                      {eventID: 0, name: '浙江大学研究生求是学社', wishes: [''], link: 'http://form.mikecrm.com/qsrleZ', date: new Date(2016, 8, 24)},
                      {eventID: 0, name: '浙江大学统计学人', wishes: [''], link: 'https://pan.baidu.com/s/1bp0wGpx', date: new Date(2016, 8, 24)},
                      {eventID: 0, name: '浙江大学求是辩论社', wishes: [''], link: 'https://www.wenjuan.com/s/JJnEBr/', date: new Date(2016, 8, 24)},
@@ -229,7 +234,8 @@ class EventsList extends Component {
                      {eventID: 0, name: '浙江大学求是强鹰俱乐部', wishes: [''], link: 'https://jinshuju.net/f/jqz9z7', date: new Date(2016, 8, 24)},
                      {eventID: 0, name: '浙江大学金地俱乐部', wishes: [''], link: 'https://jinshuju.net/f/AKjzxl', date: new Date(2016, 8, 24)},
                      {eventID: 0, name: '浙江大学联合利华俱乐部', wishes: ['密码：ekds'], link: 'http://pan.baidu.com/s/1kUUYDQv', date: new Date(2016, 8, 24)},
-                     {eventID: 0, name: '浙江大学学生乒乓球协会', wishes: ['干事:http://www.hdb.com/party/jw5gu','会员:http://iiz0i110ae4.51bmb.com/event/iiz0i110ae4'], link: '#', date: new Date(2016, 8, 24)},
+                     {eventID: 0, name: '浙江大学学生乒乓球协会干事', wishes: ['干事'], link: 'http://www.hdb.com/party/jw5gu', date: new Date(2016, 8, 24)},
+                     {eventID: 0, name: '浙江大学学生乒乓球协会会员', wishes: ['会员'], link: 'http://iiz0i110ae4.51bmb.com/event/iiz0i110ae4', date: new Date(2016, 8, 24)},
                      {eventID: 0, name: '浙江大学学生就业与职业发展协会SCDA主会', wishes: [''], link: 'http://zwlo110fca0.51bmb.com/event/zwlo110fca0', date: new Date(2016, 8, 24)},
                      {eventID: 0, name: '浙江大学市场营销协会', wishes: [''], link: 'http://www.diaochapai.com/survey/15e67b4c-6042-4ea2-98ed-a3571236075d', date: new Date(2016, 8, 24)},
                      {eventID: 0, name: '浙江大学学生人力资源管理学会', wishes: [''], link: 'https://pan.baidu.com/s/1cwuILo', date: new Date(2016, 8, 24)},
@@ -250,7 +256,8 @@ class EventsList extends Component {
                      {eventID: 0, name: '浙江大学集邮协会', wishes: [''], link: 'http://form.mikecrm.com/n6JIio', date: new Date(2016, 8, 24)},
                      {eventID: 0, name: '浙江大学学生健美操协会', wishes: [''], link: 'https://box.zjuqsc.com/-jianmeicao', date: new Date(2016, 8, 24)},
                      {eventID: 0, name: '浙江大学DATA', wishes: ['密码：4ej1'], link: 'http://pan.baidu.com/s/1eR2c61G', date: new Date(2016, 8, 24)},
-                     {eventID: 0, name: '浙江大学机器人协会', wishes: ['干事:https://pan.baidu.com/s/1qYALAxA','会员:http://form.mikecrm.com/MTB8OY'], link: '#', date: new Date(2016, 8, 24)}
+                     {eventID: 0, name: '浙江大学机器人协会干事', wishes: ['干事'], link: 'https://pan.baidu.com/s/1qYALAxA', date: new Date(2016, 8, 24)},
+                     {eventID: 0, name: '浙江大学机器人协会会员', wishes: ['会员'], link: 'http://form.mikecrm.com/MTB8OY', date: new Date(2016, 8, 24)}
                     ];
         let itemsData = this.state.items.concat(tmp),
             items = [];

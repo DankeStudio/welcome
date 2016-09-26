@@ -8,7 +8,7 @@ export default class extends Component {
             gallery: [
                 {link: '#', img: 'http://static.zju-welcome.com/img/GfolBzh.png'},
                 {link: '#', img: 'http://static.zju-welcome.com/img/AVWq9zk.png'},
-                {link: '#/form/1', img: 'http://static.zju-welcome.com/head.jpg'}
+                {link: '#/form/47', img: 'http://static.zju-welcome.com/head.jpg'}
             ],
             events: []
         }

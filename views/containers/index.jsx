@@ -252,7 +252,7 @@ class EventsList extends Component {
                      {eventID: 0, name: '浙江大学DATA', wishes: ['密码：4ej1'], link: 'http://pan.baidu.com/s/1eR2c61G', date: new Date(2016, 8, 24)},
                      {eventID: 0, name: '浙江大学机器人协会', wishes: ['干事:https://pan.baidu.com/s/1qYALAxA','会员:http://form.mikecrm.com/MTB8OY'], link: '#', date: new Date(2016, 8, 24)}
                     ];
-        let itemsData = tmp.concat(this.state.items),
+        let itemsData = this.state.items.concat(tmp),
             items = [];
         itemsData.map((item, i) => {
             let date = new Date(item.date);

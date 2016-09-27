@@ -223,7 +223,7 @@ exports.syncProfile = (req, res, next) => {
                     body: {}
                 };
             } else {
-                var props = ["name", "sex", "origin", "nation", "schoolID", "politicalStatus", "telnumber", "email", "qq", "major", "birth", "address", "img"];
+                var props = ["name", "sex", "origin", "nation", "schoolID", "politicalStatus", "telnumber", "email", "qq", "major", "birth", "address"];
                 for (prop of props) {
                     if (info[prop]) {
                         user.baseinfo[prop] = info[prop];

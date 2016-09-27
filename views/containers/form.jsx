@@ -254,6 +254,7 @@ var Content = React.createClass({
                     console.log(data);
                     switch(data.code){
                         case 0:
+                            alert('报名表提交成功~');
                             window.location.href = '/#/person/info';
                             break;
                         default:
@@ -398,7 +399,7 @@ var Baseinfo = React.createClass({
             runtimes: 'html5,flash,html4',
             browse_button: 'photo',
             uptoken_url: '/uptoken',
-            domain: 'http://ocsdd1fl7.bkt.clouddn.com/',   //bucket 域名，下载资源时用到，**必需**
+            domain: 'http://files.zju-welcome.com/',   //bucket 域名，下载资源时用到，**必需**
             get_new_uptoken: false,  //设置上传文件的时候是否每次都重新获取新的token
             max_file_size: '10mb',           //最大文件体积限制
             flash_swf_url: 'js/plupload/Moxie.swf',  //引入flash,相对路径
@@ -591,7 +592,7 @@ var Baseinfo = React.createClass({
                 </div>
                 <div className="d9">
                     <div className="d10">
-                        <img src={(this.state.img)?this.state.img:'img/photo.png'} className="i6"/>
+                        <img src={(this.state.img)?this.state.img:'static/img/photo.png'} className="i6"/>
                         <a className="a21" id="photo"><b>上传照片</b></a>
                     </div>
                 </div>
@@ -954,7 +955,7 @@ var Others = React.createClass({
                     runtimes: 'html5,flash,html4',
                     browse_button: 'file'+i,
                     uptoken_url: '/uptoken',
-                    domain: 'http://ocsdd1fl7.bkt.clouddn.com/',   //bucket 域名，下载资源时用到，**必需**
+                    domain: 'http://files.zju-welcome.com/',   //bucket 域名，下载资源时用到，**必需**
                     get_new_uptoken: false,  //设置上传文件的时候是否每次都重新获取新的token
                     max_file_size: '100mb',           //最大文件体积限制
                     flash_swf_url: 'js/plupload/Moxie.swf',  //引入flash,相对路径

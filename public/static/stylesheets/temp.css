@@ -413,11 +413,11 @@ div.d7{
 }
 div.d8{
 	margin: auto;
-	width: 75%;
+	width: 80%;
 	float: left;
 }
 div.d9{
-	width: 25%;
+	width: 20%;
 	margin: auto;
 	float:left;
 }
@@ -425,8 +425,6 @@ div.d10{
 	border-style: solid;
 	border-color: #FFFFFF;
 	border-width: 0.146000rem;
-	width: 11.460000rem;
-	height: 13.140000rem;
 	margin: auto;
 	text-align: center;
 }
@@ -665,7 +663,7 @@ table.t1{
 }
 table.t2{
 	margin: auto;
-	padding-top: 1.825000rem;
+	padding-top: 0;
 	display: inline-block;
 }
 table.t3{
@@ -925,8 +923,8 @@ b.b1{
 	font-family: 微软雅黑;
 }
 canvas.can1{
-	width: 270px!important;
-	height: 198px!important;
+	width: 95%!important;
+	height: 100%!important;
 	display: block;
 }
 canvas.can2{

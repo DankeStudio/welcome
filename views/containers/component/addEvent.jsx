@@ -314,7 +314,7 @@ var Baseinfo = React.createClass({
                 </div>
                 <div className="d9">
                     <div className="d10">
-                        <img src="img/photo.png" className="i6"/>
+                        <img src="static/img/photo.png" className="i6"/>
                         <a className="a21"><b>上传照片</b></a>
                     </div>
                 </div>

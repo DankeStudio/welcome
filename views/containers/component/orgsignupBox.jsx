@@ -130,11 +130,11 @@ var FormBox1 = React.createClass({
     render: function(){
         var formStyle = {
             width: "30.222rem",
-            height: "30.66rem",
+            height: "32.66rem",
             padding: "2.92rem"
         };
         var buttonStyle = {
-            marginTop:"4.38rem"
+            marginTop:"0" //4.38
         };
 
         return (

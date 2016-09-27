@@ -92,7 +92,7 @@ var InfoBox = React.createClass({
             runtimes: 'html5,flash,html4',
             browse_button: 'photo',
             uptoken_url: '/uptoken',
-            domain: 'http://ocsdd1fl7.bkt.clouddn.com/',   //bucket 域名，下载资源时用到，**必需**
+            domain: 'http://files.zju-welcome.com/',   //bucket 域名，下载资源时用到，**必需**
             get_new_uptoken: false,  //设置上传文件的时候是否每次都重新获取新的token
             max_file_size: '10mb',           //最大文件体积限制
             flash_swf_url: 'js/plupload/Moxie.swf',  //引入flash,相对路径
@@ -270,7 +270,7 @@ var InfoBox = React.createClass({
                                         </div>
                                     </div>
                                     <div className="col-md-1 col-md-offset-1 text-right">
-                                        <img src="img/label.png" className="dank-i1"/>
+                                        <img src="static/img/label.png" className="dank-i1"/>
                                     </div>
                                 </div>
                                 <div className="row">
@@ -367,7 +367,7 @@ var InfoBox = React.createClass({
                                     <div className="col-md-3 text-center c4">
                                         <div className="container-fluid">
                                             <div className="row">
-                                                <img src={(this.state.img)?this.state.img:"img/male.png"} className="i2"/>
+                                                <img src={(this.state.img)?this.state.img:"static/img/male.png"} className="i2"/>
                                             </div>
                                             <div className="row">
                                                 <a className="a7" id="photo"><b>修改头像</b></a>

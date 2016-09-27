@@ -2,7 +2,7 @@ var path = require('path');
 module.exports = {
     entry: './views',
     output: {
-        path: path.join(__dirname, 'public'),
+        path: path.join(__dirname, 'public/static'),
         filename: 'app.js',
         // If you want to output a library, config
         libraryTarget: "var",
@@ -22,6 +22,6 @@ module.exports = {
         "react-dom": 'ReactDOM',
         "redux": 'Redux',
         "react-redux": 'ReactRedux',
-        //"react-router": 'reactRouter'
+        "react-router": 'ReactRouter'
     }
 };

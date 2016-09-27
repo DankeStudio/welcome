@@ -52,7 +52,7 @@ exports.submit = (req, res, next) => {
 				//更新session
 				user.password = null; //hide the password
 				req.session.user = user; //存入会话
-				console.log(req.session.user);
+				//console.log(req.session.user);
 				var departments = _form.wish.chosen;
 				var promises = [];
 				if (!user) {
@@ -66,7 +66,7 @@ exports.submit = (req, res, next) => {
 					if (departments.indexOf('全部部门') < 0) {
 						departments.push('全部部门');
 					}
-					console.log(departments);
+					//console.log(departments);
 					// 添加面试者至0轮面试
 					for (department of departments) {
 						promises.push(Interview.findOneAndUpdate({
@@ -104,7 +104,7 @@ exports.submit = (req, res, next) => {
 				}
 			})
 			.catch((err) => {
-				console.log(err);
+				//console.log(err);
 				if (err.code < 0) {
 					res.json(err);
 				} else {

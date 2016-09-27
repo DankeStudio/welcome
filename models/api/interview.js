@@ -304,10 +304,11 @@ exports.createArrangement = (req, res, next) => {
 						if (i >= arrangement.total) {
 							break;
 						}
-						if (interviewer[index].arrangement) {
+						if (interviewer[index].arrangementID) {
 							continue;
 						}
 						interviewer[index].arrangementID = arrangement._id;
+						interviewer[index].arrRound = Math.floor(i/arrangement.each);
 						i++;
 					}
 					// 如果全部面试者都已安排完成，跳出循环
@@ -342,10 +343,10 @@ exports.createArrangement = (req, res, next) => {
 			}
 		})
 		.catch((err) => {
-			//console.log(err);
+			console.log(err);
 			res.json({
 				code: 1,
-				msg: '数据库未知错误',
+				msg: '未知错误' + err,
 				body: {}
 			})
 		})

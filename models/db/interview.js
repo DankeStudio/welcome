@@ -13,13 +13,15 @@ module.exports = mongoose.model('interview', new Schema({
     	name:String,
     	telnumber:String,
     	state:{type:String,enum:['不参加','未面试','未通过','通过'],default:'未面试'},
-    	arrangementID:Schema.Types.ObjectId
+    	arrangementID:Schema.Types.ObjectId,
+        arrRound:Number
     }],
     arrangement:[{
     	duration:Number,
     	startTime:Date,
     	place:String,
     	interval:Number,
+        each:Number,
     	total:Number
     }]
 }));

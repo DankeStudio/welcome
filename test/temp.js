@@ -279,15 +279,9 @@ $.ajax({
     contentType: 'application/json',
     type: 'POST',
     data: JSON.stringify({
-        message: {
-            department: '产品',
-            date: new Date(),
-            receiver: [{
-                telnumber: '17764519167'
-            }],
-            text: 'This is test message.',
-            cost: 0.5
-        }
+        interviewID:'57c7e6339fd53a2817d30657',
+        contact:'110',
+        state:'未面试'
     }),
     success: function(data) {
         console.log(data);

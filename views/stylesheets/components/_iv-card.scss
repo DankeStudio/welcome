@@ -1,0 +1,81 @@
+.interview-card {
+    display: inline-block;
+    margin-bottom: 1.46rem;
+    padding: 0.584rem;
+    width: 34.675rem;
+    height: 20.44rem;
+    border: 0.1rem solid #fff;
+    border-radius: 0.292rem;
+    text-align: left;
+    color: #fff;
+    font-weight: bold;
+    label {
+        position: relative;
+        width: 100%;
+        &:nth-child(4), &:nth-child(5) {
+            input {
+                position: relative;
+                float: right;
+                width: 15.695rem;
+            }
+        }
+        &:nth-child(6), &:nth-child(7) {
+             input {
+                position: relative;
+                float: right;
+                width: 8.395rem;
+             }
+        }
+    }
+    label p, input {
+        margin: 0;
+        float: right;
+    }
+    input {
+        position: absolute;
+        margin: 0 0.73rem;
+        border: none;
+        border-radius: 0.584rem;
+        padding: 0 0.73rem;
+        right: 0;
+        width: 18.615rem;
+        color: #737373;
+        font-size: 1.314rem;
+        font-weight: normal;
+        outline: none;
+    }
+}
+
+.card-heading {
+    margin-bottom: 0.73rem;
+    p {
+        display: inline;
+    }
+    i {
+        float: right;
+        border: 0.292rem solid;
+        padding: 0 0.1rem;
+        border-radius: 0.292rem;
+        transform: scale(0.8);
+        cursor: pointer;
+    }
+}
+
+input[type='date'] {
+    background-color: #fc9999;
+    border: none;
+    border-radius: 0.584rem;
+    height: 3.285rem;
+    margin-left: -1.095rem;
+    &:focus {
+        outline: none;
+    }
+    &::-webkit-datetime-edit {  padding: 0.365rem 1.095rem; }
+    &::-webkit-datetime-edit-fields-wrapper { background: none; }
+    &::-webkit-datetime-edit-text { color: $main-theme-dark; padding: 0 0.365rem; }
+    &::-webkit-datetime-edit-month-field { color: $main-theme-dark; }
+    &::-webkit-datetime-edit-day-field {color: $main-theme-dark; }
+    &::-webkit-datetime-edit-year-field { color: $main-theme-dark; }
+    &::-webkit-inner-spin-button { display: none; }
+    &::-webkit-calendar-picker-indicator { margin-right:0.73rem; background: none; }
+}

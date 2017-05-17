@@ -1,0 +1,17 @@
+/* old style */
+.dank-header {
+    box-shadow: 0 0.219rem 0.73rem #222;
+    z-index: 101;
+}
+
+.dank-header > div:first-child {
+    @media screen and (max-width: 800px) {
+        display: inline-block;
+    }
+    big {
+        @media screen and (max-width: 800px) {
+            background-color: $main-theme-dark!important;
+            min-width: 11.68rem!important;
+        }
+    }
+}

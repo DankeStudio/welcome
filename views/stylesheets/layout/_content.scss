@@ -1,0 +1,17 @@
+.content {
+    margin: 2.92rem 1.46rem;
+    padding: 2.19rem 4.015rem;
+    border-radius: 0.584rem;
+    background-color: #fff;
+
+    &.highlight {
+        background-color: #f57a6c;
+    }
+
+    > h1 {
+        margin-bottom: 1.095rem;
+        color: #345062;
+        font-size: 2.044rem;
+        letter-spacing: 0.219rem;
+    }
+}

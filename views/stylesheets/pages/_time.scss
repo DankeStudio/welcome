@@ -1,0 +1,191 @@
+/* 面试调度 - 场次安排 - 选择栏*/
+/* 待重构 */
+#interview-select-panel, #interview-status-panel {
+    margin: 2.92rem 1.46rem;
+    background-color: #fff; 
+    border-radius: 0.584rem;
+    border: none;
+}
+
+#interview-select-panel .panel-title{
+    padding: 0 6.57rem 0 2.19rem;
+    text-align: center;
+    font-size:2.638rem;
+    color:#345062;
+}
+
+#interview-select-panel .panel-body {
+    padding: 0 6.57rem 0 2.19rem;
+}
+
+#interview-select-panel .dropdown {
+    width: 100%;
+}
+
+#interview-select-panel .thumbnail {
+    padding: 1.46rem 2.19rem;
+    border-width: 0.146rem;
+    color: #000;
+    text-align: center;
+    font-size: 1.46rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#interview-select-panel .thumbnail:hover {
+    border-color: #000;
+}
+
+/* 面试调度 - 场次安排 - 信息填空*/
+#interview-info {
+    position: relative;
+    margin: 2.92rem 0;
+    padding: 3.65rem 2.19rem;
+    border-radius: 0.584rem;
+    min-height: 26.645rem;
+    background-color: #f57a6c;
+}
+
+#interview-info .col-md-6 {
+    text-align: center;
+}
+
+.interview-date {
+    position: relative;
+    padding: 0.657rem 2.0584rem 0.657rem 1.095rem;
+    border-radius: 0.584rem;
+    width: 12.92rem;
+    max-width: 12.92rem;
+    min-width: 1.46rem;
+    height: 3.285rem;
+    background-color: #93ccd4;
+    color: #fff;
+    font-size: 1.46rem;
+    font-weight: bold;
+    z-index: 1;
+    cursor: pointer;
+    transition: 0.2s ease-in;
+    &.active {
+        background-color: $main-theme-pink;
+        transition: 0.2s ease-in;
+    }
+    p {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+    i {
+        position:absolute;
+        display: inline-block;
+        color: #fff;
+        padding:0.219rem;
+        font-size: 1.0292rem;
+        z-index: 10;
+        top:0.949rem;
+        right: 0.584rem;
+        border-radius: 50%;
+        &:hover {
+            background-color: $main-theme-dark;
+        }
+    }
+}
+
+#add-date {
+    margin-left: 0;
+    padding: 0.657rem;
+    width: 11.46rem;
+    text-align: center;
+    background-color: #fc9999;
+    color: #345062;
+    z-index: 0;
+    min-width: 11.46rem;
+}
+
+#add-interview-card {
+    border: none;
+}
+
+#add-interview-card i {
+    position: absolute;
+    padding: 1.095rem 1.46rem;
+    border: 0.146rem solid;
+    border-radius: 0.292rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    cursor: pointer;
+}
+
+#gen-btn, #cancle-btn {
+    position: absolute;
+    right: -6.205rem;
+    bottom: 3.65rem;
+    width: 5.84rem;
+    background-color: #345062;
+    color: #fff;
+    font-size: 1.46rem;
+    font-weight: bold;
+}
+
+#cancle-btn {
+    bottom: 0;
+}
+
+.date-fun {
+    position: absolute;
+    display: flex;
+    top: -1.46rem;
+    left: 0;
+    width: 100%;
+}
+
+input[type='date'] {
+    display: none;
+    min-width: 22.92rem;
+    &.active {
+        display: inline;
+    }
+}
+
+.date-picker {
+    display: none;
+    &.active {
+        display: block;
+    }
+    i {
+        position: absolute;
+        z-index: 200;
+        left: 100%;
+        transform: translate(-50%, -50%);
+        color: #fff;
+        background: $main-theme-dark;
+        border-radius: 50%;
+        padding: 0.73rem 0.73rem;
+        font-weight: normal;
+        box-shadow: 0 0 0.365rem #666;
+        cursor: pointer;
+    }
+}
+.multiple-date-picker {
+    position: absolute;
+    top: 7.3rem;
+    left: 50%;
+    width: 43.8rem;
+    z-index: 100;
+    background: #fff;
+    box-shadow: 0 0 0.73rem #666;
+    transform: translateX(-50%);
+}
+
+.picker-day {
+    &:not(.picker-off):not(.picker-empty):hover {
+        background-color: $main-theme-pink;
+        color: #fff;
+        cursor: pointer;
+    }
+    &.picker-selected, &.picker-selected:hover {
+        background-color: $main-theme-pink;
+        color: #fff;
+    }
+}

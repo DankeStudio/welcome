@@ -1,2 +1,7 @@
 .idea
 node_modules
+public/static/app.js
+.vscode
+public/stylesheets/main.css
+credentials.json
+public/static/stylesheets/main.css

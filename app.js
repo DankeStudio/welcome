@@ -4,15 +4,26 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
+var qiniu = require("qiniu");
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
+//qiniu store config
+qiniu.conf.ACCESS_KEY = 'gohvHrDfcSFbZw1goJ1XxbWQVRDPpPoi_ucHpByn';
+qiniu.conf.SECRET_KEY = '6QoI3V9WMh5FLqCMk1ijmcUiFunZPnTzLKU73IkS';
+uptoken = new qiniu.rs.PutPolicy('files');//'files' is bucket name
 
+
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost:27017/welcome');
+mongoose.connection.on('error',function(err){
+    console.log(err);
+});
+
+
+var api = require('./routes/api');
 var app = express();
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -22,39 +33,19 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-app.use('/users', users);
+//建立session，并将session存入mongodb
+app.use(session({
+    secret: 'SECRET_KEY',
+    cookie:{maxAge: 365 * 24 * 60 * 60},//过期时间
+    key: 'SessionID',
+    resave: true,
+    saveUninitialized: true,
+    store : new MongoStore({
+    mongooseConnection: mongoose.connection //使用已有数据库连接
+    //db : mongoose.connection.db
+    })
+}));
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
-
-// error handlers
-
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
-    });
-  });
-}
-
-// production error handler
-// no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
-});
-
+app.use('/', api);
 
 module.exports = app;

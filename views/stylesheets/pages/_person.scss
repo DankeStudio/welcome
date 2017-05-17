@@ -1,0 +1,35 @@
+.dank-t1>tbody>tr {
+    display: inline-block;
+    width: 50%;
+}
+
+.td-content, .td-title {
+    display: inline-block;
+    width: 20%;
+}
+
+.td-content {
+    width: 75%;
+}
+
+@media screen and (max-width: 800px) {
+    .dank-slider {
+        display: none;
+    }
+    .dank-slider-right {
+        left: 0;
+    }
+    .dank-d2 {
+        margin: 5.11rem 0;
+    }
+    .dank-t1>tbody>tr {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 350px) {
+    .dank-t1 {
+        margin: 1.095rem 1.46rem;
+    }
+}
+

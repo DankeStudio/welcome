@@ -1,5 +1,5 @@
 # welcome
-An website to design form, collect form, auto-arrange interview and send menssage.
+A react web app to design form, collect form, auto-arrange interview and send menssage.
 
 ## Function
 + 定制报名表
@@ -11,3 +11,14 @@ An website to design form, collect form, auto-arrange interview and send menssag
 ## To-do
 + [ ] 重构代码
 + [ ] 面试情况记录
+
+## Run
+```
+npm install
+npm start
+```
+
+## Build
+```
+npm build
+```
